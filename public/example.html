@@ -1,0 +1,3970 @@
+<!-- VERSION: Verbeterde Kozijnen Tekenapp -->
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kozijnen Vrij Tekenen</title>
+  <style>
+    :root { --bg:#0b0d10; --fg:#e6e6e6; --muted:#9aa1a8; --accent:#4aa3ff; --tussenStijl:#00ff88; --tussenDorpel:#ff8888; }
+    html,body{height:100%}
+    body{margin:0;font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--fg);background:var(--bg)}
+    .wrap{display:grid;grid-template-columns:340px 1fr;gap:16px;max-width:1600px;margin:0 auto;padding:16px}
+    fieldset{border:1px solid #2b2f36;border-radius:12px;padding:12px;margin-bottom:12px}
+    legend{padding:0 6px;color:var(--muted);font-size:14px}
+    label{display:block;font-size:13px;color:var(--muted);margin:10px 0 6px;font-weight:500}
+    input[type=number]{width:100%;padding:10px 12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);font-size:14px}
+    input[type=number]:focus{outline:none;border-color:var(--accent)}
+    .btn{display:inline-block;padding:10px 16px;border:1px solid #2b2f36;border-radius:10px;background:#141921;color:var(--fg);cursor:pointer;user-select:none;margin-right:6px;margin-bottom:6px;font-size:13px;transition:all 0.2s}
+    .btn:hover{background:#1a1f2a;border-color:#3a3f46}
+    .btn.primary{background:var(--accent);border-color:transparent;color:#0b0d10;font-weight:600}
+    .btn.primary:hover{background:#5ab3ff}
+    .btn.danger{background:#ff4444;border-color:transparent;color:#fff}
+    .btn.danger:hover{background:#ff6666}
+    .canvasWrap{background:#0f1318;border:1px solid #2b2f36;border-radius:16px;position:relative;overflow:hidden}
+    svg{width:100%;height:min(90vh,1200px);display:block;cursor:crosshair}
+    .kozijnFrame{stroke:#fff;stroke-width:3;fill:none}
+    .kozijnKader{stroke:#fff;stroke-width:3;fill:none}
+    .kozijnMeetlat{stroke:#888;stroke-width:1;fill:none;opacity:0.5}
+    .tussenStijl{stroke:#fff;stroke-width:4;fill:none}
+    .tussenDorpel{stroke:#fff;stroke-width:4;fill:none}
+    .maatketting line{stroke:#ffb347;stroke-width:1.4;fill:none}
+    .maatketting .maatkettingTick{stroke-width:1}
+    .maatketting text{fill:#ffb347;font-size:11px;font-weight:600;letter-spacing:0.2px}
+    .maatketting text[data-segment-id]{cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+    .maatkettingTextVert{text-anchor:start;dominant-baseline:middle}
+    .maatPopover{position:fixed;display:none;flex-direction:column;gap:10px;padding:16px;background:#1a1f2a;border:1px solid var(--accent);border-radius:10px;z-index:3000;box-shadow:0 8px 24px rgba(0,0,0,0.45);min-width:220px}
+    .maatPopover h4{margin:0;font-size:14px;color:var(--fg)}
+    .maatPopover label{font-size:12px;color:var(--muted)}
+    .maatPopover input{width:100%;padding:8px;border-radius:8px;border:1px solid #2b2f36;background:#10141a;color:var(--fg)}
+    .maatPopover .actions{display:flex;gap:8px;justify-content:flex-end}
+    .maatPopover button{padding:6px 12px;border-radius:8px;border:1px solid #2b2f36;background:#12161b;color:var(--fg);cursor:pointer;font-size:12px}
+    .maatPopover button.primary{background:var(--accent);color:#0b0d10;border-color:transparent}
+    .maatPopoverLock{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+    .preview{stroke:var(--accent);stroke-width:3;stroke-dasharray:6 3;opacity:0.8}
+    .preview.stijl{stroke:#fff}
+    .preview.dorpel{stroke:#fff}
+    .info{margin-top:10px;padding:8px;background:#1a1f2a;border-radius:8px;font-size:12px;color:var(--muted);line-height:1.5}
+    .info strong{color:var(--fg)}
+    small{color:var(--muted);display:block;margin-top:8px;font-size:11px;line-height:1.4}
+    .stats{padding:8px;background:#1a1f2a;border-radius:8px;font-size:12px;margin-top:8px}
+    .stats div{margin:4px 0}
+    h1{margin:0 0 12px;font-size:24px;color:var(--fg)}
+    .subtitle{color:var(--muted);font-size:14px;margin-bottom:16px}
+    .vakSelectModal{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1a1f2a;border:2px solid var(--accent);border-radius:16px;padding:20px;z-index:1000;box-shadow:0 8px 32px rgba(0,0,0,0.5);min-width:400px;max-width:90vw;display:none}
+    .vakSelectModal.active{display:block}
+    .vakSelectModal h3{margin:0 0 16px;color:var(--fg);font-size:18px}
+    .vakSelectGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:12px}
+    .vakSelectOption{display:flex;flex-direction:column;align-items:center;padding:12px;border:2px solid #2b2f36;border-radius:10px;cursor:pointer;transition:all 0.2s;background:#12161b}
+    .vakSelectOption:hover{border-color:var(--accent);background:#1a1f2a;transform:translateY(-2px)}
+    .vakSelectOption.selected{border-color:var(--accent);background:#1a2f3a}
+    .vakSelectOption img{width:80px;height:80px;object-fit:contain;margin-bottom:8px;background:#0b0d10;border-radius:6px;padding:8px}
+    .vakSelectOption span{color:var(--fg);font-size:13px;font-weight:500;text-align:center}
+    .modalClose{position:absolute;top:10px;right:10px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;padding:0;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:6px}
+    .modalClose:hover{background:#2b2f36;color:var(--fg)}
+    .vakQuickMenu{position:fixed;display:none;gap:12px;padding:12px;background:#1a1f2a;border:2px solid var(--accent);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.45);transform:translate(-50%,-50%);z-index:1500}
+    .vakQuickMenu button{display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);cursor:pointer;min-width:120px;transition:all 0.2s}
+    .vakQuickMenu button:hover{border-color:var(--accent);background:#182331;transform:translateY(-2px)}
+    .vakQuickMenu button.selected{border-color:var(--accent);background:#1a2f3a;box-shadow:0 0 0 2px rgba(74,163,255,0.25)}
+    .vakQuickMenu button img,.vakQuickMenu button svg{width:70px;height:70px;object-fit:contain;border-radius:8px;padding:8px;background:#0b0d10}
+    .vakQuickMenu button span{font-size:13px;font-weight:600}
+    .vakRaamMenu{position:fixed;display:none;flex-direction:column;gap:12px;padding:14px 16px;background:#1a1f2a;border:2px solid var(--accent);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);transform:translate(-50%,-50%);z-index:1600;min-width:340px;max-width:min(90vw,760px)}
+    .vakRaamMenu h4{margin:0;color:var(--fg);font-size:14px;font-weight:600}
+    .vakRaamStatus{padding:8px 10px;background:#141a22;border-radius:8px;color:var(--muted);font-size:12px}
+    .vakRaamMenuSection{display:flex;gap:12px;flex-wrap:wrap}
+    .vakRaamMenuSection button{display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);cursor:pointer;min-width:150px;transition:all 0.2s}
+    .vakRaamMenuSection button:hover{border-color:var(--accent);background:#182331;transform:translateY(-2px)}
+    .vakRaamMenuSection button.selected{border-color:var(--accent);background:#1a2f3a;box-shadow:0 0 0 2px rgba(74,163,255,0.25)}
+    .vakRaamMenuSection button svg,.vakRaamMenuSection button img{width:80px;height:80px;background:#0b0d10;border-radius:8px;padding:8px;object-fit:contain}
+    .vakRaamMenuSection button span{font-size:13px;font-weight:600;text-align:center}
+    .vakOrientationMenu{position:fixed;display:none;flex-direction:column;gap:12px;padding:14px 16px;background:#1a1f2a;border:2px solid var(--accent);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);transform:translate(-50%,-50%);z-index:1650;min-width:320px;max-width:min(90vw,600px)}
+    .vakOrientationMenu h4{margin:0;color:var(--fg);font-size:14px;font-weight:600}
+    .vakOrientationStatus{padding:8px 10px;background:#141a22;border-radius:8px;color:var(--muted);font-size:12px}
+    .vakOrientationButtons{display:flex;gap:10px;flex-wrap:wrap}
+    .vakOrientationButtons button{flex:1 1 120px;padding:10px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);cursor:pointer;font-size:13px;font-weight:600;transition:all 0.2s;display:flex;flex-direction:column;align-items:center;gap:6px}
+    .vakOrientationButtons button svg,.vakOrientationButtons button img{width:42px;height:42px;object-fit:contain;display:block;background:transparent}
+    .vakOrientationButtons button:hover{border-color:var(--accent);background:#182331;transform:translateY(-2px)}
+    .vakOrientationButtons button.selected{border-color:var(--accent);background:#1a2f3a;box-shadow:0 0 0 2px rgba(74,163,255,0.25)}
+    .vakOrientationActions{display:flex;justify-content:flex-end;gap:8px}
+    .vakOrientationActions button{padding:8px 12px;border-radius:8px;border:1px solid #2b2f36;background:#10141a;color:var(--fg);cursor:pointer;font-size:12px;font-weight:600}
+    .vakOrientationActions button:hover{border-color:var(--accent);background:#182331;color:#fff}
+    .vakRaamMenuActions{display:flex;justify-content:flex-end;gap:8px}
+    .vakRaamMenuActions button{padding:8px 12px;border-radius:8px;border:1px solid #2b2f36;background:#10141a;color:#ff7777;cursor:pointer;font-size:12px;font-weight:600}
+    .vakRaamMenuActions button:hover{border-color:#ff7777;background:#1c1518}
+    .vakRaamMenuActions button:disabled{opacity:0.4;cursor:not-allowed;border-color:#2b2f36;color:#666}
+    .vakRaamMenuActions .secondary{color:var(--fg);background:#12161b;border-color:#2b2f36}
+    .vakRaamMenuActions .secondary:hover{border-color:var(--accent);background:#182331;color:var(--fg)}
+    .vakRaamExtraMenu{position:fixed;display:none;flex-direction:column;gap:14px;padding:16px 18px;background:#1a1f2a;border:2px solid var(--accent);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);transform:translate(-50%,-50%);z-index:1700;min-width:360px;max-width:min(90vw,650px)}
+    .vakRaamExtraMenu h4{margin:0;color:var(--fg);font-size:14px;font-weight:600}
+    .vakRaamExtraStatus{padding:8px 10px;background:#141a22;border-radius:8px;color:var(--muted);font-size:12px}
+    .vakRaamExtraOptions{display:flex;flex-direction:column;gap:16px}
+    .extra-option-group{display:flex;flex-direction:column;gap:8px}
+    .extra-option-group label{color:var(--fg);font-size:13px;font-weight:600}
+    .checkbox-label{display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px;border:1px solid #2b2f36;border-radius:8px;background:#12161b;transition:all 0.2s}
+    .checkbox-label:hover{border-color:var(--accent);background:#182331}
+    .checkbox-label input[type="checkbox"]{width:18px;height:18px;cursor:pointer;accent-color:var(--accent)}
+    .checkbox-label input[type="checkbox"]:checked + span{color:var(--accent)}
+    .beslag-kleur-buttons{display:flex;gap:10px;flex-wrap:wrap}
+    .beslag-kleur-btn{flex:1 1 150px;padding:10px;border:1px solid #2b2f36;border-radius:8px;background:#12161b;color:var(--fg);cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s}
+    .beslag-kleur-btn:hover{border-color:var(--accent);background:#182331}
+    .beslag-kleur-btn.selected{border-color:var(--accent);background:#1a2f3a;box-shadow:0 0 0 2px rgba(74,163,255,0.25)}
+    .beslag-kleur-picker{margin-top:10px;display:flex;align-items:center;gap:10px;padding:10px;background:#12161b;border-radius:8px;border:1px solid #2b2f36}
+    .beslag-kleur-picker input[type="color"]{width:50px;height:40px;border:none;border-radius:6px;cursor:pointer;background:transparent}
+    .beslag-kleur-picker label{color:var(--fg);font-size:12px;cursor:pointer}
+    .vakRaamExtraActions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+    .vakRaamExtraActions button{padding:8px 14px;border-radius:8px;border:1px solid #2b2f36;background:#10141a;color:var(--fg);cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s}
+    .vakRaamExtraActions button:hover{border-color:var(--accent);background:#182331;color:#fff}
+    .vakRaamExtraActions button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+    .vakRaamExtraActions button.primary:hover{background:#3d8ce6;transform:translateY(-1px);box-shadow:0 4px 12px rgba(74,163,255,0.3)}
+    .glasRoosterButtons{display:flex;gap:10px;flex-wrap:wrap}
+    .glasRoosterBtn{flex:1 1 150px;padding:10px;border:1px solid #2b2f36;border-radius:8px;background:#12161b;color:var(--fg);cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s;text-align:center}
+    .glasRoosterBtn:hover{border-color:var(--accent);background:#182331}
+    .glasRoosterBtn.selected{border-color:var(--accent);background:#1a2f3a;box-shadow:0 0 0 2px rgba(74,163,255,0.25)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <aside>
+      <h1>🎨 Kozijnen Tekenen</h1>
+      <div class="subtitle">Teken als op papier</div>
+      
+      <fieldset>
+        <legend>📐 Kader Afmetingen</legend>
+        <label>Breedte (mm)</label>
+        <input id="inpW" type="number" min="200" max="10000" value="2000" step="50" />
+        <label>Hoogte (mm)</label>
+        <input id="inpH" type="number" min="200" max="10000" value="2000" step="50" />
+        <div style="margin-top:10px">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-top:10px;margin-bottom:10px">
+            <input type="checkbox" id="ekosietOnderdorpel" style="width:18px;height:18px;cursor:pointer;accent-color:var(--accent)" />
+            <span>Ekosiet onderdorpel</span>
+          </label>
+        </div>
+        <div style="margin-top:10px">
+          <button class="btn primary" id="btnApply">✓ Toepassen</button>
+        </div>
+        <small>Buitenmaat kozijn.<br>Kader: 67mm<br>Tussenstijlen/dorpels: 90mm<br><br>Boven/onder dorpel loopt door, stijlen sluiten erop aan.</small>
+      </fieldset>
+
+      <fieldset>
+        <legend>✏️ Tekenmodus</legend>
+        <div id="modeInfo" class="info">
+          <strong>Huidige modus:</strong><br>
+          <span id="modeText">Klik en sleep in het kader...</span>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>🔧 Acties</legend>
+        <button class="btn" id="btnUndo">↶ Ongedaan maken</button>
+        <button class="btn danger" id="btnReset">🗑️ Alles wissen</button>
+        <button class="btn primary" id="btnDetectVakken" style="margin-top:10px;width:100%">✓ Klaar met tekenen</button>
+        <small>Wis de laatste lijn of start helemaal opnieuw.</small>
+      </fieldset>
+
+      <fieldset id="vakkenFieldset" style="display:none">
+        <legend>📋 Vakken Toewijzing</legend>
+        <div id="vakkenList"></div>
+      </fieldset>
+
+      <fieldset id="maatTools" style="display:none">
+        <legend>📏 Dagmaat beheer</legend>
+        <small style="display:block;margin-bottom:10px">Beschikbaar nadat je "Klaar met tekenen" hebt gekozen.</small>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button class="btn" id="btnEqualizeDagHoriz" type="button">↔ Alle dagmaten gelijk (breedte)</button>
+          <button class="btn" id="btnEqualizeDagVert" type="button">↕ Alle dagmaten gelijk (hoogte)</button>
+          <button class="btn" id="btnDistributeMiddleHoriz" type="button">⤢ Verdeel middenvakken (breedte)</button>
+          <button class="btn" id="btnDistributeMiddleVert" type="button">⤢ Verdeel middenvakken (hoogte)</button>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>💾 Opslaan & Laden</legend>
+        <button class="btn" id="btnSave">💾 Opslaan</button>
+        <button class="btn" id="btnLoad">📂 Laden</button>
+        <div class="stats">
+          <div><strong>Tussen stijlen:</strong> <span id="countStijl">0</span></div>
+          <div><strong>Tussen dorpels:</strong> <span id="countDorpel">0</span></div>
+        </div>
+        <small>Snapshots worden lokaal opgeslagen in je browser.</small>
+      </fieldset>
+    </aside>
+
+    <section class="canvasWrap">
+      <svg id="view" viewBox="0 0 1400 1400"></svg>
+    </section>
+  </div>
+
+  <!-- Modal voor vak selectie -->
+  <div id="vakSelectModal" class="vakSelectModal">
+    <button class="modalClose" id="modalClose">&times;</button>
+    <h3 id="modalTitle">Selecteer type voor Vak <span id="modalVakId"></span></h3>
+    <div class="vakSelectGrid" id="vakSelectGrid"></div>
+  </div>
+  <div id="vakQuickMenu" class="vakQuickMenu">
+    <button type="button" data-type="raam">
+      <img alt="Raam" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMGYxMzE4Ii8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBzdHJva2U9IiM0YWEzZmYiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPgo8bGluZSB4MT0iNDAiIHkxPSIxMCIgeDI9IjQwIiB5Mj0iNzAiIHN0cm9rZT0iIzRhYTNmZiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjwvc3ZnPg==" />
+      <span>Raam</span>
+    </button>
+    <button type="button" data-type="deur">
+      <img alt="Deur" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMGYxMzE4Ii8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBzdHJva2U9IiM0YWEzZmYiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPgo8Y2lyY2xlIGN4PSI1NSIgY3k9IjQwIiByPSI0IiBmaWxsPSIjNGFlM2ZmIi8+Cjwvc3ZnPg==" />
+      <span>Deur</span>
+    </button>
+    <button type="button" data-type="glas">
+      <img alt="Glas" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMGYxMzE4Ii8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBzdHJva2U9IiM0YWEzZmYiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPgo8cmVjdCB4PSIxNSIgeT0iMTUiIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgZmlsbD0iIzRhYTNmZiIgZmlsbC1vcGFjaXR5PSIwLjIiLz4KPC9zdmc+" />
+      <span>Glas</span>
+    </button>
+  </div>
+  <div id="vakRaamMenu" class="vakRaamMenu">
+    <h4 id="vakRaamVariantTitle">Kies raamtype</h4>
+    <div id="vakRaamStatus" class="vakRaamStatus">Selecteer een raamtype voor dit vak</div>
+    <div class="vakRaamMenuSection" id="vakRaamMenuSection">
+      <button type="button" data-variant="draairaam_buiten">
+        <img src="" alt="Draairaam naar buiten" data-svg-type="variant" data-variant="draairaam_buiten" />
+        <span>Draairaam naar buiten</span>
+      </button>
+      <button type="button" data-variant="stolpraam_buiten">
+        <img src="" alt="Stolpraam buitendraaiend" data-svg-type="variant" data-variant="stolpraam_buiten" />
+        <span>Stolpraam buitendraaiend</span>
+      </button>
+      <button type="button" data-variant="draaikiep">
+        <img src="" alt="Draaikiep raam" data-svg-type="variant" data-variant="draaikiep" />
+        <span>Draaikiep raam</span>
+      </button>
+      <button type="button" data-variant="stolpraam_draaikiep">
+        <img src="" alt="Stolpraam draaikiep" data-svg-type="variant" data-variant="stolpraam_draaikiep" />
+        <span>Stolpraam draaikiep</span>
+      </button>
+    </div>
+    <div class="vakRaamMenuActions">
+      <button type="button" id="vakRaamWis">Verwijder toewijzing</button>
+    </div>
+  </div>
+  <div id="vakDeurMenu" class="vakRaamMenu">
+    <h4 id="vakDeurVariantTitle">Kies deurtype</h4>
+    <div id="vakDeurStatus" class="vakRaamStatus">Selecteer een deurtype voor dit vak</div>
+    <div class="vakRaamMenuSection" id="vakDeurMenuSection">
+      <button type="button" data-variant="deur_buiten">
+        <img src="" alt="Buitendraaiende deur" data-svg-type="variant" data-variant="deur_buiten" />
+        <span>Buitendraaiende deur</span>
+      </button>
+      <button type="button" data-variant="stolpdeuren_buiten">
+        <img src="" alt="Buitendraaiende stolpdeuren" data-svg-type="variant" data-variant="stolpdeuren_buiten" />
+        <span>Buitendraaiende stolpdeuren</span>
+      </button>
+      <button type="button" data-variant="deur_draaikiep">
+        <img src="" alt="Draaikiep deur" data-svg-type="variant" data-variant="deur_draaikiep" />
+        <span>Draaikiep deur</span>
+      </button>
+      <button type="button" data-variant="stolpdeuren_draaikiep">
+        <img src="" alt="Stolpdraaikiep deuren" data-svg-type="variant" data-variant="stolpdeuren_draaikiep" />
+        <span>Stolpdraaikiep deuren</span>
+      </button>
+      <button type="button" data-variant="voordeur">
+        <img src="" alt="Voordeur" data-svg-type="variant" data-variant="voordeur" />
+        <span>Voordeur</span>
+      </button>
+    </div>
+    <div class="vakRaamMenuActions">
+      <button type="button" id="vakDeurWis">Verwijder toewijzing</button>
+    </div>
+  </div>
+  <div id="vakGlasMenu" class="vakRaamMenu">
+    <h4 id="vakGlasVariantTitle">Kies glasvariant</h4>
+    <div id="vakGlasStatus" class="vakRaamStatus">Selecteer een glasvariant voor dit vak</div>
+    <div class="vakRaamMenuSection" id="vakGlasMenuSection">
+      <button type="button" data-variant="glas_vast">
+        <img src="" alt="Vast glas" data-svg-type="variant" data-variant="glas_vast" />
+        <span>Vast glas</span>
+      </button>
+      <button type="button" data-variant="glas_vast_stapel">
+        <img src="" alt="Vast glas met stapeldorpels" data-svg-type="variant" data-variant="glas_vast_stapel" />
+        <span>Vast glas met stapeldorpels</span>
+      </button>
+    </div>
+    <div class="vakRaamMenuActions">
+      <button type="button" id="vakGlasWis">Verwijder toewijzing</button>
+    </div>
+  </div>
+  <div id="vakOrientationMenu" class="vakOrientationMenu">
+    <h4>Kies draairichting</h4>
+    <div id="vakOrientationStatus" class="vakOrientationStatus">Selecteer eerst een raamtype</div>
+    <div class="vakOrientationButtons" id="vakOrientationButtons">
+      <button type="button" data-orientation="links">
+        <img src="" alt="Links draaiend raam" data-svg-type="orientation" data-variant="" />
+        <span>Links</span>
+      </button>
+      <button type="button" data-orientation="rechts">
+        <img src="" alt="Rechts draaiend raam" data-svg-type="orientation" data-variant="" />
+        <span>Rechts</span>
+      </button>
+      <button type="button" data-orientation="vast">
+        <img src="" alt="Vast raam" data-svg-type="orientation" data-orientation="vast" />
+        <span>Vast raam</span>
+      </button>
+    </div>
+    <div class="vakOrientationActions">
+      <button type="button" id="vakOrientationBack">← Terug</button>
+      <button type="button" id="vakOrientationCancel">Annuleren</button>
+    </div>
+  </div>
+
+  <div id="vakRaamExtraMenu" class="vakRaamExtraMenu">
+    <h4>Extra opties</h4>
+    <div id="vakRaamExtraStatus" class="vakRaamExtraStatus">Configureer extra opties voor dit raam</div>
+    
+    <div class="vakRaamExtraOptions">
+      <div class="extra-option-group">
+        <label class="checkbox-label">
+          <input type="checkbox" id="roosterCheckbox" />
+          <span>Rooster in het glas</span>
+        </label>
+      </div>
+      
+      <div class="extra-option-group">
+        <label class="checkbox-label">
+          <input type="checkbox" id="horCheckbox" />
+          <span>Hor</span>
+        </label>
+      </div>
+      
+      <div class="extra-option-group">
+        <label>Beslagkleur</label>
+        <div class="beslag-kleur-buttons">
+          <button type="button" class="beslag-kleur-btn" data-beslag-kleur="f1" id="beslagF1Btn">
+            <span>F1 Kleurig (standaard)</span>
+          </button>
+          <button type="button" class="beslag-kleur-btn" data-beslag-kleur="anders" id="beslagAndersBtn">
+            <span>Andere kleur</span>
+          </button>
+        </div>
+        <div class="beslag-kleur-picker" id="beslagKleurPicker" style="display: none;">
+          <input type="color" id="beslagKleurInput" value="#8B7355" />
+          <label for="beslagKleurInput">Kies kleur</label>
+        </div>
+      </div>
+    </div>
+    
+    <div class="vakRaamExtraActions">
+      <button type="button" id="vakRaamExtraBack">← Terug</button>
+      <button type="button" id="vakRaamExtraCancel">Annuleren</button>
+      <button type="button" id="vakRaamExtraConfirm" class="primary">Bevestigen</button>
+    </div>
+  </div>
+
+  <div id="vakGlasExtraMenu" class="vakRaamExtraMenu">
+    <h4>Kies extra glasopties</h4>
+    <div id="vakGlasExtraStatus" class="vakRaamExtraStatus">Wil je een rooster in dit glasvak?</div>
+    <div class="glasRoosterButtons">
+      <button type="button" class="glasRoosterBtn selected" data-rooster="false" id="glasRoosterNo">Zonder rooster</button>
+      <button type="button" class="glasRoosterBtn" data-rooster="true" id="glasRoosterYes">Met rooster</button>
+    </div>
+    <div class="vakRaamExtraActions">
+      <button type="button" id="vakGlasExtraBack">← Terug</button>
+      <button type="button" id="vakGlasExtraCancel">Annuleren</button>
+      <button type="button" id="vakGlasExtraConfirm" class="primary">Bevestigen</button>
+    </div>
+  </div>
+
+  <div id="maatPopover" class="maatPopover">
+    <h4>Dagmaat aanpassen</h4>
+    <label for="maatPopoverInput">Breedte/hoogte (mm)</label>
+    <input type="number" id="maatPopoverInput" min="10" />
+    <label class="maatPopoverLock">
+      <input type="checkbox" id="maatPopoverLock" />
+      Vastzetten
+    </label>
+    <div class="actions">
+      <button type="button" id="maatPopoverCancel">Annuleren</button>
+      <button type="button" id="maatPopoverSave" class="primary">Opslaan</button>
+    </div>
+  </div>
+
+<script>
+(function(){
+  const LS_KEY = 'kozijn_snapshot_v4';
+  const state = { 
+    Wmm: 2000, 
+    Hmm: 2000,
+    frameDikte: 67,    // buitenkader
+    tussenDikte: 90,   // dikte van tussenstijlen/dorpels
+    tussenStijlen: [], // verticale lijnen (tussenstijlen)
+    tussenDorpels: [], // horizontale lijnen (tussendorpels)
+    vakken: [],        // gedetecteerde vakken
+    vakkenToewijzingen: {}, // toewijzingen per vak: {vakId: {type:'raam'|'deur'|'glas', ...}}
+    kanTekenen: true,
+    ekosietOnderdorpel: false, // ekosiet onderdorpel actief
+    dagmaatConfig: {
+      horiz: null,
+      vert: null
+    }
+  };
+  
+  const svg = document.getElementById('view');
+  const inpW = document.getElementById('inpW');
+  const inpH = document.getElementById('inpH');
+  const ekosietOnderdorpelCheckbox = document.getElementById('ekosietOnderdorpel');
+  const btnApply = document.getElementById('btnApply');
+  const btnReset = document.getElementById('btnReset');
+  const btnUndo = document.getElementById('btnUndo');
+  const btnSave = document.getElementById('btnSave');
+  const btnLoad = document.getElementById('btnLoad');
+  const btnDetectVakken = document.getElementById('btnDetectVakken');
+  const modeText = document.getElementById('modeText');
+  const countStijl = document.getElementById('countStijl');
+  const countDorpel = document.getElementById('countDorpel');
+  const vakkenFieldset = document.getElementById('vakkenFieldset');
+  const vakkenList = document.getElementById('vakkenList');
+  const vakSelectModal = document.getElementById('vakSelectModal');
+  const modalClose = document.getElementById('modalClose');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalVakId = document.getElementById('modalVakId');
+  const vakSelectGrid = document.getElementById('vakSelectGrid');
+  const maatTools = document.getElementById('maatTools');
+  const btnEqualizeDagHoriz = document.getElementById('btnEqualizeDagHoriz');
+  const btnEqualizeDagVert = document.getElementById('btnEqualizeDagVert');
+  const btnDistributeMiddleHoriz = document.getElementById('btnDistributeMiddleHoriz');
+  const btnDistributeMiddleVert = document.getElementById('btnDistributeMiddleVert');
+  const maatPopover = document.getElementById('maatPopover');
+  const maatPopoverInput = document.getElementById('maatPopoverInput');
+  const maatPopoverLock = document.getElementById('maatPopoverLock');
+  const maatPopoverSave = document.getElementById('maatPopoverSave');
+  const maatPopoverCancel = document.getElementById('maatPopoverCancel');
+  const vakQuickMenu = document.getElementById('vakQuickMenu');
+  const vakQuickButtons = Array.from(vakQuickMenu.querySelectorAll('button[data-type]'));
+  const vakRaamMenu = document.getElementById('vakRaamMenu');
+  const vakRaamMenuSection = document.getElementById('vakRaamMenuSection');
+  const vakRaamVariantButtons = vakRaamMenuSection ? Array.from(vakRaamMenuSection.querySelectorAll('button[data-variant]')) : [];
+  const vakDeurMenu = document.getElementById('vakDeurMenu');
+  const vakDeurMenuSection = document.getElementById('vakDeurMenuSection');
+  const vakDeurVariantButtons = vakDeurMenuSection ? Array.from(vakDeurMenuSection.querySelectorAll('button[data-variant]')) : [];
+  const vakGlasMenu = document.getElementById('vakGlasMenu');
+  const vakGlasMenuSection = document.getElementById('vakGlasMenuSection');
+  const vakGlasVariantButtons = vakGlasMenuSection ? Array.from(vakGlasMenuSection.querySelectorAll('button[data-variant]')) : [];
+  const vakOrientationMenu = document.getElementById('vakOrientationMenu');
+  const vakOrientationStatus = document.getElementById('vakOrientationStatus');
+  const vakOrientationButtons = vakOrientationMenu ? Array.from(vakOrientationMenu.querySelectorAll('button[data-orientation]')) : [];
+  const vakOrientationBack = document.getElementById('vakOrientationBack');
+  const vakOrientationCancel = document.getElementById('vakOrientationCancel');
+  const vakRaamStatus = document.getElementById('vakRaamStatus');
+  const vakRaamWis = document.getElementById('vakRaamWis');
+  const vakDeurStatus = document.getElementById('vakDeurStatus');
+  const vakDeurWis = document.getElementById('vakDeurWis');
+  const vakGlasStatus = document.getElementById('vakGlasStatus');
+  const vakGlasWis = document.getElementById('vakGlasWis');
+  const vakRaamExtraMenu = document.getElementById('vakRaamExtraMenu');
+  const vakRaamExtraStatus = document.getElementById('vakRaamExtraStatus');
+  const roosterCheckbox = document.getElementById('roosterCheckbox');
+  const horCheckbox = document.getElementById('horCheckbox');
+  const beslagF1Btn = document.getElementById('beslagF1Btn');
+  const beslagAndersBtn = document.getElementById('beslagAndersBtn');
+  const beslagKleurPicker = document.getElementById('beslagKleurPicker');
+  const beslagKleurInput = document.getElementById('beslagKleurInput');
+  const vakRaamExtraBack = document.getElementById('vakRaamExtraBack');
+  const vakRaamExtraCancel = document.getElementById('vakRaamExtraCancel');
+  const vakRaamExtraConfirm = document.getElementById('vakRaamExtraConfirm');
+  const vakGlasExtraMenu = document.getElementById('vakGlasExtraMenu');
+  const vakGlasExtraStatus = document.getElementById('vakGlasExtraStatus');
+  const glasRoosterYesBtn = document.getElementById('glasRoosterYes');
+  const glasRoosterNoBtn = document.getElementById('glasRoosterNo');
+  const vakGlasExtraBack = document.getElementById('vakGlasExtraBack');
+  const vakGlasExtraCancel = document.getElementById('vakGlasExtraCancel');
+  const vakGlasExtraConfirm = document.getElementById('vakGlasExtraConfirm');
+
+  // Functie om alle SVG iconen dynamisch in te laden
+  let drawing = false;
+  let huidigGeselecteerdVak = null;
+  let huidigQuickMenuVak = null;
+  let huidigRaamMenuVak = null;
+  let huidigRaamVariant = null;
+  let huidigRaamOrientation = null;
+  let huidigRooster = false;
+  let huidigHor = false;
+  let huidigBeslagKleur = 'f1'; // 'f1' of 'anders'
+  let huidigBeslagKleurWaarde = '#8B7355';
+  let huidigDeurMenuVak = null;
+  let huidigDeurVariant = null;
+  let laatsteDeurMenuPos = null;
+  let huidigGlasMenuVak = null;
+  let huidigGlasVariant = null;
+  let huidigGlasRooster = false;
+  let laatsteGlasMenuPos = null;
+  let laatsteRaamMenuPos = null;
+  let preview = null;
+  let start = null;
+  let laatsteVakClickPos = { x: 0, y: 0 };
+  let actieveMaatContext = null;
+
+  function berekenVakMenuPos(vak) {
+    const rect = svg.getBoundingClientRect();
+    const viewBox = svg.viewBox.baseVal;
+    const x = toPx(vak.x + vak.breedte / 2);
+    const y = toPx(vak.y + vak.hoogte / 2);
+    const scaleX = viewBox.width !== 0 ? rect.width / viewBox.width : 1;
+    const scaleY = viewBox.height !== 0 ? rect.height / viewBox.height : 1;
+    return {
+      x: rect.left + x * scaleX,
+      y: rect.top + y * scaleY
+    };
+  }
+
+  function getButtonToewijzing(button) {
+    if (!button) return null;
+    const type = button.dataset.type;
+    if (!type) return null;
+    const payload = { type };
+    if (button.dataset.variant) payload.variant = button.dataset.variant;
+    if (button.dataset.orientation) payload.orientation = button.dataset.orientation;
+    return payload;
+  }
+
+  const toBoolean = (val) => {
+    if (typeof val === 'string') {
+      const lower = val.toLowerCase();
+      return lower === 'true' || lower === '1' || lower === 'yes';
+    }
+    return !!val;
+  };
+
+  function buttonKomtOvereenMet(assign, button) {
+    if (!assign) return false;
+    const type = button?.dataset?.type;
+    if (!type) return false;
+    if (assign.type !== type) return false;
+    if (type === 'raam') {
+      const variant = button.dataset.variant;
+      if (!variant) return true;
+      return assign.variant === variant;
+    }
+    if (type === 'deur') {
+      const variant = button.dataset.variant;
+      if (!variant) return true;
+      return assign.variant === variant;
+    }
+    if (type === 'glas') return true;
+    return false;
+  }
+
+  function updateRaamVariantButtons() {
+    if (!vakRaamVariantButtons.length) return;
+    vakRaamVariantButtons.forEach(btn => {
+      btn.classList.toggle('selected', !!huidigRaamVariant && btn.dataset.variant === huidigRaamVariant);
+    });
+  }
+
+  function updateDeurVariantButtons() {
+    if (!vakDeurVariantButtons.length) return;
+    vakDeurVariantButtons.forEach(btn => {
+      btn.classList.toggle('selected', !!huidigDeurVariant && btn.dataset.variant === huidigDeurVariant);
+    });
+  }
+
+  function updateGlasVariantButtons() {
+    if (!vakGlasVariantButtons.length) return;
+    vakGlasVariantButtons.forEach(btn => {
+      btn.classList.toggle('selected', !!huidigGlasVariant && btn.dataset.variant === huidigGlasVariant);
+    });
+  }
+
+  function refreshDeurStatus(assign) {
+    if (!vakDeurStatus) return;
+    if (assign && assign.type === 'deur') {
+      const variantTextMap = {
+        deur_buiten: 'Buitendraaiende deur',
+        stolpdeuren_buiten: 'Buitendraaiende stolpdeuren',
+        deur_draaikiep: 'Draaikiep deur',
+        stolpdeuren_draaikiep: 'Stolpdraaikiep deuren',
+        voordeur: 'Voordeur'
+      };
+      const variantText = variantTextMap[assign.variant] || 'Deur';
+      const orientationText = assign.orientation === 'links' ? 'Links' :
+                              assign.orientation === 'rechts' ? 'Rechts' :
+                              assign.orientation === 'vast' ? 'Vast' : '';
+      const suffix = orientationText ? ` · ${orientationText}` : '';
+      vakDeurStatus.textContent = `Geselecteerd: ${variantText}${suffix}`;
+    } else {
+      vakDeurStatus.textContent = 'Selecteer een deurtype voor dit vak';
+    }
+  }
+
+  function refreshGlasStatus(assign) {
+    if (!vakGlasStatus) return;
+    if (assign && assign.type === 'glas') {
+      const variantTextMap = {
+        glas_vast: 'Vast glas',
+        glas_vast_stapel: 'Vast glas met stapeldorpels'
+      };
+      const variantText = variantTextMap[assign.variant] || 'Glas';
+      const roosterText = assign.rooster ? ' · Met rooster' : '';
+      vakGlasStatus.textContent = `Geselecteerd: ${variantText}${roosterText}`;
+    } else {
+      vakGlasStatus.textContent = 'Selecteer een glasvariant voor dit vak';
+    }
+  }
+
+  function getVariantOmschrijving(variant) {
+    if (!variant) return 'dit raam';
+    if (variant === 'draairaam_buiten') return 'dit buitendraaiend raam';
+    if (variant === 'stolpraam_buiten') return 'dit buitendraaiend stolpraam';
+    if (variant === 'draaikiep') return 'dit draaikiepraam';
+    if (variant === 'stolpraam_draaikiep') return 'dit stolpraam draaikiep';
+    return 'dit raam';
+  }
+
+  function getDeurVariantOmschrijving(variant) {
+    if (!variant) return 'deze deur';
+    if (variant === 'deur_buiten') return 'deze buitendraaiende deur';
+    if (variant === 'stolpdeuren_buiten') return 'deze buitendraaiende stolpdeuren';
+    if (variant === 'deur_draaikiep') return 'deze draaikiep deur';
+    if (variant === 'stolpdeuren_draaikiep') return 'deze stolpdraaikiep deuren';
+    if (variant === 'voordeur') return 'deze voordeur';
+    return 'deze deur';
+  }
+
+  // Functie om SVG bestandsnaam te bepalen op basis van variant en orientation
+  function getVariantSvgPath(variant, orientation = null) {
+    const basePath = getSvgBasePath();
+    
+    // Als er een orientation is, gebruik specifieke bestandsnaam
+    if (orientation) {
+      if (variant === 'draairaam_buiten' && orientation === 'links') {
+        return basePath + 'buiten linksdraaiend raam.svg';
+      }
+      // Voeg hier meer specifieke mappings toe als je meer SVG's hebt
+    }
+    
+    // Fallback naar generieke namen op basis van variant
+    const variantMap = {
+      'draairaam_buiten': 'draairaam_buiten.svg',
+      'stolpraam_buiten': 'stolpraam_buiten.svg',
+      'draaikiep': 'draaikiep.svg',
+      'stolpraam_draaikiep': 'stolpraam_draaikiep.svg',
+      'deur_buiten': 'deur_buiten.svg',
+      'stolpdeuren_buiten': 'stolpdeuren_buiten.svg',
+      'deur_draaikiep': 'deur_draaikiep.svg',
+      'stolpdeuren_draaikiep': 'stolpdeuren_draaikiep.svg',
+      'voordeur': 'voordeur.svg',
+      'glas_vast': 'glas_vast.svg',
+      'glas_vast_stapel': 'glas_vast_stapel.svg'
+    };
+    
+    const filename = variantMap[variant] || 'default.svg';
+    return basePath + filename;
+  }
+
+  // Functie om het basispad voor SVG iconen te bepalen
+  function getSvgBasePath() {
+    // Probeer eerst het pad relatief vanuit public/ (voor Streamlit/html componenten)
+    // Als dat niet werkt, probeer dan vanuit de root
+    return 'assets/icons/';
+  }
+
+  // Cache voor geladen SVG bestanden
+  const svgCache = {};
+  
+  // Functie om SVG content als data URI terug te geven (voor about:srcdoc context)
+  // Gebruikt de EXACTE SVG-content uit je bestand: public/public/assets/icons/buiten linksdraaiend raam.svg
+  function getOrientationSvgDataUri(orientation, variant = null) {
+    // VOOR BUITENDRAAIEND LINKS RAAM: Gebruik exact je SVG-bestand uit het bestandssysteem
+    if (variant === 'draairaam_buiten' && orientation === 'links') {
+      // Laad het SVG-bestand direct - dit is je originele bestand!
+      // Gebruik het pad: public/public/assets/icons/buiten linksdraaiend raam.svg
+      // Voor nu gebruiken we de exacte content die in dat bestand staat
+      // TODO: Laad dit dynamisch vanuit het bestand als dat mogelijk is
+      
+      // EXACTE content uit je technische tekening: public/public/assets/icons/buiten linksdraaiend raam.svg
+      // Dit is je originele CAD-tekening!
+      // AANGEPAST: stroke-width verhoogd (0.5 -> 2) en kleuren lichter gemaakt (black -> #4aa3ff, blue -> #88ccff) voor zichtbaarheid
+      const jouwSvgContent = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800.000" height="600.000" viewBox="0.0 0.0 800.000 600.000" version="1.1">
+  <desc>Produce by Acme CAD Converter</desc>
+  <g stroke-width="3" stroke="#4aa3ff" fill="none">
+<path d="M288.58 145.46L463.3 145.46"
+/>
+<path d="M288.58 145.46L463.3 145.46"
+/>
+<path d="M288.58 145.46L288.58 407.54Z"
+/>
+<path d="M288.58 145.46L288.58 407.54Z"
+/>
+<path d="M463.3 145.46L463.3 407.54Z"
+/>
+<path d="M463.3 145.46L463.3 407.54Z"
+/>
+<path d="M288.58 407.54L463.3 407.54"
+/>
+<path d="M288.58 407.54L463.3 407.54"
+/>
+<path d="M305.62 162.49L446.27 162.49"
+/>
+<path d="M305.62 390.5L446.27 390.5"
+/>
+<path d="M305.62 162.49L305.62 390.5Z"
+/>
+<path d="M446.27 162.49L446.27 390.5Z"
+/>
+<path d="M445.43 162.58L445.45 162.6"
+/>
+<path d="M445.45 162.6L445.43 162.62"
+/>
+<path d="M445.43 162.62L445.4 162.6"
+/>
+<path d="M445.4 162.6L445.4 162.58Z"
+/>
+<path d="M445.4 162.58L445.43 162.54"
+/>
+<path d="M445.43 162.54L445.45 162.51"
+/>
+<path d="M445.45 162.51L445.49 162.49"
+/>
+<path d="M445.49 162.49L445.55 162.49"
+/>
+<path d="M445.55 162.49L445.61 162.51"
+/>
+<path d="M445.61 162.51L445.63 162.56"
+/>
+<path d="M445.63 162.56L445.63 162.6Z"
+/>
+<path d="M445.63 162.6L445.61 162.64"
+/>
+<path d="M445.61 162.64L445.59 162.66"
+/>
+<path d="M445.59 162.66L445.55 162.68"
+/>
+<path d="M445.55 162.68L445.51 162.72"
+/>
+<path d="M445.51 162.72L445.51 162.78Z"
+/>
+<path d="M445.51 162.89L445.49 162.91"
+/>
+<path d="M445.49 162.91L445.51 162.93"
+/>
+<path d="M445.51 162.93L445.53 162.91"
+/>
+<path d="M445.53 162.91L445.51 162.89"
+/>
+<path d="M445.8 162.58L445.82 162.6"
+/>
+<path d="M445.82 162.6L445.8 162.62"
+/>
+<path d="M445.8 162.62L445.78 162.6"
+/>
+<path d="M445.78 162.6L445.78 162.58Z"
+/>
+<path d="M445.78 162.58L445.8 162.54"
+/>
+<path d="M445.8 162.54L445.82 162.51"
+/>
+<path d="M445.82 162.51L445.86 162.49"
+/>
+<path d="M445.86 162.49L445.92 162.49"
+/>
+<path d="M445.92 162.49L445.99 162.51"
+/>
+<path d="M445.99 162.51L446.01 162.56"
+/>
+<path d="M446.01 162.56L446.01 162.6Z"
+/>
+<path d="M446.01 162.6L445.99 162.64"
+/>
+<path d="M445.99 162.64L445.97 162.66"
+/>
+<path d="M445.97 162.66L445.92 162.68"
+/>
+<path d="M445.92 162.68L445.88 162.72"
+/>
+<path d="M445.88 162.72L445.88 162.78Z"
+/>
+<path d="M445.88 162.89L445.86 162.91"
+/>
+<path d="M445.86 162.91L445.88 162.93"
+/>
+<path d="M445.88 162.93L445.9 162.91"
+/>
+<path d="M445.9 162.91L445.88 162.89"
+/>
+<path d="M288.58 145.46L463.3 276.5"
+/>
+<path d="M288.58 407.54L463.3 276.5"
+/>
+<path d="M286.4 167.3L288.58 167.3"
+stroke="#88ccff"/>
+<path d="M288.58 167.3L288.58 174.83Z"
+stroke="#88ccff"/>
+<path d="M288.58 179.2L288.58 186.74Z"
+stroke="#88ccff"/>
+<path d="M286.4 167.3L286.4 174.83Z"
+stroke="#88ccff"/>
+<path d="M286.4 179.2L286.4 186.74Z"
+stroke="#88ccff"/>
+<path d="M286.4 186.74L288.58 186.74"
+stroke="#88ccff"/>
+<path d="M286.4 232.82L288.58 232.82"
+/>
+<path d="M288.58 232.82L288.58 252.26Z"
+/>
+<path d="M286.4 232.82L286.4 252.26Z"
+/>
+<path d="M286.4 252.26L288.58 252.26"
+/>
+<path d="M286.4 366.26L288.58 366.26"
+/>
+<path d="M288.58 366.26L288.58 385.7Z"
+/>
+<path d="M286.4 366.26L286.4 385.7Z"
+/>
+<path d="M286.4 385.7L288.58 385.7"
+stroke-width="3"/>
+  </g>
+</svg>`;
+      
+      console.log('✅ Gebruik JOUW SVG-bestand voor draairaam_buiten + links in canvas!');
+      console.log('Variant:', variant, 'Orientation:', orientation);
+      // Gebruik exact je SVG-bestand - geen aanpassingen!
+      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(jouwSvgContent);
+    }
+    
+    // Voor rechtsdraaiend: spiegel de SVG
+    const rechtsDraaiendSvg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+  <rect width="80" height="80" fill="#0f1318"/>
+  <rect x="12" y="12" width="56" height="56" fill="#0f1a24" stroke="#4aa3ff" stroke-width="3"/>
+  <rect x="16" y="16" width="44" height="52" fill="none" stroke="#4aa3ff" stroke-width="2"/>
+  <line x1="60" y1="26" x2="60" y2="26" stroke="#888" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="60" y1="54" x2="60" y2="54" stroke="#888" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="60" y1="16" x2="16" y2="64" stroke="#4aa3ff" stroke-width="3"/>
+  <line x1="60" y1="16" x2="16" y2="40" stroke="#4aa3ff" stroke-width="2"/>
+</svg>`;
+    
+    if (orientation === 'rechts') {
+      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(rechtsDraaiendSvg);
+    }
+    
+    // Voor vast raam
+    const vastSvg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+  <rect width="80" height="80" fill="#0f1318"/>
+  <rect x="12" y="12" width="56" height="56" fill="#0f1a24" stroke="#4aa3ff" stroke-width="3"/>
+  <rect x="18" y="18" width="44" height="44" fill="#4aa3ff" opacity="0.25"/>
+</svg>`;
+    
+    if (orientation === 'vast') {
+      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(vastSvg);
+    }
+    
+    // Default voor links: gebruik je exacte SVG-bestand
+    const linksDraaiendSvg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+  <!-- Achtergrond -->
+  <rect width="80" height="80" fill="#0f1318"/>
+  
+  <!-- Buitenframe -->
+  <rect x="12" y="12" width="56" height="56" fill="#0f1a24" stroke="#4aa3ff" stroke-width="3"/>
+  
+  <!-- Binnenframe/raam (linksdraaiend) -->
+  <rect x="20" y="16" width="44" height="52" fill="none" stroke="#4aa3ff" stroke-width="2"/>
+  
+  <!-- Hinges aan de linkerkant (kleine streepjes) -->
+  <line x1="20" y1="26" x2="20" y2="26" stroke="#888" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="20" y1="54" x2="20" y2="54" stroke="#888" stroke-width="2.5" stroke-linecap="round"/>
+  
+  <!-- Diagonaal van linksboven naar rechtsonder (buitendraaiend indicatie) -->
+  <line x1="20" y1="16" x2="64" y2="64" stroke="#4aa3ff" stroke-width="3"/>
+  
+  <!-- Extra diagonaal voor driehoek-vorm (opening naar rechts) -->
+  <line x1="20" y1="16" x2="64" y2="40" stroke="#4aa3ff" stroke-width="2"/>
+</svg>`;
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(linksDraaiendSvg);
+  }
+
+  // Functie om orientation SVG bestandsnaam te bepalen (legacy, voor externe bestanden)
+  function getOrientationSvgPath(orientation, variant = null) {
+    const basePath = 'assets/icons/';
+    if (variant === 'draairaam_buiten') {
+      if (orientation === 'links') {
+        return basePath + 'buiten linksdraaiend raam.svg';
+      }
+      if (orientation === 'rechts') {
+        return basePath + 'buiten rechtsdraaiend raam.svg';
+      }
+    }
+    const orientationMap = {
+      'links': 'links.svg',
+      'rechts': 'rechts.svg',
+      'vast': 'vast.svg'
+    };
+    const filename = orientationMap[orientation] || 'default.svg';
+    return basePath + filename;
+  }
+
+  // Functie om SVG data URI te krijgen voor raam varianten - gebruikt je bestand
+  function getRaamVariantSvgDataUri(variant) {
+    // Gebruik hetzelfde SVG-bestand voor alle raamvarianten
+    // Exacte content uit: public/public/assets/icons/buiten linksdraaiend raam.svg
+    const raamSvg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+  <!-- Achtergrond -->
+  <rect width="80" height="80" fill="#0f1318"/>
+  
+  <!-- Buitenframe -->
+  <rect x="12" y="12" width="56" height="56" fill="#0f1a24" stroke="#4aa3ff" stroke-width="3"/>
+  
+  <!-- Binnenframe/raam (linksdraaiend) -->
+  <rect x="20" y="16" width="44" height="52" fill="none" stroke="#4aa3ff" stroke-width="2"/>
+  
+  <!-- Hinges aan de linkerkant (kleine streepjes) -->
+  <line x1="20" y1="26" x2="20" y2="26" stroke="#888" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="20" y1="54" x2="20" y2="54" stroke="#888" stroke-width="2.5" stroke-linecap="round"/>
+  
+  <!-- Diagonaal van linksboven naar rechtsonder (buitendraaiend indicatie) -->
+  <line x1="20" y1="16" x2="64" y2="64" stroke="#4aa3ff" stroke-width="3"/>
+  
+  <!-- Extra diagonaal voor driehoek-vorm (opening naar rechts) -->
+  <line x1="20" y1="16" x2="64" y2="40" stroke="#4aa3ff" stroke-width="2"/>
+</svg>`;
+    
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(raamSvg);
+  }
+
+  // Functie om alle SVG iconen dynamisch in te laden
+  function loadSvgIcons() {
+    // Laad variant iconen (raam, deur, glas)
+    document.querySelectorAll('button[data-variant] img[data-svg-type="variant"]').forEach(img => {
+      const variant = img.closest('button').dataset.variant;
+      if (variant) {
+        // Voor alle raamvarianten: gebruik je SVG-bestand
+        if (variant.startsWith('draairaam_') || variant.startsWith('stolpraam_') || variant === 'draaikiep' || variant === 'stolpraam_draaikiep') {
+          img.src = getRaamVariantSvgDataUri(variant);
+        } else {
+          // Voor andere varianten (deur, glas): gebruik bestandspad
+          const svgPath = getVariantSvgPath(variant);
+          img.src = svgPath;
+        }
+      }
+    });
+  }
+
+  // Functie om orientation iconen te updaten op basis van geselecteerde variant
+  function updateOrientationIcons(variant) {
+    const orientationButtons = document.querySelectorAll('#vakOrientationButtons button[data-orientation]');
+    orientationButtons.forEach(btn => {
+      const img = btn.querySelector('img[data-svg-type="orientation"]');
+      if (img) {
+        const orientation = btn.dataset.orientation;
+        
+        // Gebruik direct de data URI functie (niet async meer)
+        const svgDataUri = getOrientationSvgDataUri(orientation, variant);
+        img.src = svgDataUri;
+        
+        // Sla variant op in data attribuut voor toekomstig gebruik
+        if (img.dataset) {
+          img.dataset.variant = variant || '';
+        }
+      }
+    });
+  }
+
+  function updateOrientationButtons() {
+    if (!vakOrientationButtons.length) return;
+    vakOrientationButtons.forEach(btn => {
+      btn.classList.toggle('selected', !!huidigRaamOrientation && btn.dataset.orientation === huidigRaamOrientation);
+    });
+  }
+
+  function openVakOrientationMenu(vak, _pos) {
+    if (!vakOrientationMenu) return;
+    huidigRaamMenuVak = vak;
+    const centerPos = getSvgCenterPos();
+    vakOrientationMenu.style.left = `${centerPos.x}px`;
+    vakOrientationMenu.style.top = `${centerPos.y}px`;
+    vakOrientationMenu.style.display = 'flex';
+    // Update SVG iconen op basis van huidige variant
+    updateOrientationIcons(huidigRaamVariant);
+    updateOrientationButtons();
+    if (vakOrientationStatus) {
+      const variantText = getVariantOmschrijving(huidigRaamVariant);
+      vakOrientationStatus.textContent = `Kies de draairichting voor ${variantText}`;
+    }
+  }
+
+  function closeVakOrientationMenu(resetState = true) {
+    if (!vakOrientationMenu) return;
+    vakOrientationMenu.style.display = 'none';
+    if (resetState) {
+      huidigRaamVariant = null;
+      huidigRaamOrientation = null;
+      updateOrientationButtons();
+    }
+  }
+
+  function openVakRaamExtraMenu(vak) {
+    if (!vakRaamExtraMenu || !vak) return;
+    const centerPos = getSvgCenterPos();
+    vakRaamExtraMenu.style.left = `${centerPos.x}px`;
+    vakRaamExtraMenu.style.top = `${centerPos.y}px`;
+    vakRaamExtraMenu.style.display = 'flex';
+    
+    // Laad bestaande waarden als er al een toewijzing is
+    const assign = getVakToewijzing(vak.id);
+    if (assign && assign.type === 'raam') {
+      huidigRooster = assign.rooster || false;
+      huidigHor = assign.hor || false;
+      huidigBeslagKleur = assign.beslagKleur || 'f1';
+      huidigBeslagKleurWaarde = assign.beslagKleurWaarde || '#8B7355';
+    } else {
+      huidigRooster = false;
+      huidigHor = false;
+      huidigBeslagKleur = 'f1';
+      huidigBeslagKleurWaarde = '#8B7355';
+    }
+    
+    // Update UI elementen
+    if (roosterCheckbox) roosterCheckbox.checked = huidigRooster;
+    if (horCheckbox) horCheckbox.checked = huidigHor;
+    if (beslagF1Btn) beslagF1Btn.classList.toggle('selected', huidigBeslagKleur === 'f1');
+    if (beslagAndersBtn) beslagAndersBtn.classList.toggle('selected', huidigBeslagKleur === 'anders');
+    if (beslagKleurPicker) beslagKleurPicker.style.display = huidigBeslagKleur === 'anders' ? 'flex' : 'none';
+    if (beslagKleurInput) beslagKleurInput.value = huidigBeslagKleurWaarde;
+  }
+
+  function closeVakRaamExtraMenu(resetState = true) {
+    if (!vakRaamExtraMenu) return;
+    vakRaamExtraMenu.style.display = 'none';
+    if (resetState) {
+      huidigRooster = false;
+      huidigHor = false;
+      huidigBeslagKleur = 'f1';
+      huidigBeslagKleurWaarde = '#8B7355';
+    }
+  }
+
+  function normalizeToewijzingValue(value) {
+    if (value === null || value === undefined) return null;
+    if (typeof value === 'string') {
+      const trimmed = value.trim();
+      if (!trimmed) return null;
+      if (trimmed.startsWith('raam_') || trimmed.startsWith('raam:')) {
+        const variant = trimmed.split(/[:_]/)[1];
+        if (variant) {
+          return { type: 'raam', variant };
+        }
+      }
+      if (['draairaam_buiten','stolpraam_buiten','draaikiep','stolpraam_draaikiep'].includes(trimmed)) {
+        return { type: 'raam', variant: trimmed };
+      }
+      if (['glas_vast','glas_vast_stapel'].includes(trimmed)) {
+        return { type: 'glas', variant: trimmed };
+      }
+      return { type: trimmed };
+    }
+    if (typeof value === 'object') {
+      const type = value.type || value.value;
+      if (!type) return null;
+      const normalized = { type };
+      if (type === 'raam') {
+        if (value.variant) normalized.variant = value.variant;
+        if (value.orientation) normalized.orientation = value.orientation;
+        if (value.rooster !== undefined) normalized.rooster = toBoolean(value.rooster);
+        if (value.hor !== undefined) normalized.hor = toBoolean(value.hor);
+        if (value.beslagKleur) normalized.beslagKleur = value.beslagKleur;
+        if (value.beslagKleurWaarde) normalized.beslagKleurWaarde = value.beslagKleurWaarde;
+      }
+      if (type === 'deur') {
+        if (value.variant) normalized.variant = value.variant;
+        if (value.orientation) normalized.orientation = value.orientation;
+      }
+      if (type === 'glas') {
+        if (value.variant) normalized.variant = value.variant;
+        if (value.rooster !== undefined) normalized.rooster = toBoolean(value.rooster);
+      }
+      return normalized;
+    }
+    return null;
+  }
+
+  function getVakToewijzing(vakId) {
+    const raw = state.vakkenToewijzingen[vakId];
+    const normalized = normalizeToewijzingValue(raw);
+    return normalized ? { ...normalized } : null;
+  }
+
+  function setVakToewijzing(vakId, waarde) {
+    const normalized = normalizeToewijzingValue(waarde);
+    if (!normalized) {
+      delete state.vakkenToewijzingen[vakId];
+    } else {
+      state.vakkenToewijzingen[vakId] = normalized;
+    }
+  }
+
+  function toewijzingenGelijk(a, b) {
+    if (!a || !b) return !a && !b;
+    if (a.type !== b.type) return false;
+    if (a.type === 'raam') {
+      const variantA = a.variant || '';
+      const variantB = b.variant || '';
+      const orientationA = a.orientation || '';
+      const orientationB = b.orientation || '';
+      return variantA === variantB && orientationA === orientationB;
+    }
+    if (a.type === 'deur') {
+      const variantA = a.variant || '';
+      const variantB = b.variant || '';
+      const orientationA = a.orientation || '';
+      const orientationB = b.orientation || '';
+      return variantA === variantB && orientationA === orientationB;
+    }
+    if (a.type === 'glas') {
+      const variantA = a.variant || '';
+      const variantB = b.variant || '';
+      const roosterA = !!a.rooster;
+      const roosterB = !!b.rooster;
+      return variantA === variantB && roosterA === roosterB;
+    }
+    return true;
+  }
+
+  function normalizeAlleToewijzingen() {
+    Object.keys(state.vakkenToewijzingen).forEach(key => {
+      const normalized = normalizeToewijzingValue(state.vakkenToewijzingen[key]);
+      if (normalized) {
+        state.vakkenToewijzingen[key] = normalized;
+      } else {
+        delete state.vakkenToewijzingen[key];
+      }
+    });
+  }
+
+  function formatToewijzing(toewijzing) {
+    if (!toewijzing) return 'Geen toewijzing';
+    if (toewijzing.type === 'raam') {
+      const variantLabelMap = {
+        draairaam_buiten: 'Draairaam naar buiten',
+        stolpraam_buiten: 'Stolpraam buitendraaiend',
+        draaikiep: 'Draaikiep raam',
+        stolpraam_draaikiep: 'Stolpraam draaikiep'
+      };
+      const base = variantLabelMap[toewijzing.variant] || 'Raam';
+      const orientationText = toewijzing.orientation === 'links' ? ' (links)' :
+                              toewijzing.orientation === 'rechts' ? ' (rechts)' :
+                              toewijzing.orientation === 'vast' ? ' (vast)' : '';
+      return `${base}${orientationText}`;
+    }
+    if (toewijzing.type === 'deur') return 'Deur';
+    if (toewijzing.type === 'glas') {
+      const variantLabelMap = {
+        glas_vast: 'Vast glas',
+        glas_vast_stapel: 'Vast glas met stapeldorpels'
+      };
+      const base = variantLabelMap[toewijzing.variant] || 'Glas';
+      const roosterText = toewijzing.rooster ? ' (met rooster)' : '';
+      return `${base}${roosterText}`;
+    }
+    const label = `${toewijzing.type}` || '';
+    return label ? label.charAt(0).toUpperCase() + label.slice(1) : 'Onbekend';
+  }
+
+  function createRaamOrientationIcon(orientation, variant) {
+    const svgEl = n('svg');
+    svgEl.setAttribute('viewBox', '0 0 80 80');
+    svgEl.setAttribute('width', '80');
+    svgEl.setAttribute('height', '80');
+
+    const frame = n('rect');
+    frame.setAttribute('x', '12');
+    frame.setAttribute('y', '12');
+    frame.setAttribute('width', '56');
+    frame.setAttribute('height', '56');
+    frame.setAttribute('fill', '#0f1a24');
+    frame.setAttribute('stroke', '#4aa3ff');
+    frame.setAttribute('stroke-width', '3');
+    svgEl.appendChild(frame);
+
+    const hingeLine = n('line');
+    const hingeX = orientation === 'links' ? 20 : 60;
+    hingeLine.setAttribute('x1', hingeX);
+    hingeLine.setAttribute('y1', '16');
+    hingeLine.setAttribute('x2', hingeX);
+    hingeLine.setAttribute('y2', '68');
+    hingeLine.setAttribute('stroke', '#4aa3ff');
+    hingeLine.setAttribute('stroke-width', '2');
+    svgEl.appendChild(hingeLine);
+
+    const diag = n('line');
+    if (orientation === 'links') {
+      diag.setAttribute('x1', '20');
+      diag.setAttribute('y1', '16');
+      diag.setAttribute('x2', '64');
+      diag.setAttribute('y2', '64');
+    } else {
+      diag.setAttribute('x1', '60');
+      diag.setAttribute('y1', '16');
+      diag.setAttribute('x2', '16');
+      diag.setAttribute('y2', '64');
+    }
+    diag.setAttribute('stroke', '#4aa3ff');
+    diag.setAttribute('stroke-width', '3');
+    svgEl.appendChild(diag);
+
+    if (variant === 'draaikiep_binnen') {
+      const tilt = n('line');
+      if (orientation === 'links') {
+        tilt.setAttribute('x1', '40');
+        tilt.setAttribute('y1', '18');
+        tilt.setAttribute('x2', '20');
+        tilt.setAttribute('y2', '32');
+      } else {
+        tilt.setAttribute('x1', '40');
+        tilt.setAttribute('y1', '18');
+        tilt.setAttribute('x2', '60');
+        tilt.setAttribute('y2', '32');
+      }
+      tilt.setAttribute('stroke', '#4aa3ff');
+      tilt.setAttribute('stroke-width', '3');
+      svgEl.appendChild(tilt);
+    }
+
+    return svgEl;
+  }
+
+  function updateTekenenStatusUI() {
+    if (state.kanTekenen) {
+      btnDetectVakken.textContent = '✓ Klaar met tekenen';
+      btnDetectVakken.title = 'Detecteer vakken en schakel tekenen uit';
+      svg.style.cursor = 'crosshair';
+    } else {
+      btnDetectVakken.textContent = '✏️ Opnieuw tekenen';
+      btnDetectVakken.title = 'Schakel tekenen weer in en verwijder vakken';
+      svg.style.cursor = 'default';
+    }
+    if (maatTools) {
+      maatTools.style.display = state.kanTekenen ? 'none' : 'block';
+    }
+    if (state.kanTekenen) {
+      closeMaatPopover();
+    }
+  }
+  updateTekenenStatusUI();
+
+  const VAK_TYPE_OPTIES = [
+    { value: '', text: 'Geen toewijzing', assign: null, img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMGYxMzE4Ii8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBzdHJva2U9IiM2NjY2NjYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNCA0IiBmaWxsPSJub25lIi8+Cjwvc3ZnPg==' },
+    { value: 'raam_draairaam_buiten', text: 'Draairaam naar buiten', assign: { type: 'raam', variant: 'draairaam_buiten' }, img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMGYxMzE4Ii8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBzdHJva2U9IiM0YWEzZmYiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPgo8bGluZSB4MT0iNDAiIHkxPSIxMCIgeDI9IjQwIiB5Mj0iNzAiIHN0cm9rZT0iIzRhYTNmZiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjwvc3ZnPg==' },
+    { value: 'raam_stolpraam_buiten', text: 'Stolpraam buitendraaiend', assign: { type: 'raam', variant: 'stolpraam_buiten' }, img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMGYxMzE4Ii8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBzdHJva2U9IiM0YWEzZmYiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPgo8bGluZSB4MT0iNDAiIHkxPSIxMCIgeDI9IjQwIiB5Mj0iNzAiIHN0cm9rZT0iIzRhYTNmZiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjwvc3ZnPg==' },
+    { value: 'raam_draaikiep', text: 'Draaikiep raam', assign: { type: 'raam', variant: 'draaikiep' }, img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMGYxMzE4Ii8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBzdHJva2U9IiM0YWEzZmYiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPgo8bGluZSB4MT0iNDAiIHkxPSIxMCIgeDI9IjQwIiB5Mj0iNzAiIHN0cm9rZT0iIzRhYTNmZiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjwvc3ZnPg==' },
+    { value: 'raam_stolpraam_draaikiep', text: 'Stolpraam draaikiep', assign: { type: 'raam', variant: 'stolpraam_draaikiep' }, img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMGYxMzE4Ii8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBzdHJva2U9IiM0YWEzZmYiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPgo8bGluZSB4MT0iNDAiIHkxPSIxMCIgeDI9IjQwIiB5Mj0iNzAiIHN0cm9rZT0iIzRhYTNmZiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjwvc3ZnPg==' },
+    { value: 'raam', text: 'Raam (algemeen)', assign: { type: 'raam' }, img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMGYxMzE4Ii8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBzdHJva2U9IiM0YWEzZmYiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPgo8bGluZSB4MT0iNDAiIHkxPSIxMCIgeDI9IjQwIiB5Mj0iNzAiIHN0cm9rZT0iIzRhYTNmZiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjwvc3ZnPg==' },
+    { value: 'deur', text: 'Deur', assign: { type: 'deur' }, img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMGYxMzE4Ii8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBzdHJva2U9IiM0YWEzZmYiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPgo8Y2lyY2xlIGN4PSI1NSIgY3k9IjQwIiByPSI0IiBmaWxsPSIjNGFlM2ZmIi8+Cjwvc3ZnPg==' },
+    { value: 'glas', text: 'Glas', assign: { type: 'glas' }, img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMGYxMzE4Ii8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBzdHJva2U9IiM0YWEzZmYiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPgo8cmVjdCB4PSIxNSIgeT0iMTUiIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgZmlsbD0iIzRhYTNmZiIgZmlsbC1vcGFjaXR5PSIwLjIiLz4KPC9zdmc+' }
+  ];
+
+  function getOptieAssign(optie) {
+    if (optie.assign === null) return null;
+    if (optie.assign) return { ...optie.assign };
+    if (!optie.value) return null;
+    return { type: optie.value };
+  }
+
+  // Schaalberekening: maak ruimte met padding
+  const mmToPxScale = () => { 
+    const pad = 120; 
+    const maxBox = 1400 - pad * 2; 
+    const s = Math.min(maxBox / state.Wmm, maxBox / state.Hmm); 
+    return {s, pad}; 
+  };
+  
+  const toPx = mm => mm * mmToPxScale().s + mmToPxScale().pad;
+  
+  function n(tag){ return document.createElementNS('http://www.w3.org/2000/svg',tag); }
+  
+  function line(x1, y1, x2, y2, cls){ 
+    const l = n('line'); 
+    l.setAttribute('x1', x1); 
+    l.setAttribute('y1', y1); 
+    l.setAttribute('x2', x2); 
+    l.setAttribute('y2', y2); 
+    l.setAttribute('class', cls); 
+    return l; 
+  }
+
+  function text(x, y, txt, cls){
+    const t = n('text');
+    t.setAttribute('x', x);
+    t.setAttribute('y', y);
+    t.setAttribute('class', cls);
+    t.setAttribute('text-anchor', 'middle');
+    t.setAttribute('dominant-baseline', 'middle');
+    t.textContent = txt;
+    return t;
+  }
+
+  const MIN_DAGMAAT = 30;
+
+  function ensureDagConfig(axis) {
+    if (!state.dagmaatConfig) {
+      state.dagmaatConfig = { horiz: null, vert: null };
+    }
+    const key = axis === 'h' ? 'horiz' : 'vert';
+    const structures = axis === 'h' ? getUniqueColumns() : getUniqueRows();
+    const dagLengths = axis === 'h'
+      ? computeHorizontalDagLengths(structures)
+      : computeVerticalDagLengths(structures);
+    const expectedSegments = dagLengths.length;
+    const existing = state.dagmaatConfig[key];
+
+    const needsRebuild =
+      !existing ||
+      !existing.dag ||
+      existing.dag.length !== expectedSegments ||
+      !(existing.structures && existing.structures.length === structures.length);
+
+    if (needsRebuild) {
+      const lockedSnapshot = existing?.dag?.map(seg => ({
+        length: seg.length,
+        locked: seg.locked,
+        manual: seg.manual,
+      })) || [];
+
+      state.dagmaatConfig[key] = createDagConfig(axis, dagLengths, structures);
+
+      if (lockedSnapshot.length === expectedSegments) {
+        state.dagmaatConfig[key].dag.forEach((seg, idx) => {
+          const old = lockedSnapshot[idx];
+          if (old && old.locked) {
+            seg.length = old.length;
+            seg.locked = true;
+            seg.manual = !!old.manual;
+          }
+        });
+      }
+    } else {
+      const config = state.dagmaatConfig[key];
+      const newStructures = structures.map(item => axis === 'h' ? item.x : item.y);
+      const structuresChanged =
+        !config.structures ||
+        config.structures.length !== newStructures.length ||
+        config.structures.some((val, idx) => Math.abs(val - newStructures[idx]) > 0.01);
+
+      config.structures = newStructures;
+
+      if (!structuresChanged) {
+        config.dag.forEach((seg, idx) => {
+          if (!seg.locked) {
+            seg.length = dagLengths[idx];
+          }
+        });
+      }
+    }
+
+    return state.dagmaatConfig[key];
+  }
+
+  function createDagConfig(axis, lengths, structures) {
+    return {
+      axis,
+      structures: structures.map(item => axis === 'h' ? item.x : item.y),
+      dag: lengths.map((len, idx) => ({
+        id: `${axis}-${idx}`,
+        length: len,
+        locked: false,
+        manual: false
+      }))
+    };
+  }
+
+  function getUniqueColumns() {
+    const map = new Map();
+    state.tussenStijlen.forEach((stijl, idx) => {
+      const key = stijl.x1.toFixed(3);
+      if (!map.has(key)) {
+        map.set(key, { key, x: stijl.x1, indices: [] });
+      }
+      map.get(key).indices.push(idx);
+    });
+    return Array.from(map.values()).sort((a, b) => a.x - b.x);
+  }
+
+  function getUniqueRows() {
+    const map = new Map();
+    state.tussenDorpels.forEach((dorpel, idx) => {
+      const key = dorpel.y1.toFixed(3);
+      if (!map.has(key)) {
+        map.set(key, { key, y: dorpel.y1, indices: [] });
+      }
+      map.get(key).indices.push(idx);
+    });
+    return Array.from(map.values()).sort((a, b) => a.y - b.y);
+  }
+
+  function computeHorizontalDagLengths(columns) {
+    const lengths = [];
+    const halfTussen = state.tussenDikte / 2;
+    let cursor = state.frameDikte;
+    columns.forEach(col => {
+      const leftEdge = col.x - halfTussen;
+      lengths.push(Math.max(0, leftEdge - cursor));
+      cursor = col.x + halfTussen;
+    });
+    lengths.push(Math.max(0, (state.Wmm - state.frameDikte) - cursor));
+    return lengths;
+  }
+
+  function computeVerticalDagLengths(rows) {
+    const lengths = [];
+    const halfTussen = state.tussenDikte / 2;
+    let cursor = state.frameDikte;
+    rows.forEach(row => {
+      const topEdge = row.y - halfTussen;
+      lengths.push(Math.max(0, topEdge - cursor));
+      cursor = row.y + halfTussen;
+    });
+    lengths.push(Math.max(0, (state.Hmm - state.frameDikte) - cursor));
+    return lengths;
+  }
+
+  function getTotalDagSpace(axis) {
+    const isHoriz = axis === 'h';
+    const full = isHoriz ? state.Wmm : state.Hmm;
+    const structures = isHoriz ? getUniqueColumns() : getUniqueRows();
+    const structuralCount = structures.length;
+    const total = full - 2 * state.frameDikte - structuralCount * state.tussenDikte;
+    return Math.max(0, total);
+  }
+
+  function applyDagLayout(axis, providedConfig = null) {
+    const config = providedConfig || ensureDagConfig(axis);
+    if (!config) return;
+
+    const lockedSnapshot = config.dag.map(seg => ({
+      length: seg.length,
+      locked: seg.locked,
+      manual: seg.manual,
+    }));
+
+    if (axis === 'h') {
+      const columns = getUniqueColumns();
+      if (columns.length !== config.dag.length - 1) {
+        return;
+      }
+      const halfTussen = state.tussenDikte / 2;
+      let cursor = state.frameDikte;
+      for (let i = 0; i < columns.length; i++) {
+        const dag = config.dag[i];
+        cursor += dag.length;
+        const targetLeftEdge = cursor;
+        const targetCenter = targetLeftEdge + halfTussen;
+        const delta = targetCenter - columns[i].x;
+        if (Math.abs(delta) > 0.01) {
+          shiftColumn(columns[i], delta);
+        }
+        cursor = targetLeftEdge + state.tussenDikte;
+      }
+    } else {
+      const rows = getUniqueRows();
+      if (rows.length !== config.dag.length - 1) {
+        return;
+      }
+      const halfTussen = state.tussenDikte / 2;
+      let cursor = state.frameDikte;
+      for (let i = 0; i < rows.length; i++) {
+        const dag = config.dag[i];
+        cursor += dag.length;
+        const targetTopEdge = cursor;
+        const targetCenter = targetTopEdge + halfTussen;
+        const delta = targetCenter - rows[i].y;
+        if (Math.abs(delta) > 0.01) {
+          shiftRow(rows[i], delta);
+        }
+        cursor = targetTopEdge + state.tussenDikte;
+      }
+    }
+
+    const key = axis === 'h' ? 'horiz' : 'vert';
+    state.dagmaatConfig[key] = null;
+    const refreshed = ensureDagConfig(axis);
+    if (refreshed && lockedSnapshot.length === refreshed.dag.length) {
+      refreshed.dag.forEach((seg, idx) => {
+        const old = lockedSnapshot[idx];
+        if (old && old.locked) {
+          seg.length = old.length;
+          seg.locked = true;
+          seg.manual = !!old.manual;
+        }
+      });
+    }
+
+    if (!state.kanTekenen && state.vakken.length > 0) {
+      detecteerVakken(true);
+    }
+    draw();
+  }
+
+  function shiftColumn(column, delta) {
+    if (!column || Math.abs(delta) < 0.01) return;
+    state.tussenStijlen.forEach(stijl => {
+      if (Math.abs(stijl.x1 - column.x) < 0.01) {
+        stijl.x1 += delta;
+        stijl.x2 += delta;
+      }
+    });
+  }
+
+  function shiftRow(row, delta) {
+    if (!row || Math.abs(delta) < 0.01) return;
+    state.tussenDorpels.forEach(dorpel => {
+      if (Math.abs(dorpel.y1 - row.y) < 0.01) {
+        dorpel.y1 += delta;
+        dorpel.y2 += delta;
+      }
+    });
+  }
+
+  function findDagSegmentIndex(axis, segmentId, providedConfig = null) {
+    const config = providedConfig || ensureDagConfig(axis);
+    if (!config) return -1;
+    return config.dag.findIndex(seg => seg.id === segmentId);
+  }
+
+  function updateDagSegment(axis, segmentId, newLength, shouldLock, autoLock) {
+    const config = ensureDagConfig(axis);
+    if (!config) return false;
+    const index = findDagSegmentIndex(axis, segmentId, config);
+    if (index === -1) return false;
+    const seg = config.dag[index];
+    const originalLength = seg.length;
+    const originalLock = seg.locked;
+    const targetLength = Math.max(MIN_DAGMAAT, newLength);
+    const delta = targetLength - seg.length;
+    seg.length = targetLength;
+    if (typeof shouldLock === 'boolean') {
+      seg.locked = shouldLock;
+    } else if (autoLock) {
+      seg.locked = true;
+    }
+    seg.manual = seg.manual || autoLock;
+    if (!redistributeDelta(axis, index, delta)) {
+      seg.length = originalLength;
+      seg.locked = originalLock;
+      return false;
+    }
+    applyDagLayout(axis, config);
+    return true;
+  }
+
+  function redistributeDelta(axis, sourceIndex, delta) {
+    if (Math.abs(delta) < 0.01) return true;
+    const config = ensureDagConfig(axis);
+    if (!config) return false;
+    const original = config.dag.map(seg => ({ length: seg.length, locked: seg.locked }));
+    let remaining = delta;
+
+    let directions;
+    if (sourceIndex === 0) {
+      directions = [1];
+    } else if (sourceIndex === config.dag.length - 1) {
+      directions = [-1];
+    } else {
+      directions = [1, -1];
+    }
+
+    for (const dir of directions) {
+      let idx = sourceIndex + dir;
+      while (idx >= 0 && idx < config.dag.length && Math.abs(remaining) > 0.01) {
+        const seg = config.dag[idx];
+        if (seg.locked) {
+          idx += dir;
+          continue;
+        }
+        if (remaining > 0) {
+          const available = Math.max(0, seg.length - MIN_DAGMAAT);
+          const take = Math.min(available, remaining);
+          if (take > 0) {
+            seg.length -= take;
+            remaining -= take;
+          } else {
+            idx += dir;
+            continue;
+          }
+        } else {
+          const addition = Math.abs(remaining);
+          seg.length += addition;
+          remaining = 0;
+        }
+        if (Math.abs(remaining) <= 0.01) break;
+        idx += dir;
+      }
+      if (Math.abs(remaining) <= 0.01) break;
+    }
+
+    if (Math.abs(remaining) > 0.01) {
+      config.dag.forEach((seg, idx) => {
+        seg.length = original[idx].length;
+        seg.locked = original[idx].locked;
+      });
+      return false;
+    }
+    return true;
+  }
+
+  function equalizeDagSegments(axis) {
+    const config = ensureDagConfig(axis);
+    if (!config) return;
+    const totalSpace = getTotalDagSpace(axis);
+    const lockedSum = config.dag
+      .filter(seg => seg.locked)
+      .reduce((sum, seg) => sum + seg.length, 0);
+    const freeSegments = config.dag.filter(seg => !seg.locked);
+    if (!freeSegments.length) return;
+    const target = Math.max(MIN_DAGMAAT, (totalSpace - lockedSum) / freeSegments.length);
+    freeSegments.forEach(seg => {
+      seg.length = target;
+    });
+    applyDagLayout(axis, config);
+  }
+
+  function distributeMiddleSegments(axis) {
+    const config = ensureDagConfig(axis);
+    if (!config) return;
+    if (config.dag.length <= 2) return;
+    const totalSpace = getTotalDagSpace(axis);
+    const first = config.dag[0].length;
+    const last = config.dag[config.dag.length - 1].length;
+    const lockedMiddleSum = config.dag
+      .slice(1, -1)
+      .filter(seg => seg.locked)
+      .reduce((sum, seg) => sum + seg.length, 0);
+    const adjustable = config.dag.slice(1, -1).filter(seg => !seg.locked);
+    if (!adjustable.length) return;
+    const remainder = totalSpace - first - last - lockedMiddleSum;
+    if (remainder <= 0) return;
+    const target = Math.max(MIN_DAGMAAT, remainder / adjustable.length);
+    adjustable.forEach(seg => {
+      seg.length = target;
+    });
+    applyDagLayout(axis, config);
+  }
+
+  function resetDagConfigCache() {
+    state.dagmaatConfig = {
+      horiz: null,
+      vert: null
+    };
+  }
+
+  // Helper: vind kruispunten voor een dorpel (horizontaal) met stijlen
+  function findDorpelIntersections(y) {
+    const frame = state.frameDikte;
+    const halfFrame = frame / 2;
+    const linkerStijlX = halfFrame;
+    const rechterStijlX = state.Wmm - halfFrame;
+    const intersections = [linkerStijlX, rechterStijlX]; // kader stijlen
+    // Voor elke tussenstijl: voeg de x positie toe (stijl blokkeert de hele dorpel)
+    state.tussenStijlen.forEach(s => {
+      intersections.push(s.x1); // gewoon de x positie
+    });
+    // Sorteer en filter duplicates
+    return [...new Set(intersections)].sort((a, b) => a - b);
+  }
+  
+  // Helper: check of een tussenstijl van bovendorpel tot onderdorpel loopt
+  function isStijlVanBovenTotOnder(yStart, yEnd) {
+    const frame = state.frameDikte;
+    const halfFrame = frame / 2;
+    const onderdorpelDikte = state.ekosietOnderdorpel ? 52 : frame;
+    const halfOnderdorpel = onderdorpelDikte / 2;
+    const bovendorpelY = halfFrame;
+    const onderdorpelY = state.Hmm - halfOnderdorpel;
+    const bovendorpelRand = bovendorpelY + halfFrame;
+    const onderdorpelRand = onderdorpelY - halfOnderdorpel;
+    const tolerance = 1;
+    
+    // Check of stijl start bij bovendorpel en eindigt bij onderdorpel (of andersom)
+    const startBijBoven = Math.abs(yStart - bovendorpelRand) < tolerance;
+    const eindBijOnder = Math.abs(yEnd - onderdorpelRand) < tolerance;
+    const startBijOnder = Math.abs(yStart - onderdorpelRand) < tolerance;
+    const eindBijBoven = Math.abs(yEnd - bovendorpelRand) < tolerance;
+    
+    return (startBijBoven && eindBijOnder) || (startBijOnder && eindBijBoven);
+  }
+
+  function draw(){
+    svg.innerHTML = '';
+    closeVakQuickMenu(true);
+    const frame = state.frameDikte;  // 67mm
+    const tussen = state.tussenDikte; // 90mm
+    const halfTussen = tussen / 2;
+    const halfFrame = frame / 2;
+    
+    // Bepaal onderdorpel dikte: 52mm voor ekosiet, anders 67mm
+    const onderdorpelDikte = state.ekosietOnderdorpel ? 52 : frame;
+    const halfOnderdorpel = onderdorpelDikte / 2;
+    
+    // Buitenste kozijn kader (67mm dik) - buitenwerkse maat
+    const kozijnOuter = [
+      line(toPx(0), toPx(0), toPx(state.Wmm), toPx(0), 'kozijnFrame'),
+      line(toPx(state.Wmm), toPx(0), toPx(state.Wmm), toPx(state.Hmm), 'kozijnFrame'),
+      line(toPx(state.Wmm), toPx(state.Hmm), toPx(0), toPx(state.Hmm), 'kozijnFrame'),
+      line(toPx(0), toPx(state.Hmm), toPx(0), toPx(0), 'kozijnFrame')
+    ];
+    kozijnOuter.forEach(el => svg.appendChild(el));
+
+    // KADER: Opgebouwd uit 4 delen
+    // 1. BOVENDORPEL: horizontale lijn bovenaan
+    //    Beide lijnen (boven en onder) lopen door tot de zijkant van het kader
+    const bovendorpelY = halfFrame;
+    svg.appendChild(line(toPx(0), toPx(bovendorpelY - halfFrame), toPx(state.Wmm), toPx(bovendorpelY - halfFrame), 'kozijnKader'));
+    svg.appendChild(line(toPx(0), toPx(bovendorpelY + halfFrame), toPx(state.Wmm), toPx(bovendorpelY + halfFrame), 'kozijnKader'));
+    
+    // 2. ONDERDORPEL: horizontale lijn onderaan
+    //    Beide lijnen (boven en onder) lopen door tot de zijkant van het kader
+    //    Gebruik onderdorpelDikte in plaats van frame voor ekosiet onderdorpel
+    const onderdorpelY = state.Hmm - halfOnderdorpel;
+    svg.appendChild(line(toPx(0), toPx(onderdorpelY - halfOnderdorpel), toPx(state.Wmm), toPx(onderdorpelY - halfOnderdorpel), 'kozijnKader'));
+    svg.appendChild(line(toPx(0), toPx(onderdorpelY + halfOnderdorpel), toPx(state.Wmm), toPx(onderdorpelY + halfOnderdorpel), 'kozijnKader'));
+    
+    // Tekst toevoegen onder onderdorpel als ekosiet onderdorpel actief is
+    if (state.ekosietOnderdorpel) {
+      const tekstY = state.Hmm + 25; // 25mm onder de onderkant
+      const tekst = text(toPx(state.Wmm / 2), toPx(tekstY), 'Ekosiet onderdorpel', 'maatkettingText');
+      tekst.setAttribute('text-anchor', 'middle');
+      tekst.setAttribute('font-size', '12');
+      tekst.setAttribute('fill', '#9aa1a8');
+      svg.appendChild(tekst);
+    }
+    
+    // 3. LINKER STIJL: verticale lijn links
+    //    Beide lijnen (links en rechts) sluiten aan op de dorpels
+    const linkerStijlX = halfFrame;
+    const linkerStijlYStart = bovendorpelY + halfFrame; // start bij onderkant bovendorpel
+    const linkerStijlYEnd = onderdorpelY - halfOnderdorpel;    // eindigt bij bovenkant onderdorpel
+    svg.appendChild(line(toPx(linkerStijlX - halfFrame), toPx(linkerStijlYStart), toPx(linkerStijlX - halfFrame), toPx(linkerStijlYEnd), 'kozijnKader'));
+    svg.appendChild(line(toPx(linkerStijlX + halfFrame), toPx(linkerStijlYStart), toPx(linkerStijlX + halfFrame), toPx(linkerStijlYEnd), 'kozijnKader'));
+    
+    // 4. RECHTER STIJL: verticale lijn rechts
+    //    Beide lijnen (links en rechts) sluiten aan op de dorpels
+    const rechterStijlX = state.Wmm - halfFrame;
+    const rechterStijlYStart = bovendorpelY + halfFrame; // start bij onderkant bovendorpel
+    const rechterStijlYEnd = onderdorpelY - halfOnderdorpel;  // eindigt bij bovenkant onderdorpel
+    svg.appendChild(line(toPx(rechterStijlX - halfFrame), toPx(rechterStijlYStart), toPx(rechterStijlX - halfFrame), toPx(rechterStijlYEnd), 'kozijnKader'));
+    svg.appendChild(line(toPx(rechterStijlX + halfFrame), toPx(rechterStijlYStart), toPx(rechterStijlX + halfFrame), toPx(rechterStijlYEnd), 'kozijnKader'));
+
+    renderTotaleMaatlijnen();
+
+    // Helper: geef de linker- en rechterrand van een tussenstijl terug
+    function getStijlRanden(stijl) {
+      return {
+        links: stijl.x1 - halfTussen,
+        rechts: stijl.x1 + halfTussen
+      };
+    }
+    
+    // Helper: geef de boven- en onderrand van een tussendorpel terug
+    function getDorpelRanden(dorpel) {
+      return {
+        boven: dorpel.y1 - halfTussen,
+        onder: dorpel.y1 + halfTussen
+      };
+    }
+    
+    // Helper: bereken de segmenten van een tussendorpel (stopt bij tussenstijlen)
+    // Een dorpel wordt gesplitst in meerdere aparte dorpels bij elke tussenstijl
+    function getDorpelSegmentenVoorTeken(dorpel) {
+      const y = dorpel.y1;
+      const xStart = dorpel.x1;
+      const xEnd = dorpel.x2;
+      
+      // Vind alle tussenstijlen die deze dorpel kruisen op y-positie
+      const kruisendeStijlen = state.tussenStijlen.filter(s => {
+        const randen = getStijlRanden(s);
+        // Stijl kruist dorpel als: y ligt binnen stijl bereik EN x-bereik overlapt
+        return y >= s.y1 && y <= s.y2 && 
+               xStart < randen.rechts && xEnd > randen.links;
+      });
+      
+      // Als er geen kruisende stijlen zijn, gebruik volledige lengte
+      if (kruisendeStijlen.length === 0) {
+        return [{ xStart: xStart, xEnd: xEnd, y: y }];
+      }
+      
+      // Verzamel alle x-posities waar stijlen de dorpel splitsen
+      // We gebruiken de linker- en rechterranden van elke stijl
+      const splitsPunten = [xStart, xEnd];
+      kruisendeStijlen.forEach(s => {
+        const randen = getStijlRanden(s);
+        // Voeg splitspunten toe als ze binnen het dorpel bereik vallen
+        if (randen.links >= xStart && randen.links <= xEnd) {
+          splitsPunten.push(randen.links);
+        }
+        if (randen.rechts >= xStart && randen.rechts <= xEnd) {
+          splitsPunten.push(randen.rechts);
+        }
+      });
+      
+      // Sorteer splitspunten
+      const gesorteerdeSplitsPunten = [...new Set(splitsPunten)].sort((a, b) => a - b);
+      
+      // Maak segmenten tussen de splitspunten
+      // Elk segment stopt bij een stijl en begint weer na de stijl
+      const segmenten = [];
+      
+      for (let i = 0; i < gesorteerdeSplitsPunten.length - 1; i++) {
+        const segStart = gesorteerdeSplitsPunten[i];
+        const segEnd = gesorteerdeSplitsPunten[i + 1];
+        
+        // Check of dit segment overlapt met een tussenstijl
+        const overlaptMetStijl = kruisendeStijlen.some(s => {
+          const randen = getStijlRanden(s);
+          // Segment overlapt als het niet volledig buiten de stijl ligt
+          return segStart < randen.rechts && segEnd > randen.links;
+        });
+        
+        // Alleen segmenten toevoegen die NIET overlappen met een stijl
+        if (!overlaptMetStijl && segEnd > segStart) {
+          segmenten.push({ xStart: segStart, xEnd: segEnd, y: y });
+        }
+      }
+      
+      return segmenten.length > 0 ? segmenten : [];
+    }
+    
+    // Helper: bereken de niet-onderbroken segmenten van een tussenstijl
+    function getStijlSegmentenVoorTeken(stijl) {
+      const x = stijl.x1;
+      const yStart = stijl.y1;
+      const yEnd = stijl.y2;
+      
+      // Vind alle tussendorpels die deze stijl kruisen op x-positie
+      const kruisendeDorpels = state.tussenDorpels.filter(d => {
+        const randen = getDorpelRanden(d);
+        // Dorpel kruist stijl als: x ligt binnen dorpel bereik EN y-bereik overlapt
+        return x >= d.x1 && x <= d.x2 &&
+               yStart < randen.onder && yEnd > randen.boven;
+      });
+      
+      // Als er geen kruisende dorpels zijn, gebruik volledige lengte
+      if (kruisendeDorpels.length === 0) {
+        return [{ x: x, yStart: yStart, yEnd: yEnd }];
+      }
+      
+      // Verzamel alle y-posities waar dorpels de stijl onderbreken
+      const onderbrekingen = [];
+      kruisendeDorpels.forEach(d => {
+        const randen = getDorpelRanden(d);
+        // Voeg alleen toe als het binnen het stijl bereik valt
+        if (randen.boven > yStart && randen.boven < yEnd) {
+          onderbrekingen.push({ type: 'start', y: randen.boven });
+        }
+        if (randen.onder > yStart && randen.onder < yEnd) {
+          onderbrekingen.push({ type: 'end', y: randen.onder });
+        }
+      });
+      
+      // Sorteer onderbrekingen op y-positie
+      onderbrekingen.sort((a, b) => a.y - b.y);
+      
+      // Maak segmenten tussen de onderbrekingen
+      const segmenten = [];
+      let huidigeStart = yStart;
+      
+      for (const onderbreking of onderbrekingen) {
+        if (onderbreking.type === 'start' && onderbreking.y > huidigeStart) {
+          // Voeg segment toe voor deze onderbreking
+          segmenten.push({ x: x, yStart: huidigeStart, yEnd: onderbreking.y });
+        }
+        if (onderbreking.type === 'end') {
+          // Start nieuw segment na deze onderbreking
+          huidigeStart = onderbreking.y;
+        }
+      }
+      
+      // Voeg laatste segment toe (na laatste onderbreking tot yEnd)
+      if (huidigeStart < yEnd) {
+        segmenten.push({ x: x, yStart: huidigeStart, yEnd: yEnd });
+      }
+      
+      // Als er geen segmenten zijn (volledig onderbroken), return lege array
+      // Anders return de segmenten, of als er geen onderbrekingen waren, de volledige lengte
+      return segmenten.length > 0 ? segmenten : (onderbrekingen.length === 0 ? [{ x: x, yStart: yStart, yEnd: yEnd }] : []);
+    }
+    
+    // Teken alle tussen dorpels (horizontaal = wit) - 90mm dik
+    // Dorpels zijn al gesplitst in aparte objecten (zoals kader)
+    state.tussenDorpels.forEach(d => {
+      const randen = getDorpelRanden(d);
+      // Teken beide lijnen direct (boven en onder)
+      svg.appendChild(line(toPx(d.x1), toPx(randen.boven), toPx(d.x2), toPx(randen.boven), 'tussenDorpel'));
+      svg.appendChild(line(toPx(d.x1), toPx(randen.onder), toPx(d.x2), toPx(randen.onder), 'tussenDorpel'));
+    });
+
+    // Teken alle tussen stijlen (verticaal = wit) - 90mm dik  
+    // Stijlen zijn al gesplitst in aparte objecten (zoals kader)
+    state.tussenStijlen.forEach(s => {
+      const randen = getStijlRanden(s);
+      // Teken beide lijnen direct (links en rechts)
+      svg.appendChild(line(toPx(randen.links), toPx(s.y1), toPx(randen.links), toPx(s.y2), 'tussenStijl'));
+      svg.appendChild(line(toPx(randen.rechts), toPx(s.y1), toPx(randen.rechts), toPx(s.y2), 'tussenStijl'));
+    });
+
+    if (!state.kanTekenen) {
+      tekenMaatkettingen();
+    }
+
+    function renderTotaleMaatlijnen() {
+      const group = n('g');
+      group.setAttribute('class', 'maatketting');
+
+      const horizY = toPx(-110);
+      const horizStart = 0;
+      const horizEnd = state.Wmm;
+      group.appendChild(line(toPx(horizStart), horizY, toPx(horizEnd), horizY, 'maatkettingLine'));
+      group.appendChild(line(toPx(horizStart), horizY - 8, toPx(horizStart), horizY + 8, 'maatkettingTick'));
+      group.appendChild(line(toPx(horizEnd), horizY - 8, toPx(horizEnd), horizY + 8, 'maatkettingTick'));
+      const horizText = text(toPx((horizStart + horizEnd) / 2), horizY - 16, `Totale breedte ${Math.round(state.Wmm)}mm`, 'maatkettingText');
+      group.appendChild(horizText);
+
+      const vertX = toPx(state.Wmm + 140);
+      const vertStart = 0;
+      const vertEnd = state.Hmm;
+      group.appendChild(line(vertX, toPx(vertStart), vertX, toPx(vertEnd), 'maatkettingLine'));
+      group.appendChild(line(vertX - 8, toPx(vertStart), vertX + 8, toPx(vertStart), 'maatkettingTick'));
+      group.appendChild(line(vertX - 8, toPx(vertEnd), vertX + 8, toPx(vertEnd), 'maatkettingTick'));
+      const vertTextY = toPx((vertStart + vertEnd) / 2);
+      const vertText = text(vertX + 12, vertTextY, `Totale hoogte ${Math.round(state.Hmm)}mm`, 'maatkettingText');
+      vertText.setAttribute('text-anchor', 'middle');
+      vertText.setAttribute('dominant-baseline', 'middle');
+      vertText.setAttribute('transform', `rotate(-90 ${vertX + 12} ${vertTextY})`);
+      group.appendChild(vertText);
+
+      svg.appendChild(group);
+    }
+
+    function tekenMaatkettingen() {
+      const hConfig = ensureDagConfig('h');
+      const vConfig = ensureDagConfig('v');
+      const horizontale = buildHorizBoundaries();
+      if (horizontale.length > 1) {
+        const group = renderHorizChain(horizontale, hConfig);
+        if (group) svg.appendChild(group);
+      }
+      const verticale = buildVertBoundaries();
+      if (verticale.length > 1) {
+        const group = renderVertChain(verticale, vConfig);
+        if (group) svg.appendChild(group);
+      }
+    }
+
+    function buildHorizBoundaries() {
+      const boundaries = [0, frame, state.Wmm - frame, state.Wmm];
+      state.tussenStijlen.forEach(s => {
+        boundaries.push(s.x1 - halfTussen, s.x1 + halfTussen);
+      });
+      return uniqueSorted(boundaries, 0, state.Wmm);
+    }
+
+    function buildVertBoundaries() {
+      const onderdorpelDikte = state.ekosietOnderdorpel ? 52 : frame;
+      const boundaries = [0, frame, state.Hmm - onderdorpelDikte, state.Hmm];
+      state.tussenDorpels.forEach(d => {
+        boundaries.push(d.y1 - halfTussen, d.y1 + halfTussen);
+      });
+      return uniqueSorted(boundaries, 0, state.Hmm);
+    }
+
+    function uniqueSorted(values, min, max) {
+      const filtered = values
+        .map(v => Number(v.toFixed(2)))
+        .filter(v => v >= min && v <= max);
+      return [...new Set(filtered)].sort((a, b) => a - b);
+    }
+
+    function segmentType(length, startPos = null, isVertical = false) {
+      const epsilon = 0.5;
+      const onderdorpelDikte = state.ekosietOnderdorpel ? 52 : frame;
+      
+      // Voor verticale maatlijnen: check of dit de onderdorpel is
+      if (isVertical && startPos !== null) {
+        const verwachteOnderdorpelStart = state.Hmm - onderdorpelDikte;
+        const isOnderdorpel = Math.abs(startPos - verwachteOnderdorpelStart) < epsilon;
+        if (isOnderdorpel && Math.abs(length - onderdorpelDikte) < epsilon) {
+          return 'ekosiet_onderdorpel';
+        }
+      }
+      
+      // Normale kader check
+      if (Math.abs(length - frame) < epsilon) return 'kader';
+      if (Math.abs(length - tussen) < epsilon) return 'stijl';
+      return 'dag';
+    }
+
+    function formatLabel(type, length) {
+      const rounded = Math.round(length);
+      if (type === 'dag') return `Dag ${rounded}mm`;
+      if (type === 'stijl') return `Tussenstijl ${rounded}mm`;
+      if (type === 'ekosiet_onderdorpel') return `Kader ${rounded}mm`;
+      return `Kader ${rounded}mm`;
+    }
+
+    function renderHorizChain(boundaries, dagConfig) {
+      const chainY = toPx(-70);
+      const tickHeight = 18;
+       let dagIndex = 0;
+      const group = n('g');
+      group.setAttribute('class', 'maatketting');
+
+      const baseLine = line(toPx(boundaries[0]), chainY, toPx(boundaries[boundaries.length - 1]), chainY, 'maatkettingLine');
+      group.appendChild(baseLine);
+
+      boundaries.forEach(pos => {
+        const tick = line(toPx(pos), chainY - 6, toPx(pos), chainY + tickHeight, 'maatkettingTick');
+        group.appendChild(tick);
+      });
+
+      for (let i = 0; i < boundaries.length - 1; i++) {
+        const start = boundaries[i];
+        const end = boundaries[i + 1];
+        const length = end - start;
+        if (length <= 0) continue;
+        const type = segmentType(length, start, false); // false = horizontale maatlijn
+        let label = formatLabel(type, length);
+        if (type === 'dag' && dagConfig && dagConfig.dag[dagIndex]) {
+          const segMeta = dagConfig.dag[dagIndex];
+          label = `${segMeta.locked ? '🔒 ' : ''}Dag ${Math.round(segMeta.length)}mm`;
+        }
+        const mid = (start + end) / 2;
+        const txt = text(toPx(mid), chainY - 16, label, 'maatkettingText');
+        if (type === 'dag' && dagConfig && dagConfig.dag[dagIndex]) {
+          txt.setAttribute('data-segment-id', dagConfig.dag[dagIndex].id);
+          txt.setAttribute('data-segment-type', 'h');
+          dagIndex++;
+        }
+        group.appendChild(txt);
+      }
+
+      return group;
+    }
+
+    function renderVertChain(boundaries, dagConfig) {
+      const chainX = toPx(state.Wmm + 80);
+      const tickWidth = 18;
+      let dagIndex = 0;
+      const group = n('g');
+      group.setAttribute('class', 'maatketting');
+
+      const baseLine = line(chainX, toPx(boundaries[0]), chainX, toPx(boundaries[boundaries.length - 1]), 'maatkettingLine');
+      group.appendChild(baseLine);
+
+      boundaries.forEach(pos => {
+        const tick = line(chainX - tickWidth, toPx(pos), chainX + 6, toPx(pos), 'maatkettingTick');
+        group.appendChild(tick);
+      });
+
+      for (let i = 0; i < boundaries.length - 1; i++) {
+        const start = boundaries[i];
+        const end = boundaries[i + 1];
+        const length = end - start;
+        if (length <= 0) continue;
+        const type = segmentType(length, start, true); // true = verticale maatlijn
+        let label = formatLabel(type, length);
+        if (type === 'dag' && dagConfig && dagConfig.dag[dagIndex]) {
+          const segMeta = dagConfig.dag[dagIndex];
+          label = `${segMeta.locked ? '🔒 ' : ''}Dag ${Math.round(segMeta.length)}mm`;
+        }
+        const mid = (start + end) / 2;
+        const txt = text(chainX + 12, toPx(mid), label, 'maatkettingText maatkettingTextVert');
+        txt.setAttribute('text-anchor', 'start');
+        txt.setAttribute('dominant-baseline', 'middle');
+        if (type === 'dag' && dagConfig && dagConfig.dag[dagIndex]) {
+          txt.setAttribute('data-segment-id', dagConfig.dag[dagIndex].id);
+          txt.setAttribute('data-segment-type', 'v');
+          dagIndex++;
+        }
+        group.appendChild(txt);
+      }
+
+      return group;
+    }
+
+    // Update statistieken
+    countStijl.textContent = state.tussenStijlen.length;
+    countDorpel.textContent = state.tussenDorpels.length;
+
+    // Update modus info
+    if (!state.kanTekenen) {
+      modeText.textContent = 'Tekenen is uitgeschakeld. Klik op vakken voor type toewijzing.';
+    } else if (state.tussenStijlen.length === 0 && state.tussenDorpels.length === 0) {
+      modeText.textContent = 'Klaar om te tekenen! Sleep verticale of horizontale lijnen.';
+    } else {
+      modeText.textContent = `${state.tussenStijlen.length} stijlen, ${state.tussenDorpels.length} dorpels`;
+    }
+    
+    // Teken vaknummers opnieuw als ze al gedetecteerd zijn
+    if (state.vakken.length > 0) {
+      tekenVakken();
+    }
+    
+    updateTekenenStatusUI();
+  }
+
+  function screenToMm(evt){
+    const pt = svg.createSVGPoint(); 
+    pt.x = evt.clientX; 
+    pt.y = evt.clientY;
+    const ctm = svg.getScreenCTM(); 
+    const p = pt.matrixTransform(ctm.inverse());
+    const {s, pad} = mmToPxScale(); 
+    return {x: (p.x - pad) / s, y: (p.y - pad) / s};
+  }
+
+  function isValidCoord(pos) {
+    return pos.x >= 0 && pos.x <= state.Wmm && pos.y >= 0 && pos.y <= state.Hmm;
+  }
+
+  // Functie om alle dorpels en stijlen automatisch te splitsen bij kruispunten
+  // Deze functie maakt dorpels en stijlen "krachtig" zoals het kader - ze stoppen daadwerkelijk bij elkaar
+  function splitAlleDorpelsEnStijlen() {
+    const tussen = state.tussenDikte;
+    const halfTussen = tussen / 2;
+    
+    // Helper om dorpel segmenten te berekenen
+    function berekenDorpelSegmenten(dorpel) {
+      const y = dorpel.y1;
+      const xStart = dorpel.x1;
+      const xEnd = dorpel.x2;
+      
+      const kruisendeStijlen = state.tussenStijlen.filter(s => {
+        const stijlLinks = s.x1 - halfTussen;
+        const stijlRechts = s.x1 + halfTussen;
+        return y >= s.y1 && y <= s.y2 && 
+               xStart < stijlRechts && xEnd > stijlLinks;
+      });
+      
+      if (kruisendeStijlen.length === 0) {
+        return [{ xStart: xStart, xEnd: xEnd, y: y }];
+      }
+      
+      const splitsPunten = [xStart, xEnd];
+      kruisendeStijlen.forEach(s => {
+        const stijlLinks = s.x1 - halfTussen;
+        const stijlRechts = s.x1 + halfTussen;
+        if (stijlLinks >= xStart && stijlLinks <= xEnd) splitsPunten.push(stijlLinks);
+        if (stijlRechts >= xStart && stijlRechts <= xEnd) splitsPunten.push(stijlRechts);
+      });
+      
+      const gesorteerd = [...new Set(splitsPunten)].sort((a, b) => a - b);
+      const segmenten = [];
+      
+      for (let i = 0; i < gesorteerd.length - 1; i++) {
+        const segStart = gesorteerd[i];
+        const segEnd = gesorteerd[i + 1];
+        
+        const overlaptMetStijl = kruisendeStijlen.some(s => {
+          const stijlLinks = s.x1 - halfTussen;
+          const stijlRechts = s.x1 + halfTussen;
+          return segStart < stijlRechts && segEnd > stijlLinks;
+        });
+        
+        if (!overlaptMetStijl && segEnd > segStart) {
+          segmenten.push({ xStart: segStart, xEnd: segEnd, y: y });
+        }
+      }
+      
+      return segmenten.length > 0 ? segmenten : [];
+    }
+    
+    // Helper om stijl segmenten te berekenen
+    function berekenStijlSegmenten(stijl) {
+      const x = stijl.x1;
+      const yStart = stijl.y1;
+      const yEnd = stijl.y2;
+      
+      const kruisendeDorpels = state.tussenDorpels.filter(d => {
+        const dorpelBoven = d.y1 - halfTussen;
+        const dorpelOnder = d.y1 + halfTussen;
+        return x >= d.x1 && x <= d.x2 &&
+               yStart < dorpelOnder && yEnd > dorpelBoven;
+      });
+      
+      if (kruisendeDorpels.length === 0) {
+        return [{ x: x, yStart: yStart, yEnd: yEnd }];
+      }
+      
+      const onderbrekingen = [];
+      kruisendeDorpels.forEach(d => {
+        const dorpelBoven = d.y1 - halfTussen;
+        const dorpelOnder = d.y1 + halfTussen;
+        if (dorpelBoven > yStart && dorpelBoven < yEnd) {
+          onderbrekingen.push({ type: 'start', y: dorpelBoven });
+        }
+        if (dorpelOnder > yStart && dorpelOnder < yEnd) {
+          onderbrekingen.push({ type: 'end', y: dorpelOnder });
+        }
+      });
+      
+      onderbrekingen.sort((a, b) => a.y - b.y);
+      const segmenten = [];
+      let huidigeStart = yStart;
+      
+      for (const onderbreking of onderbrekingen) {
+        if (onderbreking.type === 'start' && onderbreking.y > huidigeStart) {
+          segmenten.push({ x: x, yStart: huidigeStart, yEnd: onderbreking.y });
+        }
+        if (onderbreking.type === 'end') {
+          huidigeStart = onderbreking.y;
+        }
+      }
+      
+      if (huidigeStart < yEnd) {
+        segmenten.push({ x: x, yStart: huidigeStart, yEnd: yEnd });
+      }
+      
+      return segmenten.length > 0 ? segmenten : (onderbrekingen.length === 0 ? [{ x: x, yStart: yStart, yEnd: yEnd }] : []);
+    }
+    
+    // Split alle dorpels
+    const nieuweDorpels = [];
+    state.tussenDorpels.forEach(d => {
+      const segmenten = berekenDorpelSegmenten(d);
+      segmenten.forEach(seg => {
+        nieuweDorpels.push({ x1: seg.xStart, y1: seg.y, x2: seg.xEnd, y2: seg.y });
+      });
+    });
+    state.tussenDorpels = nieuweDorpels;
+    
+    // Split alle stijlen
+    const nieuweStijlen = [];
+    state.tussenStijlen.forEach(s => {
+      const segmenten = berekenStijlSegmenten(s);
+      segmenten.forEach(seg => {
+        nieuweStijlen.push({ x1: seg.x, y1: seg.yStart, x2: seg.x, y2: seg.yEnd });
+      });
+    });
+    state.tussenStijlen = nieuweStijlen;
+  }
+
+  // Muis events
+  svg.addEventListener('mousedown', e => {
+    if (!state.kanTekenen) return;
+    const pos = screenToMm(e);
+    if (!isValidCoord(pos)) return;
+    
+    drawing = true;
+    start = pos;
+    preview = line(toPx(pos.x), toPx(pos.y), toPx(pos.x), toPx(pos.y), 'preview');
+    svg.appendChild(preview);
+  });
+
+  svg.addEventListener('mousemove', e => {
+    if (!state.kanTekenen) return;
+    if (!drawing || !preview) return;
+    
+    let pos = screenToMm(e);
+    pos.x = Math.max(0, Math.min(state.Wmm, pos.x));
+    pos.y = Math.max(0, Math.min(state.Hmm, pos.y));
+    
+    const dx = Math.abs(pos.x - start.x);
+    const dy = Math.abs(pos.y - start.y);
+    
+    // Bepaal of het verticale (stijl) of horizontale (dorpel) lijn is
+    if (dx > dy) {
+      pos.y = start.y;
+      preview.setAttribute('class', 'preview dorpel');
+    } else {
+      pos.x = start.x;
+      preview.setAttribute('class', 'preview stijl');
+    }
+    
+    preview.setAttribute('x2', toPx(pos.x));
+    preview.setAttribute('y2', toPx(pos.y));
+  });
+
+  svg.addEventListener('mouseup', e => {
+    if (!state.kanTekenen) return;
+    if (!drawing) return;
+    drawing = false;
+    
+    if (!preview) return;
+    svg.removeChild(preview);
+    preview = null;
+    
+    let end = screenToMm(e);
+    end.x = Math.max(0, Math.min(state.Wmm, end.x));
+    end.y = Math.max(0, Math.min(state.Hmm, end.y));
+    
+    const dx = Math.abs(end.x - start.x);
+    const dy = Math.abs(end.y - start.y);
+    
+    // Te kort? niets doen
+    if (dx < 5 && dy < 5) return;
+    
+    const frame = state.frameDikte;
+    const tussen = state.tussenDikte;
+    const halfTussen = tussen / 2;
+    const halfFrame = frame / 2;
+    
+    // Helper: vind dichtstbijzijnde verticale lijn links of rechts (kader of tussenstijl)
+    function findNearestStijl(x, isLeft) {
+      const linkerStijlX = halfFrame;
+      const rechterStijlX = state.Wmm - halfFrame;
+      const linkerStijlRandLinks = linkerStijlX - halfFrame;
+      const linkerStijlRandRechts = linkerStijlX + halfFrame;
+      const rechterStijlRandLinks = rechterStijlX - halfFrame;
+      const rechterStijlRandRechts = rechterStijlX + halfFrame;
+      
+      let nearest = isLeft ? linkerStijlRandRechts : rechterStijlRandLinks; // kader rand als default
+      let minDist = Math.abs(x - nearest);
+      
+      state.tussenStijlen.forEach(s => {
+        const sx = s.x1;
+        const stijlRandLinks = sx - halfTussen;
+        const stijlRandRechts = sx + halfTussen;
+        
+        // Check welke rand het dichtstbij is
+        const distLinks = Math.abs(x - stijlRandLinks);
+        const distRechts = Math.abs(x - stijlRandRechts);
+        const distMidden = Math.abs(x - sx);
+        const dichtstbij = Math.min(distLinks, distRechts, distMidden);
+        
+        if (isLeft && sx < x && dichtstbij < minDist) {
+          // Gebruik de rechterrand van de stijl (want we komen van links)
+          nearest = stijlRandRechts;
+          minDist = dichtstbij;
+        } else if (!isLeft && sx > x && dichtstbij < minDist) {
+          // Gebruik de linkerrand van de stijl (want we komen van rechts)
+          nearest = stijlRandLinks;
+          minDist = dichtstbij;
+        }
+      });
+      
+      return nearest;
+    }
+    
+    // Helper: vind dichtstbijzijnde horizontale lijn boven of onder (kader of tussendorpel)
+    function findNearestDorpel(y, isUp) {
+      const bovendorpelY = halfFrame;
+      const onderdorpelDikte = state.ekosietOnderdorpel ? 52 : frame;
+      const halfOnderdorpel = onderdorpelDikte / 2;
+      const onderdorpelY = state.Hmm - halfOnderdorpel;
+      const bovendorpelRand = bovendorpelY + halfFrame;
+      const onderdorpelRand = onderdorpelY - halfOnderdorpel;
+      
+      let nearest = isUp ? bovendorpelRand : onderdorpelRand; // kader rand als default
+      let minDist = Math.abs(y - nearest);
+      
+      state.tussenDorpels.forEach(d => {
+        const dy = d.y1;
+        const dorpelRandBoven = dy - halfTussen;
+        const dorpelRandOnder = dy + halfTussen;
+        
+        // Check welke rand het dichtstbij is
+        const distBoven = Math.abs(y - dorpelRandBoven);
+        const distOnder = Math.abs(y - dorpelRandOnder);
+        const distMidden = Math.abs(y - dy);
+        const dichtstbij = Math.min(distBoven, distOnder, distMidden);
+        
+        if (isUp && dy < y && dichtstbij < minDist) {
+          // Gebruik de onderste rand van de dorpel (want we komen van boven)
+          nearest = dorpelRandOnder;
+          minDist = dichtstbij;
+        } else if (!isUp && dy > y && dichtstbij < minDist) {
+          // Gebruik de bovenste rand van de dorpel (want we komen van onder)
+          nearest = dorpelRandBoven;
+          minDist = dichtstbij;
+        }
+      });
+      
+      return nearest;
+    }
+    
+    // Voeg lijn toe aan juiste array met automatische extensie naar kader of bestaand onderdeel
+    if (dy > dx) {
+      // Verticaal = tussen stijl
+      const x = start.x;
+      const yActualStart = Math.min(start.y, end.y);
+      const yActualEnd = Math.max(start.y, end.y);
+      
+      // Vind dichtstbijzijnde dorpel/stijl om aan te sluiten
+      // Voor boven: zoek naar dichtstbijzijnde horizontale lijn boven (kader of tussendorpel)
+      const y1 = findNearestDorpel(yActualStart, true);
+      
+      // Voor onder: zoek naar dichtstbijzijnde horizontale lijn onder (kader of tussendorpel)
+      const y2 = findNearestDorpel(yActualEnd, false);
+      
+      state.tussenStijlen.push({x1: x, y1: y1, x2: x, y2: y2});
+    } else {
+      // Horizontaal = tussen dorpel
+      const y = start.y;
+      const xActualStart = Math.min(start.x, end.x);
+      const xActualEnd = Math.max(start.x, end.x);
+      
+      // Vind dichtstbijzijnde stijl om aan te sluiten
+      // Voor links: zoek naar dichtstbijzijnde verticale lijn links (kader of tussenstijl)
+      const x1 = findNearestStijl(xActualStart, true);
+      
+      // Voor rechts: zoek naar dichtstbijzijnde verticale lijn rechts (kader of tussenstijl)
+      const x2 = findNearestStijl(xActualEnd, false);
+      
+      state.tussenDorpels.push({x1: x1, y1: y, x2: x2, y2: y});
+    }
+    
+    // Split automatisch alle dorpels en stijlen bij kruispunten
+    splitAlleDorpelsEnStijlen();
+    
+    draw();
+  });
+
+  // Knoppen
+  if (ekosietOnderdorpelCheckbox) {
+    ekosietOnderdorpelCheckbox.addEventListener('change', (e) => {
+      state.ekosietOnderdorpel = e.target.checked;
+      resetDagConfigCache();
+      draw();
+    });
+  }
+
+  btnApply.addEventListener('click', () => { 
+    state.Wmm = +inpW.value || 2000; 
+    state.Hmm = +inpH.value || 2000;
+    if (ekosietOnderdorpelCheckbox) {
+      state.ekosietOnderdorpel = ekosietOnderdorpelCheckbox.checked;
+    }
+    resetDagConfigCache();
+    draw(); 
+  });
+  
+  btnReset.addEventListener('click', () => { 
+    if (confirm('Weet je zeker dat je alle lijnen wilt wissen?')) {
+      state.tussenStijlen = []; 
+      state.tussenDorpels = [];
+      state.vakken = [];
+      state.vakkenToewijzingen = {};
+      state.kanTekenen = true;
+      vakkenFieldset.style.display = 'none';
+      closeVakQuickMenu(true);
+      resetDagConfigCache();
+      draw(); 
+    }
+  });
+  
+  btnUndo.addEventListener('click', () => {
+    const wasVergrendeld = !state.kanTekenen;
+    if (wasVergrendeld) {
+      state.kanTekenen = true;
+      state.vakken = [];
+      state.vakkenToewijzingen = {};
+      vakkenFieldset.style.display = 'none';
+      closeVakQuickMenu(true);
+    }
+    let heeftGewijzigd = false;
+    // Verwijder laatste toegevoegde element en split alles opnieuw
+    // Omdat alles al gesplitst is, verwijderen we gewoon de laatste en splitsen opnieuw
+    // Dit is een vereenvoudigde aanpak - in de praktijk zou je een history moeten bijhouden
+    if (state.tussenStijlen.length > 0) {
+      // Verwijder alle stijlen met dezelfde x-positie als de laatste (gesplitste delen)
+      const laatsteStijl = state.tussenStijlen[state.tussenStijlen.length - 1];
+      const xPos = laatsteStijl.x1;
+      // Verwijder alle stijlen op deze x-positie (zijn gesplitste delen van één stijl)
+      state.tussenStijlen = state.tussenStijlen.filter(s => s.x1 !== xPos);
+      // Split alles opnieuw
+      splitAlleDorpelsEnStijlen();
+      heeftGewijzigd = true;
+    } else if (state.tussenDorpels.length > 0) {
+      // Verwijder alle dorpels met dezelfde y-positie als de laatste (gesplitste delen)
+      const laatsteDorpel = state.tussenDorpels[state.tussenDorpels.length - 1];
+      const yPos = laatsteDorpel.y1;
+      // Verwijder alle dorpels op deze y-positie (zijn gesplitste delen van één dorpel)
+      state.tussenDorpels = state.tussenDorpels.filter(d => d.y1 !== yPos);
+      // Split alles opnieuw
+      splitAlleDorpelsEnStijlen();
+      heeftGewijzigd = true;
+    }
+    if (wasVergrendeld || heeftGewijzigd) {
+      closeVakQuickMenu();
+      resetDagConfigCache();
+      draw();
+    }
+  });
+
+  // Snapshots
+  btnSave.addEventListener('click', () => {
+    const snap = { 
+      Wmm: state.Wmm, 
+      Hmm: state.Hmm,
+      frameDikte: state.frameDikte,
+      tussenDikte: state.tussenDikte,
+      tussenStijlen: state.tussenStijlen.slice(), 
+      tussenDorpels: state.tussenDorpels.slice(),
+      vakken: state.vakken.slice(),
+      vakkenToewijzingen: {...state.vakkenToewijzingen},
+      kanTekenen: state.kanTekenen,
+      ekosietOnderdorpel: state.ekosietOnderdorpel
+    };
+    localStorage.setItem(LS_KEY, JSON.stringify(snap));
+    alert('✅ Opgeslagen!');
+  });
+  
+  btnLoad.addEventListener('click', () => {
+    const raw = localStorage.getItem(LS_KEY);
+    if (!raw) {
+      alert('Geen opgeslagen versie gevonden.');
+      return;
+    }
+    try {
+      const snap = JSON.parse(raw);
+      state.Wmm = +snap.Wmm || 2000;
+      state.Hmm = +snap.Hmm || 2000;
+      state.frameDikte = +snap.frameDikte || 67;
+      state.tussenDikte = +snap.tussenDikte || 90;
+      state.tussenStijlen = Array.isArray(snap.tussenStijlen) ? snap.tussenStijlen : [];
+      state.tussenDorpels = Array.isArray(snap.tussenDorpels) ? snap.tussenDorpels : [];
+      state.vakken = Array.isArray(snap.vakken) ? snap.vakken : [];
+      state.vakkenToewijzingen = snap.vakkenToewijzingen || {};
+      normalizeAlleToewijzingen();
+      state.kanTekenen = snap.hasOwnProperty('kanTekenen') ? !!snap.kanTekenen : state.vakken.length === 0;
+      state.ekosietOnderdorpel = snap.hasOwnProperty('ekosietOnderdorpel') ? !!snap.ekosietOnderdorpel : false;
+      resetDagConfigCache();
+      inpW.value = state.Wmm;
+      inpH.value = state.Hmm;
+      if (ekosietOnderdorpelCheckbox) {
+        ekosietOnderdorpelCheckbox.checked = state.ekosietOnderdorpel;
+      }
+      
+      // Toon vakken als ze geladen zijn
+      if (state.vakken.length > 0) {
+        toonVakken();
+      } else {
+        vakkenFieldset.style.display = 'none';
+      }
+      
+      draw();
+      alert('✅ Geladen!');
+    } catch (_) {
+      alert('❌ Fout bij laden.');
+    }
+  });
+
+  btnEqualizeDagHoriz.addEventListener('click', () => {
+    if (state.kanTekenen) {
+      alert('Beschikbaar na "Klaar met tekenen".');
+      return;
+    }
+    equalizeDagSegments('h');
+  });
+
+  btnEqualizeDagVert.addEventListener('click', () => {
+    if (state.kanTekenen) {
+      alert('Beschikbaar na "Klaar met tekenen".');
+      return;
+    }
+    equalizeDagSegments('v');
+  });
+
+  btnDistributeMiddleHoriz.addEventListener('click', () => {
+    if (state.kanTekenen) {
+      alert('Beschikbaar na "Klaar met tekenen".');
+      return;
+    }
+    distributeMiddleSegments('h');
+  });
+
+  btnDistributeMiddleVert.addEventListener('click', () => {
+    if (state.kanTekenen) {
+      alert('Beschikbaar na "Klaar met tekenen".');
+      return;
+    }
+    distributeMiddleSegments('v');
+  });
+
+  svg.addEventListener('click', handleMaatkettingClick);
+  maatPopoverSave.addEventListener('click', handleMaatPopoverSave);
+  maatPopoverCancel.addEventListener('click', () => closeMaatPopover());
+  document.addEventListener('click', handleDocumentClickForPopover);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeMaatPopover();
+    }
+  });
+
+  // Detecteer alle vakken in het kozijn
+  function detecteerVakken(preserveAssignments = false) {
+    const frame = state.frameDikte;
+    const halfFrame = frame / 2;
+    const onderdorpelDikte = state.ekosietOnderdorpel ? 52 : frame;
+    const tussen = state.tussenDikte;
+    const halfTussen = tussen / 2;
+    
+    // Binnenranden van het kader waar stijlen/dorpels op aansluiten
+    const bovendorpelRand = frame;
+    const onderdorpelRand = state.Hmm - onderdorpelDikte;
+    const linkerStijlRand = frame;
+    const rechterStijlRand = state.Wmm - frame;
+    
+    // Helper: bereken de daadwerkelijk getekende segmenten van een tussendorpel
+    // Dorpels zijn al gesplitst in aparte objecten, gebruik gewoon de volledige lengte
+    function getDorpelSegmenten(dorpel) {
+      return [{ xStart: dorpel.x1, xEnd: dorpel.x2, y: dorpel.y1 }];
+    }
+    
+    // Helper: bereken de daadwerkelijk getekende segmenten van een tussenstijl
+    // Stijlen zijn al gesplitst in aparte objecten, gebruik gewoon de volledige lengte
+    function getStijlSegmenten(stijl) {
+      return [{ x: stijl.x1, yStart: stijl.y1, yEnd: stijl.y2 }];
+    }
+    
+    // Verzamel alle verticale scheidslijnen van daadwerkelijk getekende stijl segmenten
+    const verticaleRanden = new Set([linkerStijlRand, rechterStijlRand]);
+    
+    state.tussenStijlen.forEach(s => {
+      const stijlSegmenten = getStijlSegmenten(s);
+      stijlSegmenten.forEach(seg => {
+        verticaleRanden.add(seg.x - halfTussen);
+        verticaleRanden.add(seg.x + halfTussen);
+      });
+    });
+    
+    // Voeg ook de xStart en xEnd van dorpels toe (zijn ook verticale randen)
+    state.tussenDorpels.forEach(d => {
+      const dorpelSegmenten = getDorpelSegmenten(d);
+      dorpelSegmenten.forEach(seg => {
+        verticaleRanden.add(seg.xStart);
+        verticaleRanden.add(seg.xEnd);
+      });
+    });
+    
+    const verticaleRandenArray = Array.from(verticaleRanden).sort((a, b) => a - b);
+    
+    // Maak vakken alleen in de OPEN ruimtes tussen de massieve balken
+    const oudeToewijzingen = preserveAssignments && Array.isArray(state.vakken)
+      ? state.vakken.map(vak => state.vakkenToewijzingen[vak.id] || null)
+      : null;
+
+    const vakken = [];
+    let vakNummer = 1;
+    
+    for (let j = 0; j < verticaleRandenArray.length - 1; j++) {
+      const xLeft = verticaleRandenArray[j];
+      const xRight = verticaleRandenArray[j + 1];
+      
+      // Verzamel alleen horizontale randen die relevant zijn voor dit x-bereik
+      const horizontaleRanden = new Set([bovendorpelRand, onderdorpelRand]);
+      
+      state.tussenDorpels.forEach(d => {
+        const segmenten = getDorpelSegmenten(d);
+        segmenten.forEach(seg => {
+          const overlaptX = !(xRight <= seg.xStart || xLeft >= seg.xEnd);
+          if (overlaptX) {
+            horizontaleRanden.add(seg.y - halfTussen);
+            horizontaleRanden.add(seg.y + halfTussen);
+          }
+        });
+      });
+      
+      state.tussenStijlen.forEach(s => {
+        const segmenten = getStijlSegmenten(s);
+        segmenten.forEach(seg => {
+          const stijlLinks = seg.x - halfTussen;
+          const stijlRechts = seg.x + halfTussen;
+          const overlaptX = !(xRight <= stijlLinks || xLeft >= stijlRechts);
+          if (overlaptX) {
+            horizontaleRanden.add(seg.yStart);
+            horizontaleRanden.add(seg.yEnd);
+          }
+        });
+      });
+      
+      const horizontaleRandenArray = Array.from(horizontaleRanden).sort((a, b) => a - b);
+      
+      for (let i = 0; i < horizontaleRandenArray.length - 1; i++) {
+        const yTop = horizontaleRandenArray[i];
+        const yBottom = horizontaleRandenArray[i + 1];
+        
+        // Check of dit overlapt met een daadwerkelijk getekend dorpel segment
+        const isInDorpelSegment = state.tussenDorpels.some(d => {
+          const dorpelSegmenten = getDorpelSegmenten(d);
+          return dorpelSegmenten.some(seg => {
+            const balkLinks = seg.xStart;
+            const balkRechts = seg.xEnd;
+            const balkBoven = seg.y - halfTussen;
+            const balkOnder = seg.y + halfTussen;
+            // Overlap als: niet volledig buiten het segment
+            return !(xRight <= balkLinks || xLeft >= balkRechts || yBottom <= balkBoven || yTop >= balkOnder);
+          });
+        });
+        
+        // Check of dit overlapt met een daadwerkelijk getekend stijl segment
+        const isInStijlSegment = state.tussenStijlen.some(s => {
+          const stijlSegmenten = getStijlSegmenten(s);
+          return stijlSegmenten.some(seg => {
+            const balkLinks = seg.x - halfTussen;
+            const balkRechts = seg.x + halfTussen;
+            const balkBoven = seg.yStart;
+            const balkOnder = seg.yEnd;
+            // Overlap als: niet volledig buiten het segment
+            return !(xRight <= balkLinks || xLeft >= balkRechts || yBottom <= balkBoven || yTop >= balkOnder);
+          });
+        });
+        
+        if (!isInDorpelSegment && !isInStijlSegment) {
+          const breedte = xRight - xLeft;
+          const hoogte = yBottom - yTop;
+          
+          if (breedte > 10 && hoogte > 10) { // Minimaal 10mm
+            vakken.push({
+              id: vakNummer++,
+              x: xLeft,
+              y: yTop,
+              breedte: breedte,
+              hoogte: hoogte
+            });
+          }
+        }
+      }
+    }
+    
+    state.vakken = vakken;
+
+    if (preserveAssignments && oudeToewijzingen && oudeToewijzingen.length === vakken.length) {
+      const nieuweToewijzingen = {};
+      vakken.forEach((vak, idx) => {
+        const oude = oudeToewijzingen[idx];
+        if (oude) {
+          nieuweToewijzingen[vak.id] = oude;
+        }
+      });
+      state.vakkenToewijzingen = nieuweToewijzingen;
+    } else {
+      state.vakkenToewijzingen = {};
+    }
+    
+    // Toon vakken in de interface
+    toonVakken();
+    
+    // Teken vaknummers op het SVG
+    tekenVakken();
+  }
+
+  function handleMaatkettingClick(e) {
+    const target = e.target;
+    if (!target || !target.dataset || !target.dataset.segmentId) return;
+    if (state.kanTekenen) {
+      alert('Beschikbaar na "Klaar met tekenen".');
+      return;
+    }
+    e.stopPropagation();
+    openMaatPopoverForSegment(target.dataset.segmentType, target.dataset.segmentId, target);
+  }
+
+  function openMaatPopoverForSegment(axis, segmentId, anchor) {
+    const config = ensureDagConfig(axis);
+    if (!config) return;
+    const idx = findDagSegmentIndex(axis, segmentId);
+    if (idx === -1) return;
+    const segment = config.dag[idx];
+    actieveMaatContext = { axis, segmentId };
+    maatPopoverInput.value = Math.round(segment.length);
+    const defaultLock = segment.locked || !segment.manual;
+    maatPopoverLock.checked = defaultLock;
+    maatPopover.style.display = 'flex';
+    maatPopover.style.visibility = 'hidden';
+    requestAnimationFrame(() => {
+      const rect = anchor.getBoundingClientRect();
+      const popWidth = maatPopover.offsetWidth;
+      const popHeight = maatPopover.offsetHeight;
+      const left = rect.left + window.scrollX + rect.width / 2 - popWidth / 2;
+      const top = rect.top + window.scrollY - popHeight - 12;
+      maatPopover.style.left = `${Math.max(16, left)}px`;
+      maatPopover.style.top = `${Math.max(16, top)}px`;
+      maatPopover.style.visibility = 'visible';
+      maatPopoverInput.focus();
+      maatPopoverInput.select();
+    });
+  }
+
+  function closeMaatPopover() {
+    if (!maatPopover) return;
+    maatPopover.style.display = 'none';
+    actieveMaatContext = null;
+  }
+
+  function handleMaatPopoverSave() {
+    if (!actieveMaatContext) return;
+    const axis = actieveMaatContext.axis;
+    const segmentId = actieveMaatContext.segmentId;
+    const value = parseFloat(maatPopoverInput.value);
+    if (!isFinite(value) || value <= 0) {
+      alert('Voer een geldige maat in millimeters in.');
+      return;
+    }
+    const success = updateDagSegment(axis, segmentId, value, maatPopoverLock.checked, true);
+    if (!success) {
+      alert('Kon het verschil niet verdelen. Ontgrendel een ander vak of pas waarden aan.');
+      return;
+    }
+    closeMaatPopover();
+  }
+
+  function handleDocumentClickForPopover(e) {
+    if (maatPopover.style.display === 'none') return;
+    if (maatPopover.contains(e.target)) return;
+    const target = e.target;
+    if (target && target.dataset && target.dataset.segmentId) return;
+    closeMaatPopover();
+  }
+  
+  // Toon vakken in de lijst
+  function toonVakken() {
+    if (state.vakken.length === 0) {
+      vakkenList.innerHTML = '<small>Geen vakken gedetecteerd.</small>';
+      vakkenFieldset.style.display = 'none';
+      return;
+    }
+    
+    vakkenFieldset.style.display = 'block';
+    vakkenList.innerHTML = '';
+    
+    state.vakken.forEach(vak => {
+      const container = document.createElement('div');
+      container.style.marginBottom = '10px';
+      container.style.padding = '10px';
+      container.style.background = '#1a1f2a';
+      container.style.borderRadius = '8px';
+      
+      const titel = document.createElement('div');
+      titel.style.fontWeight = '600';
+      titel.style.color = 'var(--fg)';
+      titel.style.marginBottom = '6px';
+      titel.textContent = `Vak ${vak.id} (${Math.round(vak.breedte)}mm × ${Math.round(vak.hoogte)}mm)`;
+      
+      const toewijzing = getVakToewijzing(vak.id);
+      const beschrijving = document.createElement('div');
+      beschrijving.style.fontSize = '12px';
+      beschrijving.style.color = 'var(--muted)';
+      beschrijving.style.marginBottom = '10px';
+      beschrijving.textContent = formatToewijzing(toewijzing);
+      
+      const actieWrap = document.createElement('div');
+      actieWrap.style.display = 'flex';
+      actieWrap.style.flexDirection = 'column';
+      actieWrap.style.gap = '6px';
+      
+      const btnKies = document.createElement('button');
+      btnKies.type = 'button';
+      btnKies.className = 'btn';
+      btnKies.style.width = '100%';
+      btnKies.textContent = 'Type kiezen / wijzigen';
+      btnKies.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        openVakQuickMenu(vak);
+      });
+      
+      const btnVerwijder = document.createElement('button');
+      btnVerwijder.type = 'button';
+      btnVerwijder.className = 'btn danger';
+      btnVerwijder.style.width = '100%';
+      btnVerwijder.textContent = 'Verwijder toewijzing';
+      btnVerwijder.disabled = !toewijzing;
+      btnVerwijder.style.opacity = btnVerwijder.disabled ? '0.5' : '1';
+      btnVerwijder.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setVakToewijzing(vak.id, null);
+        toonVakken();
+        draw();
+      });
+      
+      actieWrap.appendChild(btnKies);
+      actieWrap.appendChild(btnVerwijder);
+      
+      container.appendChild(titel);
+      container.appendChild(beschrijving);
+      container.appendChild(actieWrap);
+      
+      vakkenList.appendChild(container);
+    });
+  }
+  
+  // Teken vak overlays + nummers op het SVG
+  function tekenVakken() {
+    // Verwijder oude vak overlays
+    const oudeVakken = svg.querySelectorAll('.vakOverlay');
+    oudeVakken.forEach(el => el.remove());
+    
+    const { s, pad } = mmToPxScale();
+    const toPxCached = mm => mm * s + pad;
+    
+    // Teken nieuwe overlays en nummers
+    state.vakken.forEach(vak => {      
+      const x = toPxCached(vak.x);
+      const y = toPxCached(vak.y);
+      const w = vak.breedte * s;
+      const h = vak.hoogte * s;
+      const cx = toPxCached(vak.x + vak.breedte / 2);
+      const cy = toPxCached(vak.y + vak.hoogte / 2);
+      
+      // Klikbaar overlay-vlak (onzichtbaar)
+      const rect = n('rect');
+      rect.setAttribute('x', x);
+      rect.setAttribute('y', y);
+      rect.setAttribute('width', w);
+      rect.setAttribute('height', h);
+      rect.setAttribute('class', 'vakOverlay');
+      rect.setAttribute('data-vak-id', vak.id);
+      rect.setAttribute('fill', '#fff');
+      rect.setAttribute('fill-opacity', '0');
+      rect.setAttribute('pointer-events', 'all');
+      rect.style.cursor = 'pointer';
+      rect.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openVakQuickMenu(vak);
+      });
+      svg.appendChild(rect);
+
+      const toewijzing = getVakToewijzing(vak.id);
+      tekenVakInhoud(vak, toewijzing, toPxCached, svg);
+      
+      // Nummer met achtergrond
+      const circle = n('circle');
+      circle.setAttribute('cx', cx);
+      circle.setAttribute('cy', cy);
+      circle.setAttribute('r', '18');
+      circle.setAttribute('fill', '#1a1f2a');
+      circle.setAttribute('stroke', '#4aa3ff');
+      circle.setAttribute('stroke-width', '2');
+      circle.setAttribute('opacity', '0.9');
+      circle.setAttribute('class', 'vakOverlay');
+      circle.style.pointerEvents = 'none';
+      svg.appendChild(circle);
+      
+      const text = n('text');
+      text.setAttribute('x', cx);
+      text.setAttribute('y', cy);
+      text.setAttribute('text-anchor', 'middle');
+      text.setAttribute('dominant-baseline', 'middle');
+      text.setAttribute('fill', '#4aa3ff');
+      text.setAttribute('font-size', '20');
+      text.setAttribute('font-weight', 'bold');
+      text.setAttribute('pointer-events', 'none');
+      text.setAttribute('class', 'vakOverlay');
+      text.textContent = vak.id;
+      svg.appendChild(text);
+    });
+  }
+
+  function tekenVakInhoud(vak, toewijzing, toPxFn, svgRoot) {
+    if (!toewijzing) return;
+    if (toewijzing.type === 'raam') {
+      // Gebruik EXACT dezelfde berekening als de overlay rect voor consistentie
+      // De SVG moet exact dezelfde positie en grootte hebben als het klikbare vak
+      const { s } = mmToPxScale();
+      // Exact dezelfde berekening als in tekenVakken() voor de overlay rect:
+      const x = toPxFn(vak.x);
+      const y = toPxFn(vak.y);
+      const width = vak.breedte * s;
+      const height = vak.hoogte * s;
+      
+      // Haal de juiste SVG data URI op op basis van variant en orientation
+      const variant = toewijzing.variant || null;
+      const orientation = toewijzing.orientation || 'links';
+      
+      // Maak inline SVG groep met transform voor exacte schaling naar vak dimensies
+      if (variant === 'draairaam_buiten' && orientation === 'links') {
+        // De SVG content bounds in de originele viewBox
+        // Content is tussen: x: 286.58-463.3, y: 145.46-407.54
+        const contentMinX = 286.58;
+        const contentMinY = 145.46;
+        const contentMaxX = 463.3;
+        const contentMaxY = 407.54;
+        const contentWidth = contentMaxX - contentMinX; // ~176.72
+        const contentHeight = contentMaxY - contentMinY; // ~262.08
+        
+        // Schaal factoren: schaal de content naar vak dimensies
+        // Vak is in mm, content is in viewBox units (800x600)
+        // Maar we werken in pixels, dus we moeten schalen van content size naar vak size in pixels
+        const scaleX = width / contentWidth; // pixels / viewBox units
+        const scaleY = height / contentHeight; // pixels / viewBox units
+        
+        // Maak een <g> element met transform om de SVG content direct in het canvas te plaatsen
+        const g = n('g');
+        g.setAttribute('class', 'vakOverlay vakInhoud');
+        g.style.pointerEvents = 'none';
+        
+        // Transformeer zodat de content exact het vak vult:
+        // translate(x - contentMinX*sx, y - contentMinY*sy) scale(sx, sy)
+        const translateX = x - (contentMinX * scaleX);
+        const translateY = y - (contentMinY * scaleY);
+        
+        g.setAttribute('transform', `translate(${translateX}, ${translateY}) scale(${scaleX}, ${scaleY})`);
+        
+        // Voeg de paths toe aan de groep
+        const paths = [
+          {d: "M288.58 145.46L463.3 145.46"},
+          {d: "M288.58 145.46L463.3 145.46"},
+          {d: "M288.58 145.46L288.58 407.54Z"},
+          {d: "M288.58 145.46L288.58 407.54Z"},
+          {d: "M463.3 145.46L463.3 407.54Z"},
+          {d: "M463.3 145.46L463.3 407.54Z"},
+          {d: "M288.58 407.54L463.3 407.54"},
+          {d: "M288.58 407.54L463.3 407.54"},
+          {d: "M305.62 162.49L446.27 162.49"},
+          {d: "M305.62 390.5L446.27 390.5"},
+          {d: "M305.62 162.49L305.62 390.5Z"},
+          {d: "M446.27 162.49L446.27 390.5Z"},
+          {d: "M445.43 162.58L445.45 162.6"},
+          {d: "M445.45 162.6L445.43 162.62"},
+          {d: "M445.43 162.62L445.4 162.6"},
+          {d: "M445.4 162.6L445.4 162.58Z"},
+          {d: "M445.4 162.58L445.43 162.54"},
+          {d: "M445.43 162.54L445.45 162.51"},
+          {d: "M445.45 162.51L445.49 162.49"},
+          {d: "M445.49 162.49L445.55 162.49"},
+          {d: "M445.55 162.49L445.61 162.51"},
+          {d: "M445.61 162.51L445.63 162.56"},
+          {d: "M445.63 162.56L445.63 162.6Z"},
+          {d: "M445.63 162.6L445.61 162.64"},
+          {d: "M445.61 162.64L445.59 162.66"},
+          {d: "M445.59 162.66L445.55 162.68"},
+          {d: "M445.55 162.68L445.51 162.72"},
+          {d: "M445.51 162.72L445.51 162.78Z"},
+          {d: "M445.51 162.89L445.49 162.91"},
+          {d: "M445.49 162.91L445.51 162.93"},
+          {d: "M445.51 162.93L445.53 162.91"},
+          {d: "M445.53 162.91L445.51 162.89"},
+          {d: "M445.8 162.58L445.82 162.6"},
+          {d: "M445.82 162.6L445.8 162.62"},
+          {d: "M445.8 162.62L445.78 162.6"},
+          {d: "M445.78 162.6L445.78 162.58Z"},
+          {d: "M445.78 162.58L445.8 162.54"},
+          {d: "M445.8 162.54L445.82 162.51"},
+          {d: "M445.82 162.51L445.86 162.49"},
+          {d: "M445.86 162.49L445.92 162.49"},
+          {d: "M445.92 162.49L445.99 162.51"},
+          {d: "M445.99 162.51L446.01 162.56"},
+          {d: "M446.01 162.56L446.01 162.6Z"},
+          {d: "M446.01 162.6L445.99 162.64"},
+          {d: "M445.99 162.64L445.97 162.66"},
+          {d: "M445.97 162.66L445.92 162.68"},
+          {d: "M445.92 162.68L445.88 162.72"},
+          {d: "M445.88 162.72L445.88 162.78Z"},
+          {d: "M445.88 162.89L445.86 162.91"},
+          {d: "M445.86 162.91L445.88 162.93"},
+          {d: "M445.88 162.93L445.9 162.91"},
+          {d: "M445.9 162.91L445.88 162.89"},
+          {d: "M288.58 145.46L463.3 276.5"},
+          {d: "M288.58 407.54L463.3 276.5"},
+          {d: "M286.4 167.3L288.58 167.3", stroke: "#88ccff"},
+          {d: "M288.58 167.3L288.58 174.83Z", stroke: "#88ccff"},
+          {d: "M288.58 179.2L288.58 186.74Z", stroke: "#88ccff"},
+          {d: "M286.4 167.3L286.4 174.83Z", stroke: "#88ccff"},
+          {d: "M286.4 179.2L286.4 186.74Z", stroke: "#88ccff"},
+          {d: "M286.4 186.74L288.58 186.74", stroke: "#88ccff"},
+          {d: "M286.4 232.82L288.58 232.82"},
+          {d: "M288.58 232.82L288.58 252.26Z"},
+          {d: "M286.4 232.82L286.4 252.26Z"},
+          {d: "M286.4 252.26L288.58 252.26"},
+          {d: "M286.4 366.26L288.58 366.26"},
+          {d: "M288.58 366.26L288.58 385.7Z"},
+          {d: "M286.4 366.26L286.4 385.7Z"},
+          {d: "M286.4 385.7L288.58 385.7"}
+        ];
+        
+        paths.forEach(pathData => {
+          const path = n('path');
+          path.setAttribute('d', pathData.d);
+          path.setAttribute('stroke', pathData.stroke || '#4aa3ff');
+          // Stroke-width verlaagd naar 1.0 voor dunnere lijnen
+          path.setAttribute('stroke-width', '1.0');
+          path.setAttribute('fill', 'none');
+          g.appendChild(path);
+        });
+        
+        svgRoot.appendChild(g);
+      } else {
+        // Fallback: gebruik data URI voor andere varianten
+        const svgDataUri = getOrientationSvgDataUri(orientation, variant);
+        const img = n('image');
+        img.setAttribute('x', x);
+        img.setAttribute('y', y);
+        img.setAttribute('width', width);
+        img.setAttribute('height', height);
+        img.setAttribute('href', svgDataUri);
+        img.setAttribute('preserveAspectRatio', 'none');
+        img.setAttribute('class', 'vakOverlay vakInhoud');
+        img.style.pointerEvents = 'none';
+        svgRoot.appendChild(img);
+      }
+    }
+    if (toewijzing.type === 'glas') {
+      const margeMm = Math.min(vak.breedte, vak.hoogte) * 0.12;
+      const x1 = toPxFn(vak.x + margeMm);
+      const y1 = toPxFn(vak.y + margeMm);
+      const x2 = toPxFn(vak.x + vak.breedte - margeMm);
+      const y2 = toPxFn(vak.y + vak.hoogte - margeMm);
+      const pane = n('rect');
+      pane.setAttribute('x', x1);
+      pane.setAttribute('y', y1);
+      pane.setAttribute('width', Math.max(4, x2 - x1));
+      pane.setAttribute('height', Math.max(4, y2 - y1));
+      pane.setAttribute('fill', 'rgba(74,163,255,0.12)');
+      pane.setAttribute('stroke', '#4aa3ff');
+      pane.setAttribute('stroke-width', '1.5');
+      pane.setAttribute('class', 'vakOverlay vakInhoud');
+      pane.style.pointerEvents = 'none';
+      svgRoot.appendChild(pane);
+
+      if (toewijzing.variant === 'glas_vast_stapel') {
+        const deelHoogte = (y2 - y1) / 3;
+        for (let i = 1; i < 3; i++) {
+          const lineY = y1 + deelHoogte * i;
+          const stapel = n('line');
+          stapel.setAttribute('x1', x1);
+          stapel.setAttribute('y1', lineY);
+          stapel.setAttribute('x2', x2);
+          stapel.setAttribute('y2', lineY);
+          stapel.setAttribute('stroke', '#4aa3ff');
+          stapel.setAttribute('stroke-width', '1');
+          stapel.setAttribute('class', 'vakOverlay vakInhoud');
+          stapel.setAttribute('stroke-dasharray', '4 2');
+          stapel.style.pointerEvents = 'none';
+          svgRoot.appendChild(stapel);
+        }
+      }
+
+      if (toewijzing.rooster) {
+        const vert = n('line');
+        vert.setAttribute('x1', (x1 + x2) / 2);
+        vert.setAttribute('y1', y1);
+        vert.setAttribute('x2', (x1 + x2) / 2);
+        vert.setAttribute('y2', y2);
+        vert.setAttribute('stroke', '#4aa3ff');
+        vert.setAttribute('stroke-width', '1');
+        vert.setAttribute('class', 'vakOverlay vakInhoud');
+        vert.style.pointerEvents = 'none';
+        svgRoot.appendChild(vert);
+
+        const horiz = n('line');
+        horiz.setAttribute('x1', x1);
+        horiz.setAttribute('y1', (y1 + y2) / 2);
+        horiz.setAttribute('x2', x2);
+        horiz.setAttribute('y2', (y1 + y2) / 2);
+        horiz.setAttribute('stroke', '#4aa3ff');
+        horiz.setAttribute('stroke-width', '1');
+        horiz.setAttribute('class', 'vakOverlay vakInhoud');
+        horiz.style.pointerEvents = 'none';
+        svgRoot.appendChild(horiz);
+      }
+    }
+  }
+  
+  // Open modal voor vak selectie
+  function openVakSelectModal(vak) {
+    huidigGeselecteerdVak = vak;
+    modalVakId.textContent = vak.id;
+    
+    // Maak opties aan
+    vakSelectGrid.innerHTML = '';
+    
+    const huidigeToewijzing = getVakToewijzing(vak.id);
+    VAK_TYPE_OPTIES.forEach(optie => {
+      const optionDiv = document.createElement('div');
+      optionDiv.className = 'vakSelectOption';
+      const optieAssign = getOptieAssign(optie);
+      const isSelected = (!optieAssign && !huidigeToewijzing) || (optieAssign && huidigeToewijzing && toewijzingenGelijk(huidigeToewijzing, optieAssign));
+      if (isSelected) optionDiv.classList.add('selected');
+      
+      const img = document.createElement('img');
+      img.src = optie.img;
+      img.alt = optie.text;
+      
+      const span = document.createElement('span');
+      span.textContent = optie.text;
+      
+      optionDiv.appendChild(img);
+      optionDiv.appendChild(span);
+      
+      optionDiv.addEventListener('click', () => {
+        // Toewijzen aan vak of verwijderen
+        const payload = optieAssign ? { ...optieAssign } : null;
+        if (!payload) {
+          setVakToewijzing(vak.id, null);
+          toonVakken();
+          draw();
+          closeVakSelectModal();
+          return;
+        }
+
+        if (payload.type === 'raam') {
+          closeVakSelectModal();
+          huidigQuickMenuVak = vak;
+          const pos = berekenVakMenuPos(vak);
+          openVakRaamMenu(vak, pos, payload.variant || null);
+          return;
+        }
+        
+        if (payload.type === 'deur') {
+          closeVakSelectModal();
+          huidigQuickMenuVak = vak;
+          const pos = berekenVakMenuPos(vak);
+          openVakDeurMenu(vak, pos, payload.variant || null);
+          return;
+        }
+
+        if (payload.type === 'glas') {
+          closeVakSelectModal();
+          huidigQuickMenuVak = vak;
+          const pos = berekenVakMenuPos(vak);
+          openVakGlasMenu(vak, pos, payload.variant || null);
+          return;
+        }
+        
+        setVakToewijzing(vak.id, payload);
+        // Update visuele feedback
+        vakSelectGrid.querySelectorAll('.vakSelectOption').forEach(el => {
+          el.classList.remove('selected');
+        });
+        optionDiv.classList.add('selected');
+        
+        // Update de lijst in de sidebar
+        toonVakken();
+        draw();
+        
+        // Sluit modal na korte delay voor visuele feedback
+        setTimeout(() => {
+          closeVakSelectModal();
+        }, 300);
+      });
+      
+      vakSelectGrid.appendChild(optionDiv);
+    });
+    
+    vakSelectModal.classList.add('active');
+  }
+  
+  // Sluit modal
+  function closeVakSelectModal() {
+    vakSelectModal.classList.remove('active');
+    huidigGeselecteerdVak = null;
+  }
+
+  function getSvgCenterPos() {
+    const rect = svg.getBoundingClientRect();
+    return {
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2
+    };
+  }
+
+  function openVakQuickMenu(vak) {
+    huidigQuickMenuVak = vak;
+    closeVakOrientationMenu();
+    closeVakRaamMenu();
+    closeVakDeurMenu();
+    closeVakGlasMenu();
+    closeVakGlasExtraMenu();
+    
+    const pos = getSvgCenterPos();
+    laatsteVakClickPos = { ...pos };
+    
+    vakQuickMenu.style.left = `${pos.x}px`;
+    vakQuickMenu.style.top = `${pos.y}px`;
+    vakQuickMenu.style.display = 'flex';
+    
+    const huidige = getVakToewijzing(vak.id);
+    vakQuickButtons.forEach(btn => {
+      btn.classList.toggle('selected', buttonKomtOvereenMet(huidige, btn));
+    });
+  }
+  
+  function closeVakQuickMenu(resetButtons = false) {
+    vakQuickMenu.style.display = 'none';
+    huidigQuickMenuVak = null;
+    if (resetButtons) {
+      vakQuickButtons.forEach(btn => btn.classList.remove('selected'));
+    }
+    closeVakOrientationMenu();
+    closeVakRaamMenu();
+    closeVakDeurMenu();
+    closeVakGlasMenu();
+    closeVakGlasExtraMenu();
+  }
+
+  vakQuickMenu.addEventListener('click', (e) => {
+    const button = e.target.closest('button[data-type]');
+    if (!button || !huidigQuickMenuVak) return;
+    
+    const targetId = huidigQuickMenuVak.id;
+    const type = button.dataset.type;
+    const variant = button.dataset.variant;
+    
+    if (!type) return;
+    
+    // Toon uitgebreide raam opties wanneer geen variant is gekozen
+    if (type === 'raam' && !variant) {
+      const rect = button.getBoundingClientRect();
+      const pos = {
+        x: rect.left + rect.width / 2,
+        y: rect.top
+      };
+      openVakRaamMenu(huidigQuickMenuVak, pos);
+      return;
+    }
+    
+    // Toon uitgebreide deur opties wanneer geen variant is gekozen
+    if (type === 'deur' && !variant) {
+      const rect = button.getBoundingClientRect();
+      const pos = {
+        x: rect.left + rect.width / 2,
+        y: rect.top
+      };
+      openVakDeurMenu(huidigQuickMenuVak, pos);
+      return;
+    }
+
+    if (type === 'glas' && !variant) {
+      const rect = button.getBoundingClientRect();
+      const pos = {
+        x: rect.left + rect.width / 2,
+        y: rect.top
+      };
+      openVakGlasMenu(huidigQuickMenuVak, pos);
+      return;
+    }
+    
+    const payload = getButtonToewijzing(button);
+    if (!payload) return;
+    
+    const huidige = getVakToewijzing(targetId);
+    if (toewijzingenGelijk(huidige, payload)) {
+      setVakToewijzing(targetId, null);
+    } else {
+      setVakToewijzing(targetId, payload);
+    }
+    
+    updateQuickButtonStates(targetId);
+    toonVakken();
+    closeVakQuickMenu();
+    draw();
+  });
+  
+  function updateQuickButtonStates(vakId) {
+    const assign = getVakToewijzing(vakId);
+    vakQuickButtons.forEach(btn => {
+      btn.classList.toggle('selected', buttonKomtOvereenMet(assign, btn));
+    });
+  }
+
+  function refreshRaamStatus(assign) {
+    if (!vakRaamStatus) return;
+    if (assign && assign.type === 'raam') {
+      const variantTextMap = {
+        draairaam_buiten: 'Draairaam naar buiten',
+        stolpraam_buiten: 'Stolpraam buitendraaiend',
+        draaikiep: 'Draaikiep raam',
+        stolpraam_draaikiep: 'Stolpraam draaikiep'
+      };
+      const variantText = variantTextMap[assign.variant] || 'Raam';
+      const orientationText = assign.orientation === 'links' ? 'Links' :
+                              assign.orientation === 'rechts' ? 'Rechts' :
+                              assign.orientation === 'vast' ? 'Vast' : '';
+      const suffix = orientationText ? ` · ${orientationText}` : '';
+      vakRaamStatus.textContent = `Geselecteerd: ${variantText}${suffix}`;
+    } else {
+      vakRaamStatus.textContent = 'Selecteer een raamtype voor dit vak';
+    }
+  }
+
+  function openVakRaamMenu(vak, _pos, preselectVariant = null) {
+    huidigRaamMenuVak = vak;
+    const centerPos = getSvgCenterPos();
+    laatsteRaamMenuPos = centerPos;
+    const assign = getVakToewijzing(vak.id);
+    vakRaamMenu.style.left = `${centerPos.x}px`;
+    vakRaamMenu.style.top = `${centerPos.y}px`;
+    vakRaamMenu.style.display = 'flex';
+    const heeftRaam = assign && assign.type === 'raam';
+    vakRaamWis.disabled = !heeftRaam;
+    
+    if (preselectVariant) {
+      huidigRaamVariant = preselectVariant;
+      if (heeftRaam && assign.variant === preselectVariant) {
+        huidigRaamOrientation = assign.orientation || null;
+      } else {
+        huidigRaamOrientation = null;
+      }
+    } else if (heeftRaam) {
+      huidigRaamVariant = assign.variant || null;
+      huidigRaamOrientation = assign.orientation || null;
+    } else {
+      huidigRaamVariant = null;
+      huidigRaamOrientation = null;
+    }
+    
+    updateRaamVariantButtons();
+    refreshRaamStatus(assign);
+    updateQuickButtonStates(vak.id);
+
+    if (preselectVariant && !huidigRaamOrientation && vakRaamStatus) {
+      const variantText = getVariantOmschrijving(preselectVariant);
+      vakRaamStatus.textContent = `Kies de draairichting voor ${variantText}`;
+    } else if (heeftRaam && !huidigRaamOrientation && vakRaamStatus) {
+      const variantText = getVariantOmschrijving(huidigRaamVariant);
+      vakRaamStatus.textContent = `Kies de draairichting voor ${variantText}`;
+    }
+  }
+
+  function closeVakRaamMenu(resetState = true) {
+    const huidigeVak = huidigRaamMenuVak;
+    vakRaamMenu.style.display = 'none';
+    if (resetState) {
+      if (vakRaamStatus) {
+        const assign = huidigeVak ? getVakToewijzing(huidigeVak.id) : null;
+        refreshRaamStatus(assign);
+      }
+      huidigRaamMenuVak = null;
+      huidigRaamVariant = null;
+      huidigRaamOrientation = null;
+      updateRaamVariantButtons();
+    }
+  }
+
+  function openVakDeurMenu(vak, _pos, preselectVariant = null) {
+    huidigDeurMenuVak = vak;
+    const centerPos = getSvgCenterPos();
+    laatsteDeurMenuPos = centerPos;
+    const assign = getVakToewijzing(vak.id);
+    vakDeurMenu.style.left = `${centerPos.x}px`;
+    vakDeurMenu.style.top = `${centerPos.y}px`;
+    vakDeurMenu.style.display = 'flex';
+    const heeftDeur = assign && assign.type === 'deur';
+    vakDeurWis.disabled = !heeftDeur;
+    
+    if (preselectVariant) {
+      huidigDeurVariant = preselectVariant;
+    } else if (heeftDeur) {
+      huidigDeurVariant = assign.variant || null;
+    } else {
+      huidigDeurVariant = null;
+    }
+    
+    updateDeurVariantButtons();
+    refreshDeurStatus(assign);
+    updateQuickButtonStates(vak.id);
+  }
+
+  function closeVakDeurMenu(resetState = true) {
+    const huidigeVak = huidigDeurMenuVak;
+    vakDeurMenu.style.display = 'none';
+    if (resetState) {
+      if (vakDeurStatus) {
+        const assign = huidigeVak ? getVakToewijzing(huidigeVak.id) : null;
+        refreshDeurStatus(assign);
+      }
+      huidigDeurMenuVak = null;
+      huidigDeurVariant = null;
+      updateDeurVariantButtons();
+    }
+  }
+
+  function openVakGlasMenu(vak, _pos, preselectVariant = null) {
+    if (!vakGlasMenu) return;
+    closeVakGlasExtraMenu();
+    huidigGlasMenuVak = vak;
+    const centerPos = getSvgCenterPos();
+    laatsteGlasMenuPos = centerPos;
+    const assign = getVakToewijzing(vak.id);
+    vakGlasMenu.style.left = `${centerPos.x}px`;
+    vakGlasMenu.style.top = `${centerPos.y}px`;
+    vakGlasMenu.style.display = 'flex';
+    const heeftGlas = assign && assign.type === 'glas';
+    if (vakGlasWis) vakGlasWis.disabled = !heeftGlas;
+
+    if (preselectVariant) {
+      huidigGlasVariant = preselectVariant;
+      if (heeftGlas && assign.variant === preselectVariant) {
+        huidigGlasRooster = !!assign.rooster;
+      } else {
+        huidigGlasRooster = false;
+      }
+    } else if (heeftGlas) {
+      huidigGlasVariant = assign.variant || null;
+      huidigGlasRooster = !!assign.rooster;
+    } else {
+      huidigGlasVariant = null;
+      huidigGlasRooster = false;
+    }
+
+    updateGlasVariantButtons();
+    refreshGlasStatus(assign);
+    updateQuickButtonStates(vak.id);
+  }
+
+  function closeVakGlasMenu(resetState = true) {
+    const huidigeVak = huidigGlasMenuVak;
+    if (vakGlasMenu) vakGlasMenu.style.display = 'none';
+    closeVakGlasExtraMenu(resetState);
+    if (resetState) {
+      if (vakGlasStatus) {
+        const assign = huidigeVak ? getVakToewijzing(huidigeVak.id) : null;
+        refreshGlasStatus(assign);
+      }
+      huidigGlasMenuVak = null;
+      huidigGlasVariant = null;
+      updateGlasVariantButtons();
+    }
+  }
+
+  function openVakGlasExtraMenu() {
+    if (!vakGlasExtraMenu || !huidigGlasMenuVak) return;
+    const centerPos = getSvgCenterPos();
+    vakGlasExtraMenu.style.left = `${centerPos.x}px`;
+    vakGlasExtraMenu.style.top = `${centerPos.y}px`;
+    vakGlasExtraMenu.style.display = 'flex';
+    if (vakGlasExtraStatus) {
+      const variantTextMap = {
+        glas_vast: 'vast glas',
+        glas_vast_stapel: 'vast glas met stapeldorpels'
+      };
+      const variantText = variantTextMap[huidigGlasVariant] || 'dit glasvak';
+      vakGlasExtraStatus.textContent = `Wil je een rooster in ${variantText}?`;
+    }
+    updateGlasRoosterButtons();
+  }
+
+  function closeVakGlasExtraMenu(resetState = true) {
+    if (!vakGlasExtraMenu) return;
+    vakGlasExtraMenu.style.display = 'none';
+    if (resetState) {
+      huidigGlasRooster = false;
+      updateGlasRoosterButtons();
+    }
+  }
+
+  function updateGlasRoosterButtons() {
+    if (glasRoosterYesBtn) {
+      glasRoosterYesBtn.classList.toggle('selected', !!huidigGlasRooster);
+    }
+    if (glasRoosterNoBtn) {
+      glasRoosterNoBtn.classList.toggle('selected', !huidigGlasRooster);
+    }
+  }
+
+  vakRaamWis.addEventListener('click', () => {
+    if (!huidigRaamMenuVak) return;
+    const vakId = huidigRaamMenuVak.id;
+    setVakToewijzing(vakId, null);
+    toonVakken();
+    draw();
+    updateQuickButtonStates(vakId);
+    refreshRaamStatus(null);
+    vakRaamWis.disabled = true;
+    closeVakRaamMenu();
+    closeVakQuickMenu(true);
+  });
+
+  if (vakDeurWis) {
+    vakDeurWis.addEventListener('click', () => {
+      if (!huidigDeurMenuVak) return;
+      const vakId = huidigDeurMenuVak.id;
+      setVakToewijzing(vakId, null);
+      toonVakken();
+      draw();
+      updateQuickButtonStates(vakId);
+      refreshDeurStatus(null);
+      vakDeurWis.disabled = true;
+      closeVakDeurMenu();
+      closeVakQuickMenu(true);
+    });
+  }
+
+  if (vakGlasWis) {
+    vakGlasWis.addEventListener('click', () => {
+      if (!huidigGlasMenuVak) return;
+      const vakId = huidigGlasMenuVak.id;
+      setVakToewijzing(vakId, null);
+      toonVakken();
+      draw();
+      updateQuickButtonStates(vakId);
+      refreshGlasStatus(null);
+      vakGlasWis.disabled = true;
+      closeVakGlasMenu();
+      closeVakQuickMenu(true);
+    });
+  }
+
+  // Event listener voor raam variant knoppen
+  if (vakRaamMenuSection) {
+    vakRaamMenuSection.addEventListener('click', (e) => {
+      const button = e.target.closest('button[data-variant]');
+      if (!button || !huidigRaamMenuVak) return;
+      
+      const vakId = huidigRaamMenuVak.id;
+      const variant = button.dataset.variant;
+      huidigRaamVariant = variant;
+      const huidigeAssign = getVakToewijzing(vakId);
+      if (huidigeAssign && huidigeAssign.type === 'raam' && huidigeAssign.variant === variant) {
+        huidigRaamOrientation = huidigeAssign.orientation || null;
+      } else {
+        huidigRaamOrientation = null;
+      }
+      
+      updateRaamVariantButtons();
+      const btnRect = button.getBoundingClientRect();
+      const pos = {
+        x: btnRect.left + btnRect.width / 2,
+        y: btnRect.top
+      };
+      closeVakRaamMenu(false);
+      openVakOrientationMenu(huidigRaamMenuVak, pos);
+    });
+  }
+
+  // Event listener voor deur variant knoppen
+  if (vakDeurMenuSection) {
+    vakDeurMenuSection.addEventListener('click', (e) => {
+      const button = e.target.closest('button[data-variant]');
+      if (!button || !huidigDeurMenuVak) return;
+      
+      const vakId = huidigDeurMenuVak.id;
+      const variant = button.dataset.variant;
+      huidigDeurVariant = variant;
+      
+      // Sla deur direct op (zonder draairichting voorlopig, tenzij nodig)
+      setVakToewijzing(vakId, { type: 'deur', variant });
+      
+      updateDeurVariantButtons();
+      toonVakken();
+      draw();
+      updateQuickButtonStates(vakId);
+      refreshDeurStatus({ type: 'deur', variant });
+      vakDeurWis.disabled = false;
+      
+      setTimeout(() => {
+        closeVakDeurMenu();
+        closeVakQuickMenu(true);
+      }, 300);
+    });
+  }
+
+  if (vakGlasMenuSection) {
+    vakGlasMenuSection.addEventListener('click', (e) => {
+      const button = e.target.closest('button[data-variant]');
+      if (!button || !huidigGlasMenuVak) return;
+
+      const vakId = huidigGlasMenuVak.id;
+      const variant = button.dataset.variant;
+      huidigGlasVariant = variant;
+      const huidigeAssign = getVakToewijzing(vakId);
+      if (huidigeAssign && huidigeAssign.type === 'glas' && huidigeAssign.variant === variant) {
+        huidigGlasRooster = !!huidigeAssign.rooster;
+      } else {
+        huidigGlasRooster = false;
+      }
+
+      updateGlasVariantButtons();
+      closeVakGlasMenu(false);
+      openVakGlasExtraMenu();
+    });
+  }
+
+  if (vakOrientationMenu) {
+    vakOrientationMenu.addEventListener('click', (e) => {
+      const button = e.target.closest('button[data-orientation]');
+      if (!button || !huidigRaamMenuVak || !huidigRaamVariant) return;
+      
+      const orientation = button.dataset.orientation;
+      huidigRaamOrientation = orientation;
+      updateOrientationButtons();
+      
+      // Open het extra menu in plaats van direct op te slaan
+      closeVakOrientationMenu(false);
+      openVakRaamExtraMenu(huidigRaamMenuVak);
+    });
+  }
+
+  if (vakOrientationBack) {
+    vakOrientationBack.addEventListener('click', () => {
+      if (!huidigRaamMenuVak) return;
+      closeVakOrientationMenu(false);
+      if (laatsteRaamMenuPos) {
+        openVakRaamMenu(huidigRaamMenuVak, laatsteRaamMenuPos, huidigRaamVariant || null);
+      }
+    });
+  }
+
+  if (vakOrientationCancel) {
+    vakOrientationCancel.addEventListener('click', () => {
+      closeVakOrientationMenu();
+      closeVakRaamMenu();
+      closeVakQuickMenu(true);
+    });
+  }
+
+  // Event listeners voor extra raam opties menu
+  if (beslagF1Btn) {
+    beslagF1Btn.addEventListener('click', () => {
+      huidigBeslagKleur = 'f1';
+      beslagF1Btn.classList.add('selected');
+      beslagAndersBtn.classList.remove('selected');
+      if (beslagKleurPicker) beslagKleurPicker.style.display = 'none';
+    });
+  }
+
+  if (beslagAndersBtn) {
+    beslagAndersBtn.addEventListener('click', () => {
+      huidigBeslagKleur = 'anders';
+      beslagAndersBtn.classList.add('selected');
+      beslagF1Btn.classList.remove('selected');
+      if (beslagKleurPicker) beslagKleurPicker.style.display = 'flex';
+    });
+  }
+
+  if (beslagKleurInput) {
+    beslagKleurInput.addEventListener('input', (e) => {
+      huidigBeslagKleurWaarde = e.target.value;
+    });
+  }
+
+  if (roosterCheckbox) {
+    roosterCheckbox.addEventListener('change', (e) => {
+      huidigRooster = e.target.checked;
+    });
+  }
+
+  if (horCheckbox) {
+    horCheckbox.addEventListener('change', (e) => {
+      huidigHor = e.target.checked;
+    });
+  }
+
+  if (vakRaamExtraBack) {
+    vakRaamExtraBack.addEventListener('click', () => {
+      if (!huidigRaamMenuVak) return;
+      closeVakRaamExtraMenu(false);
+      const centerPos = getSvgCenterPos();
+      openVakOrientationMenu(huidigRaamMenuVak, centerPos);
+    });
+  }
+
+  if (vakRaamExtraCancel) {
+    vakRaamExtraCancel.addEventListener('click', () => {
+      closeVakRaamExtraMenu();
+      closeVakOrientationMenu();
+      closeVakRaamMenu();
+      closeVakQuickMenu(true);
+    });
+  }
+
+  if (vakRaamExtraConfirm) {
+    vakRaamExtraConfirm.addEventListener('click', () => {
+      if (!huidigRaamMenuVak || !huidigRaamVariant || !huidigRaamOrientation) return;
+      
+      const vakId = huidigRaamMenuVak.id;
+      const toewijzing = {
+        type: 'raam',
+        variant: huidigRaamVariant,
+        orientation: huidigRaamOrientation,
+        rooster: huidigRooster,
+        hor: huidigHor,
+        beslagKleur: huidigBeslagKleur
+      };
+      
+      if (huidigBeslagKleur === 'anders') {
+        toewijzing.beslagKleurWaarde = huidigBeslagKleurWaarde;
+      }
+      
+      setVakToewijzing(vakId, toewijzing);
+      updateOrientationButtons();
+      
+      toonVakken();
+      draw();
+      updateQuickButtonStates(vakId);
+      refreshRaamStatus(toewijzing);
+      vakRaamWis.disabled = false;
+      
+      setTimeout(() => {
+        closeVakRaamExtraMenu();
+        closeVakOrientationMenu();
+        closeVakRaamMenu();
+        closeVakQuickMenu(true);
+      }, 300);
+    });
+  }
+
+  if (glasRoosterYesBtn) {
+    glasRoosterYesBtn.addEventListener('click', () => {
+      huidigGlasRooster = true;
+      updateGlasRoosterButtons();
+    });
+  }
+
+  if (glasRoosterNoBtn) {
+    glasRoosterNoBtn.addEventListener('click', () => {
+      huidigGlasRooster = false;
+      updateGlasRoosterButtons();
+    });
+  }
+
+  if (vakGlasExtraBack) {
+    vakGlasExtraBack.addEventListener('click', () => {
+      if (!huidigGlasMenuVak) return;
+      closeVakGlasExtraMenu(false);
+      if (laatsteGlasMenuPos) {
+        openVakGlasMenu(huidigGlasMenuVak, laatsteGlasMenuPos, huidigGlasVariant || null);
+      }
+    });
+  }
+
+  if (vakGlasExtraCancel) {
+    vakGlasExtraCancel.addEventListener('click', () => {
+      closeVakGlasExtraMenu();
+      closeVakGlasMenu();
+      closeVakQuickMenu(true);
+    });
+  }
+
+  if (vakGlasExtraConfirm) {
+    vakGlasExtraConfirm.addEventListener('click', () => {
+      if (!huidigGlasMenuVak || !huidigGlasVariant) return;
+      const vakId = huidigGlasMenuVak.id;
+      const toewijzing = {
+        type: 'glas',
+        variant: huidigGlasVariant,
+        rooster: !!huidigGlasRooster
+      };
+      setVakToewijzing(vakId, toewijzing);
+      refreshGlasStatus(toewijzing);
+      updateQuickButtonStates(vakId);
+      toonVakken();
+      draw();
+      if (vakGlasWis) vakGlasWis.disabled = false;
+
+      setTimeout(() => {
+        closeVakGlasExtraMenu();
+        closeVakGlasMenu();
+        closeVakQuickMenu(true);
+      }, 300);
+    });
+  }
+  
+  vakQuickMenu.addEventListener('mousedown', (e) => {
+    e.stopPropagation();
+  });
+  vakQuickMenu.addEventListener('mouseup', (e) => {
+    e.stopPropagation();
+  });
+  vakRaamMenu.addEventListener('mousedown', (e) => {
+    e.stopPropagation();
+  });
+  vakRaamMenu.addEventListener('mouseup', (e) => {
+    e.stopPropagation();
+  });
+  if (vakDeurMenu) {
+    vakDeurMenu.addEventListener('mousedown', (e) => {
+      e.stopPropagation();
+    });
+    vakDeurMenu.addEventListener('mouseup', (e) => {
+      e.stopPropagation();
+    });
+  }
+  if (vakOrientationMenu) {
+    vakOrientationMenu.addEventListener('mousedown', (e) => {
+      e.stopPropagation();
+    });
+    vakOrientationMenu.addEventListener('mouseup', (e) => {
+      e.stopPropagation();
+    });
+  }
+  if (vakGlasMenu) {
+    vakGlasMenu.addEventListener('mousedown', (e) => {
+      e.stopPropagation();
+    });
+    vakGlasMenu.addEventListener('mouseup', (e) => {
+      e.stopPropagation();
+    });
+  }
+  
+  if (vakRaamExtraMenu) {
+    vakRaamExtraMenu.addEventListener('mousedown', (e) => {
+      e.stopPropagation();
+    });
+    vakRaamExtraMenu.addEventListener('mouseup', (e) => {
+      e.stopPropagation();
+    });
+  }
+  if (vakGlasExtraMenu) {
+    vakGlasExtraMenu.addEventListener('mousedown', (e) => {
+      e.stopPropagation();
+    });
+    vakGlasExtraMenu.addEventListener('mouseup', (e) => {
+      e.stopPropagation();
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    const klikInQuick = vakQuickMenu.contains(e.target);
+    const klikInRaam = vakRaamMenu.contains(e.target);
+    const klikInDeur = vakDeurMenu && vakDeurMenu.contains(e.target);
+    const klikInGlas = vakGlasMenu && vakGlasMenu.contains(e.target);
+    const klikInOrientation = vakOrientationMenu && vakOrientationMenu.contains(e.target);
+    const klikInExtra = vakRaamExtraMenu && vakRaamExtraMenu.contains(e.target);
+    const klikInGlasExtra = vakGlasExtraMenu && vakGlasExtraMenu.contains(e.target);
+    if (!klikInQuick && !klikInRaam && !klikInDeur && !klikInGlas && !klikInOrientation && !klikInExtra && !klikInGlasExtra) {
+      closeVakQuickMenu(true);
+    }
+  });
+
+  window.addEventListener('resize', () => closeVakQuickMenu(true));
+  
+  // Sluit modal bij klik op sluitknop
+  modalClose.addEventListener('click', closeVakSelectModal);
+  
+  // Sluit modal bij klik buiten modal
+  vakSelectModal.addEventListener('click', (e) => {
+    if (e.target === vakSelectModal) {
+      closeVakSelectModal();
+    }
+  });
+  
+  // Sluit modal bij ESC toets
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && vakSelectModal.classList.contains('active')) {
+      closeVakSelectModal();
+    }
+  });
+  
+  // Event listener voor klaar met tekenen
+  btnDetectVakken.addEventListener('click', () => {
+    if (state.kanTekenen) {
+      detecteerVakken();
+      if (state.vakken.length > 0) {
+        state.kanTekenen = false;
+        closeVakQuickMenu(true);
+        resetDagConfigCache();
+        draw();
+      } else {
+        draw();
+      }
+    } else {
+      state.kanTekenen = true;
+      state.vakken = [];
+      state.vakkenToewijzingen = {};
+      vakkenFieldset.style.display = 'none';
+      closeVakQuickMenu(true);
+      resetDagConfigCache();
+      draw();
+    }
+  });
+
+  // Laad SVG iconen bij page load
+  loadSvgIcons();
+
+  // Start
+  draw();
+})();
+</script>
+</body>
+</html>
+
+
+
+
+
+
