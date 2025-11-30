@@ -10,8 +10,7 @@ SVG_OPTIONS = {
 
 st.set_page_config(page_title="Kozijnen Configurator (Streamlit)", layout="wide")
 
-st.divider()
-st.header("HTML Preview")
+st.subheader("HTML Preview")
 
 html_file = "public/example.html"
 if os.path.exists(html_file):

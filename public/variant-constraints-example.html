@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Variant Constraints Voorbeeld</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    .example {
+      background: #f5f5f5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+    }
+    .error {
+      color: red;
+    }
+    .success {
+      color: green;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px 5px;
+      cursor: pointer;
+    }
+    input {
+      padding: 8px;
+      margin: 5px;
+      width: 100px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Variant Constraints Voorbeeld</h1>
+  
+  <div class="example">
+    <h2>Voorbeeld 1: Valideer draaikiep raam</h2>
+    <label>Breedte (mm): <input type="number" id="breedte1" value="400"></label>
+    <label>Hoogte (mm): <input type="number" id="hoogte1" value="2000"></label>
+    <button onclick="testValidation1()">Valideer</button>
+    <div id="result1"></div>
+  </div>
+  
+  <div class="example">
+    <h2>Voorbeeld 2: Valideer draaikiep raam (te klein)</h2>
+    <label>Breedte (mm): <input type="number" id="breedte2" value="200"></label>
+    <label>Hoogte (mm): <input type="number" id="hoogte2" value="2500"></label>
+    <button onclick="testValidation2()">Valideer</button>
+    <div id="result2"></div>
+  </div>
+  
+  <div class="example">
+    <h2>Voorbeeld 3: Haal constraints op</h2>
+    <button onclick="showConstraints()">Toon draaikiep constraints</button>
+    <div id="result3"></div>
+  </div>
+
+  <script src="variant-constraints-utils.js"></script>
+  <script>
+    async function testValidation1() {
+      const breedte = parseInt(document.getElementById('breedte1').value);
+      const hoogte = parseInt(document.getElementById('hoogte1').value);
+      
+      const result = await validateVariantDimensions('ramen', 'draaikiep', breedte, hoogte);
+      const resultDiv = document.getElementById('result1');
+      
+      if (result.valid) {
+        resultDiv.innerHTML = '<span class="success">✓ Afmetingen zijn geldig!</span>';
+      } else {
+        resultDiv.innerHTML = '<span class="error">✗ Fouten:</span><ul>' + 
+          result.errors.map(e => '<li>' + e + '</li>').join('') + '</ul>';
+      }
+    }
+    
+    async function testValidation2() {
+      const breedte = parseInt(document.getElementById('breedte2').value);
+      const hoogte = parseInt(document.getElementById('hoogte2').value);
+      
+      const result = await validateVariantDimensions('ramen', 'draaikiep', breedte, hoogte);
+      const resultDiv = document.getElementById('result2');
+      
+      if (result.valid) {
+        resultDiv.innerHTML = '<span class="success">✓ Afmetingen zijn geldig!</span>';
+      } else {
+        resultDiv.innerHTML = '<span class="error">✗ Fouten:</span><ul>' + 
+          result.errors.map(e => '<li>' + e + '</li>').join('') + '</ul>';
+      }
+    }
+    
+    async function showConstraints() {
+      const constraints = await getVariantConstraints('ramen', 'draaikiep');
+      const resultDiv = document.getElementById('result3');
+      
+      if (constraints) {
+        resultDiv.innerHTML = `
+          <pre>${JSON.stringify(constraints, null, 2)}</pre>
+          <p><strong>Opmerking:</strong> ${constraints.opmerking}</p>
+        `;
+      } else {
+        resultDiv.innerHTML = '<span class="error">Geen constraints gevonden</span>';
+      }
+    }
+  </script>
+</body>
+</html>
+

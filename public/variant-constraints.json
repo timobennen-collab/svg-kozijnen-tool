@@ -1,0 +1,100 @@
+{
+  "ramen": {
+    "draaikiep": {
+      "minBreedte": 300,
+      "maxBreedte": null,
+      "minHoogte": null,
+      "maxHoogte": 2200,
+      "opmerking": "Draaikiep raam heeft minimale breedte van 300mm en maximale hoogte van 2200mm"
+    },
+    "draairaam_buiten": {
+      "minBreedte": null,
+      "maxBreedte": null,
+      "minHoogte": null,
+      "maxHoogte": null,
+      "opmerking": "Geen specifieke afmetingsbeperkingen"
+    },
+    "stolpraam_buiten": {
+      "minBreedte": null,
+      "maxBreedte": null,
+      "minHoogte": null,
+      "maxHoogte": null,
+      "opmerking": "Geen specifieke afmetingsbeperkingen"
+    },
+    "stolpraam_draaikiep": {
+      "minBreedte": null,
+      "maxBreedte": null,
+      "minHoogte": null,
+      "maxHoogte": null,
+      "opmerking": "Geen specifieke afmetingsbeperkingen"
+    },
+    "klepraam_open": {
+      "minBreedte": null,
+      "maxBreedte": null,
+      "minHoogte": null,
+      "maxHoogte": null,
+      "opmerking": "Geen specifieke afmetingsbeperkingen"
+    },
+    "klepraam_vast": {
+      "minBreedte": null,
+      "maxBreedte": null,
+      "minHoogte": null,
+      "maxHoogte": null,
+      "opmerking": "Geen specifieke afmetingsbeperkingen"
+    }
+  },
+  "deuren": {
+    "deur_buiten": {
+      "minBreedte": null,
+      "maxBreedte": null,
+      "minHoogte": null,
+      "maxHoogte": null,
+      "opmerking": "Geen specifieke afmetingsbeperkingen"
+    },
+    "stolpdeuren_buiten": {
+      "minBreedte": null,
+      "maxBreedte": null,
+      "minHoogte": null,
+      "maxHoogte": null,
+      "opmerking": "Geen specifieke afmetingsbeperkingen"
+    },
+    "deur_draaikiep": {
+      "minBreedte": null,
+      "maxBreedte": null,
+      "minHoogte": null,
+      "maxHoogte": null,
+      "opmerking": "Geen specifieke afmetingsbeperkingen"
+    },
+    "stolpdeuren_draaikiep": {
+      "minBreedte": null,
+      "maxBreedte": null,
+      "minHoogte": null,
+      "maxHoogte": null,
+      "opmerking": "Geen specifieke afmetingsbeperkingen"
+    },
+    "voordeur": {
+      "minBreedte": null,
+      "maxBreedte": null,
+      "minHoogte": null,
+      "maxHoogte": null,
+      "opmerking": "Geen specifieke afmetingsbeperkingen"
+    }
+  },
+  "glas": {
+    "glas_vast": {
+      "minBreedte": null,
+      "maxBreedte": null,
+      "minHoogte": null,
+      "maxHoogte": null,
+      "opmerking": "Geen specifieke afmetingsbeperkingen"
+    },
+    "glas_vast_stapel": {
+      "minBreedte": null,
+      "maxBreedte": null,
+      "minHoogte": null,
+      "maxHoogte": null,
+      "opmerking": "Geen specifieke afmetingsbeperkingen"
+    }
+  }
+}
+

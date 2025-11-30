@@ -10,6 +10,11 @@
     html,body{height:100%}
     body{margin:0;font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--fg);background:var(--bg)}
     .wrap{display:grid;grid-template-columns:340px 1fr;gap:16px;max-width:1600px;margin:0 auto;padding:16px}
+    .canvasSection{display:flex;flex-direction:column;gap:12px}
+    .dagmaatBar{display:none;padding:12px 16px;background:#1a1f2a;border:1px solid #2b2f36;border-radius:12px;flex-direction:row;align-items:center;gap:12px;flex-wrap:wrap}
+    .dagmaatBar.active{display:flex}
+    .dagmaatBar .barLabel{color:var(--muted);font-size:13px;font-weight:600;margin-right:8px}
+    .dagmaatBar .btn{margin-bottom:0}
     fieldset{border:1px solid #2b2f36;border-radius:12px;padding:12px;margin-bottom:12px}
     legend{padding:0 6px;color:var(--muted);font-size:14px}
     label{display:block;font-size:13px;color:var(--muted);margin:10px 0 6px;font-weight:500}
@@ -167,17 +172,6 @@
         <div id="vakkenList"></div>
       </fieldset>
 
-      <fieldset id="maatTools" style="display:none">
-        <legend>📏 Dagmaat beheer</legend>
-        <small style="display:block;margin-bottom:10px">Beschikbaar nadat je "Klaar met tekenen" hebt gekozen.</small>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <button class="btn" id="btnEqualizeDagHoriz" type="button">↔ Alle dagmaten gelijk (breedte)</button>
-          <button class="btn" id="btnEqualizeDagVert" type="button">↕ Alle dagmaten gelijk (hoogte)</button>
-          <button class="btn" id="btnDistributeMiddleHoriz" type="button">⤢ Verdeel middenvakken (breedte)</button>
-          <button class="btn" id="btnDistributeMiddleVert" type="button">⤢ Verdeel middenvakken (hoogte)</button>
-        </div>
-      </fieldset>
-
       <fieldset>
         <legend>💾 Opslaan & Laden</legend>
         <button class="btn" id="btnSave">💾 Opslaan</button>
@@ -190,8 +184,17 @@
       </fieldset>
     </aside>
 
-    <section class="canvasWrap">
-      <svg id="view" viewBox="0 0 1400 1400"></svg>
+    <section class="canvasSection">
+      <div id="maatTools" class="dagmaatBar">
+        <span class="barLabel">📏 Dagmaat beheer:</span>
+        <button class="btn" id="btnEqualizeDagHoriz" type="button">↔ Alle dagmaten gelijk (breedte)</button>
+        <button class="btn" id="btnEqualizeDagVert" type="button">↕ Alle dagmaten gelijk (hoogte)</button>
+        <button class="btn" id="btnDistributeMiddleHoriz" type="button">⤢ Verdeel middenvakken (breedte)</button>
+        <button class="btn" id="btnDistributeMiddleVert" type="button">⤢ Verdeel middenvakken (hoogte)</button>
+      </div>
+      <div class="canvasWrap">
+        <svg id="view" viewBox="0 0 1400 1400"></svg>
+      </div>
     </section>
   </div>
 
@@ -234,6 +237,10 @@
       <button type="button" data-variant="stolpraam_draaikiep">
         <img src="" alt="Stolpraam draaikiep" data-svg-type="variant" data-variant="stolpraam_draaikiep" />
         <span>Stolpraam draaikiep</span>
+      </button>
+      <button type="button" data-variant="klepraam">
+        <img src="" alt="Klepraam" data-svg-type="variant" data-variant="klepraam" />
+        <span>Klepraam</span>
       </button>
     </div>
     <div class="vakRaamMenuActions">
@@ -309,6 +316,46 @@
     </div>
   </div>
 
+  <div id="vakKlepraamMenu" class="vakOrientationMenu">
+    <h4>Kies klepraam type</h4>
+    <div id="vakKlepraamStatus" class="vakOrientationStatus">Selecteer of het klepraam open of vast is</div>
+    <div class="vakOrientationButtons" id="vakKlepraamButtons">
+      <button type="button" data-klepraam-type="open">
+        <span>Open</span>
+      </button>
+      <button type="button" data-klepraam-type="vast">
+        <span>Vast</span>
+      </button>
+    </div>
+    <div class="vakOrientationActions">
+      <button type="button" id="vakKlepraamBack">← Terug</button>
+      <button type="button" id="vakKlepraamCancel">Annuleren</button>
+    </div>
+  </div>
+
+  <div id="vakDeurBuitenMenu" class="vakOrientationMenu">
+    <h4>Kies buitendraaiende deur type</h4>
+    <div id="vakDeurBuitenStatus" class="vakOrientationStatus">Selecteer het type buitendraaiende deur</div>
+    <div class="vakOrientationButtons" id="vakDeurBuitenButtons">
+      <button type="button" data-deur-buiten-type="stapeldorpel">
+        <img src="" alt="Stapeldorpel deur" data-svg-type="deur-buiten" data-deur-buiten-type="stapeldorpel" />
+        <span>Stapeldorpel deur</span>
+      </button>
+      <button type="button" data-deur-buiten-type="2vaks">
+        <img src="" alt="2 vaks deur" data-svg-type="deur-buiten" data-deur-buiten-type="2vaks" />
+        <span>2 vaks deur</span>
+      </button>
+      <button type="button" data-deur-buiten-type="dicht">
+        <img src="" alt="Dichte deur" data-svg-type="deur-buiten" data-deur-buiten-type="dicht" />
+        <span>Dichte deur</span>
+      </button>
+    </div>
+    <div class="vakOrientationActions">
+      <button type="button" id="vakDeurBuitenBack">← Terug</button>
+      <button type="button" id="vakDeurBuitenCancel">Annuleren</button>
+    </div>
+  </div>
+
   <div id="vakRaamExtraMenu" class="vakRaamExtraMenu">
     <h4>Extra opties</h4>
     <div id="vakRaamExtraStatus" class="vakRaamExtraStatus">Configureer extra opties voor dit raam</div>
@@ -349,6 +396,196 @@
       <button type="button" id="vakRaamExtraBack">← Terug</button>
       <button type="button" id="vakRaamExtraCancel">Annuleren</button>
       <button type="button" id="vakRaamExtraConfirm" class="primary">Bevestigen</button>
+    </div>
+  </div>
+
+  <div id="vakDeurStapeldorpelMenu" class="vakRaamExtraMenu">
+    <h4 id="vakDeurStapeldorpelTitle">Deur opties</h4>
+    <div id="vakDeurStapeldorpelStatus" class="vakRaamExtraStatus">Configureer de deur opties</div>
+    
+    <div class="vakRaamExtraOptions">
+      <div class="extra-option-group" id="stapeldorpelAantalGroup">
+        <label>Aantal stapeldorpels</label>
+        <select id="stapeldorpelAantal" style="width:100%;padding:10px 12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);font-size:14px">
+          <option value="2">2 dorpels (218mm)</option>
+          <option value="3">3 dorpels (332mm)</option>
+          <option value="4">4 dorpels (446mm)</option>
+          <option value="5">5 dorpels (560mm)</option>
+          <option value="6">6 dorpels (674mm)</option>
+          <option value="7">7 dorpels (788mm)</option>
+          <option value="8">8 dorpels (902mm)</option>
+          <option value="9">9 dorpels (1016mm)</option>
+        </select>
+        <small style="color:var(--muted);font-size:11px;margin-top:4px">Standaard: 2 dorpels (218mm). Elke extra dorpel voegt 114mm toe.</small>
+      </div>
+      
+      <div class="extra-option-group" id="tussendorpelHoogteGroup" style="display:none">
+        <label>Hoogte tussendorpel</label>
+        <input type="number" id="tussendorpelHoogte" min="250" max="1500" step="1" value="250" style="width:100%;padding:10px 12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);font-size:14px" placeholder="Hoogte in mm" />
+        <small style="color:var(--muted);font-size:11px;margin-top:4px">Minimaal 250mm, maximaal 1500mm</small>
+      </div>
+      
+      <div class="extra-option-group" id="roosterGroup">
+        <label class="checkbox-label">
+          <input type="checkbox" id="stapeldorpelRoosterCheckbox" />
+          <span>Rooster</span>
+        </label>
+      </div>
+      
+      <div class="extra-option-group" id="vak1Group" style="display:none">
+        <label>Bovenste vak</label>
+        <div class="vakRaamMenuSection" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+          <button type="button" class="btn" data-vak1-type="glas" id="vak1GlasBtn" style="flex:1;min-width:100px;padding:12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer">
+            <img src="" alt="Glas" data-svg-type="vak1" data-vak1-type="glas" style="width:40px;height:40px;pointer-events:none" />
+            <span style="pointer-events:none">Glas</span>
+          </button>
+          <button type="button" class="btn" data-vak1-type="bossing" id="vak1BossingBtn" style="flex:1;min-width:100px;padding:12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer">
+            <img src="" alt="Bossing paneel" data-svg-type="vak1" data-vak1-type="bossing" style="width:40px;height:40px;pointer-events:none" />
+            <span style="pointer-events:none">Bossing paneel</span>
+          </button>
+          <button type="button" class="btn" data-vak1-type="vlak" id="vak1VlakBtn" style="flex:1;min-width:100px;padding:12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer">
+            <img src="" alt="Vlak paneel" data-svg-type="vak1" data-vak1-type="vlak" style="width:40px;height:40px;pointer-events:none" />
+            <span style="pointer-events:none">Vlak paneel</span>
+          </button>
+        </div>
+      </div>
+      
+      <div class="extra-option-group" id="vak2Group" style="display:none">
+        <label>Onderste vak</label>
+        <div class="vakRaamMenuSection" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+          <button type="button" class="btn" data-vak2-type="glas" id="vak2GlasBtn" style="flex:1;min-width:100px;padding:12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer">
+            <img src="" alt="Glas" data-svg-type="vak2" data-vak2-type="glas" style="width:40px;height:40px;pointer-events:none" />
+            <span style="pointer-events:none">Glas</span>
+          </button>
+          <button type="button" class="btn" data-vak2-type="bossing" id="vak2BossingBtn" style="flex:1;min-width:100px;padding:12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer">
+            <img src="" alt="Bossing paneel" data-svg-type="vak2" data-vak2-type="bossing" style="width:40px;height:40px;pointer-events:none" />
+            <span style="pointer-events:none">Bossing paneel</span>
+          </button>
+          <button type="button" class="btn" data-vak2-type="vlak" id="vak2VlakBtn" style="flex:1;min-width:100px;padding:12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer">
+            <img src="" alt="Vlak paneel" data-svg-type="vak2" data-vak2-type="vlak" style="width:40px;height:40px;pointer-events:none" />
+            <span style="pointer-events:none">Vlak paneel</span>
+          </button>
+        </div>
+      </div>
+      
+      <div class="extra-option-group">
+        <label>Deurbeslag</label>
+        <button type="button" id="btnKiesDeurbeslag" class="btn" style="width:100%;margin-top:8px">Kies deurbeslag</button>
+        <div id="stapeldorpelDeurbeslagStatus" style="padding:8px 10px;background:#141a22;border-radius:8px;color:var(--muted);font-size:12px;margin-top:8px">Geen deurbeslag gekozen</div>
+      </div>
+      
+      <div class="extra-option-group" id="deurbeslagKleurGroup" style="display:none">
+        <label>Deurbeslag kleur</label>
+        <div class="beslag-kleur-buttons">
+          <button type="button" class="beslag-kleur-btn" data-deurbeslag-kleur="f1" id="deurbeslagF1Btn">
+            <span>F1 Kleurig (standaard)</span>
+          </button>
+          <button type="button" class="beslag-kleur-btn" data-deurbeslag-kleur="anders" id="deurbeslagAndersBtn">
+            <span>Andere kleur</span>
+          </button>
+        </div>
+        <div class="beslag-kleur-picker" id="deurbeslagKleurPicker" style="display: none;">
+          <input type="color" id="deurbeslagKleurInput" value="#8B7355" />
+          <label for="deurbeslagKleurInput">Kies kleur</label>
+        </div>
+      </div>
+    </div>
+    
+    <div class="vakRaamExtraActions">
+      <button type="button" id="vakDeurStapeldorpelBack">← Terug</button>
+      <button type="button" id="vakDeurStapeldorpelCancel">Annuleren</button>
+      <button type="button" id="vakDeurStapeldorpelConfirm" class="primary">Bevestigen</button>
+    </div>
+  </div>
+
+  <div id="vak2vaksVak1Menu" class="vakRaamMenu">
+    <h4>Kies optie voor bovenste vak</h4>
+    <div id="vak2vaksVak1Status" class="vakRaamStatus">Selecteer een optie voor bovenste vak</div>
+    <div class="vakRaamMenuSection" id="vak2vaksVak1MenuSection">
+      <button type="button" data-vak1-type="glas">
+        <img src="" alt="Glas" data-svg-type="vak1" data-vak1-type="glas" />
+        <span>Glas</span>
+      </button>
+      <button type="button" data-vak1-type="bossing">
+        <img src="" alt="Bossing paneel" data-svg-type="vak1" data-vak1-type="bossing" />
+        <span>Bossing paneel</span>
+      </button>
+      <button type="button" data-vak1-type="vlak">
+        <img src="" alt="Vlak paneel" data-svg-type="vak1" data-vak1-type="vlak" />
+        <span>Vlak paneel</span>
+      </button>
+    </div>
+    <div class="vakRaamMenuActions">
+      <button type="button" id="vak2vaksVak1Back">← Terug</button>
+      <button type="button" id="vak2vaksVak1Cancel">Annuleren</button>
+    </div>
+  </div>
+
+  <div id="vak2vaksVak2Menu" class="vakRaamMenu">
+    <h4>Kies optie voor onderste vak</h4>
+    <div id="vak2vaksVak2Status" class="vakRaamStatus">Selecteer een optie voor onderste vak</div>
+    <div class="vakRaamMenuSection" id="vak2vaksVak2MenuSection">
+      <button type="button" data-vak2-type="glas">
+        <img src="" alt="Glas" data-svg-type="vak2" data-vak2-type="glas" />
+        <span>Glas</span>
+      </button>
+      <button type="button" data-vak2-type="bossing">
+        <img src="" alt="Bossing paneel" data-svg-type="vak2" data-vak2-type="bossing" />
+        <span>Bossing paneel</span>
+      </button>
+      <button type="button" data-vak2-type="vlak">
+        <img src="" alt="Vlak paneel" data-svg-type="vak2" data-vak2-type="vlak" />
+        <span>Vlak paneel</span>
+      </button>
+    </div>
+    <div class="vakRaamMenuActions">
+      <button type="button" id="vak2vaksVak2Back">← Terug</button>
+      <button type="button" id="vak2vaksVak2Cancel">Annuleren</button>
+    </div>
+  </div>
+
+  <div id="vakStapeldorpelOrientationMenu" class="vakOrientationMenu">
+    <h4 id="vakStapeldorpelOrientationTitle">Kies draairichting deur</h4>
+    <div id="vakStapeldorpelOrientationStatus" class="vakOrientationStatus">Selecteer de draairichting voor de deur</div>
+    <div class="vakOrientationButtons" id="vakStapeldorpelOrientationButtons">
+      <button type="button" data-stapeldorpel-orientation="links">
+        <img src="" alt="Links draaiend" data-svg-type="stapeldorpel-orientation" data-orientation="links" />
+        <span>Links</span>
+      </button>
+      <button type="button" data-stapeldorpel-orientation="rechts">
+        <img src="" alt="Rechts draaiend" data-svg-type="stapeldorpel-orientation" data-orientation="rechts" />
+        <span>Rechts</span>
+      </button>
+    </div>
+    <div class="vakOrientationActions">
+      <button type="button" id="vakStapeldorpelOrientationBack">← Terug</button>
+      <button type="button" id="vakStapeldorpelOrientationCancel">Annuleren</button>
+    </div>
+  </div>
+
+  <div id="vakDeurbeslagMenu" class="vakRaamMenu">
+    <h4 id="vakDeurbeslagTitle">Kies deurbeslag</h4>
+    <div id="vakDeurbeslagStatus" class="vakRaamStatus">Selecteer een deurbeslag type</div>
+    <div class="vakRaamMenuSection" id="vakDeurbeslagMenuSection">
+      <button type="button" data-deurbeslag="standaard">
+        <img src="" alt="Standaard deurbeslag" data-svg-type="deurbeslag" data-deurbeslag="standaard" />
+        <span>Standaard</span>
+      </button>
+      <button type="button" data-deurbeslag="luxe">
+        <img src="" alt="Luxe deurbeslag" data-svg-type="deurbeslag" data-deurbeslag="luxe" />
+        <span>Luxe</span>
+      </button>
+      <button type="button" data-deurbeslag="modern">
+        <img src="" alt="Modern deurbeslag" data-svg-type="deurbeslag" data-deurbeslag="modern" />
+        <span>Modern</span>
+      </button>
+      <button type="button" data-deurbeslag="klassiek">
+        <img src="" alt="Klassiek deurbeslag" data-svg-type="deurbeslag" data-deurbeslag="klassiek" />
+        <span>Klassiek</span>
+      </button>
+    </div>
+    <div class="vakRaamMenuActions">
+      <button type="button" id="vakDeurbeslagWis">Verwijder keuze</button>
     </div>
   </div>
 
@@ -446,6 +683,16 @@
   const vakOrientationButtons = vakOrientationMenu ? Array.from(vakOrientationMenu.querySelectorAll('button[data-orientation]')) : [];
   const vakOrientationBack = document.getElementById('vakOrientationBack');
   const vakOrientationCancel = document.getElementById('vakOrientationCancel');
+  const vakKlepraamMenu = document.getElementById('vakKlepraamMenu');
+  const vakKlepraamStatus = document.getElementById('vakKlepraamStatus');
+  const vakKlepraamButtons = vakKlepraamMenu ? Array.from(vakKlepraamMenu.querySelectorAll('button[data-klepraam-type]')) : [];
+  const vakKlepraamBack = document.getElementById('vakKlepraamBack');
+  const vakKlepraamCancel = document.getElementById('vakKlepraamCancel');
+  const vakDeurBuitenMenu = document.getElementById('vakDeurBuitenMenu');
+  const vakDeurBuitenStatus = document.getElementById('vakDeurBuitenStatus');
+  const vakDeurBuitenButtons = vakDeurBuitenMenu ? Array.from(vakDeurBuitenMenu.querySelectorAll('button[data-deur-buiten-type]')) : [];
+  const vakDeurBuitenBack = document.getElementById('vakDeurBuitenBack');
+  const vakDeurBuitenCancel = document.getElementById('vakDeurBuitenCancel');
   const vakRaamStatus = document.getElementById('vakRaamStatus');
   const vakRaamWis = document.getElementById('vakRaamWis');
   const vakDeurStatus = document.getElementById('vakDeurStatus');
@@ -470,6 +717,55 @@
   const vakGlasExtraBack = document.getElementById('vakGlasExtraBack');
   const vakGlasExtraCancel = document.getElementById('vakGlasExtraCancel');
   const vakGlasExtraConfirm = document.getElementById('vakGlasExtraConfirm');
+  const vakDeurStapeldorpelMenu = document.getElementById('vakDeurStapeldorpelMenu');
+  const vakDeurStapeldorpelStatus = document.getElementById('vakDeurStapeldorpelStatus');
+  const stapeldorpelAantal = document.getElementById('stapeldorpelAantal');
+  const stapeldorpelAantalGroup = document.getElementById('stapeldorpelAantalGroup');
+  const tussendorpelHoogteGroup = document.getElementById('tussendorpelHoogteGroup');
+  const tussendorpelHoogte = document.getElementById('tussendorpelHoogte');
+  const stapeldorpelRoosterCheckbox = document.getElementById('stapeldorpelRoosterCheckbox');
+  const roosterGroup = document.getElementById('roosterGroup');
+  const vak1Group = document.getElementById('vak1Group');
+  const vak2Group = document.getElementById('vak2Group');
+  const vak1GlasBtn = document.getElementById('vak1GlasBtn');
+  const vak1BossingBtn = document.getElementById('vak1BossingBtn');
+  const vak1VlakBtn = document.getElementById('vak1VlakBtn');
+  const vak2GlasBtn = document.getElementById('vak2GlasBtn');
+  const vak2BossingBtn = document.getElementById('vak2BossingBtn');
+  const vak2VlakBtn = document.getElementById('vak2VlakBtn');
+  const btnKiesDeurbeslag = document.getElementById('btnKiesDeurbeslag');
+  const stapeldorpelDeurbeslagStatus = document.getElementById('stapeldorpelDeurbeslagStatus');
+  const deurbeslagKleurGroup = document.getElementById('deurbeslagKleurGroup');
+  const deurbeslagF1Btn = document.getElementById('deurbeslagF1Btn');
+  const deurbeslagAndersBtn = document.getElementById('deurbeslagAndersBtn');
+  const deurbeslagKleurPicker = document.getElementById('deurbeslagKleurPicker');
+  const deurbeslagKleurInput = document.getElementById('deurbeslagKleurInput');
+  const vakDeurStapeldorpelBack = document.getElementById('vakDeurStapeldorpelBack');
+  const vakDeurStapeldorpelCancel = document.getElementById('vakDeurStapeldorpelCancel');
+  const vakDeurStapeldorpelConfirm = document.getElementById('vakDeurStapeldorpelConfirm');
+  const vakDeurbeslagMenu = document.getElementById('vakDeurbeslagMenu');
+  const vakDeurbeslagTitle = document.getElementById('vakDeurbeslagTitle');
+  const vakDeurbeslagStatus = document.getElementById('vakDeurbeslagStatus');
+  const vakDeurbeslagMenuSection = document.getElementById('vakDeurbeslagMenuSection');
+  const vakDeurbeslagWis = document.getElementById('vakDeurbeslagWis');
+  const vakDeurbeslagVariantButtons = vakDeurbeslagMenuSection ? Array.from(vakDeurbeslagMenuSection.querySelectorAll('button[data-deurbeslag]')) : [];
+  const vakStapeldorpelOrientationMenu = document.getElementById('vakStapeldorpelOrientationMenu');
+  const vakStapeldorpelOrientationStatus = document.getElementById('vakStapeldorpelOrientationStatus');
+  const vakStapeldorpelOrientationButtons = vakStapeldorpelOrientationMenu ? Array.from(vakStapeldorpelOrientationMenu.querySelectorAll('button[data-stapeldorpel-orientation]')) : [];
+  const vakStapeldorpelOrientationBack = document.getElementById('vakStapeldorpelOrientationBack');
+  const vakStapeldorpelOrientationCancel = document.getElementById('vakStapeldorpelOrientationCancel');
+  const vak2vaksVak1Menu = document.getElementById('vak2vaksVak1Menu');
+  const vak2vaksVak1Status = document.getElementById('vak2vaksVak1Status');
+  const vak2vaksVak1MenuSection = document.getElementById('vak2vaksVak1MenuSection');
+  const vak2vaksVak1Buttons = vak2vaksVak1MenuSection ? Array.from(vak2vaksVak1MenuSection.querySelectorAll('button[data-vak1-type]')) : [];
+  const vak2vaksVak1Back = document.getElementById('vak2vaksVak1Back');
+  const vak2vaksVak1Cancel = document.getElementById('vak2vaksVak1Cancel');
+  const vak2vaksVak2Menu = document.getElementById('vak2vaksVak2Menu');
+  const vak2vaksVak2Status = document.getElementById('vak2vaksVak2Status');
+  const vak2vaksVak2MenuSection = document.getElementById('vak2vaksVak2MenuSection');
+  const vak2vaksVak2Buttons = vak2vaksVak2MenuSection ? Array.from(vak2vaksVak2MenuSection.querySelectorAll('button[data-vak2-type]')) : [];
+  const vak2vaksVak2Back = document.getElementById('vak2vaksVak2Back');
+  const vak2vaksVak2Cancel = document.getElementById('vak2vaksVak2Cancel');
 
   // Functie om alle SVG iconen dynamisch in te laden
   let drawing = false;
@@ -478,6 +774,15 @@
   let huidigRaamMenuVak = null;
   let huidigRaamVariant = null;
   let huidigRaamOrientation = null;
+  let huidigKlepraamType = null;
+  let huidigDeurBuitenType = null;
+  let huidigStapeldorpelAantal = 2;
+  let huidigTussendorpelHoogte = 250;
+  let huidigStapeldorpelRooster = false;
+  let huidigDeurbeslag = null;
+  let huidigDeurbeslagKleur = 'f1';
+  let huidigDeurbeslagKleurWaarde = '#8B7355';
+  let huidigStapeldorpelOrientation = null;
   let huidigRooster = false;
   let huidigHor = false;
   let huidigBeslagKleur = 'f1'; // 'f1' of 'anders'
@@ -571,6 +876,9 @@
     if (assign && assign.type === 'deur') {
       const variantTextMap = {
         deur_buiten: 'Buitendraaiende deur',
+        deur_buiten_stapeldorpel: 'Buitendraaiende deur (stapeldorpel)',
+        deur_buiten_2vaks: 'Buitendraaiende deur (2 vaks)',
+        deur_buiten_dicht: 'Buitendraaiende deur (dicht)',
         stolpdeuren_buiten: 'Buitendraaiende stolpdeuren',
         deur_draaikiep: 'Draaikiep deur',
         stolpdeuren_draaikiep: 'Stolpdraaikiep deuren',
@@ -608,12 +916,18 @@
     if (variant === 'stolpraam_buiten') return 'dit buitendraaiend stolpraam';
     if (variant === 'draaikiep') return 'dit draaikiepraam';
     if (variant === 'stolpraam_draaikiep') return 'dit stolpraam draaikiep';
+    if (variant === 'klepraam') return 'dit klepraam';
+    if (variant === 'klepraam_open') return 'dit klepraam (open)';
+    if (variant === 'klepraam_vast') return 'dit vast klepraam';
     return 'dit raam';
   }
 
   function getDeurVariantOmschrijving(variant) {
     if (!variant) return 'deze deur';
     if (variant === 'deur_buiten') return 'deze buitendraaiende deur';
+    if (variant === 'deur_buiten_stapeldorpel') return 'deze buitendraaiende deur met stapeldorpel';
+    if (variant === 'deur_buiten_2vaks') return 'deze 2 vaks buitendraaiende deur';
+    if (variant === 'deur_buiten_dicht') return 'deze dichte buitendraaiende deur';
     if (variant === 'stolpdeuren_buiten') return 'deze buitendraaiende stolpdeuren';
     if (variant === 'deur_draaikiep') return 'deze draaikiep deur';
     if (variant === 'stolpdeuren_draaikiep') return 'deze stolpdraaikiep deuren';
@@ -639,13 +953,23 @@
       'stolpraam_buiten': 'stolpraam_buiten.svg',
       'draaikiep': 'draaikiep.svg',
       'stolpraam_draaikiep': 'stolpraam_draaikiep.svg',
+      'klepraam': 'klepraam.svg',
+      'klepraam_open': 'klepraam_open.svg',
+      'klepraam_vast': 'klepraam_vast.svg',
       'deur_buiten': 'deur_buiten.svg',
+      'deur_buiten_stapeldorpel': 'deur_buiten_stapeldorpel.svg',
+      'deur_buiten_2vaks': 'deur_buiten_2vaks.svg',
+      'deur_buiten_dicht': 'deur_buiten_dicht.svg',
       'stolpdeuren_buiten': 'stolpdeuren_buiten.svg',
       'deur_draaikiep': 'deur_draaikiep.svg',
       'stolpdeuren_draaikiep': 'stolpdeuren_draaikiep.svg',
       'voordeur': 'voordeur.svg',
       'glas_vast': 'glas_vast.svg',
-      'glas_vast_stapel': 'glas_vast_stapel.svg'
+      'glas_vast_stapel': 'glas_vast_stapel.svg',
+      'deurbeslag_standaard': 'deurbeslag_standaard.svg',
+      'deurbeslag_luxe': 'deurbeslag_luxe.svg',
+      'deurbeslag_modern': 'deurbeslag_modern.svg',
+      'deurbeslag_klassiek': 'deurbeslag_klassiek.svg'
     };
     
     const filename = variantMap[variant] || 'default.svg';
@@ -933,7 +1257,7 @@ stroke-width="3"/>
       const variant = img.closest('button').dataset.variant;
       if (variant) {
         // Voor alle raamvarianten: gebruik je SVG-bestand
-        if (variant.startsWith('draairaam_') || variant.startsWith('stolpraam_') || variant === 'draaikiep' || variant === 'stolpraam_draaikiep') {
+        if (variant.startsWith('draairaam_') || variant.startsWith('stolpraam_') || variant === 'draaikiep' || variant === 'stolpraam_draaikiep' || variant === 'klepraam' || variant === 'klepraam_open' || variant === 'klepraam_vast') {
           img.src = getRaamVariantSvgDataUri(variant);
         } else {
           // Voor andere varianten (deur, glas): gebruik bestandspad
@@ -997,6 +1321,668 @@ stroke-width="3"/>
     }
   }
 
+  function openVakKlepraamMenu(vak, _pos) {
+    if (!vakKlepraamMenu) return;
+    huidigRaamMenuVak = vak;
+    const centerPos = getSvgCenterPos();
+    vakKlepraamMenu.style.left = `${centerPos.x}px`;
+    vakKlepraamMenu.style.top = `${centerPos.y}px`;
+    vakKlepraamMenu.style.display = 'flex';
+    
+    // Laad bestaande waarde als er al een toewijzing is
+    const assign = getVakToewijzing(vak.id);
+    if (assign && assign.type === 'raam' && (assign.variant === 'klepraam_open' || assign.variant === 'klepraam_vast')) {
+      huidigKlepraamType = assign.variant === 'klepraam_open' ? 'open' : 'vast';
+    } else {
+      huidigKlepraamType = null;
+    }
+    
+    updateKlepraamButtons();
+    if (vakKlepraamStatus) {
+      vakKlepraamStatus.textContent = 'Selecteer of het klepraam open of vast is';
+    }
+  }
+
+  function closeVakKlepraamMenu(resetState = true) {
+    if (!vakKlepraamMenu) return;
+    vakKlepraamMenu.style.display = 'none';
+    if (resetState) {
+      huidigKlepraamType = null;
+      updateKlepraamButtons();
+    }
+  }
+
+  function updateKlepraamButtons() {
+    if (!vakKlepraamButtons.length) return;
+    vakKlepraamButtons.forEach(btn => {
+      btn.classList.toggle('selected', !!huidigKlepraamType && btn.dataset.klepraamType === huidigKlepraamType);
+    });
+  }
+
+  function openVakDeurBuitenMenu(vak, _pos) {
+    if (!vakDeurBuitenMenu) return;
+    huidigDeurMenuVak = vak;
+    const centerPos = getSvgCenterPos();
+    vakDeurBuitenMenu.style.left = `${centerPos.x}px`;
+    vakDeurBuitenMenu.style.top = `${centerPos.y}px`;
+    vakDeurBuitenMenu.style.display = 'flex';
+    
+    // Laad bestaande waarde als er al een toewijzing is
+    const assign = getVakToewijzing(vak.id);
+    if (assign && assign.type === 'deur' && (
+      assign.variant === 'deur_buiten_stapeldorpel' || 
+      assign.variant === 'deur_buiten_2vaks' || 
+      assign.variant === 'deur_buiten_dicht'
+    )) {
+      if (assign.variant === 'deur_buiten_stapeldorpel') {
+        huidigDeurBuitenType = 'stapeldorpel';
+      } else if (assign.variant === 'deur_buiten_2vaks') {
+        huidigDeurBuitenType = '2vaks';
+      } else if (assign.variant === 'deur_buiten_dicht') {
+        huidigDeurBuitenType = 'dicht';
+      }
+    } else {
+      huidigDeurBuitenType = null;
+    }
+    
+    updateDeurBuitenIcons();
+    updateDeurBuitenButtons();
+    if (vakDeurBuitenStatus) {
+      vakDeurBuitenStatus.textContent = 'Selecteer het type buitendraaiende deur';
+    }
+  }
+
+  function closeVakDeurBuitenMenu(resetState = true) {
+    if (!vakDeurBuitenMenu) return;
+    vakDeurBuitenMenu.style.display = 'none';
+    if (resetState) {
+      huidigDeurBuitenType = null;
+      updateDeurBuitenButtons();
+    }
+  }
+
+  function updateDeurBuitenIcons() {
+    if (!vakDeurBuitenButtons.length) return;
+    vakDeurBuitenButtons.forEach(btn => {
+      const img = btn.querySelector('img[data-svg-type="deur-buiten"]');
+      if (img) {
+        const deurBuitenType = btn.dataset.deurBuitenType;
+        let variant = 'deur_buiten';
+        if (deurBuitenType === 'stapeldorpel') {
+          variant = 'deur_buiten_stapeldorpel';
+        } else if (deurBuitenType === '2vaks') {
+          variant = 'deur_buiten_2vaks';
+        } else if (deurBuitenType === 'dicht') {
+          variant = 'deur_buiten_dicht';
+        }
+        const svgPath = getVariantSvgPath(variant);
+        img.src = svgPath;
+      }
+    });
+  }
+
+  function updateDeurBuitenButtons() {
+    if (!vakDeurBuitenButtons.length) return;
+    vakDeurBuitenButtons.forEach(btn => {
+      btn.classList.toggle('selected', !!huidigDeurBuitenType && btn.dataset.deurBuitenType === huidigDeurBuitenType);
+    });
+  }
+
+  function openVakDeurStapeldorpelMenu(vak, deurType = 'stapeldorpel') {
+    if (!vakDeurStapeldorpelMenu || !vak) {
+      console.error('openVakDeurStapeldorpelMenu: menu or vak is null', { 
+        menu: vakDeurStapeldorpelMenu, 
+        vak,
+        menuExists: !!document.getElementById('vakDeurStapeldorpelMenu')
+      });
+      return;
+    }
+    huidigDeurMenuVak = vak;
+    huidigDeurBuitenType = deurType; // Sla het type op voor later gebruik
+    
+    // Update menu titel op basis van type
+    const titleEl = document.getElementById('vakDeurStapeldorpelTitle');
+    const statusEl = document.getElementById('vakDeurStapeldorpelStatus');
+    if (titleEl) {
+      if (deurType === 'stapeldorpel') {
+        titleEl.textContent = 'Stapeldorpel deur opties';
+        if (statusEl) statusEl.textContent = 'Configureer de stapeldorpel deur opties';
+      } else if (deurType === '2vaks') {
+        titleEl.textContent = '2 vaks deur opties';
+        if (statusEl) statusEl.textContent = 'Configureer de 2 vaks deur opties';
+      }
+    }
+    
+    const centerPos = getSvgCenterPos();
+    vakDeurStapeldorpelMenu.style.left = `${centerPos.x}px`;
+    vakDeurStapeldorpelMenu.style.top = `${centerPos.y}px`;
+    vakDeurStapeldorpelMenu.style.display = 'flex';
+    vakDeurStapeldorpelMenu.style.zIndex = '1700';
+    
+    // Laad bestaande waarden als er al een toewijzing is
+    const assign = getVakToewijzing(vak.id);
+    const isStapeldorpel = deurType === 'stapeldorpel';
+    const is2vaks = deurType === '2vaks';
+    const expectedVariant = isStapeldorpel ? 'deur_buiten_stapeldorpel' : 'deur_buiten_2vaks';
+    
+    if (assign && assign.type === 'deur' && assign.variant === expectedVariant) {
+      if (isStapeldorpel) {
+        huidigStapeldorpelAantal = assign.stapeldorpelAantal || 2;
+      } else if (is2vaks) {
+        huidigTussendorpelHoogte = assign.tussendorpelHoogte || 250;
+      }
+      huidigStapeldorpelRooster = assign.rooster || false;
+      huidigDeurbeslag = assign.deurbeslag || null;
+      huidigDeurbeslagKleur = assign.deurbeslagKleur || 'f1';
+      huidigDeurbeslagKleurWaarde = assign.deurbeslagKleurWaarde || '#8B7355';
+      huidigStapeldorpelOrientation = assign.orientation || null;
+    } else {
+      if (isStapeldorpel) {
+        huidigStapeldorpelAantal = 2;
+      } else if (is2vaks) {
+        huidigTussendorpelHoogte = 250;
+        huidig2vaksVak1Type = null;
+        huidig2vaksVak2Type = null;
+      }
+      huidigStapeldorpelRooster = false;
+      huidigDeurbeslag = null;
+      huidigDeurbeslagKleur = 'f1';
+      huidigDeurbeslagKleurWaarde = '#8B7355';
+      huidigStapeldorpelOrientation = null;
+    }
+    
+    // Toon/verberg de juiste opties op basis van type
+    if (stapeldorpelAantalGroup) {
+      stapeldorpelAantalGroup.style.display = isStapeldorpel ? 'flex' : 'none';
+    }
+    if (tussendorpelHoogteGroup) {
+      tussendorpelHoogteGroup.style.display = is2vaks ? 'flex' : 'none';
+    }
+    if (roosterGroup) {
+      roosterGroup.style.display = isStapeldorpel ? 'flex' : 'none'; // Alleen voor stapeldorpel
+    }
+    if (vak1Group) {
+      vak1Group.style.display = is2vaks ? 'flex' : 'none'; // Alleen voor 2vaks
+    }
+    if (vak2Group) {
+      vak2Group.style.display = is2vaks ? 'flex' : 'none'; // Alleen voor 2vaks
+    }
+    
+    // Update iconen en buttons voor 2vaks
+    if (is2vaks) {
+      update2vaksVak1Icons();
+      update2vaksVak2Icons();
+      update2vaksVak1Buttons();
+      update2vaksVak2Buttons();
+    }
+    
+    // Update UI elementen
+    if (stapeldorpelAantal) stapeldorpelAantal.value = huidigStapeldorpelAantal;
+    if (tussendorpelHoogte) tussendorpelHoogte.value = huidigTussendorpelHoogte;
+    if (stapeldorpelRoosterCheckbox) stapeldorpelRoosterCheckbox.checked = huidigStapeldorpelRooster;
+    if (is2vaks) {
+      update2vaksVak1Buttons();
+      update2vaksVak2Buttons();
+      update2vaksVak1Icons();
+      update2vaksVak2Icons();
+    }
+    updateDeurbeslagStatus();
+    updateDeurbeslagKleurUI();
+  }
+
+  function closeVakDeurStapeldorpelMenu(resetState = true) {
+    if (!vakDeurStapeldorpelMenu) return;
+    vakDeurStapeldorpelMenu.style.display = 'none';
+    if (resetState) {
+      huidigStapeldorpelAantal = 2;
+      huidigTussendorpelHoogte = 250;
+      huidigStapeldorpelRooster = false;
+      huidigDeurbeslag = null;
+      huidigDeurbeslagKleur = 'f1';
+      huidigDeurbeslagKleurWaarde = '#8B7355';
+    }
+  }
+
+  function updateDeurbeslagStatus() {
+    if (!stapeldorpelDeurbeslagStatus) return;
+    if (huidigDeurbeslag) {
+      const deurbeslagLabels = {
+        standaard: 'Standaard deurbeslag',
+        luxe: 'Luxe deurbeslag',
+        modern: 'Modern deurbeslag',
+        klassiek: 'Klassiek deurbeslag'
+      };
+      stapeldorpelDeurbeslagStatus.textContent = `Gekozen: ${deurbeslagLabels[huidigDeurbeslag] || huidigDeurbeslag}`;
+      if (deurbeslagKleurGroup) deurbeslagKleurGroup.style.display = 'flex';
+    } else {
+      stapeldorpelDeurbeslagStatus.textContent = 'Geen deurbeslag gekozen';
+      if (deurbeslagKleurGroup) deurbeslagKleurGroup.style.display = 'none';
+    }
+  }
+
+  function updateDeurbeslagKleurUI() {
+    if (deurbeslagF1Btn) deurbeslagF1Btn.classList.toggle('selected', huidigDeurbeslagKleur === 'f1');
+    if (deurbeslagAndersBtn) deurbeslagAndersBtn.classList.toggle('selected', huidigDeurbeslagKleur === 'anders');
+    if (deurbeslagKleurPicker) deurbeslagKleurPicker.style.display = huidigDeurbeslagKleur === 'anders' ? 'flex' : 'none';
+    if (deurbeslagKleurInput) deurbeslagKleurInput.value = huidigDeurbeslagKleurWaarde;
+  }
+
+  function openVakDeurbeslagMenu(vak, _pos) {
+    if (!vakDeurbeslagMenu) return;
+    huidigDeurMenuVak = vak;
+    const centerPos = getSvgCenterPos();
+    vakDeurbeslagMenu.style.left = `${centerPos.x}px`;
+    vakDeurbeslagMenu.style.top = `${centerPos.y}px`;
+    vakDeurbeslagMenu.style.display = 'flex';
+    
+    // Laad bestaande waarde als er al een deurbeslag is gekozen
+    updateDeurbeslagButtons();
+    updateDeurbeslagIcons();
+    if (vakDeurbeslagStatus) {
+      if (huidigDeurbeslag) {
+        const deurbeslagLabels = {
+          standaard: 'Standaard deurbeslag',
+          luxe: 'Luxe deurbeslag',
+          modern: 'Modern deurbeslag',
+          klassiek: 'Klassiek deurbeslag'
+        };
+        vakDeurbeslagStatus.textContent = `Geselecteerd: ${deurbeslagLabels[huidigDeurbeslag] || huidigDeurbeslag}`;
+      } else {
+        vakDeurbeslagStatus.textContent = 'Selecteer een deurbeslag type';
+      }
+    }
+  }
+
+  function closeVakDeurbeslagMenu(resetState = true) {
+    if (!vakDeurbeslagMenu) return;
+    vakDeurbeslagMenu.style.display = 'none';
+    if (resetState) {
+      // Reset niet, want we willen de keuze behouden
+    }
+  }
+
+  function updateDeurbeslagButtons() {
+    if (!vakDeurbeslagVariantButtons.length) return;
+    vakDeurbeslagVariantButtons.forEach(btn => {
+      btn.classList.toggle('selected', !!huidigDeurbeslag && btn.dataset.deurbeslag === huidigDeurbeslag);
+    });
+  }
+
+  function updateDeurbeslagIcons() {
+    if (!vakDeurbeslagVariantButtons.length) return;
+    vakDeurbeslagVariantButtons.forEach(btn => {
+      const img = btn.querySelector('img[data-svg-type="deurbeslag"]');
+      if (img) {
+        const deurbeslagType = btn.dataset.deurbeslag;
+        const svgPath = getVariantSvgPath(`deurbeslag_${deurbeslagType}`);
+        img.src = svgPath;
+      }
+    });
+  }
+
+  function openVak2vaksVak1Menu(vak) {
+    if (!vak2vaksVak1Menu || !vak) return;
+    huidigDeurMenuVak = vak;
+    const centerPos = getSvgCenterPos();
+    vak2vaksVak1Menu.style.left = `${centerPos.x}px`;
+    vak2vaksVak1Menu.style.top = `${centerPos.y}px`;
+    vak2vaksVak1Menu.style.display = 'flex';
+    
+    // Laad bestaande waarde als er al een toewijzing is
+    const assign = getVakToewijzing(vak.id);
+    if (assign && assign.type === 'deur' && assign.variant === 'deur_buiten_2vaks') {
+      huidig2vaksVak1Type = assign.vak1Type || null;
+    } else {
+      huidig2vaksVak1Type = null;
+    }
+    
+    update2vaksVak1Buttons();
+    update2vaksVak1Icons();
+    if (vak2vaksVak1Status) {
+      vak2vaksVak1Status.textContent = 'Selecteer een optie voor bovenste vak';
+    }
+  }
+
+  function closeVak2vaksVak1Menu(resetState = true) {
+    if (!vak2vaksVak1Menu) return;
+    vak2vaksVak1Menu.style.display = 'none';
+    if (resetState) {
+      huidig2vaksVak1Type = null;
+      update2vaksVak1Buttons();
+    }
+  }
+
+  function update2vaksVak1Buttons() {
+    // Update knoppen in het geïntegreerde menu (vak1Group)
+    if (vak1GlasBtn) {
+      vak1GlasBtn.classList.toggle('selected', huidig2vaksVak1Type === 'glas');
+    }
+    if (vak1BossingBtn) {
+      vak1BossingBtn.classList.toggle('selected', huidig2vaksVak1Type === 'bossing');
+    }
+    if (vak1VlakBtn) {
+      vak1VlakBtn.classList.toggle('selected', huidig2vaksVak1Type === 'vlak');
+    }
+    // Update ook de oude aparte menu knoppen (als ze nog bestaan)
+    if (vak2vaksVak1Buttons && vak2vaksVak1Buttons.length) {
+      vak2vaksVak1Buttons.forEach(btn => {
+        btn.classList.toggle('selected', !!huidig2vaksVak1Type && btn.dataset.vak1Type === huidig2vaksVak1Type);
+      });
+    }
+  }
+
+  function update2vaksVak1Icons() {
+    // Update iconen in het geïntegreerde menu (vak1Group)
+    const icons = [
+      { btn: vak1GlasBtn, type: 'glas' },
+      { btn: vak1BossingBtn, type: 'bossing' },
+      { btn: vak1VlakBtn, type: 'vlak' }
+    ];
+    icons.forEach(({ btn, type }) => {
+      if (btn) {
+        const img = btn.querySelector('img[data-svg-type="vak1"]');
+        if (img) {
+          const svgPath = getVariantSvgPath(`2vaks_vak1_${type}`);
+          img.src = svgPath;
+        }
+      }
+    });
+    // Update ook de oude aparte menu iconen (als ze nog bestaan)
+    if (vak2vaksVak1Buttons && vak2vaksVak1Buttons.length) {
+      vak2vaksVak1Buttons.forEach(btn => {
+        const img = btn.querySelector('img[data-svg-type="vak1"]');
+        if (img) {
+          const vak1Type = btn.dataset.vak1Type;
+          const svgPath = getVariantSvgPath(`2vaks_vak1_${vak1Type}`);
+          img.src = svgPath;
+        }
+      });
+    }
+  }
+
+  function openVak2vaksVak2Menu(vak) {
+    if (!vak2vaksVak2Menu || !vak) return;
+    huidigDeurMenuVak = vak;
+    const centerPos = getSvgCenterPos();
+    vak2vaksVak2Menu.style.left = `${centerPos.x}px`;
+    vak2vaksVak2Menu.style.top = `${centerPos.y}px`;
+    vak2vaksVak2Menu.style.display = 'flex';
+    
+    // Laad bestaande waarde als er al een toewijzing is
+    const assign = getVakToewijzing(vak.id);
+    if (assign && assign.type === 'deur' && assign.variant === 'deur_buiten_2vaks') {
+      huidig2vaksVak2Type = assign.vak2Type || null;
+    } else {
+      huidig2vaksVak2Type = null;
+    }
+    
+    update2vaksVak2Buttons();
+    update2vaksVak2Icons();
+    if (vak2vaksVak2Status) {
+      vak2vaksVak2Status.textContent = 'Selecteer een optie voor onderste vak';
+    }
+  }
+
+  function closeVak2vaksVak2Menu(resetState = true) {
+    if (!vak2vaksVak2Menu) return;
+    vak2vaksVak2Menu.style.display = 'none';
+    if (resetState) {
+      huidig2vaksVak2Type = null;
+      update2vaksVak2Buttons();
+    }
+  }
+
+  function update2vaksVak2Buttons() {
+    // Update knoppen in het opties menu
+    if (vak2GlasBtn) vak2GlasBtn.classList.toggle('selected', huidig2vaksVak2Type === 'glas');
+    if (vak2BossingBtn) vak2BossingBtn.classList.toggle('selected', huidig2vaksVak2Type === 'bossing');
+    if (vak2VlakBtn) vak2VlakBtn.classList.toggle('selected', huidig2vaksVak2Type === 'vlak');
+    // Update ook de oude menu knoppen (als ze nog bestaan)
+    if (vak2vaksVak2Buttons && vak2vaksVak2Buttons.length) {
+      vak2vaksVak2Buttons.forEach(btn => {
+        btn.classList.toggle('selected', !!huidig2vaksVak2Type && btn.dataset.vak2Type === huidig2vaksVak2Type);
+      });
+    }
+  }
+
+  function update2vaksVak2Icons() {
+    // Update iconen in het opties menu
+    const icons = [
+      { btn: vak2GlasBtn, type: 'glas' },
+      { btn: vak2BossingBtn, type: 'bossing' },
+      { btn: vak2VlakBtn, type: 'vlak' }
+    ];
+    icons.forEach(({ btn, type }) => {
+      if (btn) {
+        const img = btn.querySelector('img[data-svg-type="vak2"]');
+        if (img) {
+          const svgPath = getVariantSvgPath(`2vaks_vak2_${type}`);
+          img.src = svgPath;
+        }
+      }
+    });
+    // Update ook de oude menu iconen (als ze nog bestaan)
+    if (vak2vaksVak2Buttons && vak2vaksVak2Buttons.length) {
+      vak2vaksVak2Buttons.forEach(btn => {
+        const img = btn.querySelector('img[data-svg-type="vak2"]');
+        if (img) {
+          const vak2Type = btn.dataset.vak2Type;
+          const svgPath = getVariantSvgPath(`2vaks_vak2_${vak2Type}`);
+          img.src = svgPath;
+        }
+      });
+    }
+  }
+
+  function openVak2vaksVak1Menu(vak) {
+    if (!vak2vaksVak1Menu || !vak) return;
+    huidigDeurMenuVak = vak;
+    const centerPos = getSvgCenterPos();
+    vak2vaksVak1Menu.style.left = `${centerPos.x}px`;
+    vak2vaksVak1Menu.style.top = `${centerPos.y}px`;
+    vak2vaksVak1Menu.style.display = 'flex';
+    
+    // Laad bestaande waarde als er al een toewijzing is
+    const assign = getVakToewijzing(vak.id);
+    if (assign && assign.type === 'deur' && assign.variant === 'deur_buiten_2vaks') {
+      huidig2vaksVak1Type = assign.vak1Type || null;
+    } else {
+      huidig2vaksVak1Type = null;
+    }
+    
+    update2vaksVak1Buttons();
+    update2vaksVak1Icons();
+    if (vak2vaksVak1Status) {
+      vak2vaksVak1Status.textContent = 'Selecteer een optie voor bovenste vak';
+    }
+  }
+
+  function closeVak2vaksVak1Menu(resetState = true) {
+    if (!vak2vaksVak1Menu) return;
+    vak2vaksVak1Menu.style.display = 'none';
+    if (resetState) {
+      huidig2vaksVak1Type = null;
+      update2vaksVak1Buttons();
+    }
+  }
+
+  function update2vaksVak1Buttons() {
+    // Update knoppen in het geïntegreerde menu (vak1Group)
+    if (vak1GlasBtn) {
+      vak1GlasBtn.classList.toggle('selected', huidig2vaksVak1Type === 'glas');
+    }
+    if (vak1BossingBtn) {
+      vak1BossingBtn.classList.toggle('selected', huidig2vaksVak1Type === 'bossing');
+    }
+    if (vak1VlakBtn) {
+      vak1VlakBtn.classList.toggle('selected', huidig2vaksVak1Type === 'vlak');
+    }
+    // Update ook de oude aparte menu knoppen (als ze nog bestaan)
+    if (vak2vaksVak1Buttons && vak2vaksVak1Buttons.length) {
+      vak2vaksVak1Buttons.forEach(btn => {
+        btn.classList.toggle('selected', !!huidig2vaksVak1Type && btn.dataset.vak1Type === huidig2vaksVak1Type);
+      });
+    }
+  }
+
+  function update2vaksVak1Icons() {
+    // Update iconen in het geïntegreerde menu (vak1Group)
+    const icons = [
+      { btn: vak1GlasBtn, type: 'glas' },
+      { btn: vak1BossingBtn, type: 'bossing' },
+      { btn: vak1VlakBtn, type: 'vlak' }
+    ];
+    icons.forEach(({ btn, type }) => {
+      if (btn) {
+        const img = btn.querySelector('img[data-svg-type="vak1"]');
+        if (img) {
+          const svgPath = getVariantSvgPath(`2vaks_vak1_${type}`);
+          img.src = svgPath;
+        }
+      }
+    });
+    // Update ook de oude aparte menu iconen (als ze nog bestaan)
+    if (vak2vaksVak1Buttons && vak2vaksVak1Buttons.length) {
+      vak2vaksVak1Buttons.forEach(btn => {
+        const img = btn.querySelector('img[data-svg-type="vak1"]');
+        if (img) {
+          const vak1Type = btn.dataset.vak1Type;
+          const svgPath = getVariantSvgPath(`2vaks_vak1_${vak1Type}`);
+          img.src = svgPath;
+        }
+      });
+    }
+  }
+
+  function openVak2vaksVak2Menu(vak) {
+    if (!vak2vaksVak2Menu || !vak) return;
+    huidigDeurMenuVak = vak;
+    const centerPos = getSvgCenterPos();
+    vak2vaksVak2Menu.style.left = `${centerPos.x}px`;
+    vak2vaksVak2Menu.style.top = `${centerPos.y}px`;
+    vak2vaksVak2Menu.style.display = 'flex';
+    
+    // Laad bestaande waarde als er al een toewijzing is
+    const assign = getVakToewijzing(vak.id);
+    if (assign && assign.type === 'deur' && assign.variant === 'deur_buiten_2vaks') {
+      huidig2vaksVak2Type = assign.vak2Type || null;
+    } else {
+      huidig2vaksVak2Type = null;
+    }
+    
+    update2vaksVak2Buttons();
+    update2vaksVak2Icons();
+    if (vak2vaksVak2Status) {
+      vak2vaksVak2Status.textContent = 'Selecteer een optie voor onderste vak';
+    }
+  }
+
+  function closeVak2vaksVak2Menu(resetState = true) {
+    if (!vak2vaksVak2Menu) return;
+    vak2vaksVak2Menu.style.display = 'none';
+    if (resetState) {
+      huidig2vaksVak2Type = null;
+      update2vaksVak2Buttons();
+    }
+  }
+
+  function update2vaksVak2Buttons() {
+    // Update knoppen in het opties menu
+    if (vak2GlasBtn) vak2GlasBtn.classList.toggle('selected', huidig2vaksVak2Type === 'glas');
+    if (vak2BossingBtn) vak2BossingBtn.classList.toggle('selected', huidig2vaksVak2Type === 'bossing');
+    if (vak2VlakBtn) vak2VlakBtn.classList.toggle('selected', huidig2vaksVak2Type === 'vlak');
+    // Update ook de oude menu knoppen (als ze nog bestaan)
+    if (vak2vaksVak2Buttons && vak2vaksVak2Buttons.length) {
+      vak2vaksVak2Buttons.forEach(btn => {
+        btn.classList.toggle('selected', !!huidig2vaksVak2Type && btn.dataset.vak2Type === huidig2vaksVak2Type);
+      });
+    }
+  }
+
+  function update2vaksVak2Icons() {
+    // Update iconen in het opties menu
+    const icons = [
+      { btn: vak2GlasBtn, type: 'glas' },
+      { btn: vak2BossingBtn, type: 'bossing' },
+      { btn: vak2VlakBtn, type: 'vlak' }
+    ];
+    icons.forEach(({ btn, type }) => {
+      if (btn) {
+        const img = btn.querySelector('img[data-svg-type="vak2"]');
+        if (img) {
+          const svgPath = getVariantSvgPath(`2vaks_vak2_${type}`);
+          img.src = svgPath;
+        }
+      }
+    });
+    // Update ook de oude menu iconen (als ze nog bestaan)
+    if (vak2vaksVak2Buttons && vak2vaksVak2Buttons.length) {
+      vak2vaksVak2Buttons.forEach(btn => {
+        const img = btn.querySelector('img[data-svg-type="vak2"]');
+        if (img) {
+          const vak2Type = btn.dataset.vak2Type;
+          const svgPath = getVariantSvgPath(`2vaks_vak2_${vak2Type}`);
+          img.src = svgPath;
+        }
+      });
+    }
+  }
+
+  function openVakStapeldorpelOrientationMenu(vak) {
+    if (!vakStapeldorpelOrientationMenu || !vak) return;
+    huidigDeurMenuVak = vak;
+    const centerPos = getSvgCenterPos();
+    vakStapeldorpelOrientationMenu.style.left = `${centerPos.x}px`;
+    vakStapeldorpelOrientationMenu.style.top = `${centerPos.y}px`;
+    vakStapeldorpelOrientationMenu.style.display = 'flex';
+    
+    // Laad bestaande waarde als er al een toewijzing is
+    const assign = getVakToewijzing(vak.id);
+    if (assign && assign.type === 'deur' && assign.variant === 'deur_buiten_stapeldorpel') {
+      huidigStapeldorpelOrientation = assign.orientation || null;
+    } else {
+      huidigStapeldorpelOrientation = null;
+    }
+    
+    updateStapeldorpelOrientationButtons();
+    updateStapeldorpelOrientationIcons();
+    if (vakStapeldorpelOrientationStatus) {
+      vakStapeldorpelOrientationStatus.textContent = 'Selecteer de draairichting voor de stapeldorpel deur';
+    }
+  }
+
+  function closeVakStapeldorpelOrientationMenu(resetState = true) {
+    if (!vakStapeldorpelOrientationMenu) return;
+    vakStapeldorpelOrientationMenu.style.display = 'none';
+    if (resetState) {
+      huidigStapeldorpelOrientation = null;
+      updateStapeldorpelOrientationButtons();
+    }
+  }
+
+  function updateStapeldorpelOrientationButtons() {
+    if (!vakStapeldorpelOrientationButtons.length) return;
+    vakStapeldorpelOrientationButtons.forEach(btn => {
+      btn.classList.toggle('selected', !!huidigStapeldorpelOrientation && btn.dataset.stapeldorpelOrientation === huidigStapeldorpelOrientation);
+    });
+  }
+
+  function updateStapeldorpelOrientationIcons() {
+    if (!vakStapeldorpelOrientationButtons.length) return;
+    vakStapeldorpelOrientationButtons.forEach(btn => {
+      const img = btn.querySelector('img[data-svg-type="stapeldorpel-orientation"]');
+      if (img) {
+        const orientation = btn.dataset.stapeldorpelOrientation;
+        // Gebruik dezelfde SVG path logica als voor andere orientaties
+        if (orientation === 'links') {
+          img.src = getVariantSvgPath('deur_buiten_stapeldorpel', 'links');
+        } else if (orientation === 'rechts') {
+          img.src = getVariantSvgPath('deur_buiten_stapeldorpel', 'rechts');
+        }
+      }
+    });
+  }
+
   function openVakRaamExtraMenu(vak) {
     if (!vakRaamExtraMenu || !vak) return;
     const centerPos = getSvgCenterPos();
@@ -1006,6 +1992,9 @@ stroke-width="3"/>
     
     // Laad bestaande waarden als er al een toewijzing is
     const assign = getVakToewijzing(vak.id);
+    const isKlepraam = (huidigRaamVariant === 'klepraam') || 
+                       (assign && assign.type === 'raam' && (assign.variant === 'klepraam_open' || assign.variant === 'klepraam_vast'));
+    
     if (assign && assign.type === 'raam') {
       huidigRooster = assign.rooster || false;
       huidigHor = assign.hor || false;
@@ -1020,7 +2009,18 @@ stroke-width="3"/>
     
     // Update UI elementen
     if (roosterCheckbox) roosterCheckbox.checked = huidigRooster;
-    if (horCheckbox) horCheckbox.checked = huidigHor;
+    if (horCheckbox) {
+      horCheckbox.checked = huidigHor;
+      // Verberg hor checkbox voor klepraam varianten
+      const horGroup = horCheckbox.closest('.extra-option-group');
+      if (horGroup) {
+        horGroup.style.display = isKlepraam ? 'none' : 'flex';
+        // Zorg ervoor dat de checkbox weer zichtbaar is voor andere varianten
+        if (!isKlepraam && horGroup.style.display === 'none') {
+          horGroup.style.display = 'flex';
+        }
+      }
+    }
     if (beslagF1Btn) beslagF1Btn.classList.toggle('selected', huidigBeslagKleur === 'f1');
     if (beslagAndersBtn) beslagAndersBtn.classList.toggle('selected', huidigBeslagKleur === 'anders');
     if (beslagKleurPicker) beslagKleurPicker.style.display = huidigBeslagKleur === 'anders' ? 'flex' : 'none';
@@ -1033,6 +2033,7 @@ stroke-width="3"/>
     if (resetState) {
       huidigRooster = false;
       huidigHor = false;
+      // Reset klepraam type niet, want dat moet behouden blijven tot bevestiging
       huidigBeslagKleur = 'f1';
       huidigBeslagKleurWaarde = '#8B7355';
     }
@@ -1049,7 +2050,7 @@ stroke-width="3"/>
           return { type: 'raam', variant };
         }
       }
-      if (['draairaam_buiten','stolpraam_buiten','draaikiep','stolpraam_draaikiep'].includes(trimmed)) {
+      if (['draairaam_buiten','stolpraam_buiten','draaikiep','stolpraam_draaikiep','klepraam','klepraam_open','klepraam_vast'].includes(trimmed)) {
         return { type: 'raam', variant: trimmed };
       }
       if (['glas_vast','glas_vast_stapel'].includes(trimmed)) {
@@ -1142,9 +2143,16 @@ stroke-width="3"/>
         draairaam_buiten: 'Draairaam naar buiten',
         stolpraam_buiten: 'Stolpraam buitendraaiend',
         draaikiep: 'Draaikiep raam',
-        stolpraam_draaikiep: 'Stolpraam draaikiep'
+        stolpraam_draaikiep: 'Stolpraam draaikiep',
+        klepraam: 'Klepraam',
+        klepraam_open: 'Klepraam (open)',
+        klepraam_vast: 'Vast klepraam'
       };
       const base = variantLabelMap[toewijzing.variant] || 'Raam';
+      // Voor klepraam varianten: geen orientation tekst
+      if (toewijzing.variant === 'klepraam' || toewijzing.variant === 'klepraam_open' || toewijzing.variant === 'klepraam_vast') {
+        return base;
+      }
       const orientationText = toewijzing.orientation === 'links' ? ' (links)' :
                               toewijzing.orientation === 'rechts' ? ' (rechts)' :
                               toewijzing.orientation === 'vast' ? ' (vast)' : '';
@@ -1238,7 +2246,11 @@ stroke-width="3"/>
       svg.style.cursor = 'default';
     }
     if (maatTools) {
-      maatTools.style.display = state.kanTekenen ? 'none' : 'block';
+      if (state.kanTekenen) {
+        maatTools.classList.remove('active');
+      } else {
+        maatTools.classList.add('active');
+      }
     }
     if (state.kanTekenen) {
       closeMaatPopover();
@@ -1252,6 +2264,7 @@ stroke-width="3"/>
     { value: 'raam_stolpraam_buiten', text: 'Stolpraam buitendraaiend', assign: { type: 'raam', variant: 'stolpraam_buiten' }, img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMGYxMzE4Ii8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBzdHJva2U9IiM0YWEzZmYiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPgo8bGluZSB4MT0iNDAiIHkxPSIxMCIgeDI9IjQwIiB5Mj0iNzAiIHN0cm9rZT0iIzRhYTNmZiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjwvc3ZnPg==' },
     { value: 'raam_draaikiep', text: 'Draaikiep raam', assign: { type: 'raam', variant: 'draaikiep' }, img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMGYxMzE4Ii8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBzdHJva2U9IiM0YWEzZmYiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPgo8bGluZSB4MT0iNDAiIHkxPSIxMCIgeDI9IjQwIiB5Mj0iNzAiIHN0cm9rZT0iIzRhYTNmZiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjwvc3ZnPg==' },
     { value: 'raam_stolpraam_draaikiep', text: 'Stolpraam draaikiep', assign: { type: 'raam', variant: 'stolpraam_draaikiep' }, img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMGYxMzE4Ii8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBzdHJva2U9IiM0YWEzZmYiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPgo8bGluZSB4MT0iNDAiIHkxPSIxMCIgeDI9IjQwIiB5Mj0iNzAiIHN0cm9rZT0iIzRhYTNmZiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjwvc3ZnPg==' },
+    { value: 'raam_klepraam', text: 'Klepraam', assign: { type: 'raam', variant: 'klepraam' }, img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMGYxMzE4Ii8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBzdHJva2U9IiM0YWEzZmYiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPgo8bGluZSB4MT0iNDAiIHkxPSIxMCIgeDI9IjQwIiB5Mj0iNzAiIHN0cm9rZT0iIzRhYTNmZiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjwvc3ZnPg==' },
     { value: 'raam', text: 'Raam (algemeen)', assign: { type: 'raam' }, img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMGYxMzE4Ii8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBzdHJva2U9IiM0YWEzZmYiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPgo8bGluZSB4MT0iNDAiIHkxPSIxMCIgeDI9IjQwIiB5Mj0iNzAiIHN0cm9rZT0iIzRhYTNmZiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjwvc3ZnPg==' },
     { value: 'deur', text: 'Deur', assign: { type: 'deur' }, img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMGYxMzE4Ii8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBzdHJva2U9IiM0YWEzZmYiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPgo8Y2lyY2xlIGN4PSI1NSIgY3k9IjQwIiByPSI0IiBmaWxsPSIjNGFlM2ZmIi8+Cjwvc3ZnPg==' },
     { value: 'glas', text: 'Glas', assign: { type: 'glas' }, img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMGYxMzE4Ii8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBzdHJva2U9IiM0YWEzZmYiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPgo8cmVjdCB4PSIxNSIgeT0iMTUiIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgZmlsbD0iIzRhYTNmZiIgZmlsbC1vcGFjaXR5PSIwLjIiLz4KPC9zdmc+' }
@@ -3358,13 +4371,20 @@ stroke-width="3"/>
         draairaam_buiten: 'Draairaam naar buiten',
         stolpraam_buiten: 'Stolpraam buitendraaiend',
         draaikiep: 'Draaikiep raam',
-        stolpraam_draaikiep: 'Stolpraam draaikiep'
+        stolpraam_draaikiep: 'Stolpraam draaikiep',
+        klepraam: 'Klepraam',
+        klepraam_open: 'Klepraam (open)',
+        klepraam_vast: 'Vast klepraam'
       };
       const variantText = variantTextMap[assign.variant] || 'Raam';
-      const orientationText = assign.orientation === 'links' ? 'Links' :
-                              assign.orientation === 'rechts' ? 'Rechts' :
-                              assign.orientation === 'vast' ? 'Vast' : '';
-      const suffix = orientationText ? ` · ${orientationText}` : '';
+      // Voor klepraam varianten: geen orientation tekst
+      let suffix = '';
+      if (assign.variant !== 'klepraam' && assign.variant !== 'klepraam_open' && assign.variant !== 'klepraam_vast') {
+        const orientationText = assign.orientation === 'links' ? 'Links' :
+                                assign.orientation === 'rechts' ? 'Rechts' :
+                                assign.orientation === 'vast' ? 'Vast' : '';
+        suffix = orientationText ? ` · ${orientationText}` : '';
+      }
       vakRaamStatus.textContent = `Geselecteerd: ${variantText}${suffix}`;
     } else {
       vakRaamStatus.textContent = 'Selecteer een raamtype voor dit vak';
@@ -3386,25 +4406,39 @@ stroke-width="3"/>
       huidigRaamVariant = preselectVariant;
       if (heeftRaam && assign.variant === preselectVariant) {
         huidigRaamOrientation = assign.orientation || null;
+        // Voor klepraam varianten: bepaal het type
+        if (assign.variant === 'klepraam_open' || assign.variant === 'klepraam_vast') {
+          huidigKlepraamType = assign.variant === 'klepraam_open' ? 'open' : 'vast';
+        }
       } else {
         huidigRaamOrientation = null;
+        huidigKlepraamType = null;
       }
     } else if (heeftRaam) {
       huidigRaamVariant = assign.variant || null;
       huidigRaamOrientation = assign.orientation || null;
+      // Voor klepraam varianten: bepaal het type
+      if (assign.variant === 'klepraam_open' || assign.variant === 'klepraam_vast') {
+        huidigKlepraamType = assign.variant === 'klepraam_open' ? 'open' : 'vast';
+        huidigRaamVariant = 'klepraam'; // Zet terug naar basis variant voor menu
+      } else {
+        huidigKlepraamType = null;
+      }
     } else {
       huidigRaamVariant = null;
       huidigRaamOrientation = null;
+      huidigKlepraamType = null;
     }
     
     updateRaamVariantButtons();
     refreshRaamStatus(assign);
     updateQuickButtonStates(vak.id);
 
-    if (preselectVariant && !huidigRaamOrientation && vakRaamStatus) {
+    // Alleen orientation status tonen voor niet-klepraam varianten
+    if (preselectVariant && preselectVariant !== 'klepraam' && !huidigRaamOrientation && vakRaamStatus) {
       const variantText = getVariantOmschrijving(preselectVariant);
       vakRaamStatus.textContent = `Kies de draairichting voor ${variantText}`;
-    } else if (heeftRaam && !huidigRaamOrientation && vakRaamStatus) {
+    } else if (heeftRaam && huidigRaamVariant !== 'klepraam' && !huidigRaamOrientation && vakRaamStatus) {
       const variantText = getVariantOmschrijving(huidigRaamVariant);
       vakRaamStatus.textContent = `Kies de draairichting voor ${variantText}`;
     }
@@ -3438,10 +4472,34 @@ stroke-width="3"/>
     
     if (preselectVariant) {
       huidigDeurVariant = preselectVariant;
+      // Voor deur_buiten subvarianten: zet terug naar basis variant
+      if (heeftDeur && (assign.variant === 'deur_buiten_stapeldorpel' || assign.variant === 'deur_buiten_2vaks' || assign.variant === 'deur_buiten_dicht')) {
+        if (assign.variant === 'deur_buiten_stapeldorpel') {
+          huidigDeurBuitenType = 'stapeldorpel';
+        } else if (assign.variant === 'deur_buiten_2vaks') {
+          huidigDeurBuitenType = '2vaks';
+        } else if (assign.variant === 'deur_buiten_dicht') {
+          huidigDeurBuitenType = 'dicht';
+        }
+        huidigDeurVariant = 'deur_buiten';
+      }
     } else if (heeftDeur) {
-      huidigDeurVariant = assign.variant || null;
+      // Voor deur_buiten subvarianten: zet terug naar basis variant
+      if (assign.variant === 'deur_buiten_stapeldorpel' || assign.variant === 'deur_buiten_2vaks' || assign.variant === 'deur_buiten_dicht') {
+        if (assign.variant === 'deur_buiten_stapeldorpel') {
+          huidigDeurBuitenType = 'stapeldorpel';
+        } else if (assign.variant === 'deur_buiten_2vaks') {
+          huidigDeurBuitenType = '2vaks';
+        } else if (assign.variant === 'deur_buiten_dicht') {
+          huidigDeurBuitenType = 'dicht';
+        }
+        huidigDeurVariant = 'deur_buiten';
+      } else {
+        huidigDeurVariant = assign.variant || null;
+      }
     } else {
       huidigDeurVariant = null;
+      huidigDeurBuitenType = null;
     }
     
     updateDeurVariantButtons();
@@ -3592,6 +4650,10 @@ stroke-width="3"/>
   // Event listener voor raam variant knoppen
   if (vakRaamMenuSection) {
     vakRaamMenuSection.addEventListener('click', (e) => {
+      // Negeer clicks op knoppen die niet data-variant hebben (zoals vak1/vak2 knoppen)
+      if (e.target.closest('button[data-vak1-type]') || e.target.closest('button[data-vak2-type]')) {
+        return;
+      }
       const button = e.target.closest('button[data-variant]');
       if (!button || !huidigRaamMenuVak) return;
       
@@ -3606,6 +4668,20 @@ stroke-width="3"/>
       }
       
       updateRaamVariantButtons();
+      
+      // Voor klepraam: open klepraam menu (open/vast)
+      if (variant === 'klepraam') {
+        const btnRect = button.getBoundingClientRect();
+        const pos = {
+          x: btnRect.left + btnRect.width / 2,
+          y: btnRect.top
+        };
+        closeVakRaamMenu(false);
+        openVakKlepraamMenu(huidigRaamMenuVak, pos);
+        return;
+      }
+      
+      // Voor andere varianten: open orientation menu
       const btnRect = button.getBoundingClientRect();
       const pos = {
         x: btnRect.left + btnRect.width / 2,
@@ -3626,7 +4702,19 @@ stroke-width="3"/>
       const variant = button.dataset.variant;
       huidigDeurVariant = variant;
       
-      // Sla deur direct op (zonder draairichting voorlopig, tenzij nodig)
+      // Voor deur_buiten: open submenu (stapeldorpel, 2vaks, dicht)
+      if (variant === 'deur_buiten') {
+        const btnRect = button.getBoundingClientRect();
+        const pos = {
+          x: btnRect.left + btnRect.width / 2,
+          y: btnRect.top
+        };
+        closeVakDeurMenu(false);
+        openVakDeurBuitenMenu(huidigDeurMenuVak, pos);
+        return;
+      }
+      
+      // Voor andere deuren: sla direct op
       setVakToewijzing(vakId, { type: 'deur', variant });
       
       updateDeurVariantButtons();
@@ -3697,6 +4785,129 @@ stroke-width="3"/>
     });
   }
 
+  // Event listeners voor klepraam menu
+  if (vakKlepraamMenu) {
+    vakKlepraamMenu.addEventListener('click', (e) => {
+      // Check of de klik op een button of span binnen een button was
+      const button = e.target.closest('button[data-klepraam-type]');
+      if (!button || !huidigRaamMenuVak) {
+        // Als de klik niet op een button was, negeer het
+        return;
+      }
+      
+      // Zorg ervoor dat huidigRaamVariant is ingesteld op 'klepraam'
+      if (!huidigRaamVariant || huidigRaamVariant !== 'klepraam') {
+        huidigRaamVariant = 'klepraam';
+      }
+      
+      const klepraamType = button.dataset.klepraamType;
+      if (!klepraamType) {
+        console.warn('Klepraam type niet gevonden in button dataset');
+        return;
+      }
+      
+      huidigKlepraamType = klepraamType;
+      updateKlepraamButtons();
+      
+      // Open het extra menu (rooster) in plaats van direct op te slaan
+      closeVakKlepraamMenu(false);
+      openVakRaamExtraMenu(huidigRaamMenuVak);
+    });
+  }
+
+  if (vakKlepraamBack) {
+    vakKlepraamBack.addEventListener('click', () => {
+      if (!huidigRaamMenuVak) return;
+      closeVakKlepraamMenu(false);
+      if (laatsteRaamMenuPos) {
+        openVakRaamMenu(huidigRaamMenuVak, laatsteRaamMenuPos, 'klepraam');
+      }
+    });
+  }
+
+  if (vakKlepraamCancel) {
+    vakKlepraamCancel.addEventListener('click', () => {
+      closeVakKlepraamMenu();
+      closeVakRaamMenu();
+      closeVakQuickMenu(true);
+    });
+  }
+
+  // Event listeners voor deur buiten menu
+  if (vakDeurBuitenMenu) {
+    vakDeurBuitenMenu.addEventListener('click', (e) => {
+      const button = e.target.closest('button[data-deur-buiten-type]');
+      if (!button || !huidigDeurMenuVak) return;
+      
+      // Zorg ervoor dat huidigDeurVariant is ingesteld op 'deur_buiten'
+      if (!huidigDeurVariant || huidigDeurVariant !== 'deur_buiten') {
+        huidigDeurVariant = 'deur_buiten';
+      }
+      
+      const deurBuitenType = button.dataset.deurBuitenType;
+      if (!deurBuitenType) {
+        console.warn('Deur buiten type niet gevonden in button dataset');
+        return;
+      }
+      
+      huidigDeurBuitenType = deurBuitenType;
+      updateDeurBuitenButtons();
+      
+      // Voor stapeldorpel en 2vaks: open opties menu
+      if (deurBuitenType === 'stapeldorpel' || deurBuitenType === '2vaks') {
+        // Sla het vak op voordat we het menu sluiten
+        const deurVak = huidigDeurMenuVak;
+        if (!deurVak) {
+          console.error('Deur menu: huidigDeurMenuVak is null');
+          return;
+        }
+        closeVakDeurBuitenMenu(false);
+        // Kleine vertraging om ervoor te zorgen dat het vorige menu gesloten is
+        setTimeout(() => {
+          openVakDeurStapeldorpelMenu(deurVak, deurBuitenType);
+        }, 50);
+        return;
+      }
+      
+      // Voor andere types: sla direct op
+      const vakId = huidigDeurMenuVak.id;
+      let variant = 'deur_buiten';
+      if (deurBuitenType === 'dicht') {
+        variant = 'deur_buiten_dicht';
+      }
+      
+      setVakToewijzing(vakId, { type: 'deur', variant });
+      toonVakken();
+      draw();
+      updateQuickButtonStates(vakId);
+      refreshDeurStatus({ type: 'deur', variant });
+      
+      setTimeout(() => {
+        closeVakDeurBuitenMenu();
+        closeVakDeurMenu();
+        closeVakQuickMenu(true);
+      }, 300);
+    });
+  }
+
+  if (vakDeurBuitenBack) {
+    vakDeurBuitenBack.addEventListener('click', () => {
+      if (!huidigDeurMenuVak) return;
+      closeVakDeurBuitenMenu(false);
+      if (laatsteDeurMenuPos) {
+        openVakDeurMenu(huidigDeurMenuVak, laatsteDeurMenuPos, 'deur_buiten');
+      }
+    });
+  }
+
+  if (vakDeurBuitenCancel) {
+    vakDeurBuitenCancel.addEventListener('click', () => {
+      closeVakDeurBuitenMenu();
+      closeVakDeurMenu();
+      closeVakQuickMenu(true);
+    });
+  }
+
   // Event listeners voor extra raam opties menu
   if (beslagF1Btn) {
     beslagF1Btn.addEventListener('click', () => {
@@ -3754,17 +4965,43 @@ stroke-width="3"/>
 
   if (vakRaamExtraConfirm) {
     vakRaamExtraConfirm.addEventListener('click', () => {
-      if (!huidigRaamMenuVak || !huidigRaamVariant || !huidigRaamOrientation) return;
+      if (!huidigRaamMenuVak || !huidigRaamVariant) return;
       
       const vakId = huidigRaamMenuVak.id;
+      
+      // Bepaal de variant: voor klepraam gebruik klepraam_open of klepraam_vast
+      let variant = huidigRaamVariant;
+      if (huidigRaamVariant === 'klepraam') {
+        // Voor klepraam: check of type is gekozen
+        if (!huidigKlepraamType) {
+          console.warn('Klepraam type niet gekozen');
+          return;
+        }
+        variant = huidigKlepraamType === 'open' ? 'klepraam_open' : 'klepraam_vast';
+      } else {
+        // Voor andere varianten: check of orientation is gekozen
+        if (!huidigRaamOrientation) {
+          console.warn('Orientation niet gekozen');
+          return;
+        }
+      }
+      
       const toewijzing = {
         type: 'raam',
-        variant: huidigRaamVariant,
-        orientation: huidigRaamOrientation,
+        variant: variant,
         rooster: huidigRooster,
-        hor: huidigHor,
         beslagKleur: huidigBeslagKleur
       };
+      
+      // Alleen hor toevoegen voor niet-klepraam varianten
+      if (huidigRaamVariant !== 'klepraam') {
+        toewijzing.hor = huidigHor;
+      }
+      
+      // Alleen orientation toevoegen voor niet-klepraam varianten
+      if (huidigRaamVariant !== 'klepraam') {
+        toewijzing.orientation = huidigRaamOrientation;
+      }
       
       if (huidigBeslagKleur === 'anders') {
         toewijzing.beslagKleurWaarde = huidigBeslagKleurWaarde;
@@ -3772,6 +5009,7 @@ stroke-width="3"/>
       
       setVakToewijzing(vakId, toewijzing);
       updateOrientationButtons();
+      updateKlepraamButtons();
       
       toonVakken();
       draw();
@@ -3782,6 +5020,7 @@ stroke-width="3"/>
       setTimeout(() => {
         closeVakRaamExtraMenu();
         closeVakOrientationMenu();
+        closeVakKlepraamMenu();
         closeVakRaamMenu();
         closeVakQuickMenu(true);
       }, 300);
@@ -3799,6 +5038,375 @@ stroke-width="3"/>
     glasRoosterNoBtn.addEventListener('click', () => {
       huidigGlasRooster = false;
       updateGlasRoosterButtons();
+    });
+  }
+
+  // Event listeners voor stapeldorpel menu
+  if (btnKiesDeurbeslag) {
+    btnKiesDeurbeslag.addEventListener('click', () => {
+      if (!huidigDeurMenuVak) return;
+      const btnRect = btnKiesDeurbeslag.getBoundingClientRect();
+      const pos = {
+        x: btnRect.left + btnRect.width / 2,
+        y: btnRect.top
+      };
+      closeVakDeurStapeldorpelMenu(false);
+      openVakDeurbeslagMenu(huidigDeurMenuVak, pos);
+    });
+  }
+
+  if (stapeldorpelAantal) {
+    stapeldorpelAantal.addEventListener('change', (e) => {
+      huidigStapeldorpelAantal = parseInt(e.target.value);
+    });
+  }
+
+  if (stapeldorpelRoosterCheckbox) {
+    stapeldorpelRoosterCheckbox.addEventListener('change', (e) => {
+      huidigStapeldorpelRooster = e.target.checked;
+    });
+  }
+
+  if (tussendorpelHoogte) {
+    tussendorpelHoogte.addEventListener('change', (e) => {
+      let value = parseInt(e.target.value) || 250;
+      // Valideer min/max
+      if (value < 250) value = 250;
+      if (value > 1500) value = 1500;
+      huidigTussendorpelHoogte = value;
+      e.target.value = value;
+    });
+    tussendorpelHoogte.addEventListener('input', (e) => {
+      let value = parseInt(e.target.value) || 250;
+      // Valideer min/max
+      if (value < 250) value = 250;
+      if (value > 1500) value = 1500;
+      huidigTussendorpelHoogte = value;
+    });
+  }
+
+  // Event listeners voor bovenste vak knoppen
+  // Gebruik event delegation op vak1Group in plaats van individuele knoppen
+  if (vak1Group) {
+    vak1Group.addEventListener('click', (e) => {
+      const button = e.target.closest('button[data-vak1-type]');
+      if (!button) return;
+      
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const vak1Type = button.dataset.vak1Type;
+      if (!vak1Type) return;
+      
+      huidig2vaksVak1Type = vak1Type;
+      update2vaksVak1Buttons();
+      console.log('Bovenste vak:', vak1Type, 'geselecteerd');
+    });
+  }
+  
+  // Ook individuele event listeners toevoegen voor extra zekerheid
+  if (vak1GlasBtn) {
+    vak1GlasBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      huidig2vaksVak1Type = 'glas';
+      update2vaksVak1Buttons();
+      console.log('Bovenste vak: glas geselecteerd');
+    });
+  }
+  if (vak1BossingBtn) {
+    vak1BossingBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      huidig2vaksVak1Type = 'bossing';
+      update2vaksVak1Buttons();
+      console.log('Bovenste vak: bossing geselecteerd');
+    });
+  }
+  if (vak1VlakBtn) {
+    vak1VlakBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      huidig2vaksVak1Type = 'vlak';
+      update2vaksVak1Buttons();
+      console.log('Bovenste vak: vlak geselecteerd');
+    });
+  }
+
+  // Event listeners voor onderste vak knoppen
+  if (vak2GlasBtn) {
+    vak2GlasBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      huidig2vaksVak2Type = 'glas';
+      update2vaksVak2Buttons();
+      console.log('Onderste vak: glas geselecteerd');
+    });
+  }
+  if (vak2BossingBtn) {
+    vak2BossingBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      huidig2vaksVak2Type = 'bossing';
+      update2vaksVak2Buttons();
+      console.log('Onderste vak: bossing geselecteerd');
+    });
+  }
+  if (vak2VlakBtn) {
+    vak2VlakBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      huidig2vaksVak2Type = 'vlak';
+      update2vaksVak2Buttons();
+      console.log('Onderste vak: vlak geselecteerd');
+    });
+  }
+
+  if (vakDeurStapeldorpelBack) {
+    vakDeurStapeldorpelBack.addEventListener('click', () => {
+      if (!huidigDeurMenuVak) return;
+      closeVakDeurStapeldorpelMenu(false);
+      if (laatsteDeurMenuPos) {
+        openVakDeurBuitenMenu(huidigDeurMenuVak, laatsteDeurMenuPos);
+      }
+    });
+  }
+
+  if (vakDeurStapeldorpelCancel) {
+    vakDeurStapeldorpelCancel.addEventListener('click', () => {
+      closeVakDeurStapeldorpelMenu();
+      closeVakDeurBuitenMenu();
+      closeVakDeurMenu();
+      closeVakQuickMenu(true);
+    });
+  }
+
+  if (vakDeurStapeldorpelConfirm) {
+    vakDeurStapeldorpelConfirm.addEventListener('click', () => {
+      if (!huidigDeurMenuVak) return;
+      
+      const deurType = huidigDeurBuitenType || 'stapeldorpel';
+      
+      // Voor 2vaks: eerst bovenste vak menu, dan onderste vak menu, dan orientatie menu
+      if (deurType === '2vaks') {
+        closeVakDeurStapeldorpelMenu(false);
+        const deurVak = huidigDeurMenuVak;
+        setTimeout(() => {
+          openVak2vaksVak1Menu(deurVak);
+        }, 50);
+      } else {
+        // Voor stapeldorpel: direct naar orientatie menu
+        closeVakDeurStapeldorpelMenu(false);
+        const stapeldorpelVak = huidigDeurMenuVak;
+        setTimeout(() => {
+          openVakStapeldorpelOrientationMenu(stapeldorpelVak);
+        }, 50);
+      }
+    });
+  }
+
+  // Event listeners voor deurbeslag menu
+  if (vakDeurbeslagMenuSection) {
+    vakDeurbeslagMenuSection.addEventListener('click', (e) => {
+      const button = e.target.closest('button[data-deurbeslag]');
+      if (!button || !huidigDeurMenuVak) return;
+      
+      const deurbeslagType = button.dataset.deurbeslag;
+      huidigDeurbeslag = deurbeslagType;
+      updateDeurbeslagButtons();
+      
+      // Sluit deurbeslag menu en ga terug naar stapeldorpel menu
+      closeVakDeurbeslagMenu(false);
+      openVakDeurStapeldorpelMenu(huidigDeurMenuVak);
+      updateDeurbeslagStatus();
+      updateDeurbeslagKleurUI();
+    });
+  }
+
+  if (vakDeurbeslagWis) {
+    vakDeurbeslagWis.addEventListener('click', () => {
+      huidigDeurbeslag = null;
+      updateDeurbeslagButtons();
+      updateDeurbeslagStatus();
+      if (deurbeslagKleurGroup) deurbeslagKleurGroup.style.display = 'none';
+    });
+  }
+
+  // Event listeners voor deurbeslag kleur
+  if (deurbeslagF1Btn) {
+    deurbeslagF1Btn.addEventListener('click', () => {
+      huidigDeurbeslagKleur = 'f1';
+      deurbeslagF1Btn.classList.add('selected');
+      deurbeslagAndersBtn.classList.remove('selected');
+      if (deurbeslagKleurPicker) deurbeslagKleurPicker.style.display = 'none';
+    });
+  }
+
+  if (deurbeslagAndersBtn) {
+    deurbeslagAndersBtn.addEventListener('click', () => {
+      huidigDeurbeslagKleur = 'anders';
+      deurbeslagAndersBtn.classList.add('selected');
+      deurbeslagF1Btn.classList.remove('selected');
+      if (deurbeslagKleurPicker) deurbeslagKleurPicker.style.display = 'flex';
+    });
+  }
+
+  if (deurbeslagKleurInput) {
+    deurbeslagKleurInput.addEventListener('change', (e) => {
+      huidigDeurbeslagKleurWaarde = e.target.value;
+    });
+  }
+
+  // Event listeners voor stapeldorpel orientatie menu
+  if (vakStapeldorpelOrientationButtons.length) {
+    vakStapeldorpelOrientationButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        if (!huidigDeurMenuVak) return;
+        
+        const orientation = btn.dataset.stapeldorpelOrientation;
+        huidigStapeldorpelOrientation = orientation;
+        updateStapeldorpelOrientationButtons();
+        
+        // Nu alle opties zijn gekozen, sla de definitieve toewijzing op
+        const vakId = huidigDeurMenuVak.id;
+        const deurType = huidigDeurBuitenType || 'stapeldorpel';
+        const variant = deurType === 'stapeldorpel' ? 'deur_buiten_stapeldorpel' : 'deur_buiten_2vaks';
+        
+        const toewijzing = {
+          type: 'deur',
+          variant: variant,
+          orientation: huidigStapeldorpelOrientation
+        };
+        
+        // Voeg type-specifieke opties toe
+        if (deurType === 'stapeldorpel') {
+          toewijzing.stapeldorpelAantal = huidigStapeldorpelAantal;
+          toewijzing.rooster = huidigStapeldorpelRooster; // Alleen voor stapeldorpel
+        } else if (deurType === '2vaks') {
+          toewijzing.tussendorpelHoogte = huidigTussendorpelHoogte;
+          toewijzing.vak1Type = huidig2vaksVak1Type;
+          toewijzing.vak2Type = huidig2vaksVak2Type;
+        }
+        
+        if (huidigDeurbeslag) {
+          toewijzing.deurbeslag = huidigDeurbeslag;
+          toewijzing.deurbeslagKleur = huidigDeurbeslagKleur;
+          if (huidigDeurbeslagKleur === 'anders') {
+            toewijzing.deurbeslagKleurWaarde = huidigDeurbeslagKleurWaarde;
+          }
+        }
+        
+        setVakToewijzing(vakId, toewijzing);
+        toonVakken();
+        draw();
+        updateQuickButtonStates(vakId);
+        refreshDeurStatus(toewijzing);
+        vakDeurWis.disabled = false;
+        
+        setTimeout(() => {
+          closeVakStapeldorpelOrientationMenu();
+          closeVak2vaksVak2Menu();
+          closeVak2vaksVak1Menu();
+          closeVakDeurStapeldorpelMenu();
+          closeVakDeurBuitenMenu();
+          closeVakDeurMenu();
+          closeVakQuickMenu(true);
+        }, 300);
+      });
+    });
+  }
+
+  if (vakStapeldorpelOrientationBack) {
+    vakStapeldorpelOrientationBack.addEventListener('click', () => {
+      if (!huidigDeurMenuVak) return;
+      const deurType = huidigDeurBuitenType || 'stapeldorpel';
+      closeVakStapeldorpelOrientationMenu(false);
+      openVakDeurStapeldorpelMenu(huidigDeurMenuVak, deurType);
+    });
+  }
+
+  if (vakStapeldorpelOrientationCancel) {
+    vakStapeldorpelOrientationCancel.addEventListener('click', () => {
+      closeVakStapeldorpelOrientationMenu();
+      closeVakDeurStapeldorpelMenu();
+      closeVakDeurBuitenMenu();
+      closeVakDeurMenu();
+      closeVakQuickMenu(true);
+    });
+  }
+
+  // Event listeners voor 2vaks bovenste vak menu
+  if (vak2vaksVak1MenuSection) {
+    vak2vaksVak1MenuSection.addEventListener('click', (e) => {
+      const button = e.target.closest('button[data-vak1-type]');
+      if (!button || !huidigDeurMenuVak) return;
+      
+      const vak1Type = button.dataset.vak1Type;
+      huidig2vaksVak1Type = vak1Type;
+      update2vaksVak1Buttons();
+      
+      // Ga naar onderste vak menu
+      closeVak2vaksVak1Menu(false);
+      const deurVak = huidigDeurMenuVak;
+      setTimeout(() => {
+        openVak2vaksVak2Menu(deurVak);
+      }, 50);
+    });
+  }
+
+  if (vak2vaksVak1Back) {
+    vak2vaksVak1Back.addEventListener('click', () => {
+      if (!huidigDeurMenuVak) return;
+      closeVak2vaksVak1Menu(false);
+      openVakDeurStapeldorpelMenu(huidigDeurMenuVak, '2vaks');
+    });
+  }
+
+  if (vak2vaksVak1Cancel) {
+    vak2vaksVak1Cancel.addEventListener('click', () => {
+      closeVak2vaksVak1Menu();
+      closeVakDeurStapeldorpelMenu();
+      closeVakDeurBuitenMenu();
+      closeVakDeurMenu();
+      closeVakQuickMenu(true);
+    });
+  }
+
+  // Event listeners voor 2vaks onderste vak menu
+  if (vak2vaksVak2MenuSection) {
+    vak2vaksVak2MenuSection.addEventListener('click', (e) => {
+      const button = e.target.closest('button[data-vak2-type]');
+      if (!button || !huidigDeurMenuVak) return;
+      
+      const vak2Type = button.dataset.vak2Type;
+      huidig2vaksVak2Type = vak2Type;
+      update2vaksVak2Buttons();
+      
+      // Ga naar orientatie menu
+      closeVak2vaksVak2Menu(false);
+      const deurVak = huidigDeurMenuVak;
+      setTimeout(() => {
+        openVakStapeldorpelOrientationMenu(deurVak);
+      }, 50);
+    });
+  }
+
+  if (vak2vaksVak2Back) {
+    vak2vaksVak2Back.addEventListener('click', () => {
+      if (!huidigDeurMenuVak) return;
+      closeVak2vaksVak2Menu(false);
+      openVak2vaksVak1Menu(huidigDeurMenuVak);
+    });
+  }
+
+  if (vak2vaksVak2Cancel) {
+    vak2vaksVak2Cancel.addEventListener('click', () => {
+      closeVak2vaksVak2Menu();
+      closeVak2vaksVak1Menu();
+      closeVakDeurStapeldorpelMenu();
+      closeVakDeurBuitenMenu();
+      closeVakDeurMenu();
+      closeVakQuickMenu(true);
     });
   }
 
@@ -3906,8 +5514,18 @@ stroke-width="3"/>
     const klikInOrientation = vakOrientationMenu && vakOrientationMenu.contains(e.target);
     const klikInExtra = vakRaamExtraMenu && vakRaamExtraMenu.contains(e.target);
     const klikInGlasExtra = vakGlasExtraMenu && vakGlasExtraMenu.contains(e.target);
-    if (!klikInQuick && !klikInRaam && !klikInDeur && !klikInGlas && !klikInOrientation && !klikInExtra && !klikInGlasExtra) {
+    const klikInDeurStapeldorpel = vakDeurStapeldorpelMenu && vakDeurStapeldorpelMenu.contains(e.target);
+    const klikInDeurbeslag = vakDeurbeslagMenu && vakDeurbeslagMenu.contains(e.target);
+    const klikInStapeldorpelOrientation = vakStapeldorpelOrientationMenu && vakStapeldorpelOrientationMenu.contains(e.target);
+    const klikIn2vaksVak1 = vak2vaksVak1Menu && vak2vaksVak1Menu.contains(e.target);
+    const klikIn2vaksVak2 = vak2vaksVak2Menu && vak2vaksVak2Menu.contains(e.target);
+    if (!klikInQuick && !klikInRaam && !klikInDeur && !klikInGlas && !klikInOrientation && !klikInExtra && !klikInGlasExtra && !klikInDeurStapeldorpel && !klikInDeurbeslag && !klikInStapeldorpelOrientation && !klikIn2vaksVak1 && !klikIn2vaksVak2) {
       closeVakQuickMenu(true);
+      closeVakDeurStapeldorpelMenu();
+      closeVakDeurbeslagMenu();
+      closeVakStapeldorpelOrientationMenu();
+      closeVak2vaksVak1Menu();
+      closeVak2vaksVak2Menu();
     }
   });
 
