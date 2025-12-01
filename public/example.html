@@ -56,7 +56,7 @@
     .stats div{margin:4px 0}
     h1{margin:0 0 12px;font-size:24px;color:var(--fg)}
     .subtitle{color:var(--muted);font-size:14px;margin-bottom:16px}
-    .vakSelectModal{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1a1f2a;border:2px solid var(--accent);border-radius:16px;padding:20px;z-index:1000;box-shadow:0 8px 32px rgba(0,0,0,0.5);min-width:400px;max-width:90vw;display:none}
+    .vakSelectModal{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1a1f2a;border:2px solid var(--accent);border-radius:16px;padding:20px;z-index:1000;box-shadow:0 8px 32px rgba(0,0,0,0.5);min-width:400px;max-width:90vw;max-height:85vh;overflow-y:auto;overflow-x:hidden;display:none}
     .vakSelectModal.active{display:block}
     .vakSelectModal h3{margin:0 0 16px;color:var(--fg);font-size:18px}
     .vakSelectGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:12px}
@@ -67,13 +67,13 @@
     .vakSelectOption span{color:var(--fg);font-size:13px;font-weight:500;text-align:center}
     .modalClose{position:absolute;top:10px;right:10px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;padding:0;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:6px}
     .modalClose:hover{background:#2b2f36;color:var(--fg)}
-    .vakQuickMenu{position:fixed;display:none;gap:12px;padding:12px;background:#1a1f2a;border:2px solid var(--accent);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.45);transform:translate(-50%,-50%);z-index:1500}
+    .vakQuickMenu{position:fixed;display:none;gap:12px;padding:12px;background:#1a1f2a;border:2px solid var(--accent);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.45);transform:translate(-50%,-50%);z-index:1500;max-height:85vh;overflow-y:auto}
     .vakQuickMenu button{display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);cursor:pointer;min-width:120px;transition:all 0.2s}
     .vakQuickMenu button:hover{border-color:var(--accent);background:#182331;transform:translateY(-2px)}
     .vakQuickMenu button.selected{border-color:var(--accent);background:#1a2f3a;box-shadow:0 0 0 2px rgba(74,163,255,0.25)}
     .vakQuickMenu button img,.vakQuickMenu button svg{width:70px;height:70px;object-fit:contain;border-radius:8px;padding:8px;background:#0b0d10}
     .vakQuickMenu button span{font-size:13px;font-weight:600}
-    .vakRaamMenu{position:fixed;display:none;flex-direction:column;gap:12px;padding:14px 16px;background:#1a1f2a;border:2px solid var(--accent);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);transform:translate(-50%,-50%);z-index:1600;min-width:340px;max-width:min(90vw,760px)}
+    .vakRaamMenu{position:fixed;display:none;flex-direction:column;gap:12px;padding:14px 16px;background:#1a1f2a;border:2px solid var(--accent);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);transform:translate(-50%,-50%);z-index:1600;min-width:340px;max-width:min(90vw,760px);max-height:85vh;overflow-y:auto}
     .vakRaamMenu h4{margin:0;color:var(--fg);font-size:14px;font-weight:600}
     .vakRaamStatus{padding:8px 10px;background:#141a22;border-radius:8px;color:var(--muted);font-size:12px}
     .vakRaamMenuSection{display:flex;gap:12px;flex-wrap:wrap}
@@ -82,7 +82,7 @@
     .vakRaamMenuSection button.selected{border-color:var(--accent);background:#1a2f3a;box-shadow:0 0 0 2px rgba(74,163,255,0.25)}
     .vakRaamMenuSection button svg,.vakRaamMenuSection button img{width:80px;height:80px;background:#0b0d10;border-radius:8px;padding:8px;object-fit:contain}
     .vakRaamMenuSection button span{font-size:13px;font-weight:600;text-align:center}
-    .vakOrientationMenu{position:fixed;display:none;flex-direction:column;gap:12px;padding:14px 16px;background:#1a1f2a;border:2px solid var(--accent);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);transform:translate(-50%,-50%);z-index:1650;min-width:320px;max-width:min(90vw,600px)}
+    .vakOrientationMenu{position:fixed;display:none;flex-direction:column;gap:12px;padding:14px 16px;background:#1a1f2a;border:2px solid var(--accent);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);transform:translate(-50%,-50%);z-index:1650;min-width:320px;max-width:min(90vw,600px);max-height:85vh;overflow-y:auto}
     .vakOrientationMenu h4{margin:0;color:var(--fg);font-size:14px;font-weight:600}
     .vakOrientationStatus{padding:8px 10px;background:#141a22;border-radius:8px;color:var(--muted);font-size:12px}
     .vakOrientationButtons{display:flex;gap:10px;flex-wrap:wrap}
@@ -99,7 +99,7 @@
     .vakRaamMenuActions button:disabled{opacity:0.4;cursor:not-allowed;border-color:#2b2f36;color:#666}
     .vakRaamMenuActions .secondary{color:var(--fg);background:#12161b;border-color:#2b2f36}
     .vakRaamMenuActions .secondary:hover{border-color:var(--accent);background:#182331;color:var(--fg)}
-    .vakRaamExtraMenu{position:fixed;display:none;flex-direction:column;gap:14px;padding:16px 18px;background:#1a1f2a;border:2px solid var(--accent);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);transform:translate(-50%,-50%);z-index:1700;min-width:360px;max-width:min(90vw,650px)}
+    .vakRaamExtraMenu{position:fixed;display:none;flex-direction:column;gap:14px;padding:16px 18px;background:#1a1f2a;border:2px solid var(--accent);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);transform:translate(-50%,-50%);z-index:1700;min-width:360px;max-width:min(90vw,650px);max-height:85vh;overflow-y:auto}
     .vakRaamExtraMenu h4{margin:0;color:var(--fg);font-size:14px;font-weight:600}
     .vakRaamExtraStatus{padding:8px 10px;background:#141a22;border-radius:8px;color:var(--muted);font-size:12px}
     .vakRaamExtraOptions{display:flex;flex-direction:column;gap:16px}
@@ -125,6 +125,20 @@
     .glasRoosterBtn{flex:1 1 150px;padding:10px;border:1px solid #2b2f36;border-radius:8px;background:#12161b;color:var(--fg);cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s;text-align:center}
     .glasRoosterBtn:hover{border-color:var(--accent);background:#182331}
     .glasRoosterBtn.selected{border-color:var(--accent);background:#1a2f3a;box-shadow:0 0 0 2px rgba(74,163,255,0.25)}
+    /* Scrollbar styling voor menu's - zorg dat alle menu's scrollbaar zijn */
+    .vakQuickMenu::-webkit-scrollbar,.vakRaamMenu::-webkit-scrollbar,.vakOrientationMenu::-webkit-scrollbar,.vakRaamExtraMenu::-webkit-scrollbar{width:10px}
+    .vakQuickMenu::-webkit-scrollbar-track,.vakRaamMenu::-webkit-scrollbar-track,.vakOrientationMenu::-webkit-scrollbar-track,.vakRaamExtraMenu::-webkit-scrollbar-track{background:#0f1318;border-radius:5px}
+    .vakQuickMenu::-webkit-scrollbar-thumb,.vakRaamMenu::-webkit-scrollbar-thumb,.vakOrientationMenu::-webkit-scrollbar-thumb,.vakRaamExtraMenu::-webkit-scrollbar-thumb{background:#2b2f36;border-radius:5px;border:2px solid #0f1318}
+    .vakQuickMenu::-webkit-scrollbar-thumb:hover,.vakRaamMenu::-webkit-scrollbar-thumb:hover,.vakOrientationMenu::-webkit-scrollbar-thumb:hover,.vakRaamExtraMenu::-webkit-scrollbar-thumb:hover{background:#4a4f56}
+    .vakQuickMenu,.vakRaamMenu,.vakOrientationMenu,.vakRaamExtraMenu{scrollbar-width:thin;scrollbar-color:#2b2f36 #0f1318}
+    /* Zorg dat menu's altijd scrollbaar zijn wanneer nodig */
+    .vakQuickMenu,.vakRaamMenu,.vakOrientationMenu,.vakRaamExtraMenu{overflow-y:auto;overflow-x:hidden}
+    /* Scrollbar styling voor vakSelectModal */
+    .vakSelectModal::-webkit-scrollbar{width:10px}
+    .vakSelectModal::-webkit-scrollbar-track{background:#0f1318;border-radius:5px}
+    .vakSelectModal::-webkit-scrollbar-thumb{background:#2b2f36;border-radius:5px;border:2px solid #0f1318}
+    .vakSelectModal::-webkit-scrollbar-thumb:hover{background:#4a4f56}
+    .vakSelectModal{scrollbar-width:thin;scrollbar-color:#2b2f36 #0f1318}
   </style>
 </head>
 <body>
@@ -563,6 +577,55 @@
     </div>
   </div>
 
+  <div id="vakDeurDichtMenu" class="vakRaamExtraMenu">
+    <h4 id="vakDeurDichtTitle">Dichte deur opties</h4>
+    <div id="vakDeurDichtStatus" class="vakRaamExtraStatus">Configureer de dichte deur opties</div>
+    
+    <div class="vakRaamExtraOptions">
+      <div class="extra-option-group">
+        <label>Deur type</label>
+        <div class="vakRaamMenuSection" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+          <button type="button" class="btn" data-deur-dicht-type="vlak" id="deurDichtVlakBtn" style="flex:1;min-width:150px;padding:12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer">
+            <img src="" alt="Vlakke deur" data-svg-type="deur-dicht" data-deur-dicht-type="vlak" style="width:80px;height:80px;pointer-events:none;object-fit:contain" />
+            <span style="pointer-events:none">Vlakke deur</span>
+          </button>
+          <button type="button" class="btn" data-deur-dicht-type="vgroeven" id="deurDichtVgroevenBtn" style="flex:1;min-width:150px;padding:12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer">
+            <img src="" alt="Deur met verticale v groeven" data-svg-type="deur-dicht" data-deur-dicht-type="vgroeven" style="width:80px;height:80px;pointer-events:none;object-fit:contain" />
+            <span style="pointer-events:none">Met verticale v groeven</span>
+          </button>
+        </div>
+      </div>
+      
+      <div class="extra-option-group">
+        <label>Deurbeslag</label>
+        <button type="button" id="btnKiesDeurbeslagDicht" class="btn" style="width:100%;margin-top:8px;cursor:pointer;position:relative;z-index:1">Kies deurbeslag</button>
+        <div id="dichtDeurbeslagStatus" style="padding:8px 10px;background:#141a22;border-radius:8px;color:var(--muted);font-size:12px;margin-top:8px">Geen deurbeslag gekozen</div>
+      </div>
+      
+      <div class="extra-option-group" id="deurbeslagKleurGroupDicht" style="display:none">
+        <label>Deurbeslag kleur</label>
+        <div class="beslag-kleur-buttons">
+          <button type="button" class="beslag-kleur-btn" data-deurbeslag-kleur="f1" id="deurbeslagF1BtnDicht">
+            <span>F1 Kleurig (standaard)</span>
+          </button>
+          <button type="button" class="beslag-kleur-btn" data-deurbeslag-kleur="anders" id="deurbeslagAndersBtnDicht">
+            <span>Andere kleur</span>
+          </button>
+        </div>
+        <div class="beslag-kleur-picker" id="deurbeslagKleurPickerDicht" style="display: none;">
+          <input type="color" id="deurbeslagKleurInputDicht" value="#8B7355" />
+          <label for="deurbeslagKleurInputDicht">Kies kleur</label>
+        </div>
+      </div>
+    </div>
+    
+    <div class="vakRaamExtraActions">
+      <button type="button" id="vakDeurDichtBack">← Terug</button>
+      <button type="button" id="vakDeurDichtCancel">Annuleren</button>
+      <button type="button" id="vakDeurDichtConfirm" class="primary">Bevestigen</button>
+    </div>
+  </div>
+
   <div id="vakDeurbeslagMenu" class="vakRaamMenu">
     <h4 id="vakDeurbeslagTitle">Kies deurbeslag</h4>
     <div id="vakDeurbeslagStatus" class="vakRaamStatus">Selecteer een deurbeslag type</div>
@@ -743,6 +806,22 @@
   const vakDeurStapeldorpelBack = document.getElementById('vakDeurStapeldorpelBack');
   const vakDeurStapeldorpelCancel = document.getElementById('vakDeurStapeldorpelCancel');
   const vakDeurStapeldorpelConfirm = document.getElementById('vakDeurStapeldorpelConfirm');
+  const vakDeurDichtMenu = document.getElementById('vakDeurDichtMenu');
+  const vakDeurDichtTitle = document.getElementById('vakDeurDichtTitle');
+  const vakDeurDichtStatus = document.getElementById('vakDeurDichtStatus');
+  const deurDichtVlakBtn = document.getElementById('deurDichtVlakBtn');
+  const deurDichtVgroevenBtn = document.getElementById('deurDichtVgroevenBtn');
+  const vakDeurDichtBack = document.getElementById('vakDeurDichtBack');
+  const vakDeurDichtCancel = document.getElementById('vakDeurDichtCancel');
+  const vakDeurDichtConfirm = document.getElementById('vakDeurDichtConfirm');
+  const btnKiesDeurbeslagDicht = document.getElementById('btnKiesDeurbeslagDicht');
+  console.log('btnKiesDeurbeslagDicht gevonden:', !!btnKiesDeurbeslagDicht);
+  const dichtDeurbeslagStatus = document.getElementById('dichtDeurbeslagStatus');
+  const deurbeslagKleurGroupDicht = document.getElementById('deurbeslagKleurGroupDicht');
+  const deurbeslagF1BtnDicht = document.getElementById('deurbeslagF1BtnDicht');
+  const deurbeslagAndersBtnDicht = document.getElementById('deurbeslagAndersBtnDicht');
+  const deurbeslagKleurPickerDicht = document.getElementById('deurbeslagKleurPickerDicht');
+  const deurbeslagKleurInputDicht = document.getElementById('deurbeslagKleurInputDicht');
   const vakDeurbeslagMenu = document.getElementById('vakDeurbeslagMenu');
   const vakDeurbeslagTitle = document.getElementById('vakDeurbeslagTitle');
   const vakDeurbeslagStatus = document.getElementById('vakDeurbeslagStatus');
@@ -776,6 +855,7 @@
   let huidigRaamOrientation = null;
   let huidigKlepraamType = null;
   let huidigDeurBuitenType = null;
+  let huidigDeurDichtType = null;
   let huidigStapeldorpelAantal = 2;
   let huidigTussendorpelHoogte = 250;
   let huidigStapeldorpelRooster = false;
@@ -960,6 +1040,8 @@
       'deur_buiten_stapeldorpel': 'deur_buiten_stapeldorpel.svg',
       'deur_buiten_2vaks': 'deur_buiten_2vaks.svg',
       'deur_buiten_dicht': 'deur_buiten_dicht.svg',
+      'deur_buiten_dicht_vlak': 'deur_buiten_dicht_vlak.svg',
+      'deur_buiten_dicht_vgroeven': 'deur_buiten_dicht_vgroeven.svg',
       'stolpdeuren_buiten': 'stolpdeuren_buiten.svg',
       'deur_draaikiep': 'deur_draaikiep.svg',
       'stolpdeuren_draaikiep': 'stolpdeuren_draaikiep.svg',
@@ -1401,6 +1483,122 @@ stroke-width="3"/>
     }
   }
 
+  function openVakDeurDichtMenu(vak, pos) {
+    if (!vakDeurDichtMenu || !vak) return;
+    huidigDeurMenuVak = vak;
+    huidigDeurBuitenType = 'dicht';
+    const centerPos = pos || getSvgCenterPos();
+    vakDeurDichtMenu.style.left = `${centerPos.x}px`;
+    vakDeurDichtMenu.style.top = `${centerPos.y}px`;
+    vakDeurDichtMenu.style.display = 'flex';
+    vakDeurDichtMenu.style.zIndex = '1700';
+    
+    // Laad bestaande waarde als er al een toewijzing is
+    const assign = getVakToewijzing(vak.id);
+    if (assign && assign.type === 'deur' && assign.variant === 'deur_buiten_dicht') {
+      huidigDeurDichtType = assign.deurDichtType || null;
+      // Laad ook deurbeslag als die al is gekozen
+      huidigDeurbeslag = assign.deurbeslag || null;
+      huidigDeurbeslagKleur = assign.deurbeslagKleur || 'f1';
+      huidigDeurbeslagKleurWaarde = assign.deurbeslagKleurWaarde || '#8B7355';
+      huidigStapeldorpelOrientation = assign.orientation || null;
+    } else {
+      // Behoud huidige deurbeslag waarde als deze al is ingesteld (bij navigatie tussen menu's)
+      const behoudDeurbeslag = huidigDeurbeslag;
+      const behoudDeurbeslagKleur = huidigDeurbeslagKleur;
+      const behoudDeurbeslagKleurWaarde = huidigDeurbeslagKleurWaarde;
+      
+      huidigDeurDichtType = null;
+      huidigDeurbeslag = behoudDeurbeslag || null;
+      huidigDeurbeslagKleur = behoudDeurbeslagKleur || 'f1';
+      huidigDeurbeslagKleurWaarde = behoudDeurbeslagKleurWaarde || '#8B7355';
+      huidigStapeldorpelOrientation = null;
+    }
+    
+    updateDeurDichtButtons();
+    updateDeurDichtIcons();
+    updateDeurbeslagStatusDicht();
+    updateDeurbeslagKleurUIDicht();
+    if (vakDeurDichtStatus) {
+      vakDeurDichtStatus.textContent = 'Configureer de dichte deur opties';
+    }
+  }
+
+  function closeVakDeurDichtMenu(resetState = true) {
+    if (!vakDeurDichtMenu) return;
+    vakDeurDichtMenu.style.display = 'none';
+    if (resetState) {
+      huidigDeurDichtType = null;
+      updateDeurDichtButtons();
+    }
+  }
+
+  function updateDeurDichtButtons() {
+    if (deurDichtVlakBtn) {
+      deurDichtVlakBtn.classList.toggle('selected', huidigDeurDichtType === 'vlak');
+    }
+    if (deurDichtVgroevenBtn) {
+      deurDichtVgroevenBtn.classList.toggle('selected', huidigDeurDichtType === 'vgroeven');
+    }
+  }
+
+  function updateDeurDichtIcons() {
+    if (deurDichtVlakBtn) {
+      const img = deurDichtVlakBtn.querySelector('img[data-svg-type="deur-dicht"]');
+      if (img) {
+        const svgPath = getVariantSvgPath('deur_buiten_dicht_vlak');
+        if (svgPath) {
+          img.src = svgPath;
+        }
+      }
+    }
+    if (deurDichtVgroevenBtn) {
+      const img = deurDichtVgroevenBtn.querySelector('img[data-svg-type="deur-dicht"]');
+      if (img) {
+        const svgPath = getVariantSvgPath('deur_buiten_dicht_vgroeven');
+        if (svgPath) {
+          img.src = svgPath;
+        }
+      }
+    }
+  }
+
+  function updateDeurbeslagStatusDicht() {
+    if (!dichtDeurbeslagStatus) return;
+    if (huidigDeurbeslag) {
+      const deurbeslagLabels = {
+        standaard: 'Standaard deurbeslag',
+        luxe: 'Luxe deurbeslag',
+        modern: 'Modern deurbeslag',
+        klassiek: 'Klassiek deurbeslag'
+      };
+      dichtDeurbeslagStatus.textContent = `Geselecteerd: ${deurbeslagLabels[huidigDeurbeslag] || huidigDeurbeslag}`;
+    } else {
+      dichtDeurbeslagStatus.textContent = 'Geen deurbeslag gekozen';
+    }
+  }
+
+  function updateDeurbeslagKleurUIDicht() {
+    if (!deurbeslagKleurGroupDicht) return;
+    if (huidigDeurbeslag) {
+      deurbeslagKleurGroupDicht.style.display = 'flex';
+      if (deurbeslagF1BtnDicht) {
+        deurbeslagF1BtnDicht.classList.toggle('selected', huidigDeurbeslagKleur === 'f1');
+      }
+      if (deurbeslagAndersBtnDicht) {
+        deurbeslagAndersBtnDicht.classList.toggle('selected', huidigDeurbeslagKleur === 'anders');
+      }
+      if (deurbeslagKleurPickerDicht) {
+        deurbeslagKleurPickerDicht.style.display = huidigDeurbeslagKleur === 'anders' ? 'flex' : 'none';
+      }
+      if (deurbeslagKleurInputDicht) {
+        deurbeslagKleurInputDicht.value = huidigDeurbeslagKleurWaarde;
+      }
+    } else {
+      deurbeslagKleurGroupDicht.style.display = 'none';
+    }
+  }
+
   function updateDeurBuitenIcons() {
     if (!vakDeurBuitenButtons.length) return;
     vakDeurBuitenButtons.forEach(btn => {
@@ -1465,17 +1663,31 @@ stroke-width="3"/>
     const is2vaks = deurType === '2vaks';
     const expectedVariant = isStapeldorpel ? 'deur_buiten_stapeldorpel' : 'deur_buiten_2vaks';
     
+    // Behoud huidige deurbeslag waarde als deze al is ingesteld (bij navigatie tussen menu's)
+    const behoudDeurbeslag = huidigDeurbeslag;
+    const behoudDeurbeslagKleur = huidigDeurbeslagKleur;
+    const behoudDeurbeslagKleurWaarde = huidigDeurbeslagKleurWaarde;
+    
     if (assign && assign.type === 'deur' && assign.variant === expectedVariant) {
       if (isStapeldorpel) {
         huidigStapeldorpelAantal = assign.stapeldorpelAantal || 2;
       } else if (is2vaks) {
         huidigTussendorpelHoogte = assign.tussendorpelHoogte || 250;
+        huidig2vaksVak1Type = assign.vak1Type || null;
+        huidig2vaksVak2Type = assign.vak2Type || null;
       }
       huidigStapeldorpelRooster = assign.rooster || false;
-      huidigDeurbeslag = assign.deurbeslag || null;
-      huidigDeurbeslagKleur = assign.deurbeslagKleur || 'f1';
-      huidigDeurbeslagKleurWaarde = assign.deurbeslagKleurWaarde || '#8B7355';
+      // Gebruik deurbeslag uit toewijzing, of behoud huidige waarde als die bestaat
+      huidigDeurbeslag = assign.deurbeslag || behoudDeurbeslag || null;
+      huidigDeurbeslagKleur = assign.deurbeslagKleur || behoudDeurbeslagKleur || 'f1';
+      huidigDeurbeslagKleurWaarde = assign.deurbeslagKleurWaarde || behoudDeurbeslagKleurWaarde || '#8B7355';
       huidigStapeldorpelOrientation = assign.orientation || null;
+      console.log('Deurbeslag geladen uit toewijzing:', { 
+        deurbeslag: huidigDeurbeslag, 
+        kleur: huidigDeurbeslagKleur,
+        kleurWaarde: huidigDeurbeslagKleurWaarde,
+        behoudDeurbeslag: behoudDeurbeslag
+      });
     } else {
       if (isStapeldorpel) {
         huidigStapeldorpelAantal = 2;
@@ -1485,10 +1697,15 @@ stroke-width="3"/>
         huidig2vaksVak2Type = null;
       }
       huidigStapeldorpelRooster = false;
-      huidigDeurbeslag = null;
-      huidigDeurbeslagKleur = 'f1';
-      huidigDeurbeslagKleurWaarde = '#8B7355';
+      // Behoud deurbeslag waarde als die al is ingesteld (bij navigatie tussen menu's)
+      huidigDeurbeslag = behoudDeurbeslag || null;
+      huidigDeurbeslagKleur = behoudDeurbeslagKleur || 'f1';
+      huidigDeurbeslagKleurWaarde = behoudDeurbeslagKleurWaarde || '#8B7355';
       huidigStapeldorpelOrientation = null;
+      console.log('Geen toewijzing gevonden, behoud deurbeslag:', { 
+        deurbeslag: huidigDeurbeslag,
+        behoudDeurbeslag: behoudDeurbeslag
+      });
     }
     
     // Toon/verberg de juiste opties op basis van type
@@ -1537,6 +1754,8 @@ stroke-width="3"/>
       huidigStapeldorpelAantal = 2;
       huidigTussendorpelHoogte = 250;
       huidigStapeldorpelRooster = false;
+      // Behoud deurbeslag wanneer resetState = false (bij navigatie tussen menu's)
+      // Alleen resetten wanneer echt nodig (bij cancel/close)
       huidigDeurbeslag = null;
       huidigDeurbeslagKleur = 'f1';
       huidigDeurbeslagKleurWaarde = '#8B7355';
@@ -1545,6 +1764,7 @@ stroke-width="3"/>
 
   function updateDeurbeslagStatus() {
     if (!stapeldorpelDeurbeslagStatus) return;
+    console.log('updateDeurbeslagStatus aangeroepen, huidigDeurbeslag:', huidigDeurbeslag);
     if (huidigDeurbeslag) {
       const deurbeslagLabels = {
         standaard: 'Standaard deurbeslag',
@@ -1552,11 +1772,14 @@ stroke-width="3"/>
         modern: 'Modern deurbeslag',
         klassiek: 'Klassiek deurbeslag'
       };
-      stapeldorpelDeurbeslagStatus.textContent = `Gekozen: ${deurbeslagLabels[huidigDeurbeslag] || huidigDeurbeslag}`;
+      const label = deurbeslagLabels[huidigDeurbeslag] || huidigDeurbeslag;
+      stapeldorpelDeurbeslagStatus.textContent = `Gekozen: ${label}`;
       if (deurbeslagKleurGroup) deurbeslagKleurGroup.style.display = 'flex';
+      console.log('Deurbeslag status bijgewerkt naar:', label);
     } else {
       stapeldorpelDeurbeslagStatus.textContent = 'Geen deurbeslag gekozen';
       if (deurbeslagKleurGroup) deurbeslagKleurGroup.style.display = 'none';
+      console.log('Geen deurbeslag gekozen');
     }
   }
 
@@ -1567,13 +1790,23 @@ stroke-width="3"/>
     if (deurbeslagKleurInput) deurbeslagKleurInput.value = huidigDeurbeslagKleurWaarde;
   }
 
-  function openVakDeurbeslagMenu(vak, _pos) {
-    if (!vakDeurbeslagMenu) return;
+  function openVakDeurbeslagMenu(vak, _pos, deurType = null) {
+    if (!vakDeurbeslagMenu) {
+      console.error('openVakDeurbeslagMenu: vakDeurbeslagMenu is null');
+      return;
+    }
     huidigDeurMenuVak = vak;
-    const centerPos = getSvgCenterPos();
+    if (deurType) {
+      huidigDeurBuitenType = deurType; // Sla het type op voor later gebruik
+    }
+    const centerPos = _pos || getSvgCenterPos();
     vakDeurbeslagMenu.style.left = `${centerPos.x}px`;
     vakDeurbeslagMenu.style.top = `${centerPos.y}px`;
     vakDeurbeslagMenu.style.display = 'flex';
+    vakDeurbeslagMenu.style.zIndex = '1800'; // Zorg dat het boven andere menu's komt
+    vakDeurbeslagMenu.style.pointerEvents = 'auto'; // Zorg dat het klikbaar is
+    
+    console.log('Deurbeslag menu geopend, deurType:', deurType);
     
     // Laad bestaande waarde als er al een deurbeslag is gekozen
     updateDeurbeslagButtons();
@@ -1590,6 +1823,12 @@ stroke-width="3"/>
       } else {
         vakDeurbeslagStatus.textContent = 'Selecteer een deurbeslag type';
       }
+    }
+    
+    // Update ook de status in het dichte deur menu als dat open is
+    if (deurType === 'dicht') {
+      updateDeurbeslagStatusDicht();
+      updateDeurbeslagKleurUIDicht();
     }
   }
 
@@ -1938,7 +2177,12 @@ stroke-width="3"/>
     
     // Laad bestaande waarde als er al een toewijzing is
     const assign = getVakToewijzing(vak.id);
-    if (assign && assign.type === 'deur' && assign.variant === 'deur_buiten_stapeldorpel') {
+    const deurType = huidigDeurBuitenType || 'stapeldorpel';
+    const expectedVariant = deurType === 'stapeldorpel' ? 'deur_buiten_stapeldorpel' : 
+                            deurType === '2vaks' ? 'deur_buiten_2vaks' : 
+                            deurType === 'dicht' ? 'deur_buiten_dicht' : 'deur_buiten_stapeldorpel';
+    
+    if (assign && assign.type === 'deur' && assign.variant === expectedVariant) {
       huidigStapeldorpelOrientation = assign.orientation || null;
     } else {
       huidigStapeldorpelOrientation = null;
@@ -1947,7 +2191,10 @@ stroke-width="3"/>
     updateStapeldorpelOrientationButtons();
     updateStapeldorpelOrientationIcons();
     if (vakStapeldorpelOrientationStatus) {
-      vakStapeldorpelOrientationStatus.textContent = 'Selecteer de draairichting voor de stapeldorpel deur';
+      const deurTypeLabel = deurType === 'dicht' ? 'dichte deur' : 
+                            deurType === '2vaks' ? '2 vaks deur' : 
+                            'stapeldorpel deur';
+      vakStapeldorpelOrientationStatus.textContent = `Selecteer de draairichting voor de ${deurTypeLabel}`;
     }
   }
 
@@ -4650,8 +4897,10 @@ stroke-width="3"/>
   // Event listener voor raam variant knoppen
   if (vakRaamMenuSection) {
     vakRaamMenuSection.addEventListener('click', (e) => {
-      // Negeer clicks op knoppen die niet data-variant hebben (zoals vak1/vak2 knoppen)
-      if (e.target.closest('button[data-vak1-type]') || e.target.closest('button[data-vak2-type]')) {
+      // Negeer clicks op knoppen die niet data-variant hebben (zoals vak1/vak2 knoppen, deur-dicht knoppen)
+      if (e.target.closest('button[data-vak1-type]') || 
+          e.target.closest('button[data-vak2-type]') ||
+          e.target.closest('button[data-deur-dicht-type]')) {
         return;
       }
       const button = e.target.closest('button[data-variant]');
@@ -4869,12 +5118,24 @@ stroke-width="3"/>
         return;
       }
       
+      // Voor dichte deur: open dichte deur type menu
+      if (deurBuitenType === 'dicht') {
+        const deurVak = huidigDeurMenuVak;
+        if (!deurVak) {
+          console.error('Deur menu: huidigDeurMenuVak is null');
+          return;
+        }
+        const menuPos = laatsteDeurMenuPos || getSvgCenterPos();
+        closeVakDeurBuitenMenu(false);
+        setTimeout(() => {
+          openVakDeurDichtMenu(deurVak, menuPos);
+        }, 50);
+        return;
+      }
+      
       // Voor andere types: sla direct op
       const vakId = huidigDeurMenuVak.id;
       let variant = 'deur_buiten';
-      if (deurBuitenType === 'dicht') {
-        variant = 'deur_buiten_dicht';
-      }
       
       setVakToewijzing(vakId, { type: 'deur', variant });
       toonVakken();
@@ -4905,6 +5166,121 @@ stroke-width="3"/>
       closeVakDeurBuitenMenu();
       closeVakDeurMenu();
       closeVakQuickMenu(true);
+    });
+  }
+
+  // Event listeners voor dichte deur menu
+  if (deurDichtVlakBtn) {
+    deurDichtVlakBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      huidigDeurDichtType = 'vlak';
+      updateDeurDichtButtons();
+      console.log('Vlakke deur gekozen');
+    });
+  }
+
+  if (deurDichtVgroevenBtn) {
+    deurDichtVgroevenBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      huidigDeurDichtType = 'vgroeven';
+      updateDeurDichtButtons();
+      console.log('V-groeven deur gekozen');
+    });
+  }
+
+  if (btnKiesDeurbeslagDicht) {
+    btnKiesDeurbeslagDicht.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('btnKiesDeurbeslagDicht geklikt, huidigDeurMenuVak:', huidigDeurMenuVak);
+      if (!huidigDeurMenuVak) {
+        console.warn('btnKiesDeurbeslagDicht: geen huidigDeurMenuVak, proberen huidigDeurMenuVak te vinden...');
+        // Probeer het vak te vinden uit de context
+        const dichtMenu = document.getElementById('vakDeurDichtMenu');
+        if (dichtMenu && dichtMenu.style.display !== 'none') {
+          // Menu is open, gebruik de opgeslagen waarde
+          console.log('Menu is open, maar huidigDeurMenuVak is null');
+        }
+        return;
+      }
+      console.log('btnKiesDeurbeslagDicht geklikt, opening deurbeslag menu');
+      // Sluit eerst het dichte deur menu zodat het deurbeslag menu erboven kan komen
+      closeVakDeurDichtMenu(false);
+      const menuPos = getSvgCenterPos();
+      setTimeout(() => {
+        openVakDeurbeslagMenu(huidigDeurMenuVak, menuPos, 'dicht');
+      }, 50);
+    });
+  } else {
+    console.error('btnKiesDeurbeslagDicht element niet gevonden!');
+  }
+
+  if (vakDeurDichtConfirm) {
+    vakDeurDichtConfirm.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('vakDeurDichtConfirm geklikt, huidigDeurMenuVak:', huidigDeurMenuVak, 'huidigDeurDichtType:', huidigDeurDichtType);
+      if (!huidigDeurMenuVak) {
+        console.warn('Geen huidigDeurMenuVak bij bevestigen');
+        return;
+      }
+      if (!huidigDeurDichtType) {
+        console.warn('Geen deur type gekozen');
+        return;
+      }
+      
+      // Ga direct naar orientatie menu
+      closeVakDeurDichtMenu(false);
+      const deurVak = huidigDeurMenuVak;
+      setTimeout(() => {
+        openVakStapeldorpelOrientationMenu(deurVak);
+      }, 50);
+    });
+  }
+
+  if (vakDeurDichtBack) {
+    vakDeurDichtBack.addEventListener('click', () => {
+      if (!huidigDeurMenuVak) return;
+      closeVakDeurDichtMenu(false);
+      if (laatsteDeurMenuPos) {
+        openVakDeurBuitenMenu(huidigDeurMenuVak, laatsteDeurMenuPos);
+      }
+    });
+  }
+
+  if (vakDeurDichtCancel) {
+    vakDeurDichtCancel.addEventListener('click', () => {
+      closeVakDeurDichtMenu();
+      closeVakDeurBuitenMenu();
+      closeVakDeurMenu();
+      closeVakQuickMenu(true);
+    });
+  }
+
+  // Event listeners voor deurbeslag kleur (dichte deur)
+  if (deurbeslagF1BtnDicht) {
+    deurbeslagF1BtnDicht.addEventListener('click', () => {
+      huidigDeurbeslagKleur = 'f1';
+      deurbeslagF1BtnDicht.classList.add('selected');
+      if (deurbeslagAndersBtnDicht) deurbeslagAndersBtnDicht.classList.remove('selected');
+      if (deurbeslagKleurPickerDicht) deurbeslagKleurPickerDicht.style.display = 'none';
+    });
+  }
+
+  if (deurbeslagAndersBtnDicht) {
+    deurbeslagAndersBtnDicht.addEventListener('click', () => {
+      huidigDeurbeslagKleur = 'anders';
+      deurbeslagAndersBtnDicht.classList.add('selected');
+      if (deurbeslagF1BtnDicht) deurbeslagF1BtnDicht.classList.remove('selected');
+      if (deurbeslagKleurPickerDicht) deurbeslagKleurPickerDicht.style.display = 'flex';
+    });
+  }
+
+  if (deurbeslagKleurInputDicht) {
+    deurbeslagKleurInputDicht.addEventListener('change', (e) => {
+      huidigDeurbeslagKleurWaarde = e.target.value;
     });
   }
 
@@ -5187,21 +5563,13 @@ stroke-width="3"/>
       
       const deurType = huidigDeurBuitenType || 'stapeldorpel';
       
-      // Voor 2vaks: eerst bovenste vak menu, dan onderste vak menu, dan orientatie menu
-      if (deurType === '2vaks') {
-        closeVakDeurStapeldorpelMenu(false);
-        const deurVak = huidigDeurMenuVak;
-        setTimeout(() => {
-          openVak2vaksVak1Menu(deurVak);
-        }, 50);
-      } else {
-        // Voor stapeldorpel: direct naar orientatie menu
-        closeVakDeurStapeldorpelMenu(false);
-        const stapeldorpelVak = huidigDeurMenuVak;
-        setTimeout(() => {
-          openVakStapeldorpelOrientationMenu(stapeldorpelVak);
-        }, 50);
-      }
+      // Voor zowel 2vaks als stapeldorpel: direct naar orientatie menu
+      // (De keuzes voor bovenste en onderste vak zitten al in het 2vaks deur opties menu)
+      closeVakDeurStapeldorpelMenu(false);
+      const deurVak = huidigDeurMenuVak;
+      setTimeout(() => {
+        openVakStapeldorpelOrientationMenu(deurVak);
+      }, 50);
     });
   }
 
@@ -5215,11 +5583,26 @@ stroke-width="3"/>
       huidigDeurbeslag = deurbeslagType;
       updateDeurbeslagButtons();
       
-      // Sluit deurbeslag menu en ga terug naar stapeldorpel menu
-      closeVakDeurbeslagMenu(false);
-      openVakDeurStapeldorpelMenu(huidigDeurMenuVak);
-      updateDeurbeslagStatus();
-      updateDeurbeslagKleurUI();
+      const deurType = huidigDeurBuitenType || 'stapeldorpel';
+      
+      // Voor dichte deur: ga terug naar dichte deur menu
+      if (deurType === 'dicht') {
+        console.log('Deurbeslag gekozen voor dichte deur:', deurbeslagType);
+        closeVakDeurbeslagMenu(false);
+        const deurVak = huidigDeurMenuVak;
+        const menuPos = getSvgCenterPos();
+        setTimeout(() => {
+          openVakDeurDichtMenu(deurVak, menuPos);
+          updateDeurbeslagStatusDicht();
+          updateDeurbeslagKleurUIDicht();
+        }, 50);
+      } else {
+        // Voor stapeldorpel en 2vaks: ga terug naar stapeldorpel menu
+        closeVakDeurbeslagMenu(false);
+        openVakDeurStapeldorpelMenu(huidigDeurMenuVak, deurType);
+        updateDeurbeslagStatus();
+        updateDeurbeslagKleurUI();
+      }
     });
   }
 
@@ -5270,7 +5653,16 @@ stroke-width="3"/>
         // Nu alle opties zijn gekozen, sla de definitieve toewijzing op
         const vakId = huidigDeurMenuVak.id;
         const deurType = huidigDeurBuitenType || 'stapeldorpel';
-        const variant = deurType === 'stapeldorpel' ? 'deur_buiten_stapeldorpel' : 'deur_buiten_2vaks';
+        let variant;
+        if (deurType === 'stapeldorpel') {
+          variant = 'deur_buiten_stapeldorpel';
+        } else if (deurType === '2vaks') {
+          variant = 'deur_buiten_2vaks';
+        } else if (deurType === 'dicht') {
+          variant = 'deur_buiten_dicht';
+        } else {
+          variant = 'deur_buiten';
+        }
         
         const toewijzing = {
           type: 'deur',
@@ -5286,8 +5678,11 @@ stroke-width="3"/>
           toewijzing.tussendorpelHoogte = huidigTussendorpelHoogte;
           toewijzing.vak1Type = huidig2vaksVak1Type;
           toewijzing.vak2Type = huidig2vaksVak2Type;
+        } else if (deurType === 'dicht') {
+          toewijzing.deurDichtType = huidigDeurDichtType; // vlak of vgroeven
         }
         
+        // Voeg deurbeslag toe als het is gekozen (voor stapeldorpel, 2vaks en dicht)
         if (huidigDeurbeslag) {
           toewijzing.deurbeslag = huidigDeurbeslag;
           toewijzing.deurbeslagKleur = huidigDeurbeslagKleur;
@@ -5296,6 +5691,7 @@ stroke-width="3"/>
           }
         }
         
+        console.log('Opslaan toewijzing voor', deurType, 'deur:', toewijzing);
         setVakToewijzing(vakId, toewijzing);
         toonVakken();
         draw();
@@ -5308,6 +5704,8 @@ stroke-width="3"/>
           closeVak2vaksVak2Menu();
           closeVak2vaksVak1Menu();
           closeVakDeurStapeldorpelMenu();
+          closeVakDeurDichtMenu();
+          closeVakDeurbeslagMenu();
           closeVakDeurBuitenMenu();
           closeVakDeurMenu();
           closeVakQuickMenu(true);
@@ -5321,7 +5719,14 @@ stroke-width="3"/>
       if (!huidigDeurMenuVak) return;
       const deurType = huidigDeurBuitenType || 'stapeldorpel';
       closeVakStapeldorpelOrientationMenu(false);
-      openVakDeurStapeldorpelMenu(huidigDeurMenuVak, deurType);
+      if (deurType === 'dicht') {
+        // Voor dichte deur: ga terug naar dichte deur menu
+        const menuPos = getSvgCenterPos();
+        openVakDeurDichtMenu(huidigDeurMenuVak, menuPos);
+      } else {
+        // Voor stapeldorpel en 2vaks: ga terug naar stapeldorpel menu
+        openVakDeurStapeldorpelMenu(huidigDeurMenuVak, deurType);
+      }
     });
   }
 
@@ -5329,6 +5734,8 @@ stroke-width="3"/>
     vakStapeldorpelOrientationCancel.addEventListener('click', () => {
       closeVakStapeldorpelOrientationMenu();
       closeVakDeurStapeldorpelMenu();
+      closeVakDeurDichtMenu();
+      closeVakDeurbeslagMenu();
       closeVakDeurBuitenMenu();
       closeVakDeurMenu();
       closeVakQuickMenu(true);
