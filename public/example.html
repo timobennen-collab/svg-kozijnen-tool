@@ -184,6 +184,9 @@
       <fieldset id="vakkenFieldset" style="display:none">
         <legend>📋 Vakken Toewijzing</legend>
         <div id="vakkenList"></div>
+        <button type="button" id="btnAfwerkingsOpties" class="btn primary" style="width:100%;margin-top:12px;display:none">
+          Afwerkingsopties
+        </button>
       </fieldset>
 
       <fieldset>
@@ -207,7 +210,7 @@
         <button class="btn" id="btnDistributeMiddleVert" type="button">⤢ Verdeel middenvakken (hoogte)</button>
       </div>
       <div class="canvasWrap">
-        <svg id="view" viewBox="0 0 1400 1400"></svg>
+      <svg id="view" viewBox="0 0 1400 1400"></svg>
       </div>
     </section>
   </div>
@@ -270,8 +273,8 @@
         <span>Buitendraaiende deur</span>
       </button>
       <button type="button" data-variant="stolpdeuren_buiten">
-        <img src="" alt="Buitendraaiende stolpdeuren" data-svg-type="variant" data-variant="stolpdeuren_buiten" />
-        <span>Buitendraaiende stolpdeuren</span>
+        <img src="" alt="Stolpdeuren buitendraaiend" data-svg-type="variant" data-variant="stolpdeuren_buiten" />
+        <span>Stolpdeuren buitendraaiend</span>
       </button>
       <button type="button" data-variant="deur_draaikiep">
         <img src="" alt="Draaikiep deur" data-svg-type="variant" data-variant="deur_draaikiep" />
@@ -367,6 +370,75 @@
     <div class="vakOrientationActions">
       <button type="button" id="vakDeurBuitenBack">← Terug</button>
       <button type="button" id="vakDeurBuitenCancel">Annuleren</button>
+    </div>
+  </div>
+
+  <div id="vakStolpdeurenBuitenMenu" class="vakOrientationMenu">
+    <h4>Kies stolpdeuren buitendraaiend type</h4>
+    <div id="vakStolpdeurenBuitenStatus" class="vakOrientationStatus">Selecteer het type stolpdeuren buitendraaiend</div>
+    <div class="vakOrientationButtons" id="vakStolpdeurenBuitenButtons">
+      <button type="button" data-stolpdeuren-buiten-type="stapeldorpel">
+        <img src="" alt="Stapeldorpel deur" data-svg-type="stolpdeuren-buiten" data-stolpdeuren-buiten-type="stapeldorpel" />
+        <span>Stapeldorpel deur</span>
+      </button>
+      <button type="button" data-stolpdeuren-buiten-type="2vaks">
+        <img src="" alt="2 vaks deur" data-svg-type="stolpdeuren-buiten" data-stolpdeuren-buiten-type="2vaks" />
+        <span>2 vaks deur</span>
+      </button>
+      <button type="button" data-stolpdeuren-buiten-type="dicht">
+        <img src="" alt="Dichte deur" data-svg-type="stolpdeuren-buiten" data-stolpdeuren-buiten-type="dicht" />
+        <span>Dichte deur</span>
+      </button>
+    </div>
+    <div class="vakOrientationActions">
+      <button type="button" id="vakStolpdeurenBuitenBack">← Terug</button>
+      <button type="button" id="vakStolpdeurenBuitenCancel">Annuleren</button>
+    </div>
+  </div>
+
+  <div id="vakDeurDraaikiepMenu" class="vakOrientationMenu">
+    <h4>Kies draaikiep deur type</h4>
+    <div id="vakDeurDraaikiepStatus" class="vakOrientationStatus">Selecteer het type draaikiep deur</div>
+    <div class="vakOrientationButtons" id="vakDeurDraaikiepButtons">
+      <button type="button" data-deur-draaikiep-type="stapeldorpel">
+        <img src="" alt="Stapeldorpel deur" data-svg-type="deur-draaikiep" data-deur-draaikiep-type="stapeldorpel" />
+        <span>Stapeldorpel deur</span>
+      </button>
+      <button type="button" data-deur-draaikiep-type="2vaks">
+        <img src="" alt="2 vaks deur" data-svg-type="deur-draaikiep" data-deur-draaikiep-type="2vaks" />
+        <span>2 vaks deur</span>
+      </button>
+      <button type="button" data-deur-draaikiep-type="dicht">
+        <img src="" alt="Dichte deur" data-svg-type="deur-draaikiep" data-deur-draaikiep-type="dicht" />
+        <span>Dichte deur</span>
+      </button>
+    </div>
+    <div class="vakOrientationActions">
+      <button type="button" id="vakDeurDraaikiepBack">← Terug</button>
+      <button type="button" id="vakDeurDraaikiepCancel">Annuleren</button>
+    </div>
+  </div>
+
+  <div id="vakStolpdeurenDraaikiepMenu" class="vakOrientationMenu">
+    <h4>Kies stolpdraaikiep deuren type</h4>
+    <div id="vakStolpdeurenDraaikiepStatus" class="vakOrientationStatus">Selecteer het type stolpdraaikiep deuren</div>
+    <div class="vakOrientationButtons" id="vakStolpdeurenDraaikiepButtons">
+      <button type="button" data-stolpdeuren-draaikiep-type="stapeldorpel">
+        <img src="" alt="Stapeldorpel deur" data-svg-type="stolpdeuren-draaikiep" data-stolpdeuren-draaikiep-type="stapeldorpel" />
+        <span>Stapeldorpel deur</span>
+      </button>
+      <button type="button" data-stolpdeuren-draaikiep-type="2vaks">
+        <img src="" alt="2 vaks deur" data-svg-type="stolpdeuren-draaikiep" data-stolpdeuren-draaikiep-type="2vaks" />
+        <span>2 vaks deur</span>
+      </button>
+      <button type="button" data-stolpdeuren-draaikiep-type="dicht">
+        <img src="" alt="Dichte deur" data-svg-type="stolpdeuren-draaikiep" data-stolpdeuren-draaikiep-type="dicht" />
+        <span>Dichte deur</span>
+      </button>
+    </div>
+    <div class="vakOrientationActions">
+      <button type="button" id="vakStolpdeurenDraaikiepBack">← Terug</button>
+      <button type="button" id="vakStolpdeurenDraaikiepCancel">Annuleren</button>
     </div>
   </div>
 
@@ -488,21 +560,6 @@
         <div id="stapeldorpelDeurbeslagStatus" style="padding:8px 10px;background:#141a22;border-radius:8px;color:var(--muted);font-size:12px;margin-top:8px">Geen deurbeslag gekozen</div>
       </div>
       
-      <div class="extra-option-group" id="deurbeslagKleurGroup" style="display:none">
-        <label>Deurbeslag kleur</label>
-        <div class="beslag-kleur-buttons">
-          <button type="button" class="beslag-kleur-btn" data-deurbeslag-kleur="f1" id="deurbeslagF1Btn">
-            <span>F1 Kleurig (standaard)</span>
-          </button>
-          <button type="button" class="beslag-kleur-btn" data-deurbeslag-kleur="anders" id="deurbeslagAndersBtn">
-            <span>Andere kleur</span>
-          </button>
-        </div>
-        <div class="beslag-kleur-picker" id="deurbeslagKleurPicker" style="display: none;">
-          <input type="color" id="deurbeslagKleurInput" value="#8B7355" />
-          <label for="deurbeslagKleurInput">Kies kleur</label>
-        </div>
-      </div>
     </div>
     
     <div class="vakRaamExtraActions">
@@ -577,6 +634,111 @@
     </div>
   </div>
 
+  <!-- Menu 1: Draairichting Links/Rechts draaiend (voor normale deuren) -->
+  <div id="vakDeurOrientationMenu" class="vakOrientationMenu">
+    <h4 id="vakDeurOrientationTitle">Kies draairichting deur</h4>
+    <div id="vakDeurOrientationStatus" class="vakOrientationStatus">Selecteer de draairichting voor de deur</div>
+    <div class="vakOrientationButtons" id="vakDeurOrientationButtons">
+      <button type="button" data-deur-orientation="links">
+        <img src="" alt="Links draaiend" data-svg-type="deur-orientation" data-orientation="links" />
+        <span>Links</span>
+      </button>
+      <button type="button" data-deur-orientation="rechts">
+        <img src="" alt="Rechts draaiend" data-svg-type="deur-orientation" data-orientation="rechts" />
+        <span>Rechts</span>
+      </button>
+    </div>
+    <div class="vakOrientationActions">
+      <button type="button" id="vakDeurOrientationBack">← Terug</button>
+      <button type="button" id="vakDeurOrientationCancel">Annuleren</button>
+    </div>
+  </div>
+
+  <!-- Menu 2: Draairichting Links actief/Rechts actief (voor stolpdeuren) -->
+  <div id="vakStolpdeurenOrientationMenu" class="vakOrientationMenu">
+    <h4 id="vakStolpdeurenOrientationTitle">Kies draairichting deur</h4>
+    <div id="vakStolpdeurenOrientationStatus" class="vakOrientationStatus">Selecteer de draairichting voor de deur</div>
+    <div class="vakOrientationButtons" id="vakStolpdeurenOrientationButtons">
+      <button type="button" data-stolpdeuren-orientation="links">
+        <img src="" alt="Links actief" data-svg-type="stolpdeuren-orientation" data-orientation="links" />
+        <span>Links actief</span>
+      </button>
+      <button type="button" data-stolpdeuren-orientation="rechts">
+        <img src="" alt="Rechts actief" data-svg-type="stolpdeuren-orientation" data-orientation="rechts" />
+        <span>Rechts actief</span>
+      </button>
+    </div>
+    <div class="vakOrientationActions">
+      <button type="button" id="vakStolpdeurenOrientationBack">← Terug</button>
+      <button type="button" id="vakStolpdeurenOrientationCancel">Annuleren</button>
+    </div>
+  </div>
+
+  <!-- Afwerkingsopties menu -->
+  <div id="vakAfwerkingsOptiesMenu" class="vakRaamExtraMenu">
+    <h4 id="vakAfwerkingsOptiesTitle">Afwerkingsopties</h4>
+    <div id="vakAfwerkingsOptiesStatus" class="vakRaamExtraStatus">Configureer de afwerkingsopties voor het kozijn</div>
+    
+    <div class="vakRaamExtraOptions">
+      <div class="extra-option-group">
+        <label>Glas type</label>
+        <div class="vakRaamMenuSection" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+          <button type="button" class="btn" data-glas-type="enkelglas" id="glasEnkelglasBtn" style="flex:1;min-width:100px;padding:12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);cursor:pointer">
+            <span>Enkelglas</span>
+          </button>
+          <button type="button" class="btn" data-glas-type="hr++" id="glasHrPlusPlusBtn" style="flex:1;min-width:100px;padding:12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);cursor:pointer">
+            <span>HR++</span>
+          </button>
+          <button type="button" class="btn" data-glas-type="hr+++" id="glasHrPlusPlusPlusBtn" style="flex:1;min-width:100px;padding:12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);cursor:pointer">
+            <span>HR+++</span>
+          </button>
+        </div>
+      </div>
+      
+      <div class="extra-option-group">
+        <label>Kleur deuren/ramen binnen</label>
+        <div style="display:flex;gap:10px;align-items:center;margin-top:8px">
+          <input type="color" id="kleurDeurenRamenBinnen" value="#FFFFFF" style="width:60px;height:40px;border:none;border-radius:6px;cursor:pointer" />
+          <input type="text" id="kleurDeurenRamenBinnenText" value="#FFFFFF" placeholder="#FFFFFF" style="flex:1;padding:8px;background:#12161b;border:1px solid #2b2f36;border-radius:6px;color:var(--fg);font-family:monospace" />
+        </div>
+      </div>
+      
+      <div class="extra-option-group">
+        <label>Kleur deuren/ramen buiten</label>
+        <div style="display:flex;gap:10px;align-items:center;margin-top:8px">
+          <input type="color" id="kleurDeurenRamenBuiten" value="#FFFFFF" style="width:60px;height:40px;border:none;border-radius:6px;cursor:pointer" />
+          <input type="text" id="kleurDeurenRamenBuitenText" value="#FFFFFF" placeholder="#FFFFFF" style="flex:1;padding:8px;background:#12161b;border:1px solid #2b2f36;border-radius:6px;color:var(--fg);font-family:monospace" />
+        </div>
+      </div>
+      
+      <div class="extra-option-group">
+        <label>Kleur kozijn</label>
+        <div style="display:flex;gap:10px;align-items:center;margin-top:8px">
+          <input type="color" id="kleurKozijn" value="#FFFFFF" style="width:60px;height:40px;border:none;border-radius:6px;cursor:pointer" />
+          <input type="text" id="kleurKozijnText" value="#FFFFFF" placeholder="#FFFFFF" style="flex:1;padding:8px;background:#12161b;border:1px solid #2b2f36;border-radius:6px;color:var(--fg);font-family:monospace" />
+        </div>
+      </div>
+      
+      <div class="extra-option-group">
+        <label>Afwerking</label>
+        <div class="vakRaamMenuSection" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+          <button type="button" class="btn" data-afwerking="afgelakt" id="afwerkingAfgelaktBtn" style="flex:1;min-width:120px;padding:12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);cursor:pointer">
+            <span>Afgelakt</span>
+          </button>
+          <button type="button" class="btn" data-afwerking="alleen-gegrond" id="afwerkingGegrondBtn" style="flex:1;min-width:120px;padding:12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);cursor:pointer">
+            <span>Alleen gegrond</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="vakRaamExtraActions">
+      <button type="button" id="vakAfwerkingsOptiesBack">← Terug</button>
+      <button type="button" id="vakAfwerkingsOptiesCancel">Annuleren</button>
+      <button type="button" id="vakAfwerkingsOptiesConfirm" class="primary">Bevestigen</button>
+    </div>
+  </div>
+
   <div id="vakDeurDichtMenu" class="vakRaamExtraMenu">
     <h4 id="vakDeurDichtTitle">Dichte deur opties</h4>
     <div id="vakDeurDichtStatus" class="vakRaamExtraStatus">Configureer de dichte deur opties</div>
@@ -602,21 +764,6 @@
         <div id="dichtDeurbeslagStatus" style="padding:8px 10px;background:#141a22;border-radius:8px;color:var(--muted);font-size:12px;margin-top:8px">Geen deurbeslag gekozen</div>
       </div>
       
-      <div class="extra-option-group" id="deurbeslagKleurGroupDicht" style="display:none">
-        <label>Deurbeslag kleur</label>
-        <div class="beslag-kleur-buttons">
-          <button type="button" class="beslag-kleur-btn" data-deurbeslag-kleur="f1" id="deurbeslagF1BtnDicht">
-            <span>F1 Kleurig (standaard)</span>
-          </button>
-          <button type="button" class="beslag-kleur-btn" data-deurbeslag-kleur="anders" id="deurbeslagAndersBtnDicht">
-            <span>Andere kleur</span>
-          </button>
-        </div>
-        <div class="beslag-kleur-picker" id="deurbeslagKleurPickerDicht" style="display: none;">
-          <input type="color" id="deurbeslagKleurInputDicht" value="#8B7355" />
-          <label for="deurbeslagKleurInputDicht">Kies kleur</label>
-        </div>
-      </div>
     </div>
     
     <div class="vakRaamExtraActions">
@@ -715,6 +862,24 @@
   const countDorpel = document.getElementById('countDorpel');
   const vakkenFieldset = document.getElementById('vakkenFieldset');
   const vakkenList = document.getElementById('vakkenList');
+  const btnAfwerkingsOpties = document.getElementById('btnAfwerkingsOpties');
+  const vakAfwerkingsOptiesMenu = document.getElementById('vakAfwerkingsOptiesMenu');
+  const vakAfwerkingsOptiesTitle = document.getElementById('vakAfwerkingsOptiesTitle');
+  const vakAfwerkingsOptiesStatus = document.getElementById('vakAfwerkingsOptiesStatus');
+  const glasEnkelglasBtn = document.getElementById('glasEnkelglasBtn');
+  const glasHrPlusPlusBtn = document.getElementById('glasHrPlusPlusBtn');
+  const glasHrPlusPlusPlusBtn = document.getElementById('glasHrPlusPlusPlusBtn');
+  const kleurDeurenRamenBinnen = document.getElementById('kleurDeurenRamenBinnen');
+  const kleurDeurenRamenBinnenText = document.getElementById('kleurDeurenRamenBinnenText');
+  const kleurDeurenRamenBuiten = document.getElementById('kleurDeurenRamenBuiten');
+  const kleurDeurenRamenBuitenText = document.getElementById('kleurDeurenRamenBuitenText');
+  const kleurKozijn = document.getElementById('kleurKozijn');
+  const kleurKozijnText = document.getElementById('kleurKozijnText');
+  const afwerkingAfgelaktBtn = document.getElementById('afwerkingAfgelaktBtn');
+  const afwerkingGegrondBtn = document.getElementById('afwerkingGegrondBtn');
+  const vakAfwerkingsOptiesBack = document.getElementById('vakAfwerkingsOptiesBack');
+  const vakAfwerkingsOptiesCancel = document.getElementById('vakAfwerkingsOptiesCancel');
+  const vakAfwerkingsOptiesConfirm = document.getElementById('vakAfwerkingsOptiesConfirm');
   const vakSelectModal = document.getElementById('vakSelectModal');
   const modalClose = document.getElementById('modalClose');
   const modalTitle = document.getElementById('modalTitle');
@@ -756,6 +921,21 @@
   const vakDeurBuitenButtons = vakDeurBuitenMenu ? Array.from(vakDeurBuitenMenu.querySelectorAll('button[data-deur-buiten-type]')) : [];
   const vakDeurBuitenBack = document.getElementById('vakDeurBuitenBack');
   const vakDeurBuitenCancel = document.getElementById('vakDeurBuitenCancel');
+  const vakStolpdeurenBuitenMenu = document.getElementById('vakStolpdeurenBuitenMenu');
+  const vakStolpdeurenBuitenStatus = document.getElementById('vakStolpdeurenBuitenStatus');
+  const vakStolpdeurenBuitenButtons = vakStolpdeurenBuitenMenu ? Array.from(vakStolpdeurenBuitenMenu.querySelectorAll('button[data-stolpdeuren-buiten-type]')) : [];
+  const vakStolpdeurenBuitenBack = document.getElementById('vakStolpdeurenBuitenBack');
+  const vakStolpdeurenBuitenCancel = document.getElementById('vakStolpdeurenBuitenCancel');
+  const vakDeurDraaikiepMenu = document.getElementById('vakDeurDraaikiepMenu');
+  const vakDeurDraaikiepStatus = document.getElementById('vakDeurDraaikiepStatus');
+  const vakDeurDraaikiepButtons = vakDeurDraaikiepMenu ? Array.from(vakDeurDraaikiepMenu.querySelectorAll('button[data-deur-draaikiep-type]')) : [];
+  const vakDeurDraaikiepBack = document.getElementById('vakDeurDraaikiepBack');
+  const vakDeurDraaikiepCancel = document.getElementById('vakDeurDraaikiepCancel');
+  const vakStolpdeurenDraaikiepMenu = document.getElementById('vakStolpdeurenDraaikiepMenu');
+  const vakStolpdeurenDraaikiepStatus = document.getElementById('vakStolpdeurenDraaikiepStatus');
+  const vakStolpdeurenDraaikiepButtons = vakStolpdeurenDraaikiepMenu ? Array.from(vakStolpdeurenDraaikiepMenu.querySelectorAll('button[data-stolpdeuren-draaikiep-type]')) : [];
+  const vakStolpdeurenDraaikiepBack = document.getElementById('vakStolpdeurenDraaikiepBack');
+  const vakStolpdeurenDraaikiepCancel = document.getElementById('vakStolpdeurenDraaikiepCancel');
   const vakRaamStatus = document.getElementById('vakRaamStatus');
   const vakRaamWis = document.getElementById('vakRaamWis');
   const vakDeurStatus = document.getElementById('vakDeurStatus');
@@ -798,11 +978,6 @@
   const vak2VlakBtn = document.getElementById('vak2VlakBtn');
   const btnKiesDeurbeslag = document.getElementById('btnKiesDeurbeslag');
   const stapeldorpelDeurbeslagStatus = document.getElementById('stapeldorpelDeurbeslagStatus');
-  const deurbeslagKleurGroup = document.getElementById('deurbeslagKleurGroup');
-  const deurbeslagF1Btn = document.getElementById('deurbeslagF1Btn');
-  const deurbeslagAndersBtn = document.getElementById('deurbeslagAndersBtn');
-  const deurbeslagKleurPicker = document.getElementById('deurbeslagKleurPicker');
-  const deurbeslagKleurInput = document.getElementById('deurbeslagKleurInput');
   const vakDeurStapeldorpelBack = document.getElementById('vakDeurStapeldorpelBack');
   const vakDeurStapeldorpelCancel = document.getElementById('vakDeurStapeldorpelCancel');
   const vakDeurStapeldorpelConfirm = document.getElementById('vakDeurStapeldorpelConfirm');
@@ -817,11 +992,6 @@
   const btnKiesDeurbeslagDicht = document.getElementById('btnKiesDeurbeslagDicht');
   console.log('btnKiesDeurbeslagDicht gevonden:', !!btnKiesDeurbeslagDicht);
   const dichtDeurbeslagStatus = document.getElementById('dichtDeurbeslagStatus');
-  const deurbeslagKleurGroupDicht = document.getElementById('deurbeslagKleurGroupDicht');
-  const deurbeslagF1BtnDicht = document.getElementById('deurbeslagF1BtnDicht');
-  const deurbeslagAndersBtnDicht = document.getElementById('deurbeslagAndersBtnDicht');
-  const deurbeslagKleurPickerDicht = document.getElementById('deurbeslagKleurPickerDicht');
-  const deurbeslagKleurInputDicht = document.getElementById('deurbeslagKleurInputDicht');
   const vakDeurbeslagMenu = document.getElementById('vakDeurbeslagMenu');
   const vakDeurbeslagTitle = document.getElementById('vakDeurbeslagTitle');
   const vakDeurbeslagStatus = document.getElementById('vakDeurbeslagStatus');
@@ -833,6 +1003,18 @@
   const vakStapeldorpelOrientationButtons = vakStapeldorpelOrientationMenu ? Array.from(vakStapeldorpelOrientationMenu.querySelectorAll('button[data-stapeldorpel-orientation]')) : [];
   const vakStapeldorpelOrientationBack = document.getElementById('vakStapeldorpelOrientationBack');
   const vakStapeldorpelOrientationCancel = document.getElementById('vakStapeldorpelOrientationCancel');
+  const vakDeurOrientationMenu = document.getElementById('vakDeurOrientationMenu');
+  const vakDeurOrientationStatus = document.getElementById('vakDeurOrientationStatus');
+  const vakDeurOrientationTitle = document.getElementById('vakDeurOrientationTitle');
+  const vakDeurOrientationButtons = vakDeurOrientationMenu ? Array.from(vakDeurOrientationMenu.querySelectorAll('button[data-deur-orientation]')) : [];
+  const vakDeurOrientationBack = document.getElementById('vakDeurOrientationBack');
+  const vakDeurOrientationCancel = document.getElementById('vakDeurOrientationCancel');
+  const vakStolpdeurenOrientationMenu = document.getElementById('vakStolpdeurenOrientationMenu');
+  const vakStolpdeurenOrientationStatus = document.getElementById('vakStolpdeurenOrientationStatus');
+  const vakStolpdeurenOrientationTitle = document.getElementById('vakStolpdeurenOrientationTitle');
+  const vakStolpdeurenOrientationButtons = vakStolpdeurenOrientationMenu ? Array.from(vakStolpdeurenOrientationMenu.querySelectorAll('button[data-stolpdeuren-orientation]')) : [];
+  const vakStolpdeurenOrientationBack = document.getElementById('vakStolpdeurenOrientationBack');
+  const vakStolpdeurenOrientationCancel = document.getElementById('vakStolpdeurenOrientationCancel');
   const vak2vaksVak1Menu = document.getElementById('vak2vaksVak1Menu');
   const vak2vaksVak1Status = document.getElementById('vak2vaksVak1Status');
   const vak2vaksVak1MenuSection = document.getElementById('vak2vaksVak1MenuSection');
@@ -855,15 +1037,21 @@
   let huidigRaamOrientation = null;
   let huidigKlepraamType = null;
   let huidigDeurBuitenType = null;
+  let huidigStolpdeurenBuitenType = null;
+  let huidigDeurDraaikiepType = null;
+  let huidigStolpdeurenDraaikiepType = null;
   let huidigDeurDichtType = null;
   let huidigStapeldorpelAantal = 2;
   let huidigTussendorpelHoogte = 250;
   let huidigStapeldorpelRooster = false;
   let huidigDeurbeslag = null;
-  let huidigDeurbeslagKleur = 'f1';
-  let huidigDeurbeslagKleurWaarde = '#8B7355';
   let huidigStapeldorpelOrientation = null;
   let huidigRooster = false;
+  let huidigGlasType = null; // 'enkelglas', 'hr++', 'hr+++'
+  let huidigKleurDeurenRamenBinnen = '#FFFFFF';
+  let huidigKleurDeurenRamenBuiten = '#FFFFFF';
+  let huidigKleurKozijn = '#FFFFFF';
+  let huidigAfwerking = null; // 'afgelakt', 'alleen-gegrond'
   let huidigHor = false;
   let huidigBeslagKleur = 'f1'; // 'f1' of 'anders'
   let huidigBeslagKleurWaarde = '#8B7355';
@@ -954,22 +1142,62 @@
   function refreshDeurStatus(assign) {
     if (!vakDeurStatus) return;
     if (assign && assign.type === 'deur') {
+      // Bepaal basis variant tekst (zonder subvarianten)
+      let baseVariant = assign.variant;
+      // Voor voordeur: geen subvarianten, return direct
+      if (baseVariant === 'voordeur') {
+        vakDeurStatus.textContent = 'Geselecteerd: Voordeur';
+        return;
+      }
+      
+      if (baseVariant.includes('_stapeldorpel')) {
+        baseVariant = baseVariant.replace('_stapeldorpel', '');
+      } else if (baseVariant.includes('_2vaks')) {
+        baseVariant = baseVariant.replace('_2vaks', '');
+      } else if (baseVariant.includes('_dicht')) {
+        baseVariant = baseVariant.replace('_dicht', '');
+      }
+      
       const variantTextMap = {
         deur_buiten: 'Buitendraaiende deur',
-        deur_buiten_stapeldorpel: 'Buitendraaiende deur (stapeldorpel)',
-        deur_buiten_2vaks: 'Buitendraaiende deur (2 vaks)',
-        deur_buiten_dicht: 'Buitendraaiende deur (dicht)',
-        stolpdeuren_buiten: 'Buitendraaiende stolpdeuren',
+        stolpdeuren_buiten: 'Stolpdeuren buitendraaiend',
         deur_draaikiep: 'Draaikiep deur',
-        stolpdeuren_draaikiep: 'Stolpdraaikiep deuren',
+        stolpdeuren_draaikiep: 'Stolpdraaikiep deur',
         voordeur: 'Voordeur'
       };
-      const variantText = variantTextMap[assign.variant] || 'Deur';
-      const orientationText = assign.orientation === 'links' ? 'Links' :
-                              assign.orientation === 'rechts' ? 'Rechts' :
-                              assign.orientation === 'vast' ? 'Vast' : '';
-      const suffix = orientationText ? ` · ${orientationText}` : '';
-      vakDeurStatus.textContent = `Geselecteerd: ${variantText}${suffix}`;
+      
+      // Bepaal of het een stolpdeuren variant is
+      const isStolpdeuren = baseVariant === 'stolpdeuren_buiten' || baseVariant === 'stolpdeuren_draaikiep';
+      
+      // Bepaal deur type tekst
+      let deurTypeText = '';
+      if (assign.variant.includes('_stapeldorpel')) {
+        deurTypeText = ' (stapeldorpel)';
+      } else if (assign.variant.includes('_2vaks')) {
+        deurTypeText = ' (2 vaks)';
+      } else if (assign.variant.includes('_dicht')) {
+        deurTypeText = ' (dicht)';
+      }
+      
+      const baseText = variantTextMap[baseVariant] || 'Deur';
+      const variantText = baseText + deurTypeText;
+      
+      // Voeg draairichting toe
+      if (assign.orientation) {
+        if (isStolpdeuren) {
+          // Voor stolpdeuren: "links actief" of "rechts actief"
+          const orientationText = assign.orientation === 'links' ? 'links actief' :
+                                  assign.orientation === 'rechts' ? 'rechts actief' : '';
+          vakDeurStatus.textContent = `Geselecteerd: ${variantText} ${orientationText}`;
+        } else {
+          // Voor normale deuren: "links draaiend" of "rechts draaiend"
+          const orientationText = assign.orientation === 'links' ? 'links draaiend' :
+                                  assign.orientation === 'rechts' ? 'rechts draaiend' : '';
+          vakDeurStatus.textContent = `Geselecteerd: ${variantText} ${orientationText}`;
+        }
+      } else {
+        vakDeurStatus.textContent = `Geselecteerd: ${variantText}`;
+      }
     } else {
       vakDeurStatus.textContent = 'Selecteer een deurtype voor dit vak';
     }
@@ -1008,7 +1236,7 @@
     if (variant === 'deur_buiten_stapeldorpel') return 'deze buitendraaiende deur met stapeldorpel';
     if (variant === 'deur_buiten_2vaks') return 'deze 2 vaks buitendraaiende deur';
     if (variant === 'deur_buiten_dicht') return 'deze dichte buitendraaiende deur';
-    if (variant === 'stolpdeuren_buiten') return 'deze buitendraaiende stolpdeuren';
+    if (variant === 'stolpdeuren_buiten') return 'deze stolpdeuren buitendraaiend';
     if (variant === 'deur_draaikiep') return 'deze draaikiep deur';
     if (variant === 'stolpdeuren_draaikiep') return 'deze stolpdraaikiep deuren';
     if (variant === 'voordeur') return 'deze voordeur';
@@ -1499,26 +1727,19 @@ stroke-width="3"/>
       huidigDeurDichtType = assign.deurDichtType || null;
       // Laad ook deurbeslag als die al is gekozen
       huidigDeurbeslag = assign.deurbeslag || null;
-      huidigDeurbeslagKleur = assign.deurbeslagKleur || 'f1';
-      huidigDeurbeslagKleurWaarde = assign.deurbeslagKleurWaarde || '#8B7355';
       huidigStapeldorpelOrientation = assign.orientation || null;
     } else {
       // Behoud huidige deurbeslag waarde als deze al is ingesteld (bij navigatie tussen menu's)
       const behoudDeurbeslag = huidigDeurbeslag;
-      const behoudDeurbeslagKleur = huidigDeurbeslagKleur;
-      const behoudDeurbeslagKleurWaarde = huidigDeurbeslagKleurWaarde;
       
       huidigDeurDichtType = null;
       huidigDeurbeslag = behoudDeurbeslag || null;
-      huidigDeurbeslagKleur = behoudDeurbeslagKleur || 'f1';
-      huidigDeurbeslagKleurWaarde = behoudDeurbeslagKleurWaarde || '#8B7355';
       huidigStapeldorpelOrientation = null;
     }
     
     updateDeurDichtButtons();
     updateDeurDichtIcons();
     updateDeurbeslagStatusDicht();
-    updateDeurbeslagKleurUIDicht();
     if (vakDeurDichtStatus) {
       vakDeurDichtStatus.textContent = 'Configureer de dichte deur opties';
     }
@@ -1578,26 +1799,6 @@ stroke-width="3"/>
     }
   }
 
-  function updateDeurbeslagKleurUIDicht() {
-    if (!deurbeslagKleurGroupDicht) return;
-    if (huidigDeurbeslag) {
-      deurbeslagKleurGroupDicht.style.display = 'flex';
-      if (deurbeslagF1BtnDicht) {
-        deurbeslagF1BtnDicht.classList.toggle('selected', huidigDeurbeslagKleur === 'f1');
-      }
-      if (deurbeslagAndersBtnDicht) {
-        deurbeslagAndersBtnDicht.classList.toggle('selected', huidigDeurbeslagKleur === 'anders');
-      }
-      if (deurbeslagKleurPickerDicht) {
-        deurbeslagKleurPickerDicht.style.display = huidigDeurbeslagKleur === 'anders' ? 'flex' : 'none';
-      }
-      if (deurbeslagKleurInputDicht) {
-        deurbeslagKleurInputDicht.value = huidigDeurbeslagKleurWaarde;
-      }
-    } else {
-      deurbeslagKleurGroupDicht.style.display = 'none';
-    }
-  }
 
   function updateDeurBuitenIcons() {
     if (!vakDeurBuitenButtons.length) return;
@@ -1626,7 +1827,296 @@ stroke-width="3"/>
     });
   }
 
-  function openVakDeurStapeldorpelMenu(vak, deurType = 'stapeldorpel') {
+  // Functies voor stolpdeuren_buiten
+  function openVakStolpdeurenBuitenMenu(vak, _pos) {
+    if (!vakStolpdeurenBuitenMenu) return;
+    huidigDeurMenuVak = vak;
+    const centerPos = getSvgCenterPos();
+    vakStolpdeurenBuitenMenu.style.left = `${centerPos.x}px`;
+    vakStolpdeurenBuitenMenu.style.top = `${centerPos.y}px`;
+    vakStolpdeurenBuitenMenu.style.display = 'flex';
+    
+    const assign = getVakToewijzing(vak.id);
+    if (assign && assign.type === 'deur' && (
+      assign.variant === 'stolpdeuren_buiten_stapeldorpel' || 
+      assign.variant === 'stolpdeuren_buiten_2vaks' || 
+      assign.variant === 'stolpdeuren_buiten_dicht'
+    )) {
+      if (assign.variant === 'stolpdeuren_buiten_stapeldorpel') {
+        huidigStolpdeurenBuitenType = 'stapeldorpel';
+      } else if (assign.variant === 'stolpdeuren_buiten_2vaks') {
+        huidigStolpdeurenBuitenType = '2vaks';
+      } else if (assign.variant === 'stolpdeuren_buiten_dicht') {
+        huidigStolpdeurenBuitenType = 'dicht';
+      }
+    } else {
+      huidigStolpdeurenBuitenType = null;
+    }
+    
+    updateStolpdeurenBuitenIcons();
+    updateStolpdeurenBuitenButtons();
+    if (vakStolpdeurenBuitenStatus) {
+      vakStolpdeurenBuitenStatus.textContent = 'Selecteer het type stolpdeuren buitendraaiend';
+    }
+  }
+
+  function closeVakStolpdeurenBuitenMenu(resetState = true) {
+    if (!vakStolpdeurenBuitenMenu) return;
+    vakStolpdeurenBuitenMenu.style.display = 'none';
+    if (resetState) {
+      huidigStolpdeurenBuitenType = null;
+      updateStolpdeurenBuitenButtons();
+    }
+  }
+
+  function updateStolpdeurenBuitenIcons() {
+    if (!vakStolpdeurenBuitenButtons.length) return;
+    vakStolpdeurenBuitenButtons.forEach(btn => {
+      const img = btn.querySelector('img[data-svg-type="stolpdeuren-buiten"]');
+      if (img) {
+        const type = btn.dataset.stolpdeurenBuitenType;
+        let variant = 'stolpdeuren_buiten';
+        if (type === 'stapeldorpel') {
+          variant = 'stolpdeuren_buiten_stapeldorpel';
+        } else if (type === '2vaks') {
+          variant = 'stolpdeuren_buiten_2vaks';
+        } else if (type === 'dicht') {
+          variant = 'stolpdeuren_buiten_dicht';
+        }
+        const svgPath = getVariantSvgPath(variant);
+        img.src = svgPath;
+      }
+    });
+  }
+
+  function updateStolpdeurenBuitenButtons() {
+    if (!vakStolpdeurenBuitenButtons.length) return;
+    vakStolpdeurenBuitenButtons.forEach(btn => {
+      btn.classList.toggle('selected', !!huidigStolpdeurenBuitenType && btn.dataset.stolpdeurenBuitenType === huidigStolpdeurenBuitenType);
+    });
+  }
+
+  // Functies voor deur_draaikiep
+  function openVakDeurDraaikiepMenu(vak, _pos) {
+    if (!vakDeurDraaikiepMenu) return;
+    huidigDeurMenuVak = vak;
+    const centerPos = getSvgCenterPos();
+    vakDeurDraaikiepMenu.style.left = `${centerPos.x}px`;
+    vakDeurDraaikiepMenu.style.top = `${centerPos.y}px`;
+    vakDeurDraaikiepMenu.style.display = 'flex';
+    
+    const assign = getVakToewijzing(vak.id);
+    if (assign && assign.type === 'deur' && (
+      assign.variant === 'deur_draaikiep_stapeldorpel' || 
+      assign.variant === 'deur_draaikiep_2vaks' || 
+      assign.variant === 'deur_draaikiep_dicht'
+    )) {
+      if (assign.variant === 'deur_draaikiep_stapeldorpel') {
+        huidigDeurDraaikiepType = 'stapeldorpel';
+      } else if (assign.variant === 'deur_draaikiep_2vaks') {
+        huidigDeurDraaikiepType = '2vaks';
+      } else if (assign.variant === 'deur_draaikiep_dicht') {
+        huidigDeurDraaikiepType = 'dicht';
+      }
+    } else {
+      huidigDeurDraaikiepType = null;
+    }
+    
+    updateDeurDraaikiepIcons();
+    updateDeurDraaikiepButtons();
+    if (vakDeurDraaikiepStatus) {
+      vakDeurDraaikiepStatus.textContent = 'Selecteer het type draaikiep deur';
+    }
+  }
+
+  function closeVakDeurDraaikiepMenu(resetState = true) {
+    if (!vakDeurDraaikiepMenu) return;
+    vakDeurDraaikiepMenu.style.display = 'none';
+    if (resetState) {
+      huidigDeurDraaikiepType = null;
+      updateDeurDraaikiepButtons();
+    }
+  }
+
+  function updateDeurDraaikiepIcons() {
+    if (!vakDeurDraaikiepButtons.length) return;
+    vakDeurDraaikiepButtons.forEach(btn => {
+      const img = btn.querySelector('img[data-svg-type="deur-draaikiep"]');
+      if (img) {
+        const type = btn.dataset.deurDraaikiepType;
+        let variant = 'deur_draaikiep';
+        if (type === 'stapeldorpel') {
+          variant = 'deur_draaikiep_stapeldorpel';
+        } else if (type === '2vaks') {
+          variant = 'deur_draaikiep_2vaks';
+        } else if (type === 'dicht') {
+          variant = 'deur_draaikiep_dicht';
+        }
+        const svgPath = getVariantSvgPath(variant);
+        img.src = svgPath;
+      }
+    });
+  }
+
+  function updateDeurDraaikiepButtons() {
+    if (!vakDeurDraaikiepButtons.length) return;
+    vakDeurDraaikiepButtons.forEach(btn => {
+      btn.classList.toggle('selected', !!huidigDeurDraaikiepType && btn.dataset.deurDraaikiepType === huidigDeurDraaikiepType);
+    });
+  }
+
+  // Functies voor stolpdeuren_draaikiep
+  function openVakStolpdeurenDraaikiepMenu(vak, _pos) {
+    if (!vakStolpdeurenDraaikiepMenu) return;
+    huidigDeurMenuVak = vak;
+    const centerPos = getSvgCenterPos();
+    vakStolpdeurenDraaikiepMenu.style.left = `${centerPos.x}px`;
+    vakStolpdeurenDraaikiepMenu.style.top = `${centerPos.y}px`;
+    vakStolpdeurenDraaikiepMenu.style.display = 'flex';
+    
+    const assign = getVakToewijzing(vak.id);
+    if (assign && assign.type === 'deur' && (
+      assign.variant === 'stolpdeuren_draaikiep_stapeldorpel' || 
+      assign.variant === 'stolpdeuren_draaikiep_2vaks' || 
+      assign.variant === 'stolpdeuren_draaikiep_dicht'
+    )) {
+      if (assign.variant === 'stolpdeuren_draaikiep_stapeldorpel') {
+        huidigStolpdeurenDraaikiepType = 'stapeldorpel';
+      } else if (assign.variant === 'stolpdeuren_draaikiep_2vaks') {
+        huidigStolpdeurenDraaikiepType = '2vaks';
+      } else if (assign.variant === 'stolpdeuren_draaikiep_dicht') {
+        huidigStolpdeurenDraaikiepType = 'dicht';
+      }
+    } else {
+      huidigStolpdeurenDraaikiepType = null;
+    }
+    
+    updateStolpdeurenDraaikiepIcons();
+    updateStolpdeurenDraaikiepButtons();
+    if (vakStolpdeurenDraaikiepStatus) {
+      vakStolpdeurenDraaikiepStatus.textContent = 'Selecteer het type stolpdraaikiep deuren';
+    }
+  }
+
+  function closeVakStolpdeurenDraaikiepMenu(resetState = true) {
+    if (!vakStolpdeurenDraaikiepMenu) return;
+    vakStolpdeurenDraaikiepMenu.style.display = 'none';
+    if (resetState) {
+      huidigStolpdeurenDraaikiepType = null;
+      updateStolpdeurenDraaikiepButtons();
+    }
+  }
+
+  function updateStolpdeurenDraaikiepIcons() {
+    if (!vakStolpdeurenDraaikiepButtons.length) return;
+    vakStolpdeurenDraaikiepButtons.forEach(btn => {
+      const img = btn.querySelector('img[data-svg-type="stolpdeuren-draaikiep"]');
+      if (img) {
+        const type = btn.dataset.stolpdeurenDraaikiepType;
+        let variant = 'stolpdeuren_draaikiep';
+        if (type === 'stapeldorpel') {
+          variant = 'stolpdeuren_draaikiep_stapeldorpel';
+        } else if (type === '2vaks') {
+          variant = 'stolpdeuren_draaikiep_2vaks';
+        } else if (type === 'dicht') {
+          variant = 'stolpdeuren_draaikiep_dicht';
+        }
+        const svgPath = getVariantSvgPath(variant);
+        img.src = svgPath;
+      }
+    });
+  }
+
+  function updateStolpdeurenDraaikiepButtons() {
+    if (!vakStolpdeurenDraaikiepButtons.length) return;
+    vakStolpdeurenDraaikiepButtons.forEach(btn => {
+      btn.classList.toggle('selected', !!huidigStolpdeurenDraaikiepType && btn.dataset.stolpdeurenDraaikiepType === huidigStolpdeurenDraaikiepType);
+    });
+  }
+
+  // Functies voor afwerkingsopties menu
+  function openVakAfwerkingsOptiesMenu() {
+    if (!vakAfwerkingsOptiesMenu) return;
+    
+    // Eerst display flex zetten om afmetingen te kunnen meten
+    vakAfwerkingsOptiesMenu.style.display = 'flex';
+    vakAfwerkingsOptiesMenu.style.visibility = 'hidden';
+    
+    // Gebruik viewport center voor betere positionering
+    // Met position:fixed en transform:translate(-50%,-50%) wordt het menu gecentreerd
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    
+    // Center van viewport (position:fixed is relatief aan viewport)
+    let menuX = viewportWidth / 2;
+    let menuY = viewportHeight / 2;
+    
+    // Zorg dat menu niet buiten scherm valt (met marge)
+    const margin = 20;
+    const menuRect = vakAfwerkingsOptiesMenu.getBoundingClientRect();
+    const menuWidth = menuRect.width || 400;
+    const menuHeight = menuRect.height || 500;
+    
+    // Controleer of menu binnen viewport past
+    if (menuX - menuWidth / 2 < margin) {
+      menuX = margin + menuWidth / 2;
+    } else if (menuX + menuWidth / 2 > viewportWidth - margin) {
+      menuX = viewportWidth - margin - menuWidth / 2;
+    }
+    
+    if (menuY - menuHeight / 2 < margin) {
+      menuY = margin + menuHeight / 2;
+    } else if (menuY + menuHeight / 2 > viewportHeight - margin) {
+      menuY = viewportHeight - margin - menuHeight / 2;
+    }
+    
+    vakAfwerkingsOptiesMenu.style.left = `${menuX}px`;
+    vakAfwerkingsOptiesMenu.style.top = `${menuY}px`;
+    vakAfwerkingsOptiesMenu.style.zIndex = '1700';
+    vakAfwerkingsOptiesMenu.style.visibility = 'visible';
+    
+    // Update knoppen en inputs
+    updateGlasTypeButtons();
+    updateAfwerkingButtons();
+    updateKleurInputs();
+  }
+
+  function closeVakAfwerkingsOptiesMenu(resetState = true) {
+    if (!vakAfwerkingsOptiesMenu) return;
+    vakAfwerkingsOptiesMenu.style.display = 'none';
+    if (resetState) {
+      huidigGlasType = null;
+      huidigKleurDeurenRamenBinnen = '#FFFFFF';
+      huidigKleurDeurenRamenBuiten = '#FFFFFF';
+      huidigKleurKozijn = '#FFFFFF';
+      huidigAfwerking = null;
+      updateGlasTypeButtons();
+      updateAfwerkingButtons();
+      updateKleurInputs();
+    }
+  }
+
+  function updateGlasTypeButtons() {
+    if (glasEnkelglasBtn) glasEnkelglasBtn.classList.toggle('selected', huidigGlasType === 'enkelglas');
+    if (glasHrPlusPlusBtn) glasHrPlusPlusBtn.classList.toggle('selected', huidigGlasType === 'hr++');
+    if (glasHrPlusPlusPlusBtn) glasHrPlusPlusPlusBtn.classList.toggle('selected', huidigGlasType === 'hr+++');
+  }
+
+  function updateAfwerkingButtons() {
+    if (afwerkingAfgelaktBtn) afwerkingAfgelaktBtn.classList.toggle('selected', huidigAfwerking === 'afgelakt');
+    if (afwerkingGegrondBtn) afwerkingGegrondBtn.classList.toggle('selected', huidigAfwerking === 'alleen-gegrond');
+  }
+
+  function updateKleurInputs() {
+    if (kleurDeurenRamenBinnen) kleurDeurenRamenBinnen.value = huidigKleurDeurenRamenBinnen;
+    if (kleurDeurenRamenBinnenText) kleurDeurenRamenBinnenText.value = huidigKleurDeurenRamenBinnen;
+    if (kleurDeurenRamenBuiten) kleurDeurenRamenBuiten.value = huidigKleurDeurenRamenBuiten;
+    if (kleurDeurenRamenBuitenText) kleurDeurenRamenBuitenText.value = huidigKleurDeurenRamenBuiten;
+    if (kleurKozijn) kleurKozijn.value = huidigKleurKozijn;
+    if (kleurKozijnText) kleurKozijnText.value = huidigKleurKozijn;
+  }
+
+  function openVakDeurStapeldorpelMenu(vak, deurType = 'stapeldorpel', baseVariant = 'deur_buiten') {
     if (!vakDeurStapeldorpelMenu || !vak) {
       console.error('openVakDeurStapeldorpelMenu: menu or vak is null', { 
         menu: vakDeurStapeldorpelMenu, 
@@ -1636,7 +2126,16 @@ stroke-width="3"/>
       return;
     }
     huidigDeurMenuVak = vak;
-    huidigDeurBuitenType = deurType; // Sla het type op voor later gebruik
+    // Sla het type op voor later gebruik - gebruik de juiste variabele op basis van baseVariant
+    if (baseVariant === 'stolpdeuren_buiten') {
+      huidigStolpdeurenBuitenType = deurType;
+    } else if (baseVariant === 'deur_draaikiep') {
+      huidigDeurDraaikiepType = deurType;
+    } else if (baseVariant === 'stolpdeuren_draaikiep') {
+      huidigStolpdeurenDraaikiepType = deurType;
+    } else {
+      huidigDeurBuitenType = deurType;
+    }
     
     // Update menu titel op basis van type
     const titleEl = document.getElementById('vakDeurStapeldorpelTitle');
@@ -1661,12 +2160,10 @@ stroke-width="3"/>
     const assign = getVakToewijzing(vak.id);
     const isStapeldorpel = deurType === 'stapeldorpel';
     const is2vaks = deurType === '2vaks';
-    const expectedVariant = isStapeldorpel ? 'deur_buiten_stapeldorpel' : 'deur_buiten_2vaks';
+    const expectedVariant = isStapeldorpel ? `${baseVariant}_stapeldorpel` : `${baseVariant}_2vaks`;
     
     // Behoud huidige deurbeslag waarde als deze al is ingesteld (bij navigatie tussen menu's)
     const behoudDeurbeslag = huidigDeurbeslag;
-    const behoudDeurbeslagKleur = huidigDeurbeslagKleur;
-    const behoudDeurbeslagKleurWaarde = huidigDeurbeslagKleurWaarde;
     
     if (assign && assign.type === 'deur' && assign.variant === expectedVariant) {
       if (isStapeldorpel) {
@@ -1679,13 +2176,9 @@ stroke-width="3"/>
       huidigStapeldorpelRooster = assign.rooster || false;
       // Gebruik deurbeslag uit toewijzing, of behoud huidige waarde als die bestaat
       huidigDeurbeslag = assign.deurbeslag || behoudDeurbeslag || null;
-      huidigDeurbeslagKleur = assign.deurbeslagKleur || behoudDeurbeslagKleur || 'f1';
-      huidigDeurbeslagKleurWaarde = assign.deurbeslagKleurWaarde || behoudDeurbeslagKleurWaarde || '#8B7355';
       huidigStapeldorpelOrientation = assign.orientation || null;
       console.log('Deurbeslag geladen uit toewijzing:', { 
         deurbeslag: huidigDeurbeslag, 
-        kleur: huidigDeurbeslagKleur,
-        kleurWaarde: huidigDeurbeslagKleurWaarde,
         behoudDeurbeslag: behoudDeurbeslag
       });
     } else {
@@ -1699,8 +2192,6 @@ stroke-width="3"/>
       huidigStapeldorpelRooster = false;
       // Behoud deurbeslag waarde als die al is ingesteld (bij navigatie tussen menu's)
       huidigDeurbeslag = behoudDeurbeslag || null;
-      huidigDeurbeslagKleur = behoudDeurbeslagKleur || 'f1';
-      huidigDeurbeslagKleurWaarde = behoudDeurbeslagKleurWaarde || '#8B7355';
       huidigStapeldorpelOrientation = null;
       console.log('Geen toewijzing gevonden, behoud deurbeslag:', { 
         deurbeslag: huidigDeurbeslag,
@@ -1744,7 +2235,6 @@ stroke-width="3"/>
       update2vaksVak2Icons();
     }
     updateDeurbeslagStatus();
-    updateDeurbeslagKleurUI();
   }
 
   function closeVakDeurStapeldorpelMenu(resetState = true) {
@@ -1757,8 +2247,6 @@ stroke-width="3"/>
       // Behoud deurbeslag wanneer resetState = false (bij navigatie tussen menu's)
       // Alleen resetten wanneer echt nodig (bij cancel/close)
       huidigDeurbeslag = null;
-      huidigDeurbeslagKleur = 'f1';
-      huidigDeurbeslagKleurWaarde = '#8B7355';
     }
   }
 
@@ -1774,21 +2262,13 @@ stroke-width="3"/>
       };
       const label = deurbeslagLabels[huidigDeurbeslag] || huidigDeurbeslag;
       stapeldorpelDeurbeslagStatus.textContent = `Gekozen: ${label}`;
-      if (deurbeslagKleurGroup) deurbeslagKleurGroup.style.display = 'flex';
       console.log('Deurbeslag status bijgewerkt naar:', label);
     } else {
       stapeldorpelDeurbeslagStatus.textContent = 'Geen deurbeslag gekozen';
-      if (deurbeslagKleurGroup) deurbeslagKleurGroup.style.display = 'none';
       console.log('Geen deurbeslag gekozen');
     }
   }
 
-  function updateDeurbeslagKleurUI() {
-    if (deurbeslagF1Btn) deurbeslagF1Btn.classList.toggle('selected', huidigDeurbeslagKleur === 'f1');
-    if (deurbeslagAndersBtn) deurbeslagAndersBtn.classList.toggle('selected', huidigDeurbeslagKleur === 'anders');
-    if (deurbeslagKleurPicker) deurbeslagKleurPicker.style.display = huidigDeurbeslagKleur === 'anders' ? 'flex' : 'none';
-    if (deurbeslagKleurInput) deurbeslagKleurInput.value = huidigDeurbeslagKleurWaarde;
-  }
 
   function openVakDeurbeslagMenu(vak, _pos, deurType = null) {
     if (!vakDeurbeslagMenu) {
@@ -1828,7 +2308,6 @@ stroke-width="3"/>
     // Update ook de status in het dichte deur menu als dat open is
     if (deurType === 'dicht') {
       updateDeurbeslagStatusDicht();
-      updateDeurbeslagKleurUIDicht();
     }
   }
 
@@ -2177,10 +2656,31 @@ stroke-width="3"/>
     
     // Laad bestaande waarde als er al een toewijzing is
     const assign = getVakToewijzing(vak.id);
-    const deurType = huidigDeurBuitenType || 'stapeldorpel';
-    const expectedVariant = deurType === 'stapeldorpel' ? 'deur_buiten_stapeldorpel' : 
-                            deurType === '2vaks' ? 'deur_buiten_2vaks' : 
-                            deurType === 'dicht' ? 'deur_buiten_dicht' : 'deur_buiten_stapeldorpel';
+    // Bepaal deurType en baseVariant op basis van welke variabele is ingesteld
+    // Check eerst op normale deuren (deur_buiten), dan op andere varianten
+    let deurType = 'stapeldorpel';
+    let baseVariant = 'deur_buiten';
+    
+    if (huidigDeurBuitenType) {
+      // Normale buitendraaiende deur
+      baseVariant = 'deur_buiten';
+      deurType = huidigDeurBuitenType;
+    } else if (huidigStolpdeurenBuitenType) {
+      // Buitendraaiende stolpdeuren
+      baseVariant = 'stolpdeuren_buiten';
+      deurType = huidigStolpdeurenBuitenType;
+    } else if (huidigDeurDraaikiepType) {
+      // Draaikiep deur
+      baseVariant = 'deur_draaikiep';
+      deurType = huidigDeurDraaikiepType;
+    } else if (huidigStolpdeurenDraaikiepType) {
+      // Stolpdraaikiep deuren
+      baseVariant = 'stolpdeuren_draaikiep';
+      deurType = huidigStolpdeurenDraaikiepType;
+    }
+    const expectedVariant = deurType === 'stapeldorpel' ? `${baseVariant}_stapeldorpel` : 
+                            deurType === '2vaks' ? `${baseVariant}_2vaks` : 
+                            deurType === 'dicht' ? `${baseVariant}_dicht` : `${baseVariant}_stapeldorpel`;
     
     if (assign && assign.type === 'deur' && assign.variant === expectedVariant) {
       huidigStapeldorpelOrientation = assign.orientation || null;
@@ -2190,6 +2690,7 @@ stroke-width="3"/>
     
     updateStapeldorpelOrientationButtons();
     updateStapeldorpelOrientationIcons();
+    updateStapeldorpelOrientationLabels(baseVariant);
     if (vakStapeldorpelOrientationStatus) {
       const deurTypeLabel = deurType === 'dicht' ? 'dichte deur' : 
                             deurType === '2vaks' ? '2 vaks deur' : 
@@ -2204,6 +2705,8 @@ stroke-width="3"/>
     if (resetState) {
       huidigStapeldorpelOrientation = null;
       updateStapeldorpelOrientationButtons();
+      // Reset labels naar standaard
+      updateStapeldorpelOrientationLabels('deur_buiten');
     }
   }
 
@@ -2211,6 +2714,35 @@ stroke-width="3"/>
     if (!vakStapeldorpelOrientationButtons.length) return;
     vakStapeldorpelOrientationButtons.forEach(btn => {
       btn.classList.toggle('selected', !!huidigStapeldorpelOrientation && btn.dataset.stapeldorpelOrientation === huidigStapeldorpelOrientation);
+    });
+  }
+
+  function updateStapeldorpelOrientationLabels(baseVariant) {
+    if (!vakStapeldorpelOrientationButtons.length) return;
+    // Alleen voor stolpdeuren_buiten en stolpdeuren_draaikiep: gebruik "actief"
+    // Voor alle andere varianten (deur_buiten, deur_draaikiep): gebruik normale labels
+    const isStolpdeuren = baseVariant === 'stolpdeuren_buiten' || baseVariant === 'stolpdeuren_draaikiep';
+    
+    vakStapeldorpelOrientationButtons.forEach(btn => {
+      const span = btn.querySelector('span');
+      if (span) {
+        const orientation = btn.dataset.stapeldorpelOrientation;
+        if (isStolpdeuren) {
+          // Voor stolpdeuren: "Links actief" en "Rechts actief"
+          if (orientation === 'links') {
+            span.textContent = 'Links actief';
+          } else if (orientation === 'rechts') {
+            span.textContent = 'Rechts actief';
+          }
+        } else {
+          // Voor normale deuren: "Links" en "Rechts"
+          if (orientation === 'links') {
+            span.textContent = 'Links';
+          } else if (orientation === 'rechts') {
+            span.textContent = 'Rechts';
+          }
+        }
+      }
     });
   }
 
@@ -2405,7 +2937,62 @@ stroke-width="3"/>
                               toewijzing.orientation === 'vast' ? ' (vast)' : '';
       return `${base}${orientationText}`;
     }
-    if (toewijzing.type === 'deur') return 'Deur';
+    if (toewijzing.type === 'deur') {
+      // Bepaal basis variant tekst (zonder subvarianten)
+      let baseVariant = toewijzing.variant;
+      // Voor voordeur: geen subvarianten, return direct
+      if (baseVariant === 'voordeur') {
+        return 'Voordeur';
+      }
+      
+      if (baseVariant.includes('_stapeldorpel')) {
+        baseVariant = baseVariant.replace('_stapeldorpel', '');
+      } else if (baseVariant.includes('_2vaks')) {
+        baseVariant = baseVariant.replace('_2vaks', '');
+      } else if (baseVariant.includes('_dicht')) {
+        baseVariant = baseVariant.replace('_dicht', '');
+      }
+      
+      const variantLabelMap = {
+        deur_buiten: 'Buitendraaiende deur',
+        stolpdeuren_buiten: 'Stolpdeuren buitendraaiend',
+        deur_draaikiep: 'Draaikiep deur',
+        stolpdeuren_draaikiep: 'Stolpdraaikiep deur',
+        voordeur: 'Voordeur'
+      };
+      
+      // Bepaal of het een stolpdeuren variant is
+      const isStolpdeuren = baseVariant === 'stolpdeuren_buiten' || baseVariant === 'stolpdeuren_draaikiep';
+      
+      // Bepaal deur type tekst
+      let deurTypeText = '';
+      if (toewijzing.variant.includes('_stapeldorpel')) {
+        deurTypeText = ' (stapeldorpel)';
+      } else if (toewijzing.variant.includes('_2vaks')) {
+        deurTypeText = ' (2 vaks)';
+      } else if (toewijzing.variant.includes('_dicht')) {
+        deurTypeText = ' (dicht)';
+      }
+      
+      const base = variantLabelMap[baseVariant] || 'Deur';
+      const variantText = base + deurTypeText;
+      
+      // Voeg draairichting toe
+      if (toewijzing.orientation) {
+        if (isStolpdeuren) {
+          // Voor stolpdeuren: "links actief" of "rechts actief"
+          const orientationText = toewijzing.orientation === 'links' ? ' links actief' :
+                                  toewijzing.orientation === 'rechts' ? ' rechts actief' : '';
+          return `${variantText}${orientationText}`;
+        } else {
+          // Voor normale deuren: "links draaiend" of "rechts draaiend"
+          const orientationText = toewijzing.orientation === 'links' ? ' links draaiend' :
+                                  toewijzing.orientation === 'rechts' ? ' rechts draaiend' : '';
+          return `${variantText}${orientationText}`;
+        }
+      }
+      return variantText;
+    }
     if (toewijzing.type === 'glas') {
       const variantLabelMap = {
         glas_vast: 'Vast glas',
@@ -4069,11 +4656,21 @@ stroke-width="3"/>
     closeMaatPopover();
   }
   
+  // Controleer of alle vakken zijn ingevuld
+  function zijnAlleVakkenIngevuld() {
+    if (state.vakken.length === 0) return false;
+    return state.vakken.every(vak => {
+      const toewijzing = getVakToewijzing(vak.id);
+      return toewijzing && (toewijzing.type === 'raam' || toewijzing.type === 'deur' || toewijzing.type === 'glas');
+    });
+  }
+  
   // Toon vakken in de lijst
   function toonVakken() {
     if (state.vakken.length === 0) {
       vakkenList.innerHTML = '<small>Geen vakken gedetecteerd.</small>';
       vakkenFieldset.style.display = 'none';
+      if (btnAfwerkingsOpties) btnAfwerkingsOpties.style.display = 'none';
       return;
     }
     
@@ -4140,6 +4737,12 @@ stroke-width="3"/>
       
       vakkenList.appendChild(container);
     });
+    
+    // Toon afwerkingsopties knop als alle vakken zijn ingevuld
+    if (btnAfwerkingsOpties) {
+      const alleIngevuld = zijnAlleVakkenIngevuld();
+      btnAfwerkingsOpties.style.display = alleIngevuld ? 'block' : 'none';
+    }
   }
   
   // Teken vak overlays + nummers op het SVG
@@ -4627,9 +5230,9 @@ stroke-width="3"/>
       // Voor klepraam varianten: geen orientation tekst
       let suffix = '';
       if (assign.variant !== 'klepraam' && assign.variant !== 'klepraam_open' && assign.variant !== 'klepraam_vast') {
-        const orientationText = assign.orientation === 'links' ? 'Links' :
-                                assign.orientation === 'rechts' ? 'Rechts' :
-                                assign.orientation === 'vast' ? 'Vast' : '';
+      const orientationText = assign.orientation === 'links' ? 'Links' :
+                              assign.orientation === 'rechts' ? 'Rechts' :
+                              assign.orientation === 'vast' ? 'Vast' : '';
         suffix = orientationText ? ` · ${orientationText}` : '';
       }
       vakRaamStatus.textContent = `Geselecteerd: ${variantText}${suffix}`;
@@ -4730,6 +5333,39 @@ stroke-width="3"/>
         }
         huidigDeurVariant = 'deur_buiten';
       }
+      // Voor stolpdeuren_buiten subvarianten
+      else if (heeftDeur && (assign.variant === 'stolpdeuren_buiten_stapeldorpel' || assign.variant === 'stolpdeuren_buiten_2vaks' || assign.variant === 'stolpdeuren_buiten_dicht')) {
+        if (assign.variant === 'stolpdeuren_buiten_stapeldorpel') {
+          huidigStolpdeurenBuitenType = 'stapeldorpel';
+        } else if (assign.variant === 'stolpdeuren_buiten_2vaks') {
+          huidigStolpdeurenBuitenType = '2vaks';
+        } else if (assign.variant === 'stolpdeuren_buiten_dicht') {
+          huidigStolpdeurenBuitenType = 'dicht';
+        }
+        huidigDeurVariant = 'stolpdeuren_buiten';
+      }
+      // Voor deur_draaikiep subvarianten
+      else if (heeftDeur && (assign.variant === 'deur_draaikiep_stapeldorpel' || assign.variant === 'deur_draaikiep_2vaks' || assign.variant === 'deur_draaikiep_dicht')) {
+        if (assign.variant === 'deur_draaikiep_stapeldorpel') {
+          huidigDeurDraaikiepType = 'stapeldorpel';
+        } else if (assign.variant === 'deur_draaikiep_2vaks') {
+          huidigDeurDraaikiepType = '2vaks';
+        } else if (assign.variant === 'deur_draaikiep_dicht') {
+          huidigDeurDraaikiepType = 'dicht';
+        }
+        huidigDeurVariant = 'deur_draaikiep';
+      }
+      // Voor stolpdeuren_draaikiep subvarianten
+      else if (heeftDeur && (assign.variant === 'stolpdeuren_draaikiep_stapeldorpel' || assign.variant === 'stolpdeuren_draaikiep_2vaks' || assign.variant === 'stolpdeuren_draaikiep_dicht')) {
+        if (assign.variant === 'stolpdeuren_draaikiep_stapeldorpel') {
+          huidigStolpdeurenDraaikiepType = 'stapeldorpel';
+        } else if (assign.variant === 'stolpdeuren_draaikiep_2vaks') {
+          huidigStolpdeurenDraaikiepType = '2vaks';
+        } else if (assign.variant === 'stolpdeuren_draaikiep_dicht') {
+          huidigStolpdeurenDraaikiepType = 'dicht';
+        }
+        huidigDeurVariant = 'stolpdeuren_draaikiep';
+      }
     } else if (heeftDeur) {
       // Voor deur_buiten subvarianten: zet terug naar basis variant
       if (assign.variant === 'deur_buiten_stapeldorpel' || assign.variant === 'deur_buiten_2vaks' || assign.variant === 'deur_buiten_dicht') {
@@ -4741,8 +5377,41 @@ stroke-width="3"/>
           huidigDeurBuitenType = 'dicht';
         }
         huidigDeurVariant = 'deur_buiten';
+      }
+      // Voor stolpdeuren_buiten subvarianten
+      else if (assign.variant === 'stolpdeuren_buiten_stapeldorpel' || assign.variant === 'stolpdeuren_buiten_2vaks' || assign.variant === 'stolpdeuren_buiten_dicht') {
+        if (assign.variant === 'stolpdeuren_buiten_stapeldorpel') {
+          huidigStolpdeurenBuitenType = 'stapeldorpel';
+        } else if (assign.variant === 'stolpdeuren_buiten_2vaks') {
+          huidigStolpdeurenBuitenType = '2vaks';
+        } else if (assign.variant === 'stolpdeuren_buiten_dicht') {
+          huidigStolpdeurenBuitenType = 'dicht';
+        }
+        huidigDeurVariant = 'stolpdeuren_buiten';
+      }
+      // Voor deur_draaikiep subvarianten
+      else if (assign.variant === 'deur_draaikiep_stapeldorpel' || assign.variant === 'deur_draaikiep_2vaks' || assign.variant === 'deur_draaikiep_dicht') {
+        if (assign.variant === 'deur_draaikiep_stapeldorpel') {
+          huidigDeurDraaikiepType = 'stapeldorpel';
+        } else if (assign.variant === 'deur_draaikiep_2vaks') {
+          huidigDeurDraaikiepType = '2vaks';
+        } else if (assign.variant === 'deur_draaikiep_dicht') {
+          huidigDeurDraaikiepType = 'dicht';
+        }
+        huidigDeurVariant = 'deur_draaikiep';
+      }
+      // Voor stolpdeuren_draaikiep subvarianten
+      else if (assign.variant === 'stolpdeuren_draaikiep_stapeldorpel' || assign.variant === 'stolpdeuren_draaikiep_2vaks' || assign.variant === 'stolpdeuren_draaikiep_dicht') {
+        if (assign.variant === 'stolpdeuren_draaikiep_stapeldorpel') {
+          huidigStolpdeurenDraaikiepType = 'stapeldorpel';
+        } else if (assign.variant === 'stolpdeuren_draaikiep_2vaks') {
+          huidigStolpdeurenDraaikiepType = '2vaks';
+        } else if (assign.variant === 'stolpdeuren_draaikiep_dicht') {
+          huidigStolpdeurenDraaikiepType = 'dicht';
+        }
+        huidigDeurVariant = 'stolpdeuren_draaikiep';
       } else {
-        huidigDeurVariant = assign.variant || null;
+      huidigDeurVariant = assign.variant || null;
       }
     } else {
       huidigDeurVariant = null;
@@ -4963,6 +5632,42 @@ stroke-width="3"/>
         return;
       }
       
+      // Voor stolpdeuren_buiten: open submenu (stapeldorpel, 2vaks, dicht)
+      if (variant === 'stolpdeuren_buiten') {
+        const btnRect = button.getBoundingClientRect();
+        const pos = {
+          x: btnRect.left + btnRect.width / 2,
+          y: btnRect.top
+        };
+        closeVakDeurMenu(false);
+        openVakStolpdeurenBuitenMenu(huidigDeurMenuVak, pos);
+        return;
+      }
+      
+      // Voor deur_draaikiep: open submenu (stapeldorpel, 2vaks, dicht)
+      if (variant === 'deur_draaikiep') {
+        const btnRect = button.getBoundingClientRect();
+        const pos = {
+          x: btnRect.left + btnRect.width / 2,
+          y: btnRect.top
+        };
+        closeVakDeurMenu(false);
+        openVakDeurDraaikiepMenu(huidigDeurMenuVak, pos);
+        return;
+      }
+      
+      // Voor stolpdeuren_draaikiep: open submenu (stapeldorpel, 2vaks, dicht)
+      if (variant === 'stolpdeuren_draaikiep') {
+        const btnRect = button.getBoundingClientRect();
+        const pos = {
+          x: btnRect.left + btnRect.width / 2,
+          y: btnRect.top
+        };
+        closeVakDeurMenu(false);
+        openVakStolpdeurenDraaikiepMenu(huidigDeurMenuVak, pos);
+        return;
+      }
+      
       // Voor andere deuren: sla direct op
       setVakToewijzing(vakId, { type: 'deur', variant });
       
@@ -5113,7 +5818,7 @@ stroke-width="3"/>
         closeVakDeurBuitenMenu(false);
         // Kleine vertraging om ervoor te zorgen dat het vorige menu gesloten is
         setTimeout(() => {
-          openVakDeurStapeldorpelMenu(deurVak, deurBuitenType);
+          openVakDeurStapeldorpelMenu(deurVak, deurBuitenType, 'deur_buiten');
         }, 50);
         return;
       }
@@ -5164,6 +5869,204 @@ stroke-width="3"/>
   if (vakDeurBuitenCancel) {
     vakDeurBuitenCancel.addEventListener('click', () => {
       closeVakDeurBuitenMenu();
+      closeVakDeurMenu();
+      closeVakQuickMenu(true);
+    });
+  }
+
+  // Event listeners voor stolpdeuren_buiten menu
+  if (vakStolpdeurenBuitenMenu) {
+    vakStolpdeurenBuitenMenu.addEventListener('click', (e) => {
+      const button = e.target.closest('button[data-stolpdeuren-buiten-type]');
+      if (!button || !huidigDeurMenuVak) return;
+      
+      if (!huidigDeurVariant || huidigDeurVariant !== 'stolpdeuren_buiten') {
+        huidigDeurVariant = 'stolpdeuren_buiten';
+      }
+      
+      const type = button.dataset.stolpdeurenBuitenType;
+      if (!type) {
+        console.warn('Stolpdeuren buiten type niet gevonden in button dataset');
+        return;
+      }
+      
+      huidigStolpdeurenBuitenType = type;
+      updateStolpdeurenBuitenButtons();
+      
+      if (type === 'stapeldorpel' || type === '2vaks') {
+        const deurVak = huidigDeurMenuVak;
+        if (!deurVak) {
+          console.error('Deur menu: huidigDeurMenuVak is null');
+          return;
+        }
+        closeVakStolpdeurenBuitenMenu(false);
+        setTimeout(() => {
+          openVakDeurStapeldorpelMenu(deurVak, type, 'stolpdeuren_buiten');
+        }, 50);
+        return;
+      }
+      
+      if (type === 'dicht') {
+        const deurVak = huidigDeurMenuVak;
+        if (!deurVak) {
+          console.error('Deur menu: huidigDeurMenuVak is null');
+          return;
+        }
+        const menuPos = laatsteDeurMenuPos || getSvgCenterPos();
+        closeVakStolpdeurenBuitenMenu(false);
+        setTimeout(() => {
+          openVakDeurDichtMenu(deurVak, menuPos);
+        }, 50);
+        return;
+      }
+    });
+  }
+
+  if (vakStolpdeurenBuitenBack) {
+    vakStolpdeurenBuitenBack.addEventListener('click', () => {
+      if (!huidigDeurMenuVak) return;
+      closeVakStolpdeurenBuitenMenu(false);
+      if (laatsteDeurMenuPos) {
+        openVakDeurMenu(huidigDeurMenuVak, laatsteDeurMenuPos, 'stolpdeuren_buiten');
+      }
+    });
+  }
+
+  if (vakStolpdeurenBuitenCancel) {
+    vakStolpdeurenBuitenCancel.addEventListener('click', () => {
+      closeVakStolpdeurenBuitenMenu();
+      closeVakDeurMenu();
+      closeVakQuickMenu(true);
+    });
+  }
+
+  // Event listeners voor deur_draaikiep menu
+  if (vakDeurDraaikiepMenu) {
+    vakDeurDraaikiepMenu.addEventListener('click', (e) => {
+      const button = e.target.closest('button[data-deur-draaikiep-type]');
+      if (!button || !huidigDeurMenuVak) return;
+      
+      if (!huidigDeurVariant || huidigDeurVariant !== 'deur_draaikiep') {
+        huidigDeurVariant = 'deur_draaikiep';
+      }
+      
+      const type = button.dataset.deurDraaikiepType;
+      if (!type) {
+        console.warn('Deur draaikiep type niet gevonden in button dataset');
+        return;
+      }
+      
+      huidigDeurDraaikiepType = type;
+      updateDeurDraaikiepButtons();
+      
+      if (type === 'stapeldorpel' || type === '2vaks') {
+        const deurVak = huidigDeurMenuVak;
+        if (!deurVak) {
+          console.error('Deur menu: huidigDeurMenuVak is null');
+          return;
+        }
+        closeVakDeurDraaikiepMenu(false);
+        setTimeout(() => {
+          openVakDeurStapeldorpelMenu(deurVak, type, 'deur_draaikiep');
+        }, 50);
+        return;
+      }
+      
+      if (type === 'dicht') {
+        const deurVak = huidigDeurMenuVak;
+        if (!deurVak) {
+          console.error('Deur menu: huidigDeurMenuVak is null');
+          return;
+        }
+        const menuPos = laatsteDeurMenuPos || getSvgCenterPos();
+        closeVakDeurDraaikiepMenu(false);
+        setTimeout(() => {
+          openVakDeurDichtMenu(deurVak, menuPos);
+        }, 50);
+        return;
+      }
+    });
+  }
+
+  if (vakDeurDraaikiepBack) {
+    vakDeurDraaikiepBack.addEventListener('click', () => {
+      if (!huidigDeurMenuVak) return;
+      closeVakDeurDraaikiepMenu(false);
+      if (laatsteDeurMenuPos) {
+        openVakDeurMenu(huidigDeurMenuVak, laatsteDeurMenuPos, 'deur_draaikiep');
+      }
+    });
+  }
+
+  if (vakDeurDraaikiepCancel) {
+    vakDeurDraaikiepCancel.addEventListener('click', () => {
+      closeVakDeurDraaikiepMenu();
+      closeVakDeurMenu();
+      closeVakQuickMenu(true);
+    });
+  }
+
+  // Event listeners voor stolpdeuren_draaikiep menu
+  if (vakStolpdeurenDraaikiepMenu) {
+    vakStolpdeurenDraaikiepMenu.addEventListener('click', (e) => {
+      const button = e.target.closest('button[data-stolpdeuren-draaikiep-type]');
+      if (!button || !huidigDeurMenuVak) return;
+      
+      if (!huidigDeurVariant || huidigDeurVariant !== 'stolpdeuren_draaikiep') {
+        huidigDeurVariant = 'stolpdeuren_draaikiep';
+      }
+      
+      const type = button.dataset.stolpdeurenDraaikiepType;
+      if (!type) {
+        console.warn('Stolpdeuren draaikiep type niet gevonden in button dataset');
+        return;
+      }
+      
+      huidigStolpdeurenDraaikiepType = type;
+      updateStolpdeurenDraaikiepButtons();
+      
+      if (type === 'stapeldorpel' || type === '2vaks') {
+        const deurVak = huidigDeurMenuVak;
+        if (!deurVak) {
+          console.error('Deur menu: huidigDeurMenuVak is null');
+          return;
+        }
+        closeVakStolpdeurenDraaikiepMenu(false);
+        setTimeout(() => {
+          openVakDeurStapeldorpelMenu(deurVak, type, 'stolpdeuren_draaikiep');
+        }, 50);
+        return;
+      }
+      
+      if (type === 'dicht') {
+        const deurVak = huidigDeurMenuVak;
+        if (!deurVak) {
+          console.error('Deur menu: huidigDeurMenuVak is null');
+          return;
+        }
+        const menuPos = laatsteDeurMenuPos || getSvgCenterPos();
+        closeVakStolpdeurenDraaikiepMenu(false);
+        setTimeout(() => {
+          openVakDeurDichtMenu(deurVak, menuPos);
+        }, 50);
+        return;
+      }
+    });
+  }
+
+  if (vakStolpdeurenDraaikiepBack) {
+    vakStolpdeurenDraaikiepBack.addEventListener('click', () => {
+      if (!huidigDeurMenuVak) return;
+      closeVakStolpdeurenDraaikiepMenu(false);
+      if (laatsteDeurMenuPos) {
+        openVakDeurMenu(huidigDeurMenuVak, laatsteDeurMenuPos, 'stolpdeuren_draaikiep');
+      }
+    });
+  }
+
+  if (vakStolpdeurenDraaikiepCancel) {
+    vakStolpdeurenDraaikiepCancel.addEventListener('click', () => {
+      closeVakStolpdeurenDraaikiepMenu();
       closeVakDeurMenu();
       closeVakQuickMenu(true);
     });
@@ -5259,30 +6162,6 @@ stroke-width="3"/>
     });
   }
 
-  // Event listeners voor deurbeslag kleur (dichte deur)
-  if (deurbeslagF1BtnDicht) {
-    deurbeslagF1BtnDicht.addEventListener('click', () => {
-      huidigDeurbeslagKleur = 'f1';
-      deurbeslagF1BtnDicht.classList.add('selected');
-      if (deurbeslagAndersBtnDicht) deurbeslagAndersBtnDicht.classList.remove('selected');
-      if (deurbeslagKleurPickerDicht) deurbeslagKleurPickerDicht.style.display = 'none';
-    });
-  }
-
-  if (deurbeslagAndersBtnDicht) {
-    deurbeslagAndersBtnDicht.addEventListener('click', () => {
-      huidigDeurbeslagKleur = 'anders';
-      deurbeslagAndersBtnDicht.classList.add('selected');
-      if (deurbeslagF1BtnDicht) deurbeslagF1BtnDicht.classList.remove('selected');
-      if (deurbeslagKleurPickerDicht) deurbeslagKleurPickerDicht.style.display = 'flex';
-    });
-  }
-
-  if (deurbeslagKleurInputDicht) {
-    deurbeslagKleurInputDicht.addEventListener('change', (e) => {
-      huidigDeurbeslagKleurWaarde = e.target.value;
-    });
-  }
 
   // Event listeners voor extra raam opties menu
   if (beslagF1Btn) {
@@ -5594,14 +6473,12 @@ stroke-width="3"/>
         setTimeout(() => {
           openVakDeurDichtMenu(deurVak, menuPos);
           updateDeurbeslagStatusDicht();
-          updateDeurbeslagKleurUIDicht();
         }, 50);
       } else {
         // Voor stapeldorpel en 2vaks: ga terug naar stapeldorpel menu
         closeVakDeurbeslagMenu(false);
         openVakDeurStapeldorpelMenu(huidigDeurMenuVak, deurType);
         updateDeurbeslagStatus();
-        updateDeurbeslagKleurUI();
       }
     });
   }
@@ -5611,34 +6488,9 @@ stroke-width="3"/>
       huidigDeurbeslag = null;
       updateDeurbeslagButtons();
       updateDeurbeslagStatus();
-      if (deurbeslagKleurGroup) deurbeslagKleurGroup.style.display = 'none';
     });
   }
 
-  // Event listeners voor deurbeslag kleur
-  if (deurbeslagF1Btn) {
-    deurbeslagF1Btn.addEventListener('click', () => {
-      huidigDeurbeslagKleur = 'f1';
-      deurbeslagF1Btn.classList.add('selected');
-      deurbeslagAndersBtn.classList.remove('selected');
-      if (deurbeslagKleurPicker) deurbeslagKleurPicker.style.display = 'none';
-    });
-  }
-
-  if (deurbeslagAndersBtn) {
-    deurbeslagAndersBtn.addEventListener('click', () => {
-      huidigDeurbeslagKleur = 'anders';
-      deurbeslagAndersBtn.classList.add('selected');
-      deurbeslagF1Btn.classList.remove('selected');
-      if (deurbeslagKleurPicker) deurbeslagKleurPicker.style.display = 'flex';
-    });
-  }
-
-  if (deurbeslagKleurInput) {
-    deurbeslagKleurInput.addEventListener('change', (e) => {
-      huidigDeurbeslagKleurWaarde = e.target.value;
-    });
-  }
 
   // Event listeners voor stapeldorpel orientatie menu
   if (vakStapeldorpelOrientationButtons.length) {
@@ -5652,16 +6504,35 @@ stroke-width="3"/>
         
         // Nu alle opties zijn gekozen, sla de definitieve toewijzing op
         const vakId = huidigDeurMenuVak.id;
-        const deurType = huidigDeurBuitenType || 'stapeldorpel';
-        let variant;
+        // Bepaal deurType en baseVariant
+        // Check eerst op normale deuren (deur_buiten), dan op andere varianten
+        let deurType = 'stapeldorpel';
+        let baseVariant = 'deur_buiten';
+        
+        if (huidigDeurBuitenType) {
+          // Normale buitendraaiende deur
+          baseVariant = 'deur_buiten';
+          deurType = huidigDeurBuitenType;
+        } else if (huidigStolpdeurenBuitenType) {
+          // Buitendraaiende stolpdeuren
+          baseVariant = 'stolpdeuren_buiten';
+          deurType = huidigStolpdeurenBuitenType;
+        } else if (huidigDeurDraaikiepType) {
+          // Draaikiep deur
+          baseVariant = 'deur_draaikiep';
+          deurType = huidigDeurDraaikiepType;
+        } else if (huidigStolpdeurenDraaikiepType) {
+          // Stolpdraaikiep deuren
+          baseVariant = 'stolpdeuren_draaikiep';
+          deurType = huidigStolpdeurenDraaikiepType;
+        }
+        let variant = baseVariant;
         if (deurType === 'stapeldorpel') {
-          variant = 'deur_buiten_stapeldorpel';
+          variant = `${baseVariant}_stapeldorpel`;
         } else if (deurType === '2vaks') {
-          variant = 'deur_buiten_2vaks';
+          variant = `${baseVariant}_2vaks`;
         } else if (deurType === 'dicht') {
-          variant = 'deur_buiten_dicht';
-        } else {
-          variant = 'deur_buiten';
+          variant = `${baseVariant}_dicht`;
         }
         
         const toewijzing = {
@@ -5685,10 +6556,6 @@ stroke-width="3"/>
         // Voeg deurbeslag toe als het is gekozen (voor stapeldorpel, 2vaks en dicht)
         if (huidigDeurbeslag) {
           toewijzing.deurbeslag = huidigDeurbeslag;
-          toewijzing.deurbeslagKleur = huidigDeurbeslagKleur;
-          if (huidigDeurbeslagKleur === 'anders') {
-            toewijzing.deurbeslagKleurWaarde = huidigDeurbeslagKleurWaarde;
-          }
         }
         
         console.log('Opslaan toewijzing voor', deurType, 'deur:', toewijzing);
@@ -5717,7 +6584,28 @@ stroke-width="3"/>
   if (vakStapeldorpelOrientationBack) {
     vakStapeldorpelOrientationBack.addEventListener('click', () => {
       if (!huidigDeurMenuVak) return;
-      const deurType = huidigDeurBuitenType || 'stapeldorpel';
+      // Bepaal deurType en baseVariant
+      // Check eerst op normale deuren (deur_buiten), dan op andere varianten
+      let deurType = 'stapeldorpel';
+      let baseVariant = 'deur_buiten';
+      
+      if (huidigDeurBuitenType) {
+        // Normale buitendraaiende deur
+        baseVariant = 'deur_buiten';
+        deurType = huidigDeurBuitenType;
+      } else if (huidigStolpdeurenBuitenType) {
+        // Buitendraaiende stolpdeuren
+        baseVariant = 'stolpdeuren_buiten';
+        deurType = huidigStolpdeurenBuitenType;
+      } else if (huidigDeurDraaikiepType) {
+        // Draaikiep deur
+        baseVariant = 'deur_draaikiep';
+        deurType = huidigDeurDraaikiepType;
+      } else if (huidigStolpdeurenDraaikiepType) {
+        // Stolpdraaikiep deuren
+        baseVariant = 'stolpdeuren_draaikiep';
+        deurType = huidigStolpdeurenDraaikiepType;
+      }
       closeVakStapeldorpelOrientationMenu(false);
       if (deurType === 'dicht') {
         // Voor dichte deur: ga terug naar dichte deur menu
@@ -5725,7 +6613,7 @@ stroke-width="3"/>
         openVakDeurDichtMenu(huidigDeurMenuVak, menuPos);
       } else {
         // Voor stapeldorpel en 2vaks: ga terug naar stapeldorpel menu
-        openVakDeurStapeldorpelMenu(huidigDeurMenuVak, deurType);
+        openVakDeurStapeldorpelMenu(huidigDeurMenuVak, deurType, baseVariant);
       }
     });
   }
@@ -5895,6 +6783,14 @@ stroke-width="3"/>
       e.stopPropagation();
     });
   }
+  if (vakAfwerkingsOptiesMenu) {
+    vakAfwerkingsOptiesMenu.addEventListener('mousedown', (e) => {
+      e.stopPropagation();
+    });
+    vakAfwerkingsOptiesMenu.addEventListener('mouseup', (e) => {
+      e.stopPropagation();
+    });
+  }
   
   if (vakRaamExtraMenu) {
     vakRaamExtraMenu.addEventListener('mousedown', (e) => {
@@ -5926,7 +6822,8 @@ stroke-width="3"/>
     const klikInStapeldorpelOrientation = vakStapeldorpelOrientationMenu && vakStapeldorpelOrientationMenu.contains(e.target);
     const klikIn2vaksVak1 = vak2vaksVak1Menu && vak2vaksVak1Menu.contains(e.target);
     const klikIn2vaksVak2 = vak2vaksVak2Menu && vak2vaksVak2Menu.contains(e.target);
-    if (!klikInQuick && !klikInRaam && !klikInDeur && !klikInGlas && !klikInOrientation && !klikInExtra && !klikInGlasExtra && !klikInDeurStapeldorpel && !klikInDeurbeslag && !klikInStapeldorpelOrientation && !klikIn2vaksVak1 && !klikIn2vaksVak2) {
+    const klikInAfwerkingsOpties = vakAfwerkingsOptiesMenu && vakAfwerkingsOptiesMenu.contains(e.target);
+    if (!klikInQuick && !klikInRaam && !klikInDeur && !klikInGlas && !klikInOrientation && !klikInExtra && !klikInGlasExtra && !klikInDeurStapeldorpel && !klikInDeurbeslag && !klikInStapeldorpelOrientation && !klikIn2vaksVak1 && !klikIn2vaksVak2 && !klikInAfwerkingsOpties) {
       closeVakQuickMenu(true);
       closeVakDeurStapeldorpelMenu();
       closeVakDeurbeslagMenu();
@@ -5977,6 +6874,126 @@ stroke-width="3"/>
       draw();
     }
   });
+
+  // Event listeners voor afwerkingsopties menu
+  if (btnAfwerkingsOpties) {
+    btnAfwerkingsOpties.addEventListener('click', () => {
+      openVakAfwerkingsOptiesMenu();
+    });
+  }
+
+  if (glasEnkelglasBtn) {
+    glasEnkelglasBtn.addEventListener('click', () => {
+      huidigGlasType = 'enkelglas';
+      updateGlasTypeButtons();
+    });
+  }
+
+  if (glasHrPlusPlusBtn) {
+    glasHrPlusPlusBtn.addEventListener('click', () => {
+      huidigGlasType = 'hr++';
+      updateGlasTypeButtons();
+    });
+  }
+
+  if (glasHrPlusPlusPlusBtn) {
+    glasHrPlusPlusPlusBtn.addEventListener('click', () => {
+      huidigGlasType = 'hr+++';
+      updateGlasTypeButtons();
+    });
+  }
+
+  if (afwerkingAfgelaktBtn) {
+    afwerkingAfgelaktBtn.addEventListener('click', () => {
+      huidigAfwerking = 'afgelakt';
+      updateAfwerkingButtons();
+    });
+  }
+
+  if (afwerkingGegrondBtn) {
+    afwerkingGegrondBtn.addEventListener('click', () => {
+      huidigAfwerking = 'alleen-gegrond';
+      updateAfwerkingButtons();
+    });
+  }
+
+  // Kleur inputs synchroniseren
+  if (kleurDeurenRamenBinnen) {
+    kleurDeurenRamenBinnen.addEventListener('input', (e) => {
+      huidigKleurDeurenRamenBinnen = e.target.value;
+      if (kleurDeurenRamenBinnenText) kleurDeurenRamenBinnenText.value = e.target.value;
+    });
+  }
+
+  if (kleurDeurenRamenBinnenText) {
+    kleurDeurenRamenBinnenText.addEventListener('input', (e) => {
+      const value = e.target.value;
+      if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
+        huidigKleurDeurenRamenBinnen = value;
+        if (kleurDeurenRamenBinnen) kleurDeurenRamenBinnen.value = value;
+      }
+    });
+  }
+
+  if (kleurDeurenRamenBuiten) {
+    kleurDeurenRamenBuiten.addEventListener('input', (e) => {
+      huidigKleurDeurenRamenBuiten = e.target.value;
+      if (kleurDeurenRamenBuitenText) kleurDeurenRamenBuitenText.value = e.target.value;
+    });
+  }
+
+  if (kleurDeurenRamenBuitenText) {
+    kleurDeurenRamenBuitenText.addEventListener('input', (e) => {
+      const value = e.target.value;
+      if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
+        huidigKleurDeurenRamenBuiten = value;
+        if (kleurDeurenRamenBuiten) kleurDeurenRamenBuiten.value = value;
+      }
+    });
+  }
+
+  if (kleurKozijn) {
+    kleurKozijn.addEventListener('input', (e) => {
+      huidigKleurKozijn = e.target.value;
+      if (kleurKozijnText) kleurKozijnText.value = e.target.value;
+    });
+  }
+
+  if (kleurKozijnText) {
+    kleurKozijnText.addEventListener('input', (e) => {
+      const value = e.target.value;
+      if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
+        huidigKleurKozijn = value;
+        if (kleurKozijn) kleurKozijn.value = value;
+      }
+    });
+  }
+
+  if (vakAfwerkingsOptiesBack) {
+    vakAfwerkingsOptiesBack.addEventListener('click', () => {
+      closeVakAfwerkingsOptiesMenu(false);
+    });
+  }
+
+  if (vakAfwerkingsOptiesCancel) {
+    vakAfwerkingsOptiesCancel.addEventListener('click', () => {
+      closeVakAfwerkingsOptiesMenu();
+    });
+  }
+
+  if (vakAfwerkingsOptiesConfirm) {
+    vakAfwerkingsOptiesConfirm.addEventListener('click', () => {
+      // Hier kunnen we later de afwerkingsopties opslaan
+      console.log('Afwerkingsopties bevestigd:', {
+        glasType: huidigGlasType,
+        kleurDeurenRamenBinnen: huidigKleurDeurenRamenBinnen,
+        kleurDeurenRamenBuiten: huidigKleurDeurenRamenBuiten,
+        kleurKozijn: huidigKleurKozijn,
+        afwerking: huidigAfwerking
+      });
+      closeVakAfwerkingsOptiesMenu(false);
+    });
+  }
 
   // Laad SVG iconen bij page load
   loadSvgIcons();
