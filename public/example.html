@@ -5,11 +5,25 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kozijnen Vrij Tekenen</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     :root { --bg:#0b0d10; --fg:#e6e6e6; --muted:#9aa1a8; --accent:#4aa3ff; --tussenStijl:#00ff88; --tussenDorpel:#ff8888; }
     html,body{height:100%}
     body{margin:0;font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--fg);background:var(--bg)}
-    .wrap{display:grid;grid-template-columns:340px 1fr;gap:16px;max-width:1600px;margin:0 auto;padding:16px}
+    .wrap{display:grid;grid-template-columns:340px 1fr 320px;gap:16px;max-width:1800px;margin:0 auto;padding:16px}
+    .prijsOverzicht{background:#1a1f2a;border:1px solid #2b2f36;border-radius:12px;padding:16px;position:sticky;top:16px;max-height:calc(100vh - 32px);overflow-y:auto}
+    .prijsOverzicht h3{margin:0 0 12px;color:var(--fg);font-size:16px;font-weight:600}
+    .prijsItem{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #2b2f36;font-size:13px}
+    .prijsItem:last-child{border-bottom:none}
+    .prijsItemLabel{color:var(--muted)}
+    .prijsItemWaarde{color:var(--fg);font-weight:600}
+    .prijsTotaal{margin-top:12px;padding-top:12px;border-top:2px solid var(--accent);display:flex;justify-content:space-between;font-size:16px;font-weight:700}
+    .prijsTotaalLabel{color:var(--fg)}
+    .prijsTotaalWaarde{color:var(--accent)}
+    .prijsSectie{margin-bottom:16px}
+    .prijsSectie h4{margin:0 0 8px;color:var(--fg);font-size:14px;font-weight:600}
+    .prijsSubItem{display:flex;justify-content:space-between;padding:4px 0;font-size:12px;color:var(--muted);padding-left:12px}
     .canvasSection{display:flex;flex-direction:column;gap:12px}
     .dagmaatBar{display:none;padding:12px 16px;background:#1a1f2a;border:1px solid #2b2f36;border-radius:12px;flex-direction:row;align-items:center;gap:12px;flex-wrap:wrap}
     .dagmaatBar.active{display:flex}
@@ -99,7 +113,8 @@
     .vakRaamMenuActions button:disabled{opacity:0.4;cursor:not-allowed;border-color:#2b2f36;color:#666}
     .vakRaamMenuActions .secondary{color:var(--fg);background:#12161b;border-color:#2b2f36}
     .vakRaamMenuActions .secondary:hover{border-color:var(--accent);background:#182331;color:var(--fg)}
-    .vakRaamExtraMenu{position:fixed;display:none;flex-direction:column;gap:14px;padding:16px 18px;background:#1a1f2a;border:2px solid var(--accent);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);transform:translate(-50%,-50%);z-index:1700;min-width:360px;max-width:min(90vw,650px);max-height:85vh;overflow-y:auto}
+    .vakRaamExtraMenu{position:fixed;display:none;flex-direction:column;gap:14px;padding:16px 18px;background:#1a1f2a;border:2px solid var(--accent);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);z-index:1700;min-width:360px;max-width:min(90vw,650px);max-height:85vh;overflow-y:auto!important;overflow-x:hidden!important}
+    #vakAfwerkingsOptiesMenu{max-height:85vh!important;overflow-y:auto!important;overflow-x:hidden!important}
     .vakRaamExtraMenu h4{margin:0;color:var(--fg);font-size:14px;font-weight:600}
     .vakRaamExtraStatus{padding:8px 10px;background:#141a22;border-radius:8px;color:var(--muted);font-size:12px}
     .vakRaamExtraOptions{display:flex;flex-direction:column;gap:16px}
@@ -125,6 +140,8 @@
     .glasRoosterBtn{flex:1 1 150px;padding:10px;border:1px solid #2b2f36;border-radius:8px;background:#12161b;color:var(--fg);cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s;text-align:center}
     .glasRoosterBtn:hover{border-color:var(--accent);background:#182331}
     .glasRoosterBtn.selected{border-color:var(--accent);background:#1a2f3a;box-shadow:0 0 0 2px rgba(74,163,255,0.25)}
+    .ral-kleur-btn:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,0.3)}
+    .ral-kleur-btn.selected{border:2px solid var(--accent)!important;box-shadow:0 0 0 2px rgba(74,163,255,0.25)}
     /* Scrollbar styling voor menu's - zorg dat alle menu's scrollbaar zijn */
     .vakQuickMenu::-webkit-scrollbar,.vakRaamMenu::-webkit-scrollbar,.vakOrientationMenu::-webkit-scrollbar,.vakRaamExtraMenu::-webkit-scrollbar{width:10px}
     .vakQuickMenu::-webkit-scrollbar-track,.vakRaamMenu::-webkit-scrollbar-track,.vakOrientationMenu::-webkit-scrollbar-track,.vakRaamExtraMenu::-webkit-scrollbar-track{background:#0f1318;border-radius:5px}
@@ -193,6 +210,7 @@
         <legend>💾 Opslaan & Laden</legend>
         <button class="btn" id="btnSave">💾 Opslaan</button>
         <button class="btn" id="btnLoad">📂 Laden</button>
+        <button class="btn primary" id="btnExportPDF" style="width:100%;margin-top:8px">📄 Exporteer PDF Werktekening</button>
         <div class="stats">
           <div><strong>Tussen stijlen:</strong> <span id="countStijl">0</span></div>
           <div><strong>Tussen dorpels:</strong> <span id="countDorpel">0</span></div>
@@ -213,6 +231,39 @@
       <svg id="view" viewBox="0 0 1400 1400"></svg>
       </div>
     </section>
+
+    <aside class="prijsOverzicht">
+      <h3>💰 Prijs Overzicht</h3>
+      <div id="prijsContent">
+        <div class="prijsSectie">
+          <h4>Kozijn</h4>
+          <div class="prijsItem">
+            <span class="prijsItemLabel">Basis kozijn</span>
+            <span class="prijsItemWaarde" id="prijsBasisKozijn">€0,00</span>
+          </div>
+          <div class="prijsItem">
+            <span class="prijsItemLabel">Tussenstijlen</span>
+            <span class="prijsItemWaarde" id="prijsTussenstijlen">€0,00</span>
+          </div>
+          <div class="prijsItem">
+            <span class="prijsItemLabel">Tussendorpels</span>
+            <span class="prijsItemWaarde" id="prijsTussendorpels">€0,00</span>
+          </div>
+        </div>
+        <div class="prijsSectie">
+          <h4>Vakken</h4>
+          <div id="prijsVakken"></div>
+        </div>
+        <div class="prijsSectie">
+          <h4>Afwerking</h4>
+          <div id="prijsAfwerking"></div>
+        </div>
+        <div class="prijsTotaal">
+          <span class="prijsTotaalLabel">Totaal</span>
+          <span class="prijsTotaalWaarde" id="prijsTotaal">€0,00</span>
+        </div>
+      </div>
+    </aside>
   </div>
 
   <!-- Modal voor vak selectie -->
@@ -697,25 +748,37 @@
       
       <div class="extra-option-group">
         <label>Kleur deuren/ramen binnen</label>
-        <div style="display:flex;gap:10px;align-items:center;margin-top:8px">
-          <input type="color" id="kleurDeurenRamenBinnen" value="#FFFFFF" style="width:60px;height:40px;border:none;border-radius:6px;cursor:pointer" />
-          <input type="text" id="kleurDeurenRamenBinnenText" value="#FFFFFF" placeholder="#FFFFFF" style="flex:1;padding:8px;background:#12161b;border:1px solid #2b2f36;border-radius:6px;color:var(--fg);font-family:monospace" />
+        <div class="ral-kleuren-selectie" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+          <button type="button" class="ral-kleur-btn selected" data-ral="9010" data-kleur="#F7F9EF" data-target="binnen" style="padding:8px 12px;border:2px solid var(--accent);border-radius:6px;background:#F7F9EF;color:#0b0d10;cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s">RAL 9010</button>
+          <button type="button" class="ral-kleur-btn" data-ral="9001" data-kleur="#F7F9EF" data-target="binnen" style="padding:8px 12px;border:1px solid #2b2f36;border-radius:6px;background:#F7F9EF;color:#0b0d10;cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s">RAL 9001</button>
+          <button type="button" class="ral-kleur-btn" data-ral="9005" data-kleur="#0E0E10" data-target="binnen" style="padding:8px 12px;border:1px solid #2b2f36;border-radius:6px;background:#0E0E10;color:#fff;cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s">RAL 9005</button>
+          <button type="button" class="ral-kleur-btn" data-ral="7040" data-kleur="#9D9D9D" data-target="binnen" style="padding:8px 12px;border:1px solid #2b2f36;border-radius:6px;background:#9D9D9D;color:#fff;cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s">RAL 7040</button>
+          <button type="button" class="ral-kleur-btn" data-ral="7016" data-kleur="#383E42" data-target="binnen" style="padding:8px 12px;border:1px solid #2b2f36;border-radius:6px;background:#383E42;color:#fff;cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s">RAL 7016</button>
+          <button type="button" class="ral-kleur-btn" data-ral="6005" data-kleur="#0F5132" data-target="binnen" style="padding:8px 12px;border:1px solid #2b2f36;border-radius:6px;background:#0F5132;color:#fff;cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s">RAL 6005</button>
         </div>
       </div>
       
       <div class="extra-option-group">
         <label>Kleur deuren/ramen buiten</label>
-        <div style="display:flex;gap:10px;align-items:center;margin-top:8px">
-          <input type="color" id="kleurDeurenRamenBuiten" value="#FFFFFF" style="width:60px;height:40px;border:none;border-radius:6px;cursor:pointer" />
-          <input type="text" id="kleurDeurenRamenBuitenText" value="#FFFFFF" placeholder="#FFFFFF" style="flex:1;padding:8px;background:#12161b;border:1px solid #2b2f36;border-radius:6px;color:var(--fg);font-family:monospace" />
+        <div class="ral-kleuren-selectie" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+          <button type="button" class="ral-kleur-btn selected" data-ral="9010" data-kleur="#F7F9EF" data-target="buiten" style="padding:8px 12px;border:2px solid var(--accent);border-radius:6px;background:#F7F9EF;color:#0b0d10;cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s">RAL 9010</button>
+          <button type="button" class="ral-kleur-btn" data-ral="9001" data-kleur="#F7F9EF" data-target="buiten" style="padding:8px 12px;border:1px solid #2b2f36;border-radius:6px;background:#F7F9EF;color:#0b0d10;cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s">RAL 9001</button>
+          <button type="button" class="ral-kleur-btn" data-ral="9005" data-kleur="#0E0E10" data-target="buiten" style="padding:8px 12px;border:1px solid #2b2f36;border-radius:6px;background:#0E0E10;color:#fff;cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s">RAL 9005</button>
+          <button type="button" class="ral-kleur-btn" data-ral="7040" data-kleur="#9D9D9D" data-target="buiten" style="padding:8px 12px;border:1px solid #2b2f36;border-radius:6px;background:#9D9D9D;color:#fff;cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s">RAL 7040</button>
+          <button type="button" class="ral-kleur-btn" data-ral="7016" data-kleur="#383E42" data-target="buiten" style="padding:8px 12px;border:1px solid #2b2f36;border-radius:6px;background:#383E42;color:#fff;cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s">RAL 7016</button>
+          <button type="button" class="ral-kleur-btn" data-ral="6005" data-kleur="#0F5132" data-target="buiten" style="padding:8px 12px;border:1px solid #2b2f36;border-radius:6px;background:#0F5132;color:#fff;cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s">RAL 6005</button>
         </div>
       </div>
       
       <div class="extra-option-group">
         <label>Kleur kozijn</label>
-        <div style="display:flex;gap:10px;align-items:center;margin-top:8px">
-          <input type="color" id="kleurKozijn" value="#FFFFFF" style="width:60px;height:40px;border:none;border-radius:6px;cursor:pointer" />
-          <input type="text" id="kleurKozijnText" value="#FFFFFF" placeholder="#FFFFFF" style="flex:1;padding:8px;background:#12161b;border:1px solid #2b2f36;border-radius:6px;color:var(--fg);font-family:monospace" />
+        <div class="ral-kleuren-selectie" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+          <button type="button" class="ral-kleur-btn selected" data-ral="9010" data-kleur="#F7F9EF" data-target="kozijn" style="padding:8px 12px;border:2px solid var(--accent);border-radius:6px;background:#F7F9EF;color:#0b0d10;cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s">RAL 9010</button>
+          <button type="button" class="ral-kleur-btn" data-ral="9001" data-kleur="#F7F9EF" data-target="kozijn" style="padding:8px 12px;border:1px solid #2b2f36;border-radius:6px;background:#F7F9EF;color:#0b0d10;cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s">RAL 9001</button>
+          <button type="button" class="ral-kleur-btn" data-ral="9005" data-kleur="#0E0E10" data-target="kozijn" style="padding:8px 12px;border:1px solid #2b2f36;border-radius:6px;background:#0E0E10;color:#fff;cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s">RAL 9005</button>
+          <button type="button" class="ral-kleur-btn" data-ral="7040" data-kleur="#9D9D9D" data-target="kozijn" style="padding:8px 12px;border:1px solid #2b2f36;border-radius:6px;background:#9D9D9D;color:#fff;cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s">RAL 7040</button>
+          <button type="button" class="ral-kleur-btn" data-ral="7016" data-kleur="#383E42" data-target="kozijn" style="padding:8px 12px;border:1px solid #2b2f36;border-radius:6px;background:#383E42;color:#fff;cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s">RAL 7016</button>
+          <button type="button" class="ral-kleur-btn" data-ral="6005" data-kleur="#0F5132" data-target="kozijn" style="padding:8px 12px;border:1px solid #2b2f36;border-radius:6px;background:#0F5132;color:#fff;cursor:pointer;font-size:12px;font-weight:600;transition:all 0.2s">RAL 6005</button>
         </div>
       </div>
       
@@ -844,8 +907,18 @@
     dagmaatConfig: {
       horiz: null,
       vert: null
+    },
+    afwerkingsOpties: {
+      glasType: null,
+      kleurDeurenRamenBinnen: '#F7F9EF', // RAL 9010 standaard
+      kleurDeurenRamenBuiten: '#F7F9EF', // RAL 9010 standaard
+      kleurKozijn: '#F7F9EF', // RAL 9010 standaard
+      afwerking: null
     }
   };
+  
+  // Track of afwerkingsopties menu has been auto-opened
+  let afwerkingsOptiesMenuAutoOpened = false;
   
   const svg = document.getElementById('view');
   const inpW = document.getElementById('inpW');
@@ -856,6 +929,7 @@
   const btnUndo = document.getElementById('btnUndo');
   const btnSave = document.getElementById('btnSave');
   const btnLoad = document.getElementById('btnLoad');
+  const btnExportPDF = document.getElementById('btnExportPDF');
   const btnDetectVakken = document.getElementById('btnDetectVakken');
   const modeText = document.getElementById('modeText');
   const countStijl = document.getElementById('countStijl');
@@ -1048,9 +1122,9 @@
   let huidigStapeldorpelOrientation = null;
   let huidigRooster = false;
   let huidigGlasType = null; // 'enkelglas', 'hr++', 'hr+++'
-  let huidigKleurDeurenRamenBinnen = '#FFFFFF';
-  let huidigKleurDeurenRamenBuiten = '#FFFFFF';
-  let huidigKleurKozijn = '#FFFFFF';
+  let huidigKleurDeurenRamenBinnen = '#F7F9EF'; // RAL 9010 standaard
+  let huidigKleurDeurenRamenBuiten = '#F7F9EF'; // RAL 9010 standaard
+  let huidigKleurKozijn = '#F7F9EF'; // RAL 9010 standaard
   let huidigAfwerking = null; // 'afgelakt', 'alleen-gegrond'
   let huidigHor = false;
   let huidigBeslagKleur = 'f1'; // 'f1' of 'anders'
@@ -2038,62 +2112,84 @@ stroke-width="3"/>
   function openVakAfwerkingsOptiesMenu() {
     if (!vakAfwerkingsOptiesMenu) return;
     
+    // Laad bestaande waarden uit state
+    huidigGlasType = state.afwerkingsOpties.glasType || null;
+    huidigKleurDeurenRamenBinnen = state.afwerkingsOpties.kleurDeurenRamenBinnen || '#F7F9EF';
+    huidigKleurDeurenRamenBuiten = state.afwerkingsOpties.kleurDeurenRamenBuiten || '#F7F9EF';
+    huidigKleurKozijn = state.afwerkingsOpties.kleurKozijn || '#F7F9EF';
+    huidigAfwerking = state.afwerkingsOpties.afwerking || null;
+    
     // Eerst display flex zetten om afmetingen te kunnen meten
     vakAfwerkingsOptiesMenu.style.display = 'flex';
     vakAfwerkingsOptiesMenu.style.visibility = 'hidden';
+    vakAfwerkingsOptiesMenu.style.transform = 'none'; // Verwijder transform voor betere scroll
+    vakAfwerkingsOptiesMenu.style.overflowY = 'auto'; // Zorg voor scroll
+    vakAfwerkingsOptiesMenu.style.overflowX = 'hidden'; // Voorkom horizontale scroll
     
-    // Gebruik viewport center voor betere positionering
-    // Met position:fixed en transform:translate(-50%,-50%) wordt het menu gecentreerd
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    
-    // Center van viewport (position:fixed is relatief aan viewport)
-    let menuX = viewportWidth / 2;
-    let menuY = viewportHeight / 2;
-    
-    // Zorg dat menu niet buiten scherm valt (met marge)
-    const margin = 20;
-    const menuRect = vakAfwerkingsOptiesMenu.getBoundingClientRect();
-    const menuWidth = menuRect.width || 400;
-    const menuHeight = menuRect.height || 500;
-    
-    // Controleer of menu binnen viewport past
-    if (menuX - menuWidth / 2 < margin) {
-      menuX = margin + menuWidth / 2;
-    } else if (menuX + menuWidth / 2 > viewportWidth - margin) {
-      menuX = viewportWidth - margin - menuWidth / 2;
-    }
-    
-    if (menuY - menuHeight / 2 < margin) {
-      menuY = margin + menuHeight / 2;
-    } else if (menuY + menuHeight / 2 > viewportHeight - margin) {
-      menuY = viewportHeight - margin - menuHeight / 2;
-    }
-    
-    vakAfwerkingsOptiesMenu.style.left = `${menuX}px`;
-    vakAfwerkingsOptiesMenu.style.top = `${menuY}px`;
-    vakAfwerkingsOptiesMenu.style.zIndex = '1700';
-    vakAfwerkingsOptiesMenu.style.visibility = 'visible';
+    // Gebruik requestAnimationFrame om te wachten tot menu gerenderd is
+    requestAnimationFrame(() => {
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      
+      // Bereken maximale hoogte voor scroll (85% van viewport, max 800px)
+      const maxMenuHeight = Math.min(viewportHeight * 0.85, 800);
+      
+      // Haal menu afmetingen op
+      const menuRect = vakAfwerkingsOptiesMenu.getBoundingClientRect();
+      const menuWidth = menuRect.width || 400;
+      const actualContentHeight = menuRect.height || 500;
+      
+      // Gebruik de kleinste waarde: content hoogte of max hoogte
+      const menuHeight = Math.min(actualContentHeight, maxMenuHeight);
+      
+      // Center van viewport
+      let menuX = (viewportWidth - menuWidth) / 2;
+      let menuY = (viewportHeight - menuHeight) / 2;
+      
+      // Zorg dat menu niet buiten scherm valt (met marge)
+      const margin = 20;
+      menuX = Math.max(margin, Math.min(menuX, viewportWidth - menuWidth - margin));
+      menuY = Math.max(margin, Math.min(menuY, viewportHeight - menuHeight - margin));
+      
+      vakAfwerkingsOptiesMenu.style.left = `${menuX}px`;
+      vakAfwerkingsOptiesMenu.style.top = `${menuY}px`;
+      vakAfwerkingsOptiesMenu.style.maxHeight = `${maxMenuHeight}px`; // Zorg voor scroll
+      vakAfwerkingsOptiesMenu.style.height = 'auto'; // Laat content bepalen of scroll nodig is
+      vakAfwerkingsOptiesMenu.style.zIndex = '1700';
+      vakAfwerkingsOptiesMenu.style.visibility = 'visible';
+    });
     
     // Update knoppen en inputs
     updateGlasTypeButtons();
     updateAfwerkingButtons();
     updateKleurInputs();
+    updateAfwerkingsOptiesStatus();
   }
 
   function closeVakAfwerkingsOptiesMenu(resetState = true) {
     if (!vakAfwerkingsOptiesMenu) return;
     vakAfwerkingsOptiesMenu.style.display = 'none';
     if (resetState) {
+      // Reset naar default waarden
       huidigGlasType = null;
-      huidigKleurDeurenRamenBinnen = '#FFFFFF';
-      huidigKleurDeurenRamenBuiten = '#FFFFFF';
-      huidigKleurKozijn = '#FFFFFF';
+      huidigKleurDeurenRamenBinnen = '#F7F9EF'; // RAL 9010 standaard
+      huidigKleurDeurenRamenBuiten = '#F7F9EF'; // RAL 9010 standaard
+      huidigKleurKozijn = '#F7F9EF'; // RAL 9010 standaard
       huidigAfwerking = null;
       updateGlasTypeButtons();
       updateAfwerkingButtons();
       updateKleurInputs();
+      // Reset state
+      state.afwerkingsOpties = {
+        glasType: null,
+        kleurDeurenRamenBinnen: '#F7F9EF', // RAL 9010 standaard
+        kleurDeurenRamenBuiten: '#F7F9EF', // RAL 9010 standaard
+        kleurKozijn: '#F7F9EF', // RAL 9010 standaard
+        afwerking: null
+      };
     }
+    // Reset de auto-opened flag zodat menu weer kan openen als alle vakken opnieuw ingevuld zijn
+    afwerkingsOptiesMenuAutoOpened = false;
   }
 
   function updateGlasTypeButtons() {
@@ -2108,12 +2204,59 @@ stroke-width="3"/>
   }
 
   function updateKleurInputs() {
-    if (kleurDeurenRamenBinnen) kleurDeurenRamenBinnen.value = huidigKleurDeurenRamenBinnen;
-    if (kleurDeurenRamenBinnenText) kleurDeurenRamenBinnenText.value = huidigKleurDeurenRamenBinnen;
-    if (kleurDeurenRamenBuiten) kleurDeurenRamenBuiten.value = huidigKleurDeurenRamenBuiten;
-    if (kleurDeurenRamenBuitenText) kleurDeurenRamenBuitenText.value = huidigKleurDeurenRamenBuiten;
-    if (kleurKozijn) kleurKozijn.value = huidigKleurKozijn;
-    if (kleurKozijnText) kleurKozijnText.value = huidigKleurKozijn;
+    // Color picker en text input velden zijn verwijderd, alleen RAL buttons updaten
+    updateRalKleurButtons();
+  }
+
+  function updateRalKleurButtons() {
+    // Update RAL buttons voor binnen
+    const ralButtonsBinnen = document.querySelectorAll('.ral-kleur-btn[data-target="binnen"]');
+    ralButtonsBinnen.forEach(btn => {
+      const kleur = btn.getAttribute('data-kleur');
+      if (kleur === huidigKleurDeurenRamenBinnen.toUpperCase() || kleur === huidigKleurDeurenRamenBinnen.toLowerCase()) {
+        btn.classList.add('selected');
+        btn.style.border = '2px solid var(--accent)';
+      } else {
+        btn.classList.remove('selected');
+        btn.style.border = '1px solid #2b2f36';
+      }
+    });
+
+    // Update RAL buttons voor buiten
+    const ralButtonsBuiten = document.querySelectorAll('.ral-kleur-btn[data-target="buiten"]');
+    ralButtonsBuiten.forEach(btn => {
+      const kleur = btn.getAttribute('data-kleur');
+      if (kleur === huidigKleurDeurenRamenBuiten.toUpperCase() || kleur === huidigKleurDeurenRamenBuiten.toLowerCase()) {
+        btn.classList.add('selected');
+        btn.style.border = '2px solid var(--accent)';
+      } else {
+        btn.classList.remove('selected');
+        btn.style.border = '1px solid #2b2f36';
+      }
+    });
+
+    // Update RAL buttons voor kozijn
+    const ralButtonsKozijn = document.querySelectorAll('.ral-kleur-btn[data-target="kozijn"]');
+    ralButtonsKozijn.forEach(btn => {
+      const kleur = btn.getAttribute('data-kleur');
+      if (kleur === huidigKleurKozijn.toUpperCase() || kleur === huidigKleurKozijn.toLowerCase()) {
+        btn.classList.add('selected');
+        btn.style.border = '2px solid var(--accent)';
+      } else {
+        btn.classList.remove('selected');
+        btn.style.border = '1px solid #2b2f36';
+      }
+    });
+  }
+
+  function updateAfwerkingsOptiesStatus() {
+    if (!vakAfwerkingsOptiesStatus) return;
+    const opties = [];
+    if (huidigGlasType) opties.push(`Glas: ${huidigGlasType === 'enkelglas' ? 'Enkelglas' : huidigGlasType.toUpperCase()}`);
+    if (huidigAfwerking) opties.push(`Afwerking: ${huidigAfwerking === 'afgelakt' ? 'Afgelakt' : 'Alleen gegrond'}`);
+    vakAfwerkingsOptiesStatus.textContent = opties.length > 0 
+      ? `Geselecteerd: ${opties.join(', ')}` 
+      : 'Configureer de afwerkingsopties voor het kozijn';
   }
 
   function openVakDeurStapeldorpelMenu(vak, deurType = 'stapeldorpel', baseVariant = 'deur_buiten') {
@@ -2875,6 +3018,161 @@ stroke-width="3"/>
     } else {
       state.vakkenToewijzingen[vakId] = normalized;
     }
+    updatePrijsOverzicht();
+  }
+
+  // Prijs berekening functies
+  function formatPrijs(bedrag) {
+    return '€' + bedrag.toFixed(2).replace('.', ',');
+  }
+
+  function berekenPrijs() {
+    const prijzen = {
+      basisKozijn: 0,
+      tussenstijlen: 0,
+      tussendorpels: 0,
+      vakken: [],
+      afwerking: 0,
+      totaal: 0
+    };
+
+    // Basis kozijn prijs (per m²)
+    const oppervlakteM2 = (state.Wmm / 1000) * (state.Hmm / 1000);
+    prijzen.basisKozijn = oppervlakteM2 * 150; // €150 per m²
+
+    // Tussenstijlen (€25 per stuk)
+    prijzen.tussenstijlen = state.tussenStijlen.length * 25;
+
+    // Tussendorpels (€25 per stuk)
+    prijzen.tussendorpels = state.tussenDorpels.length * 25;
+
+    // Vakken prijzen
+    state.vakken.forEach(vak => {
+      const toewijzing = getVakToewijzing(vak.id);
+      if (!toewijzing) return;
+
+      let vakPrijs = 0;
+      const vakOppervlakteM2 = (vak.breedte / 1000) * (vak.hoogte / 1000);
+
+      if (toewijzing.type === 'raam') {
+        // Ramen: €80 per m²
+        vakPrijs = vakOppervlakteM2 * 80;
+      } else if (toewijzing.type === 'deur') {
+        // Deuren: €120 per m²
+        vakPrijs = vakOppervlakteM2 * 120;
+      } else if (toewijzing.type === 'glas') {
+        // Glas: €60 per m²
+        vakPrijs = vakOppervlakteM2 * 60;
+      }
+
+      if (vakPrijs > 0) {
+        prijzen.vakken.push({
+          id: vak.id,
+          type: toewijzing.type,
+          variant: toewijzing.variant || '',
+          prijs: vakPrijs
+        });
+      }
+    });
+
+    // Afwerkingsopties
+    if (state.afwerkingsOpties.glasType) {
+      const glasOppervlakte = prijzen.vakken.reduce((sum, v) => {
+        const vak = state.vakken.find(vak => vak.id === v.id);
+        if (!vak) return sum;
+        return sum + ((vak.breedte / 1000) * (vak.hoogte / 1000));
+      }, 0);
+      
+      if (state.afwerkingsOpties.glasType === 'hr++') {
+        prijzen.afwerking += glasOppervlakte * 15; // €15 per m² voor HR++
+      } else if (state.afwerkingsOpties.glasType === 'hr+++') {
+        prijzen.afwerking += glasOppervlakte * 25; // €25 per m² voor HR+++
+      }
+    }
+
+    if (state.afwerkingsOpties.afwerking === 'afgelakt') {
+      prijzen.afwerking += oppervlakteM2 * 20; // €20 per m² voor afgelakt
+    }
+
+    // Totaal
+    prijzen.totaal = prijzen.basisKozijn + prijzen.tussenstijlen + prijzen.tussendorpels +
+                     prijzen.vakken.reduce((sum, v) => sum + v.prijs, 0) + prijzen.afwerking;
+
+    return prijzen;
+  }
+
+  function updatePrijsOverzicht() {
+    const prijsContent = document.getElementById('prijsContent');
+    if (!prijsContent) return;
+
+    const prijzen = berekenPrijs();
+
+    // Update basis kozijn
+    const prijsBasisKozijn = document.getElementById('prijsBasisKozijn');
+    if (prijsBasisKozijn) prijsBasisKozijn.textContent = formatPrijs(prijzen.basisKozijn);
+
+    // Update tussenstijlen
+    const prijsTussenstijlen = document.getElementById('prijsTussenstijlen');
+    if (prijsTussenstijlen) {
+      prijsTussenstijlen.textContent = formatPrijs(prijzen.tussenstijlen);
+      prijsTussenstijlen.parentElement.style.display = state.tussenStijlen.length > 0 ? 'flex' : 'none';
+    }
+
+    // Update tussendorpels
+    const prijsTussendorpels = document.getElementById('prijsTussendorpels');
+    if (prijsTussendorpels) {
+      prijsTussendorpels.textContent = formatPrijs(prijzen.tussendorpels);
+      prijsTussendorpels.parentElement.style.display = state.tussenDorpels.length > 0 ? 'flex' : 'none';
+    }
+
+    // Update vakken
+    const prijsVakken = document.getElementById('prijsVakken');
+    if (prijsVakken) {
+      if (prijzen.vakken.length === 0) {
+        prijsVakken.innerHTML = '<div class="prijsItem"><span class="prijsItemLabel" style="color:var(--muted);font-size:12px">Geen vakken toegewezen</span></div>';
+      } else {
+        prijsVakken.innerHTML = prijzen.vakken.map((v, idx) => {
+          const vak = state.vakken.find(vak => vak.id === v.id);
+          const toewijzing = getVakToewijzing(v.id);
+          const label = toewijzing ? `${toewijzing.type} ${idx + 1}` : `Vak ${idx + 1}`;
+          return `<div class="prijsItem">
+            <span class="prijsItemLabel">${label}</span>
+            <span class="prijsItemWaarde">${formatPrijs(v.prijs)}</span>
+          </div>`;
+        }).join('');
+      }
+    }
+
+    // Update afwerking
+    const prijsAfwerking = document.getElementById('prijsAfwerking');
+    if (prijsAfwerking) {
+      if (prijzen.afwerking === 0) {
+        prijsAfwerking.innerHTML = '<div class="prijsItem"><span class="prijsItemLabel" style="color:var(--muted);font-size:12px">Geen afwerking geselecteerd</span></div>';
+      } else {
+        let afwerkingHTML = '';
+        if (state.afwerkingsOpties.glasType) {
+          const glasTypeLabel = state.afwerkingsOpties.glasType === 'hr++' ? 'HR++' : 
+                                state.afwerkingsOpties.glasType === 'hr+++' ? 'HR+++' : 'Enkelglas';
+          afwerkingHTML += `<div class="prijsSubItem">
+            <span>Glas type: ${glasTypeLabel}</span>
+          </div>`;
+        }
+        if (state.afwerkingsOpties.afwerking) {
+          const afwerkingLabel = state.afwerkingsOpties.afwerking === 'afgelakt' ? 'Afgelakt' : 'Alleen gegrond';
+          afwerkingHTML += `<div class="prijsSubItem">
+            <span>Afwerking: ${afwerkingLabel}</span>
+          </div>`;
+        }
+        prijsAfwerking.innerHTML = `<div class="prijsItem">
+          <span class="prijsItemLabel">Afwerking</span>
+          <span class="prijsItemWaarde">${formatPrijs(prijzen.afwerking)}</span>
+        </div>${afwerkingHTML}`;
+      }
+    }
+
+    // Update totaal
+    const prijsTotaal = document.getElementById('prijsTotaal');
+    if (prijsTotaal) prijsTotaal.textContent = formatPrijs(prijzen.totaal);
   }
 
   function toewijzingenGelijk(a, b) {
@@ -3948,6 +4246,9 @@ stroke-width="3"/>
       tekenVakken();
     }
     
+    // Update prijs overzicht
+    updatePrijsOverzicht();
+    
     updateTekenenStatusUI();
   }
 
@@ -4388,6 +4689,193 @@ stroke-width="3"/>
     }
   });
 
+  // PDF Export functie
+  async function exportNaarPDF() {
+    if (!window.jspdf || !window.html2canvas) {
+      alert('PDF export bibliotheken zijn niet geladen. Ververs de pagina en probeer opnieuw.');
+      return;
+    }
+
+    try {
+      // Toon laad indicator
+      if (btnExportPDF) {
+        btnExportPDF.disabled = true;
+        btnExportPDF.textContent = '⏳ PDF wordt gegenereerd...';
+      }
+
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF('landscape', 'mm', 'a4');
+      
+      // Converteer SVG canvas naar afbeelding met html2canvas
+      const canvasWrap = document.querySelector('.canvasWrap');
+      if (!canvasWrap) {
+        throw new Error('Canvas element niet gevonden');
+      }
+
+      const canvas = await html2canvas(canvasWrap, {
+        backgroundColor: '#0f1318',
+        scale: 2,
+        logging: false,
+        useCORS: true
+      });
+
+      // Bereken schaal voor PDF (A4 landscape: 297mm x 210mm)
+      const pdfWidth = 297;
+      const pdfHeight = 210;
+      const margin = 15;
+      const maxWidth = pdfWidth - (margin * 2);
+      const maxHeight = pdfHeight - (margin * 2) - 60; // Ruimte voor tekst onderaan
+      
+      // Converteer pixels naar mm (96 DPI = 3.7795 pixels per mm)
+      const pxToMm = 0.264583; // 1px = 0.264583mm bij 96 DPI
+      const imgWidthMm = canvas.width * pxToMm;
+      const imgHeightMm = canvas.height * pxToMm;
+      
+      const scale = Math.min(maxWidth / imgWidthMm, maxHeight / imgHeightMm);
+      const imgWidth = imgWidthMm * scale;
+      const imgHeight = imgHeightMm * scale;
+      const imgX = margin + (maxWidth - imgWidth) / 2;
+      const imgY = margin + 15; // Extra ruimte voor titel
+
+      // Voeg titel toe
+      pdf.setFontSize(16);
+      pdf.setFont(undefined, 'bold');
+      pdf.text('Werktekening Kozijn', pdfWidth / 2, 10, { align: 'center' });
+      
+      // Voeg afmetingen toe
+      pdf.setFontSize(10);
+      pdf.setFont(undefined, 'normal');
+      pdf.text(`Buitenmaat: ${state.Wmm}mm × ${state.Hmm}mm`, pdfWidth / 2, 18, { align: 'center' });
+      
+      if (state.ekosietOnderdorpel) {
+        pdf.text('Ekosiet onderdorpel', pdfWidth / 2, 22, { align: 'center' });
+      }
+
+      // Voeg canvas afbeelding toe
+      const imgData = canvas.toDataURL('image/png');
+      pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth, imgHeight);
+
+      // Voeg opsomming van vakindelingen toe
+      let yPos = imgY + imgHeight + 10;
+      
+      pdf.setFontSize(12);
+      pdf.setFont(undefined, 'bold');
+      pdf.text('Vakindelingen:', margin, yPos);
+      
+      yPos += 8;
+      pdf.setFontSize(10);
+      pdf.setFont(undefined, 'normal');
+      
+      if (state.vakken.length === 0) {
+        pdf.text('Geen vakken gedetecteerd', margin, yPos);
+      } else {
+        state.vakken.forEach((vak, idx) => {
+          const toewijzing = getVakToewijzing(vak.id);
+          const beschrijving = formatToewijzing(toewijzing);
+          const maten = `${Math.round(vak.breedte)}mm × ${Math.round(vak.hoogte)}mm`;
+          
+          const regel = `Vak ${vak.id}: ${beschrijving} - ${maten}`;
+          
+          // Controleer of regel op nieuwe pagina moet
+          if (yPos > pdfHeight - 20) {
+            pdf.addPage();
+            yPos = margin;
+          }
+          
+          pdf.text(regel, margin, yPos);
+          yPos += 6;
+        });
+      }
+
+      // Voeg afwerkingsopties toe als ze zijn ingesteld
+      if (state.afwerkingsOpties.glasType || state.afwerkingsOpties.afwerking) {
+        yPos += 5;
+        if (yPos > pdfHeight - 30) {
+          pdf.addPage();
+          yPos = margin;
+        }
+        
+        pdf.setFontSize(12);
+        pdf.setFont(undefined, 'bold');
+        pdf.text('Afwerkingsopties:', margin, yPos);
+        yPos += 8;
+        
+        pdf.setFontSize(10);
+        pdf.setFont(undefined, 'normal');
+        
+        if (state.afwerkingsOpties.glasType) {
+          const glasTypeLabel = state.afwerkingsOpties.glasType === 'hr++' ? 'HR++' : 
+                                state.afwerkingsOpties.glasType === 'hr+++' ? 'HR+++' : 'Enkelglas';
+          pdf.text(`Glas type: ${glasTypeLabel}`, margin, yPos);
+          yPos += 6;
+        }
+        
+        if (state.afwerkingsOpties.afwerking) {
+          const afwerkingLabel = state.afwerkingsOpties.afwerking === 'afgelakt' ? 'Afgelakt' : 'Alleen gegrond';
+          pdf.text(`Afwerking: ${afwerkingLabel}`, margin, yPos);
+          yPos += 6;
+        }
+        
+        if (state.afwerkingsOpties.kleurDeurenRamenBinnen || 
+            state.afwerkingsOpties.kleurDeurenRamenBuiten || 
+            state.afwerkingsOpties.kleurKozijn) {
+          pdf.text('Kleuren:', margin, yPos);
+          yPos += 6;
+          if (state.afwerkingsOpties.kleurDeurenRamenBinnen) {
+            pdf.text(`  - Deuren/ramen binnen: ${state.afwerkingsOpties.kleurDeurenRamenBinnen}`, margin + 5, yPos);
+            yPos += 6;
+          }
+          if (state.afwerkingsOpties.kleurDeurenRamenBuiten) {
+            pdf.text(`  - Deuren/ramen buiten: ${state.afwerkingsOpties.kleurDeurenRamenBuiten}`, margin + 5, yPos);
+            yPos += 6;
+          }
+          if (state.afwerkingsOpties.kleurKozijn) {
+            pdf.text(`  - Kozijn: ${state.afwerkingsOpties.kleurKozijn}`, margin + 5, yPos);
+            yPos += 6;
+          }
+        }
+      }
+
+      // Voeg datum toe
+      const datum = new Date().toLocaleDateString('nl-NL', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      pdf.setFontSize(8);
+      pdf.text(`Gegenereerd op: ${datum}`, pdfWidth - margin, pdfHeight - 10, { align: 'right' });
+
+      // Download PDF
+      const fileName = `werktekening-kozijn-${Date.now()}.pdf`;
+      pdf.save(fileName);
+      
+      // Cleanup
+      URL.revokeObjectURL(svgUrl);
+      
+      if (btnExportPDF) {
+        btnExportPDF.disabled = false;
+        btnExportPDF.textContent = '📄 Exporteer PDF Werktekening';
+      }
+      
+      alert('✅ PDF succesvol gegenereerd en gedownload!');
+    } catch (error) {
+      console.error('Fout bij PDF export:', error);
+      alert('❌ Fout bij het genereren van de PDF: ' + error.message);
+      
+      if (btnExportPDF) {
+        btnExportPDF.disabled = false;
+        btnExportPDF.textContent = '📄 Exporteer PDF Werktekening';
+      }
+    }
+  }
+
+  // Event listener voor PDF export
+  if (btnExportPDF) {
+    btnExportPDF.addEventListener('click', exportNaarPDF);
+  }
+
   btnEqualizeDagHoriz.addEventListener('click', () => {
     if (state.kanTekenen) {
       alert('Beschikbaar na "Klaar met tekenen".');
@@ -4738,11 +5226,23 @@ stroke-width="3"/>
       vakkenList.appendChild(container);
     });
     
-    // Toon afwerkingsopties knop als alle vakken zijn ingevuld
-    if (btnAfwerkingsOpties) {
-      const alleIngevuld = zijnAlleVakkenIngevuld();
-      btnAfwerkingsOpties.style.display = alleIngevuld ? 'block' : 'none';
+    // Open afwerkingsopties menu automatisch als alle vakken zijn ingevuld
+    const alleIngevuld = zijnAlleVakkenIngevuld();
+    if (alleIngevuld && !afwerkingsOptiesMenuAutoOpened && vakAfwerkingsOptiesMenu && vakAfwerkingsOptiesMenu.style.display !== 'flex') {
+      // Open menu automatisch
+      afwerkingsOptiesMenuAutoOpened = true;
+      setTimeout(() => {
+        openVakAfwerkingsOptiesMenu();
+      }, 300); // Kleine vertraging voor betere UX
     }
+    
+    // Verberg de knop (menu opent nu automatisch)
+    if (btnAfwerkingsOpties) {
+      btnAfwerkingsOpties.style.display = 'none';
+    }
+    
+    // Update prijs overzicht
+    updatePrijsOverzicht();
   }
   
   // Teken vak overlays + nummers op het SVG
@@ -6871,6 +7371,9 @@ stroke-width="3"/>
       vakkenFieldset.style.display = 'none';
       closeVakQuickMenu(true);
       resetDagConfigCache();
+      // Reset afwerkingsopties menu flag wanneer opnieuw begonnen wordt met tekenen
+      afwerkingsOptiesMenuAutoOpened = false;
+      closeVakAfwerkingsOptiesMenu(true);
       draw();
     }
   });
@@ -6886,6 +7389,7 @@ stroke-width="3"/>
     glasEnkelglasBtn.addEventListener('click', () => {
       huidigGlasType = 'enkelglas';
       updateGlasTypeButtons();
+      updateAfwerkingsOptiesStatus();
     });
   }
 
@@ -6893,6 +7397,7 @@ stroke-width="3"/>
     glasHrPlusPlusBtn.addEventListener('click', () => {
       huidigGlasType = 'hr++';
       updateGlasTypeButtons();
+      updateAfwerkingsOptiesStatus();
     });
   }
 
@@ -6900,6 +7405,7 @@ stroke-width="3"/>
     glasHrPlusPlusPlusBtn.addEventListener('click', () => {
       huidigGlasType = 'hr+++';
       updateGlasTypeButtons();
+      updateAfwerkingsOptiesStatus();
     });
   }
 
@@ -6907,6 +7413,7 @@ stroke-width="3"/>
     afwerkingAfgelaktBtn.addEventListener('click', () => {
       huidigAfwerking = 'afgelakt';
       updateAfwerkingButtons();
+      updateAfwerkingsOptiesStatus();
     });
   }
 
@@ -6914,60 +7421,31 @@ stroke-width="3"/>
     afwerkingGegrondBtn.addEventListener('click', () => {
       huidigAfwerking = 'alleen-gegrond';
       updateAfwerkingButtons();
+      updateAfwerkingsOptiesStatus();
     });
   }
 
   // Kleur inputs synchroniseren
-  if (kleurDeurenRamenBinnen) {
-    kleurDeurenRamenBinnen.addEventListener('input', (e) => {
-      huidigKleurDeurenRamenBinnen = e.target.value;
-      if (kleurDeurenRamenBinnenText) kleurDeurenRamenBinnenText.value = e.target.value;
-    });
-  }
+  // Color picker en text input velden zijn verwijderd - alleen RAL buttons worden gebruikt
 
-  if (kleurDeurenRamenBinnenText) {
-    kleurDeurenRamenBinnenText.addEventListener('input', (e) => {
-      const value = e.target.value;
-      if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
-        huidigKleurDeurenRamenBinnen = value;
-        if (kleurDeurenRamenBinnen) kleurDeurenRamenBinnen.value = value;
+  // Event listeners voor RAL kleur buttons
+  document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('ral-kleur-btn')) {
+      const btn = e.target;
+      const kleur = btn.getAttribute('data-kleur');
+      const target = btn.getAttribute('data-target');
+      
+      if (target === 'binnen') {
+        huidigKleurDeurenRamenBinnen = kleur;
+      } else if (target === 'buiten') {
+        huidigKleurDeurenRamenBuiten = kleur;
+      } else if (target === 'kozijn') {
+        huidigKleurKozijn = kleur;
       }
-    });
-  }
-
-  if (kleurDeurenRamenBuiten) {
-    kleurDeurenRamenBuiten.addEventListener('input', (e) => {
-      huidigKleurDeurenRamenBuiten = e.target.value;
-      if (kleurDeurenRamenBuitenText) kleurDeurenRamenBuitenText.value = e.target.value;
-    });
-  }
-
-  if (kleurDeurenRamenBuitenText) {
-    kleurDeurenRamenBuitenText.addEventListener('input', (e) => {
-      const value = e.target.value;
-      if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
-        huidigKleurDeurenRamenBuiten = value;
-        if (kleurDeurenRamenBuiten) kleurDeurenRamenBuiten.value = value;
-      }
-    });
-  }
-
-  if (kleurKozijn) {
-    kleurKozijn.addEventListener('input', (e) => {
-      huidigKleurKozijn = e.target.value;
-      if (kleurKozijnText) kleurKozijnText.value = e.target.value;
-    });
-  }
-
-  if (kleurKozijnText) {
-    kleurKozijnText.addEventListener('input', (e) => {
-      const value = e.target.value;
-      if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
-        huidigKleurKozijn = value;
-        if (kleurKozijn) kleurKozijn.value = value;
-      }
-    });
-  }
+      
+      updateRalKleurButtons();
+    }
+  });
 
   if (vakAfwerkingsOptiesBack) {
     vakAfwerkingsOptiesBack.addEventListener('click', () => {
@@ -6983,15 +7461,17 @@ stroke-width="3"/>
 
   if (vakAfwerkingsOptiesConfirm) {
     vakAfwerkingsOptiesConfirm.addEventListener('click', () => {
-      // Hier kunnen we later de afwerkingsopties opslaan
-      console.log('Afwerkingsopties bevestigd:', {
+      // Sla afwerkingsopties op in state
+      state.afwerkingsOpties = {
         glasType: huidigGlasType,
         kleurDeurenRamenBinnen: huidigKleurDeurenRamenBinnen,
         kleurDeurenRamenBuiten: huidigKleurDeurenRamenBuiten,
         kleurKozijn: huidigKleurKozijn,
         afwerking: huidigAfwerking
-      });
+      };
+      console.log('Afwerkingsopties bevestigd en opgeslagen:', state.afwerkingsOpties);
       closeVakAfwerkingsOptiesMenu(false);
+      updatePrijsOverzicht();
     });
   }
 
@@ -7000,6 +7480,9 @@ stroke-width="3"/>
 
   // Start
   draw();
+  
+  // Initialiseer prijs overzicht
+  updatePrijsOverzicht();
 })();
 </script>
 </body>
