@@ -72,6 +72,12 @@
     .subtitle{color:var(--muted);font-size:14px;margin-bottom:16px}
     .vakSelectModal{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1a1f2a;border:2px solid var(--accent);border-radius:16px;padding:20px;z-index:1000;box-shadow:0 8px 32px rgba(0,0,0,0.5);min-width:400px;max-width:90vw;max-height:85vh;overflow-y:auto;overflow-x:hidden;display:none}
     .vakSelectModal.active{display:block}
+    .technischeTekeningModal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#1a1f2a;border:2px solid var(--accent);border-radius:16px;padding:20px;z-index:2000;box-shadow:0 8px 32px rgba(0,0,0,0.5);min-width:600px;max-width:95vw;max-height:90vh;display:none;flex-direction:column}
+    .technischeTekeningModal.active{display:flex}
+    .technischeTekeningModal h3{margin:0 0 16px;color:var(--fg);font-size:18px}
+    .technischeTekeningModalContent{flex:1;display:flex;flex-direction:column;gap:16px;min-height:0}
+    .technischeTekeningModal iframe{width:100%;flex:1;min-height:500px;border:1px solid #2b2f36;border-radius:8px;background:#0f1318}
+    .technischeTekeningModalActions{display:flex;justify-content:flex-end;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid #2b2f36}
     .vakSelectModal h3{margin:0 0 16px;color:var(--fg);font-size:18px}
     .vakSelectGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:12px}
     .vakSelectOption{display:flex;flex-direction:column;align-items:center;padding:12px;border:2px solid #2b2f36;border-radius:10px;cursor:pointer;transition:all 0.2s;background:#12161b}
@@ -156,9 +162,48 @@
     .vakSelectModal::-webkit-scrollbar-thumb{background:#2b2f36;border-radius:5px;border:2px solid #0f1318}
     .vakSelectModal::-webkit-scrollbar-thumb:hover{background:#4a4f56}
     .vakSelectModal{scrollbar-width:thin;scrollbar-color:#2b2f36 #0f1318}
+    /* Winkelwagen styling */
+    .winkelwagenPagina{display:none;max-width:1200px;margin:0 auto;padding:16px}
+    .winkelwagenPagina.active{display:block}
+    .tekenPagina{display:block}
+    .tekenPagina.hidden{display:none}
+    .winkelwagenHeader{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #2b2f36}
+    .winkelwagenHeader h1{margin:0;font-size:28px;color:var(--fg)}
+    .winkelwagenItem{background:#1a1f2a;border:1px solid #2b2f36;border-radius:12px;padding:16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+    .winkelwagenItemThumbnail{width:200px;height:150px;flex-shrink:0;border:1px solid #2b2f36;border-radius:8px;background:#0f1318;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .winkelwagenItemThumbnail img{width:100%;height:100%;object-fit:contain}
+    .winkelwagenItemInfo{flex:1}
+    .winkelwagenItemInfo h3{margin:0 0 8px;color:var(--fg);font-size:16px;font-weight:600}
+    .winkelwagenItemInfo p{margin:4px 0;color:var(--muted);font-size:13px}
+    .winkelwagenItemDetails{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+    .winkelwagenItemDetails span{color:var(--muted);font-size:12px}
+    .winkelwagenItemActies{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+    .winkelwagenItemPrijs{font-size:18px;font-weight:700;color:var(--accent)}
+    .winkelwagenItemType{display:inline-block;padding:4px 8px;background:#12161b;border-radius:6px;font-size:11px;font-weight:600;color:var(--accent);margin-bottom:8px}
+    .winkelwagenTotaal{background:#1a1f2a;border:2px solid var(--accent);border-radius:12px;padding:20px;margin-top:24px;display:flex;justify-content:space-between;align-items:center}
+    .winkelwagenTotaalLabel{font-size:20px;font-weight:600;color:var(--fg)}
+    .winkelwagenTotaalWaarde{font-size:24px;font-weight:700;color:var(--accent)}
+    .winkelwagenLeeg{text-align:center;padding:60px 20px;color:var(--muted)}
+    .winkelwagenLeeg h2{margin:0 0 12px;color:var(--fg);font-size:20px}
+    .winkelwagenLeeg p{margin:0;font-size:14px}
+    .navigatieBar{background:#1a1f2a;border-bottom:1px solid #2b2f36;padding:12px 16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+    .navigatieBar h2{margin:0;font-size:18px;color:var(--fg)}
+    .navigatieKnoppen{display:flex;gap:12px}
+    .winkelwagenBadge{display:inline-block;background:var(--accent);color:#0b0d10;border-radius:12px;padding:2px 8px;font-size:11px;font-weight:700;margin-left:8px}
   </style>
 </head>
 <body>
+  <!-- Navigatie bar -->
+  <div class="navigatieBar">
+    <h2>🎨 Kozijnen Configurator</h2>
+    <div class="navigatieKnoppen">
+      <button class="btn" id="btnNaarTekenen">✏️ Tekenen</button>
+      <button class="btn primary" id="btnNaarWinkelwagen">🛒 Winkelwagen<span id="winkelwagenBadge" class="winkelwagenBadge" style="display:none">0</span></button>
+    </div>
+  </div>
+
+  <!-- Teken pagina -->
+  <div class="tekenPagina" id="tekenPagina">
   <div class="wrap">
     <aside>
       <h1>🎨 Kozijnen Tekenen</h1>
@@ -210,7 +255,6 @@
         <legend>💾 Opslaan & Laden</legend>
         <button class="btn" id="btnSave">💾 Opslaan</button>
         <button class="btn" id="btnLoad">📂 Laden</button>
-        <button class="btn primary" id="btnExportPDF" style="width:100%;margin-top:8px">📄 Exporteer PDF Werktekening</button>
         <div class="stats">
           <div><strong>Tussen stijlen:</strong> <span id="countStijl">0</span></div>
           <div><strong>Tussen dorpels:</strong> <span id="countDorpel">0</span></div>
@@ -234,6 +278,16 @@
 
     <aside class="prijsOverzicht">
       <h3>💰 Prijs Overzicht</h3>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;margin-bottom:12px;border-bottom:1px solid #2b2f36;font-size:13px;gap:16px">
+        <div style="display:flex;align-items:center;gap:8px;flex:1">
+          <strong>Getekend:</strong>
+          <input type="number" id="aantalGetekend" min="0" value="1" style="width:60px;padding:6px 8px;border:1px solid #2b2f36;border-radius:6px;background:#12161b;color:var(--fg);font-size:13px;text-align:center" />
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex:1">
+          <strong>Gespiegeld:</strong>
+          <input type="number" id="aantalGespiegeld" min="0" value="0" style="width:60px;padding:6px 8px;border:1px solid #2b2f36;border-radius:6px;background:#12161b;color:var(--fg);font-size:13px;text-align:center" />
+        </div>
+      </div>
       <div id="prijsContent">
         <div class="prijsSectie">
           <h4>Kozijn</h4>
@@ -262,8 +316,30 @@
           <span class="prijsTotaalLabel">Totaal</span>
           <span class="prijsTotaalWaarde" id="prijsTotaal">€0,00</span>
         </div>
+        <button class="btn primary" id="btnExportPDF" style="width:100%;margin-top:16px">📄 Technische Tekening</button>
+        <button class="btn primary" id="btnToevoegenAanWinkelwagen" style="width:100%;margin-top:12px">🛒 Toevoegen aan winkelwagen</button>
       </div>
     </aside>
+  </div>
+  </div>
+
+  <!-- Winkelwagen pagina -->
+  <div class="winkelwagenPagina" id="winkelwagenPagina">
+    <div class="winkelwagenHeader">
+      <h1>🛒 Winkelwagen</h1>
+      <button class="btn" id="btnLeegWinkelwagen">🗑️ Winkelwagen legen</button>
+    </div>
+    <div id="winkelwagenContent">
+      <div class="winkelwagenLeeg" id="winkelwagenLeeg">
+        <h2>Je winkelwagen is leeg</h2>
+        <p>Voeg kozijnen, ramen, deuren of glas toe om te beginnen.</p>
+      </div>
+      <div id="winkelwagenItems"></div>
+    </div>
+    <div class="winkelwagenTotaal" id="winkelwagenTotaal" style="display:none">
+      <span class="winkelwagenTotaalLabel">Totaal:</span>
+      <span class="winkelwagenTotaalWaarde" id="winkelwagenTotaalWaarde">€0,00</span>
+    </div>
   </div>
 
   <!-- Modal voor vak selectie -->
@@ -271,6 +347,18 @@
     <button class="modalClose" id="modalClose">&times;</button>
     <h3 id="modalTitle">Selecteer type voor Vak <span id="modalVakId"></span></h3>
     <div class="vakSelectGrid" id="vakSelectGrid"></div>
+  </div>
+  <!-- Modal voor technische tekening -->
+  <div id="technischeTekeningModal" class="technischeTekeningModal">
+    <button class="modalClose" id="technischeTekeningModalClose">&times;</button>
+    <h3>📄 Technische Tekening</h3>
+    <div class="technischeTekeningModalContent">
+      <iframe id="technischeTekeningIframe" src=""></iframe>
+    </div>
+    <div class="technischeTekeningModalActions">
+      <button class="btn" id="technischeTekeningSluiten">Sluiten</button>
+      <button class="btn primary" id="technischeTekeningDownload">💾 Download PDF</button>
+    </div>
   </div>
   <div id="vakQuickMenu" class="vakQuickMenu">
     <button type="button" data-type="raam">
@@ -3170,9 +3258,387 @@ stroke-width="3"/>
       }
     }
 
+    // Haal aantallen op en bereken totaal met vermenigvuldiging
+    const aantalGetekendInput = document.getElementById('aantalGetekend');
+    const aantalGespiegeldInput = document.getElementById('aantalGespiegeld');
+    const aantalGetekend = aantalGetekendInput ? parseInt(aantalGetekendInput.value) || 0 : 1;
+    const aantalGespiegeld = aantalGespiegeldInput ? parseInt(aantalGespiegeldInput.value) || 0 : 0;
+    
+    // Bereken totaal: (getekend + gespiegeld) * basisprijs
+    const totaalAantal = aantalGetekend + aantalGespiegeld;
+    const totaalPrijs = prijzen.totaal * totaalAantal;
+    
     // Update totaal
     const prijsTotaal = document.getElementById('prijsTotaal');
-    if (prijsTotaal) prijsTotaal.textContent = formatPrijs(prijzen.totaal);
+    if (prijsTotaal) prijsTotaal.textContent = formatPrijs(totaalPrijs);
+    
+    // Bewaar huidige prijzen voor winkelwagen (zonder vermenigvuldiging)
+    state.huidigePrijzen = prijzen;
+    state.huidigeTotaalPrijs = totaalPrijs; // Bewaar totaal met vermenigvuldiging
+  }
+
+  // Winkelwagen functionaliteit
+  const WINKELWAGEN_KEY = 'kozijn_winkelwagen';
+  
+  function haalWinkelwagenOp() {
+    try {
+      const opgeslagen = localStorage.getItem(WINKELWAGEN_KEY);
+      return opgeslagen ? JSON.parse(opgeslagen) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function slaWinkelwagenOp(items) {
+    try {
+      localStorage.setItem(WINKELWAGEN_KEY, JSON.stringify(items));
+      updateWinkelwagenBadge();
+    } catch (e) {
+      console.error('Fout bij opslaan winkelwagen:', e);
+    }
+  }
+
+  async function voegToeAanWinkelwagen() {
+    if (!state.vakken || state.vakken.length === 0) {
+      alert('⚠️ Voeg eerst vakken toe aan het kozijn voordat je het aan de winkelwagen toevoegt.');
+      return;
+    }
+
+    // Toon laad indicator
+    const btnToevoegen = document.getElementById('btnToevoegenAanWinkelwagen');
+    const oorspronkelijkeTekst = btnToevoegen ? btnToevoegen.textContent : '';
+    if (btnToevoegen) {
+      btnToevoegen.disabled = true;
+      btnToevoegen.textContent = '⏳ Tekening wordt opgeslagen...';
+    }
+
+    try {
+      // Zorg dat prijzen berekend zijn
+      if (!state.huidigePrijzen) {
+        berekenPrijs();
+      }
+      const prijzen = state.huidigePrijzen;
+      
+      // Maak snapshot van het canvas
+      let thumbnailDataUrl = '';
+      if (window.html2canvas) {
+        const canvasWrap = document.querySelector('.canvasWrap');
+        if (canvasWrap) {
+          const canvas = await html2canvas(canvasWrap, {
+            backgroundColor: '#0f1318',
+            scale: 0.5, // Kleinere schaal voor thumbnail
+            logging: false,
+            useCORS: true,
+            width: canvasWrap.offsetWidth,
+            height: canvasWrap.offsetHeight
+          });
+          thumbnailDataUrl = canvas.toDataURL('image/png');
+        }
+      }
+      
+      // Haal aantallen op uit input velden
+      const aantalGetekendInput = document.getElementById('aantalGetekend');
+      const aantalGespiegeldInput = document.getElementById('aantalGespiegeld');
+      const aantalGetekend = aantalGetekendInput ? parseInt(aantalGetekendInput.value) || 0 : 1;
+      const aantalGespiegeld = aantalGespiegeldInput ? parseInt(aantalGespiegeldInput.value) || 0 : 0;
+      const totaalAantal = aantalGetekend + aantalGespiegeld;
+      
+      const winkelwagen = haalWinkelwagenOp();
+      
+      // Maak een beschrijving van het kozijn
+      const vakkenDetails = state.vakken.map(vak => {
+        const toewijzing = getVakToewijzing(vak.id);
+        const beschrijving = toewijzing ? formatToewijzing(toewijzing) : 'Niet toegewezen';
+        return {
+          id: vak.id,
+          type: toewijzing?.type || 'geen',
+          variant: toewijzing?.variant || '',
+          beschrijving: beschrijving,
+          maten: `${Math.round(vak.breedte)}mm × ${Math.round(vak.hoogte)}mm`
+        };
+      });
+
+      // Bereken prijs met aantallen
+      const basisPrijs = prijzen.totaal;
+      const totaalPrijs = basisPrijs * totaalAantal;
+
+      const item = {
+        id: Date.now(),
+        type: 'kozijn',
+        titel: `Kozijn ${state.Wmm}mm × ${state.Hmm}mm`,
+        afmetingen: `${state.Wmm}mm × ${state.Hmm}mm`,
+        ekosietOnderdorpel: state.ekosietOnderdorpel,
+        tussenstijlen: state.tussenStijlen.length,
+        tussendorpels: state.tussenDorpels.length,
+        aantalGetekend: aantalGetekend,
+        aantalGespiegeld: aantalGespiegeld,
+        totaalAantal: totaalAantal,
+        vakken: vakkenDetails,
+        afwerkingsOpties: { ...state.afwerkingsOpties },
+        thumbnail: thumbnailDataUrl, // Voeg thumbnail toe
+        prijs: totaalPrijs, // Prijs met aantallen
+        basisPrijs: basisPrijs, // Basisprijs zonder vermenigvuldiging
+        prijsDetails: {
+          basisKozijn: prijzen.basisKozijn,
+          tussenstijlen: prijzen.tussenstijlen,
+          tussendorpels: prijzen.tussendorpels,
+          vakken: prijzen.vakken,
+          afwerking: prijzen.afwerking
+        },
+        datum: new Date().toISOString()
+      };
+
+      winkelwagen.push(item);
+      slaWinkelwagenOp(winkelwagen);
+      alert('✅ Kozijn toegevoegd aan winkelwagen!');
+      updateWinkelwagenBadge();
+    } catch (error) {
+      console.error('Fout bij toevoegen aan winkelwagen:', error);
+      alert('❌ Fout bij toevoegen aan winkelwagen: ' + error.message);
+    } finally {
+      if (btnToevoegen) {
+        btnToevoegen.disabled = false;
+        btnToevoegen.textContent = oorspronkelijkeTekst;
+      }
+    }
+  }
+
+  function verwijderUitWinkelwagen(itemId) {
+    const winkelwagen = haalWinkelwagenOp();
+    const gefilterd = winkelwagen.filter(item => item.id !== itemId);
+    slaWinkelwagenOp(gefilterd);
+    toonWinkelwagen();
+  }
+
+  function leegWinkelwagen() {
+    if (confirm('Weet je zeker dat je de winkelwagen wilt legen?')) {
+      slaWinkelwagenOp([]);
+      toonWinkelwagen();
+      alert('✅ Winkelwagen geleegd');
+    }
+  }
+
+  function toonWinkelwagen() {
+    const winkelwagen = haalWinkelwagenOp();
+    const winkelwagenItems = document.getElementById('winkelwagenItems');
+    const winkelwagenLeeg = document.getElementById('winkelwagenLeeg');
+    const winkelwagenTotaal = document.getElementById('winkelwagenTotaal');
+    const winkelwagenTotaalWaarde = document.getElementById('winkelwagenTotaalWaarde');
+
+    if (winkelwagen.length === 0) {
+      if (winkelwagenLeeg) winkelwagenLeeg.style.display = 'block';
+      if (winkelwagenItems) winkelwagenItems.innerHTML = '';
+      if (winkelwagenTotaal) winkelwagenTotaal.style.display = 'none';
+      return;
+    }
+
+    if (winkelwagenLeeg) winkelwagenLeeg.style.display = 'none';
+    if (winkelwagenTotaal) winkelwagenTotaal.style.display = 'flex';
+
+    if (winkelwagenItems) {
+      winkelwagenItems.innerHTML = winkelwagen.map(item => {
+        
+        let vakkenHTML = '';
+        if (item.vakken && item.vakken.length > 0) {
+          vakkenHTML = '<div class="winkelwagenItemDetails">';
+          vakkenHTML += '<strong style="color:var(--fg);font-size:12px;margin-bottom:4px;display:block">Vakken:</strong>';
+          item.vakken.forEach(vak => {
+            vakkenHTML += `<span>• ${vak.beschrijving} - ${vak.maten}</span>`;
+          });
+          vakkenHTML += '</div>';
+        }
+
+        let afwerkingHTML = '';
+        if (item.afwerkingsOpties) {
+          const opties = [];
+          if (item.afwerkingsOpties.glasType) {
+            const glasTypeLabel = item.afwerkingsOpties.glasType === 'hr++' ? 'HR++' : 
+                                 item.afwerkingsOpties.glasType === 'hr+++' ? 'HR+++' : 'Enkelglas';
+            opties.push(`Glas: ${glasTypeLabel}`);
+          }
+          if (item.afwerkingsOpties.afwerking) {
+            const afwerkingLabel = item.afwerkingsOpties.afwerking === 'afgelakt' ? 'Afgelakt' : 'Alleen gegrond';
+            opties.push(`Afwerking: ${afwerkingLabel}`);
+          }
+          if (item.afwerkingsOpties.kleurDeurenRamenBinnen) {
+            opties.push(`Kleur binnen: ${item.afwerkingsOpties.kleurDeurenRamenBinnen}`);
+          }
+          if (item.afwerkingsOpties.kleurDeurenRamenBuiten) {
+            opties.push(`Kleur buiten: ${item.afwerkingsOpties.kleurDeurenRamenBuiten}`);
+          }
+          if (item.afwerkingsOpties.kleurKozijn) {
+            opties.push(`Kleur kozijn: ${item.afwerkingsOpties.kleurKozijn}`);
+          }
+          if (opties.length > 0) {
+            afwerkingHTML = `<div class="winkelwagenItemDetails" style="margin-top:8px">
+              <strong style="color:var(--fg);font-size:12px;margin-bottom:4px;display:block">Afwerking:</strong>
+              ${opties.map(opt => `<span>• ${opt}</span>`).join('')}
+            </div>`;
+          }
+        }
+
+        const thumbnailHTML = item.thumbnail 
+          ? `<div class="winkelwagenItemThumbnail"><img src="${item.thumbnail}" alt="Kozijn tekening" /></div>`
+          : '<div class="winkelwagenItemThumbnail" style="color:var(--muted);font-size:12px;text-align:center;padding:20px">Geen preview</div>';
+        
+        const basisPrijs = item.basisPrijs || (item.prijs / (item.totaalAantal || 1));
+        const aantalGetekend = item.aantalGetekend !== undefined ? item.aantalGetekend : 1;
+        const aantalGespiegeld = item.aantalGespiegeld !== undefined ? item.aantalGespiegeld : 0;
+        const totaalAantal = aantalGetekend + aantalGespiegeld;
+        
+        const aantallenHTML = `<div class="winkelwagenItemDetails" style="margin-top:8px;margin-bottom:8px">
+              <strong style="color:var(--fg);font-size:12px;margin-bottom:4px;display:block">Aantallen:</strong>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+                <span style="min-width:80px">Getekend:</span>
+                <input type="number" class="winkelwagenAantalInput" data-item-id="${item.id}" data-type="getekend" min="0" value="${aantalGetekend}" style="width:60px;padding:4px 6px;border:1px solid #2b2f36;border-radius:6px;background:#12161b;color:var(--fg);font-size:12px;text-align:center" />
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+                <span style="min-width:80px">Gespiegeld:</span>
+                <input type="number" class="winkelwagenAantalInput" data-item-id="${item.id}" data-type="gespiegeld" min="0" value="${aantalGespiegeld}" style="width:60px;padding:4px 6px;border:1px solid #2b2f36;border-radius:6px;background:#12161b;color:var(--fg);font-size:12px;text-align:center" />
+              </div>
+              <div style="margin-top:4px;padding-top:4px;border-top:1px solid #2b2f36">
+                <span style="color:var(--accent);font-weight:600;font-size:12px">Totaal: ${totaalAantal} × ${formatPrijs(basisPrijs)} = <span id="winkelwagenItemPrijs_${item.id}">${formatPrijs(basisPrijs * totaalAantal)}</span></span>
+              </div>
+            </div>`;
+        
+        return `
+          <div class="winkelwagenItem" data-item-id="${item.id}">
+            ${thumbnailHTML}
+            <div class="winkelwagenItemInfo">
+              <span class="winkelwagenItemType">${item.type === 'kozijn' ? 'Kozijn' : item.type}</span>
+              <h3>${item.titel}</h3>
+              <p><strong>Afmetingen:</strong> ${item.afmetingen}</p>
+              ${item.ekosietOnderdorpel ? '<p>✓ Ekosiet onderdorpel</p>' : ''}
+              ${item.tussenstijlen > 0 ? `<p>Tussenstijlen: ${item.tussenstijlen}</p>` : ''}
+              ${item.tussendorpels > 0 ? `<p>Tussendorpels: ${item.tussendorpels}</p>` : ''}
+              ${aantallenHTML}
+              ${vakkenHTML}
+              ${afwerkingHTML}
+            </div>
+            <div class="winkelwagenItemActies">
+              <div class="winkelwagenItemPrijs" id="winkelwagenItemPrijsDisplay_${item.id}">${formatPrijs(basisPrijs * totaalAantal)}</div>
+              <button class="btn danger winkelwagenVerwijderBtn" data-item-id="${item.id}">🗑️ Verwijder</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    updateWinkelwagenTotaal();
+
+    // Voeg event listeners toe voor verwijder knoppen
+    const verwijderKnoppen = document.querySelectorAll('.winkelwagenVerwijderBtn');
+    verwijderKnoppen.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const itemId = parseInt(e.target.dataset.itemId || e.target.closest('.winkelwagenVerwijderBtn')?.dataset.itemId);
+        if (itemId) {
+          verwijderUitWinkelwagen(itemId);
+        }
+      });
+    });
+
+    // Voeg event listeners toe voor aantal input velden
+    const aantalInputs = document.querySelectorAll('.winkelwagenAantalInput');
+    aantalInputs.forEach(input => {
+      input.addEventListener('input', (e) => {
+        updateWinkelwagenItemAantal(e.target);
+      });
+      input.addEventListener('change', (e) => {
+        updateWinkelwagenItemAantal(e.target);
+      });
+    });
+  }
+
+  function updateWinkelwagenItemAantal(inputElement) {
+    const itemId = parseInt(inputElement.dataset.itemId);
+    const type = inputElement.dataset.type; // 'getekend' of 'gespiegeld'
+    const nieuweWaarde = parseInt(inputElement.value) || 0;
+
+    if (!itemId || !type) return;
+
+    const winkelwagen = haalWinkelwagenOp();
+    const item = winkelwagen.find(i => i.id === itemId);
+    
+    if (!item) return;
+
+    // Update het aantal
+    if (type === 'getekend') {
+      item.aantalGetekend = nieuweWaarde;
+    } else if (type === 'gespiegeld') {
+      item.aantalGespiegeld = nieuweWaarde;
+    }
+
+    // Bereken nieuwe totaal
+    const aantalGetekend = item.aantalGetekend || 0;
+    const aantalGespiegeld = item.aantalGespiegeld || 0;
+    const totaalAantal = aantalGetekend + aantalGespiegeld;
+    item.totaalAantal = totaalAantal;
+
+    // Bereken nieuwe prijs
+    const basisPrijs = item.basisPrijs || (item.prijs / (item.totaalAantal || 1));
+    item.basisPrijs = basisPrijs; // Zorg dat basisPrijs is opgeslagen
+    item.prijs = basisPrijs * totaalAantal;
+
+    // Update de weergave
+    const prijsDisplayElement = document.getElementById(`winkelwagenItemPrijsDisplay_${itemId}`);
+    const totaalSpan = document.getElementById(`winkelwagenItemPrijs_${itemId}`);
+
+    if (prijsDisplayElement) {
+      prijsDisplayElement.textContent = formatPrijs(item.prijs);
+    }
+    if (totaalSpan) {
+      totaalSpan.textContent = formatPrijs(item.prijs);
+      // Update ook de totaal regel tekst
+      const totaalRegel = totaalSpan.closest('div');
+      if (totaalRegel) {
+        const totaalTekst = totaalRegel.textContent;
+        if (totaalTekst.includes('Totaal:')) {
+          totaalRegel.innerHTML = `<span style="color:var(--accent);font-weight:600;font-size:12px">Totaal: ${totaalAantal} × ${formatPrijs(basisPrijs)} = <span id="winkelwagenItemPrijs_${itemId}">${formatPrijs(item.prijs)}</span></span>`;
+        }
+      }
+    }
+
+    // Sla winkelwagen op
+    slaWinkelwagenOp(winkelwagen);
+
+    // Update totaal prijs winkelwagen
+    updateWinkelwagenTotaal();
+  }
+
+  function updateWinkelwagenTotaal() {
+    const winkelwagen = haalWinkelwagenOp();
+    const totaalPrijs = winkelwagen.reduce((sum, item) => sum + (item.prijs || 0), 0);
+    const winkelwagenTotaalWaarde = document.getElementById('winkelwagenTotaalWaarde');
+    if (winkelwagenTotaalWaarde) {
+      winkelwagenTotaalWaarde.textContent = formatPrijs(totaalPrijs);
+    }
+  }
+
+  function updateWinkelwagenBadge() {
+    const winkelwagen = haalWinkelwagenOp();
+    const badge = document.getElementById('winkelwagenBadge');
+    if (badge) {
+      if (winkelwagen.length > 0) {
+        badge.textContent = winkelwagen.length;
+        badge.style.display = 'inline-block';
+      } else {
+        badge.style.display = 'none';
+      }
+    }
+  }
+
+  function gaNaarPagina(pagina) {
+    const tekenPagina = document.getElementById('tekenPagina');
+    const winkelwagenPagina = document.getElementById('winkelwagenPagina');
+    
+    if (pagina === 'tekenen') {
+      if (tekenPagina) tekenPagina.classList.remove('hidden');
+      if (winkelwagenPagina) winkelwagenPagina.classList.remove('active');
+    } else if (pagina === 'winkelwagen') {
+      if (tekenPagina) tekenPagina.classList.add('hidden');
+      if (winkelwagenPagina) winkelwagenPagina.classList.add('active');
+      toonWinkelwagen();
+    }
   }
 
   function toewijzingenGelijk(a, b) {
@@ -4689,7 +5155,10 @@ stroke-width="3"/>
     }
   });
 
-  // PDF Export functie
+  // PDF Export functie - toont PDF in modal
+  let currentPdfBlob = null;
+  let currentPdfFileName = '';
+
   async function exportNaarPDF() {
     if (!window.jspdf || !window.html2canvas) {
       alert('PDF export bibliotheken zijn niet geladen. Ververs de pagina en probeer opnieuw.');
@@ -4740,7 +5209,7 @@ stroke-width="3"/>
       // Voeg titel toe
       pdf.setFontSize(16);
       pdf.setFont(undefined, 'bold');
-      pdf.text('Werktekening Kozijn', pdfWidth / 2, 10, { align: 'center' });
+      pdf.text('Technische Tekening Kozijn', pdfWidth / 2, 10, { align: 'center' });
       
       // Voeg afmetingen toe
       pdf.setFontSize(10);
@@ -4847,26 +5316,63 @@ stroke-width="3"/>
       pdf.setFontSize(8);
       pdf.text(`Gegenereerd op: ${datum}`, pdfWidth - margin, pdfHeight - 10, { align: 'right' });
 
-      // Download PDF
-      const fileName = `werktekening-kozijn-${Date.now()}.pdf`;
-      pdf.save(fileName);
+      // Genereer PDF als blob en toon in modal
+      const pdfBlob = pdf.output('blob');
+      currentPdfBlob = pdfBlob;
+      currentPdfFileName = `technische-tekening-kozijn-${Date.now()}.pdf`;
       
-      // Cleanup
-      URL.revokeObjectURL(svgUrl);
+      // Maak blob URL voor iframe
+      const blobUrl = URL.createObjectURL(pdfBlob);
+      
+      // Toon modal met PDF
+      const modal = document.getElementById('technischeTekeningModal');
+      const iframe = document.getElementById('technischeTekeningIframe');
+      if (modal && iframe) {
+        iframe.src = blobUrl;
+        modal.classList.add('active');
+      }
       
       if (btnExportPDF) {
         btnExportPDF.disabled = false;
-        btnExportPDF.textContent = '📄 Exporteer PDF Werktekening';
+        btnExportPDF.textContent = '📄 Technische Tekening';
       }
-      
-      alert('✅ PDF succesvol gegenereerd en gedownload!');
     } catch (error) {
       console.error('Fout bij PDF export:', error);
       alert('❌ Fout bij het genereren van de PDF: ' + error.message);
       
       if (btnExportPDF) {
         btnExportPDF.disabled = false;
-        btnExportPDF.textContent = '📄 Exporteer PDF Werktekening';
+        btnExportPDF.textContent = '📄 Technische Tekening';
+      }
+    }
+  }
+
+  // Download PDF functie
+  function downloadTechnischeTekening() {
+    if (currentPdfBlob && currentPdfFileName) {
+      const url = URL.createObjectURL(currentPdfBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = currentPdfFileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  }
+
+  // Sluit modal functie
+  function sluitTechnischeTekeningModal() {
+    const modal = document.getElementById('technischeTekeningModal');
+    const iframe = document.getElementById('technischeTekeningIframe');
+    if (modal) {
+      modal.classList.remove('active');
+      if (iframe) {
+        const oldSrc = iframe.src;
+        iframe.src = '';
+        if (oldSrc.startsWith('blob:')) {
+          URL.revokeObjectURL(oldSrc);
+        }
       }
     }
   }
@@ -4874,6 +5380,33 @@ stroke-width="3"/>
   // Event listener voor PDF export
   if (btnExportPDF) {
     btnExportPDF.addEventListener('click', exportNaarPDF);
+  }
+
+  // Event listeners voor technische tekening modal
+  const technischeTekeningModal = document.getElementById('technischeTekeningModal');
+  const technischeTekeningModalClose = document.getElementById('technischeTekeningModalClose');
+  const technischeTekeningSluiten = document.getElementById('technischeTekeningSluiten');
+  const technischeTekeningDownload = document.getElementById('technischeTekeningDownload');
+
+  if (technischeTekeningModalClose) {
+    technischeTekeningModalClose.addEventListener('click', sluitTechnischeTekeningModal);
+  }
+
+  if (technischeTekeningSluiten) {
+    technischeTekeningSluiten.addEventListener('click', sluitTechnischeTekeningModal);
+  }
+
+  if (technischeTekeningDownload) {
+    technischeTekeningDownload.addEventListener('click', downloadTechnischeTekening);
+  }
+
+  // Sluit modal bij klik buiten modal
+  if (technischeTekeningModal) {
+    technischeTekeningModal.addEventListener('click', (e) => {
+      if (e.target === technischeTekeningModal) {
+        sluitTechnischeTekeningModal();
+      }
+    });
   }
 
   btnEqualizeDagHoriz.addEventListener('click', () => {
@@ -7475,6 +8008,28 @@ stroke-width="3"/>
     });
   }
 
+  // Winkelwagen event listeners
+  const btnNaarTekenen = document.getElementById('btnNaarTekenen');
+  const btnNaarWinkelwagen = document.getElementById('btnNaarWinkelwagen');
+  const btnToevoegenAanWinkelwagen = document.getElementById('btnToevoegenAanWinkelwagen');
+  const btnLeegWinkelwagen = document.getElementById('btnLeegWinkelwagen');
+
+  if (btnNaarTekenen) {
+    btnNaarTekenen.addEventListener('click', () => gaNaarPagina('tekenen'));
+  }
+
+  if (btnNaarWinkelwagen) {
+    btnNaarWinkelwagen.addEventListener('click', () => gaNaarPagina('winkelwagen'));
+  }
+
+  if (btnToevoegenAanWinkelwagen) {
+    btnToevoegenAanWinkelwagen.addEventListener('click', voegToeAanWinkelwagen);
+  }
+
+  if (btnLeegWinkelwagen) {
+    btnLeegWinkelwagen.addEventListener('click', leegWinkelwagen);
+  }
+
   // Laad SVG iconen bij page load
   loadSvgIcons();
 
@@ -7483,6 +8038,31 @@ stroke-width="3"/>
   
   // Initialiseer prijs overzicht
   updatePrijsOverzicht();
+  
+  // Initialiseer winkelwagen badge
+  updateWinkelwagenBadge();
+  
+  // Event listeners voor aantal input velden
+  const aantalGetekendInput = document.getElementById('aantalGetekend');
+  const aantalGespiegeldInput = document.getElementById('aantalGespiegeld');
+  
+  if (aantalGetekendInput) {
+    aantalGetekendInput.addEventListener('input', () => {
+      updatePrijsOverzicht();
+    });
+    aantalGetekendInput.addEventListener('change', () => {
+      updatePrijsOverzicht();
+    });
+  }
+  
+  if (aantalGespiegeldInput) {
+    aantalGespiegeldInput.addEventListener('input', () => {
+      updatePrijsOverzicht();
+    });
+    aantalGespiegeldInput.addEventListener('change', () => {
+      updatePrijsOverzicht();
+    });
+  }
 })();
 </script>
 </body>
