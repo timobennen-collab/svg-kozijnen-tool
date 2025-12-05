@@ -74,6 +74,12 @@
     .vakSelectModal.active{display:block}
     .technischeTekeningModal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#1a1f2a;border:2px solid var(--accent);border-radius:16px;padding:20px;z-index:2000;box-shadow:0 8px 32px rgba(0,0,0,0.5);min-width:600px;max-width:95vw;max-height:90vh;display:none;flex-direction:column}
     .technischeTekeningModal.active{display:flex}
+    .fotoModal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:2500;display:none;align-items:center;justify-content:center;padding:20px}
+    .fotoModal.active{display:flex}
+    .fotoModalContent{position:relative;max-width:95vw;max-height:95vh;display:flex;align-items:center;justify-content:center}
+    .fotoModalContent img{max-width:100%;max-height:95vh;object-fit:contain;border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,0.5)}
+    .fotoModalClose{position:absolute;top:20px;right:20px;background:rgba(26,31,42,0.9);border:2px solid var(--accent);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:var(--fg);font-size:24px;cursor:pointer;transition:all 0.2s;z-index:10}
+    .fotoModalClose:hover{background:var(--accent);color:#0b0d10;transform:scale(1.1)}
     .technischeTekeningModal h3{margin:0 0 16px;color:var(--fg);font-size:18px}
     .technischeTekeningModalContent{flex:1;display:flex;flex-direction:column;gap:16px;min-height:0}
     .technischeTekeningModal iframe{width:100%;flex:1;min-height:500px;border:1px solid #2b2f36;border-radius:8px;background:#0f1318}
@@ -165,8 +171,14 @@
     /* Winkelwagen styling */
     .winkelwagenPagina{display:none;max-width:1200px;margin:0 auto;padding:16px}
     .winkelwagenPagina.active{display:block}
+    .losseProductenPagina{display:none;max-width:1200px;margin:0 auto;padding:16px}
+    .losseProductenPagina.active{display:block}
     .tekenPagina{display:block}
     .tekenPagina.hidden{display:none}
+    .productForm{background:#1a1f2a;border:1px solid #2b2f36;border-radius:12px;padding:20px;margin-bottom:20px}
+    .productForm h3{margin:0 0 16px;color:var(--fg);font-size:18px;font-weight:600}
+    .productFormGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:16px}
+    .productFormActions{display:flex;justify-content:flex-end;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid #2b2f36}
     .winkelwagenHeader{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #2b2f36}
     .winkelwagenHeader h1{margin:0;font-size:28px;color:var(--fg)}
     .winkelwagenItem{background:#1a1f2a;border:1px solid #2b2f36;border-radius:12px;padding:16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
@@ -198,6 +210,7 @@
     <h2>🎨 Kozijnen Configurator</h2>
     <div class="navigatieKnoppen">
       <button class="btn" id="btnNaarTekenen">✏️ Tekenen</button>
+      <button class="btn" id="btnNaarLosseProducten">📦 Losse Producten</button>
       <button class="btn primary" id="btnNaarWinkelwagen">🛒 Winkelwagen<span id="winkelwagenBadge" class="winkelwagenBadge" style="display:none">0</span></button>
     </div>
   </div>
@@ -241,6 +254,24 @@
         <button class="btn danger" id="btnReset">🗑️ Alles wissen</button>
         <button class="btn primary" id="btnDetectVakken" style="margin-top:10px;width:100%">✓ Klaar met tekenen</button>
         <small>Wis de laatste lijn of start helemaal opnieuw.</small>
+      </fieldset>
+
+      <fieldset>
+        <legend>📷 Foto Upload</legend>
+        <input type="file" id="fotoUploadBuitenkant" accept="image/*" capture="environment" style="display:none" />
+        <button class="btn" id="btnUploadFotoBuitenkant" style="width:100%;margin-bottom:10px">📷 Buitenkant foto maken</button>
+        <button class="btn" id="btnVerwijderFotoBuitenkant" style="width:100%;display:none;margin-bottom:10px">🗑️ Verwijder buitenkant foto</button>
+        <div id="fotoPreviewBuitenkant" style="display:none;margin-top:10px">
+          <img id="fotoPreviewImgBuitenkant" style="max-width:100%;border:1px solid #444;border-radius:4px;cursor:pointer" />
+        </div>
+        
+        <input type="file" id="fotoUploadBinnenkant" accept="image/*" capture="environment" style="display:none" />
+        <button class="btn" id="btnUploadFotoBinnenkant" style="width:100%;margin-top:10px;margin-bottom:10px">📷 Binnenkant foto maken</button>
+        <button class="btn" id="btnVerwijderFotoBinnenkant" style="width:100%;display:none;margin-bottom:10px">🗑️ Verwijder binnenkant foto</button>
+        <div id="fotoPreviewBinnenkant" style="display:none;margin-top:10px">
+          <img id="fotoPreviewImgBinnenkant" style="max-width:100%;border:1px solid #444;border-radius:4px;cursor:pointer" />
+        </div>
+        <small style="display:block;margin-top:10px;color:#888">Op mobiele apparaten kun je kiezen tussen camera of galerij.</small>
       </fieldset>
 
       <fieldset id="vakkenFieldset" style="display:none">
@@ -323,6 +354,142 @@
   </div>
   </div>
 
+  <!-- Losse Producten pagina -->
+  <div class="losseProductenPagina" id="losseProductenPagina">
+    <h1>📦 Losse Producten Bestellen</h1>
+    <p style="color:var(--muted);margin-bottom:24px">Bestel los glas, ramen of deuren zonder kozijn te tekenen.</p>
+    
+    <!-- Glas Formulier -->
+    <div class="productForm">
+      <h3>🪟 Los Glas</h3>
+      <div class="productFormGrid">
+        <div>
+          <label>Breedte (mm)</label>
+          <input type="number" id="glasBreedte" min="100" max="5000" step="10" value="1000" />
+        </div>
+        <div>
+          <label>Hoogte (mm)</label>
+          <input type="number" id="glasHoogte" min="100" max="5000" step="10" value="1000" />
+        </div>
+        <div>
+          <label>Glas Type</label>
+          <select id="glasTypeLos" style="width:100%;padding:10px 12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);font-size:14px">
+            <option value="enkel">Enkel glas</option>
+            <option value="hr+">HR+</option>
+            <option value="hr++">HR++</option>
+            <option value="hr+++">HR+++</option>
+          </select>
+        </div>
+        <div>
+          <label>Aantal</label>
+          <input type="number" id="glasAantal" min="1" value="1" />
+        </div>
+      </div>
+      <div class="productFormActions">
+        <button class="btn primary" id="btnVoegGlasToe">➕ Voeg glas toe aan winkelwagen</button>
+      </div>
+    </div>
+
+    <!-- Raam Formulier -->
+    <div class="productForm">
+      <h3>🪟 Los Raam</h3>
+      <div class="productFormGrid">
+        <div>
+          <label>Breedte (mm)</label>
+          <input type="number" id="raamBreedte" min="300" max="5000" step="10" value="1000" />
+        </div>
+        <div>
+          <label>Hoogte (mm)</label>
+          <input type="number" id="raamHoogte" min="300" max="5000" step="10" value="1000" />
+        </div>
+        <div>
+          <label>Raam Type</label>
+          <select id="raamTypeLos" style="width:100%;padding:10px 12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);font-size:14px">
+            <option value="draairaam_buiten">Draairaam naar buiten</option>
+            <option value="draairaam_binnen">Draairaam naar binnen</option>
+            <option value="stolpraam_buiten">Stolpraam buitendraaiend</option>
+            <option value="stolpraam_binnen">Stolpraam binnendraaiend</option>
+            <option value="draaikiep">Draaikiep raam</option>
+            <option value="kiep">Kiep raam</option>
+            <option value="vast">Vast raam</option>
+          </select>
+        </div>
+        <div>
+          <label>Draairichting</label>
+          <select id="raamDraairichting" style="width:100%;padding:10px 12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);font-size:14px">
+            <option value="links">Links draaiend</option>
+            <option value="rechts">Rechts draaiend</option>
+            <option value="actief">Actief</option>
+          </select>
+        </div>
+        <div>
+          <label>Glas Type</label>
+          <select id="raamGlasType" style="width:100%;padding:10px 12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);font-size:14px">
+            <option value="enkel">Enkel glas</option>
+            <option value="hr+">HR+</option>
+            <option value="hr++">HR++</option>
+            <option value="hr+++">HR+++</option>
+          </select>
+        </div>
+        <div>
+          <label>Aantal</label>
+          <input type="number" id="raamAantal" min="1" value="1" />
+        </div>
+      </div>
+      <div class="productFormActions">
+        <button class="btn primary" id="btnVoegRaamToe">➕ Voeg raam toe aan winkelwagen</button>
+      </div>
+    </div>
+
+    <!-- Deur Formulier -->
+    <div class="productForm">
+      <h3>🚪 Losse Deur</h3>
+      <div class="productFormGrid">
+        <div>
+          <label>Breedte (mm)</label>
+          <input type="number" id="deurBreedte" min="600" max="5000" step="10" value="900" />
+        </div>
+        <div>
+          <label>Hoogte (mm)</label>
+          <input type="number" id="deurHoogte" min="1800" max="5000" step="10" value="2100" />
+        </div>
+        <div>
+          <label>Deur Type</label>
+          <select id="deurTypeLos" style="width:100%;padding:10px 12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);font-size:14px">
+            <option value="dichte_deur">Dichte deur</option>
+            <option value="deur_met_raam">Deur met raam</option>
+            <option value="stolpdeur_buitendraaiend">Stolpdeur buitendraaiend</option>
+            <option value="stolpdeur_binnendraaiend">Stolpdeur binnendraaiend</option>
+          </select>
+        </div>
+        <div>
+          <label>Draairichting</label>
+          <select id="deurDraairichting" style="width:100%;padding:10px 12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);font-size:14px">
+            <option value="links">Links draaiend</option>
+            <option value="rechts">Rechts draaiend</option>
+            <option value="actief">Actief</option>
+          </select>
+        </div>
+        <div>
+          <label>Glas Type</label>
+          <select id="deurGlasType" style="width:100%;padding:10px 12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);font-size:14px">
+            <option value="enkel">Enkel glas</option>
+            <option value="hr+">HR+</option>
+            <option value="hr++">HR++</option>
+            <option value="hr+++">HR+++</option>
+          </select>
+        </div>
+        <div>
+          <label>Aantal</label>
+          <input type="number" id="deurAantal" min="1" value="1" />
+        </div>
+      </div>
+      <div class="productFormActions">
+        <button class="btn primary" id="btnVoegDeurToe">➕ Voeg deur toe aan winkelwagen</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Winkelwagen pagina -->
   <div class="winkelwagenPagina" id="winkelwagenPagina">
     <div class="winkelwagenHeader">
@@ -349,6 +516,14 @@
     <div class="vakSelectGrid" id="vakSelectGrid"></div>
   </div>
   <!-- Modal voor technische tekening -->
+  <!-- Foto Modal -->
+  <div id="fotoModal" class="fotoModal">
+    <div class="fotoModalContent">
+      <button class="fotoModalClose" id="fotoModalClose">&times;</button>
+      <img id="fotoModalImg" src="" alt="Foto" />
+    </div>
+  </div>
+
   <div id="technischeTekeningModal" class="technischeTekeningModal">
     <button class="modalClose" id="technischeTekeningModalClose">&times;</button>
     <h3>📄 Technische Tekening</h3>
@@ -1055,6 +1230,24 @@
   const maatPopover = document.getElementById('maatPopover');
   const maatPopoverInput = document.getElementById('maatPopoverInput');
   const maatPopoverLock = document.getElementById('maatPopoverLock');
+  const fotoUploadBuitenkant = document.getElementById('fotoUploadBuitenkant');
+  const btnUploadFotoBuitenkant = document.getElementById('btnUploadFotoBuitenkant');
+  const btnVerwijderFotoBuitenkant = document.getElementById('btnVerwijderFotoBuitenkant');
+  const fotoPreviewBuitenkant = document.getElementById('fotoPreviewBuitenkant');
+  const fotoPreviewImgBuitenkant = document.getElementById('fotoPreviewImgBuitenkant');
+  
+  const fotoUploadBinnenkant = document.getElementById('fotoUploadBinnenkant');
+  const btnUploadFotoBinnenkant = document.getElementById('btnUploadFotoBinnenkant');
+  const btnVerwijderFotoBinnenkant = document.getElementById('btnVerwijderFotoBinnenkant');
+  const fotoPreviewBinnenkant = document.getElementById('fotoPreviewBinnenkant');
+  const fotoPreviewImgBinnenkant = document.getElementById('fotoPreviewImgBinnenkant');
+  const fotoModal = document.getElementById('fotoModal');
+  const fotoModalImg = document.getElementById('fotoModalImg');
+  const fotoModalClose = document.getElementById('fotoModalClose');
+  
+  // Verborgen canvas voor image processing
+  const processingCanvas = document.createElement('canvas');
+  const processingCtx = processingCanvas.getContext('2d');
   const maatPopoverSave = document.getElementById('maatPopoverSave');
   const maatPopoverCancel = document.getElementById('maatPopoverCancel');
   const vakQuickMenu = document.getElementById('vakQuickMenu');
@@ -3481,33 +3674,88 @@ stroke-width="3"/>
           ? `<div class="winkelwagenItemThumbnail"><img src="${item.thumbnail}" alt="Kozijn tekening" /></div>`
           : '<div class="winkelwagenItemThumbnail" style="color:var(--muted);font-size:12px;text-align:center;padding:20px">Geen preview</div>';
         
-        const basisPrijs = item.basisPrijs || (item.prijs / (item.totaalAantal || 1));
-        const aantalGetekend = item.aantalGetekend !== undefined ? item.aantalGetekend : 1;
-        const aantalGespiegeld = item.aantalGespiegeld !== undefined ? item.aantalGespiegeld : 0;
-        const totaalAantal = aantalGetekend + aantalGespiegeld;
+        // Bepaal type en basis prijs
+        const isKozijn = item.type === 'kozijn';
+        const isLosProduct = item.type === 'glas' || item.type === 'raam' || item.type === 'deur';
         
-        const aantallenHTML = `<div class="winkelwagenItemDetails" style="margin-top:8px;margin-bottom:8px">
-              <strong style="color:var(--fg);font-size:12px;margin-bottom:4px;display:block">Aantallen:</strong>
-              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-                <span style="min-width:80px">Getekend:</span>
-                <input type="number" class="winkelwagenAantalInput" data-item-id="${item.id}" data-type="getekend" min="0" value="${aantalGetekend}" style="width:60px;padding:4px 6px;border:1px solid #2b2f36;border-radius:6px;background:#12161b;color:var(--fg);font-size:12px;text-align:center" />
-              </div>
-              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-                <span style="min-width:80px">Gespiegeld:</span>
-                <input type="number" class="winkelwagenAantalInput" data-item-id="${item.id}" data-type="gespiegeld" min="0" value="${aantalGespiegeld}" style="width:60px;padding:4px 6px;border:1px solid #2b2f36;border-radius:6px;background:#12161b;color:var(--fg);font-size:12px;text-align:center" />
-              </div>
-              <div style="margin-top:4px;padding-top:4px;border-top:1px solid #2b2f36">
-                <span style="color:var(--accent);font-weight:600;font-size:12px">Totaal: ${totaalAantal} × ${formatPrijs(basisPrijs)} = <span id="winkelwagenItemPrijs_${item.id}">${formatPrijs(basisPrijs * totaalAantal)}</span></span>
-              </div>
-            </div>`;
+        let basisPrijs, totaalAantal, aantallenHTML;
+        
+        if (isKozijn) {
+          // Kozijn met getekend/gespiegeld
+          basisPrijs = item.basisPrijs || (item.prijs / (item.totaalAantal || 1));
+          const aantalGetekend = item.aantalGetekend !== undefined ? item.aantalGetekend : 1;
+          const aantalGespiegeld = item.aantalGespiegeld !== undefined ? item.aantalGespiegeld : 0;
+          totaalAantal = aantalGetekend + aantalGespiegeld;
+          
+          aantallenHTML = `<div class="winkelwagenItemDetails" style="margin-top:8px;margin-bottom:8px">
+                <strong style="color:var(--fg);font-size:12px;margin-bottom:4px;display:block">Aantallen:</strong>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+                  <span style="min-width:80px">Getekend:</span>
+                  <input type="number" class="winkelwagenAantalInput" data-item-id="${item.id}" data-type="getekend" min="0" value="${aantalGetekend}" style="width:60px;padding:4px 6px;border:1px solid #2b2f36;border-radius:6px;background:#12161b;color:var(--fg);font-size:12px;text-align:center" />
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+                  <span style="min-width:80px">Gespiegeld:</span>
+                  <input type="number" class="winkelwagenAantalInput" data-item-id="${item.id}" data-type="gespiegeld" min="0" value="${aantalGespiegeld}" style="width:60px;padding:4px 6px;border:1px solid #2b2f36;border-radius:6px;background:#12161b;color:var(--fg);font-size:12px;text-align:center" />
+                </div>
+                <div style="margin-top:4px;padding-top:4px;border-top:1px solid #2b2f36">
+                  <span style="color:var(--accent);font-weight:600;font-size:12px">Totaal: ${totaalAantal} × ${formatPrijs(basisPrijs)} = <span id="winkelwagenItemPrijs_${item.id}">${formatPrijs(basisPrijs * totaalAantal)}</span></span>
+                </div>
+              </div>`;
+        } else if (isLosProduct) {
+          // Los product met aantal
+          basisPrijs = item.basisPrijs || item.prijs;
+          totaalAantal = item.aantal || 1;
+          
+          aantallenHTML = `<div class="winkelwagenItemDetails" style="margin-top:8px;margin-bottom:8px">
+                <strong style="color:var(--fg);font-size:12px;margin-bottom:4px;display:block">Aantal:</strong>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+                  <input type="number" class="winkelwagenAantalInput" data-item-id="${item.id}" data-type="aantal" min="1" value="${totaalAantal}" style="width:60px;padding:4px 6px;border:1px solid #2b2f36;border-radius:6px;background:#12161b;color:var(--fg);font-size:12px;text-align:center" />
+                </div>
+                <div style="margin-top:4px;padding-top:4px;border-top:1px solid #2b2f36">
+                  <span style="color:var(--accent);font-weight:600;font-size:12px">Totaal: ${totaalAantal} × ${formatPrijs(basisPrijs)} = <span id="winkelwagenItemPrijs_${item.id}">${formatPrijs(basisPrijs * totaalAantal)}</span></span>
+                </div>
+              </div>`;
+        } else {
+          basisPrijs = item.prijs;
+          totaalAantal = 1;
+          aantallenHTML = '';
+        }
+        
+        // Details voor losse producten
+        let losProductDetails = '';
+        if (item.type === 'glas') {
+          losProductDetails = `<p><strong>Glas type:</strong> ${item.glasTypeLabel || 'Enkel glas'}</p>`;
+        } else if (item.type === 'raam') {
+          losProductDetails = `<p><strong>Type:</strong> ${item.raamTypeLabel || item.raamType}</p>`;
+          if (item.draairichting) {
+            losProductDetails += `<p><strong>Draairichting:</strong> ${item.draairichting}</p>`;
+          }
+          if (item.glasTypeLabel) {
+            losProductDetails += `<p><strong>Glas type:</strong> ${item.glasTypeLabel}</p>`;
+          }
+        } else if (item.type === 'deur') {
+          losProductDetails = `<p><strong>Type:</strong> ${item.deurTypeLabel || item.deurType}</p>`;
+          if (item.draairichting) {
+            losProductDetails += `<p><strong>Draairichting:</strong> ${item.draairichting}</p>`;
+          }
+          if (item.glasTypeLabel) {
+            losProductDetails += `<p><strong>Glas type:</strong> ${item.glasTypeLabel}</p>`;
+          }
+        }
+        
+        const typeLabel = item.type === 'kozijn' ? 'Kozijn' : 
+                         item.type === 'glas' ? 'Glas' : 
+                         item.type === 'raam' ? 'Raam' : 
+                         item.type === 'deur' ? 'Deur' : item.type;
         
         return `
           <div class="winkelwagenItem" data-item-id="${item.id}">
             ${thumbnailHTML}
             <div class="winkelwagenItemInfo">
-              <span class="winkelwagenItemType">${item.type === 'kozijn' ? 'Kozijn' : item.type}</span>
+              <span class="winkelwagenItemType">${typeLabel}</span>
               <h3>${item.titel}</h3>
               <p><strong>Afmetingen:</strong> ${item.afmetingen}</p>
+              ${losProductDetails}
               ${item.ekosietOnderdorpel ? '<p>✓ Ekosiet onderdorpel</p>' : ''}
               ${item.tussenstijlen > 0 ? `<p>Tussenstijlen: ${item.tussenstijlen}</p>` : ''}
               ${item.tussendorpels > 0 ? `<p>Tussendorpels: ${item.tussendorpels}</p>` : ''}
@@ -3551,7 +3799,7 @@ stroke-width="3"/>
 
   function updateWinkelwagenItemAantal(inputElement) {
     const itemId = parseInt(inputElement.dataset.itemId);
-    const type = inputElement.dataset.type; // 'getekend' of 'gespiegeld'
+    const type = inputElement.dataset.type; // 'getekend', 'gespiegeld' of 'aantal'
     const nieuweWaarde = parseInt(inputElement.value) || 0;
 
     if (!itemId || !type) return;
@@ -3566,13 +3814,24 @@ stroke-width="3"/>
       item.aantalGetekend = nieuweWaarde;
     } else if (type === 'gespiegeld') {
       item.aantalGespiegeld = nieuweWaarde;
+    } else if (type === 'aantal') {
+      // Voor losse producten
+      item.aantal = Math.max(1, nieuweWaarde);
     }
 
     // Bereken nieuwe totaal
-    const aantalGetekend = item.aantalGetekend || 0;
-    const aantalGespiegeld = item.aantalGespiegeld || 0;
-    const totaalAantal = aantalGetekend + aantalGespiegeld;
-    item.totaalAantal = totaalAantal;
+    let totaalAantal;
+    if (item.type === 'glas' || item.type === 'raam' || item.type === 'deur') {
+      // Losse producten gebruiken 'aantal'
+      totaalAantal = item.aantal || 1;
+      item.totaalAantal = totaalAantal;
+    } else {
+      // Kozijnen gebruiken 'getekend' + 'gespiegeld'
+      const aantalGetekend = item.aantalGetekend || 0;
+      const aantalGespiegeld = item.aantalGespiegeld || 0;
+      totaalAantal = aantalGetekend + aantalGespiegeld;
+      item.totaalAantal = totaalAantal;
+    }
 
     // Bereken nieuwe prijs
     const basisPrijs = item.basisPrijs || (item.prijs / (item.totaalAantal || 1));
@@ -3592,8 +3851,9 @@ stroke-width="3"/>
       const totaalRegel = totaalSpan.closest('div');
       if (totaalRegel) {
         const totaalTekst = totaalRegel.textContent;
-        if (totaalTekst.includes('Totaal:')) {
-          totaalRegel.innerHTML = `<span style="color:var(--accent);font-weight:600;font-size:12px">Totaal: ${totaalAantal} × ${formatPrijs(basisPrijs)} = <span id="winkelwagenItemPrijs_${itemId}">${formatPrijs(item.prijs)}</span></span>`;
+        if (totaalTekst.includes('Totaal:') || totaalTekst.includes('Aantal:')) {
+          const label = (item.type === 'glas' || item.type === 'raam' || item.type === 'deur') ? 'Aantal' : 'Totaal';
+          totaalRegel.innerHTML = `<span style="color:var(--accent);font-weight:600;font-size:12px">${label}: ${totaalAantal} × ${formatPrijs(basisPrijs)} = <span id="winkelwagenItemPrijs_${itemId}">${formatPrijs(item.prijs)}</span></span>`;
         }
       }
     }
@@ -3630,14 +3890,21 @@ stroke-width="3"/>
   function gaNaarPagina(pagina) {
     const tekenPagina = document.getElementById('tekenPagina');
     const winkelwagenPagina = document.getElementById('winkelwagenPagina');
+    const losseProductenPagina = document.getElementById('losseProductenPagina');
     
     if (pagina === 'tekenen') {
       if (tekenPagina) tekenPagina.classList.remove('hidden');
       if (winkelwagenPagina) winkelwagenPagina.classList.remove('active');
+      if (losseProductenPagina) losseProductenPagina.classList.remove('active');
     } else if (pagina === 'winkelwagen') {
       if (tekenPagina) tekenPagina.classList.add('hidden');
       if (winkelwagenPagina) winkelwagenPagina.classList.add('active');
+      if (losseProductenPagina) losseProductenPagina.classList.remove('active');
       toonWinkelwagen();
+    } else if (pagina === 'losseProducten') {
+      if (tekenPagina) tekenPagina.classList.add('hidden');
+      if (winkelwagenPagina) winkelwagenPagina.classList.remove('active');
+      if (losseProductenPagina) losseProductenPagina.classList.add('active');
     }
   }
 
@@ -8011,11 +8278,16 @@ stroke-width="3"/>
   // Winkelwagen event listeners
   const btnNaarTekenen = document.getElementById('btnNaarTekenen');
   const btnNaarWinkelwagen = document.getElementById('btnNaarWinkelwagen');
+  const btnNaarLosseProducten = document.getElementById('btnNaarLosseProducten');
   const btnToevoegenAanWinkelwagen = document.getElementById('btnToevoegenAanWinkelwagen');
   const btnLeegWinkelwagen = document.getElementById('btnLeegWinkelwagen');
 
   if (btnNaarTekenen) {
     btnNaarTekenen.addEventListener('click', () => gaNaarPagina('tekenen'));
+  }
+
+  if (btnNaarLosseProducten) {
+    btnNaarLosseProducten.addEventListener('click', () => gaNaarPagina('losseProducten'));
   }
 
   if (btnNaarWinkelwagen) {
@@ -8028,6 +8300,205 @@ stroke-width="3"/>
 
   if (btnLeegWinkelwagen) {
     btnLeegWinkelwagen.addEventListener('click', leegWinkelwagen);
+  }
+
+  // Losse producten functionaliteit
+  const btnVoegGlasToe = document.getElementById('btnVoegGlasToe');
+  const btnVoegRaamToe = document.getElementById('btnVoegRaamToe');
+  const btnVoegDeurToe = document.getElementById('btnVoegDeurToe');
+
+  // Functie om prijs te berekenen voor los glas
+  function berekenGlasPrijs(breedte, hoogte, glasType) {
+    const oppervlakteM2 = (breedte / 1000) * (hoogte / 1000);
+    let prijsPerM2 = 60; // Basis prijs voor enkel glas
+    
+    if (glasType === 'hr+') {
+      prijsPerM2 = 70;
+    } else if (glasType === 'hr++') {
+      prijsPerM2 = 85;
+    } else if (glasType === 'hr+++') {
+      prijsPerM2 = 100;
+    }
+    
+    return oppervlakteM2 * prijsPerM2;
+  }
+
+  // Functie om prijs te berekenen voor los raam
+  function berekenRaamPrijs(breedte, hoogte, glasType) {
+    const oppervlakteM2 = (breedte / 1000) * (hoogte / 1000);
+    let basisPrijs = oppervlakteM2 * 80; // Basis prijs voor raam
+    
+    // Glas type meerprijs
+    if (glasType === 'hr++') {
+      basisPrijs += oppervlakteM2 * 15;
+    } else if (glasType === 'hr+++') {
+      basisPrijs += oppervlakteM2 * 25;
+    }
+    
+    return basisPrijs;
+  }
+
+  // Functie om prijs te berekenen voor losse deur
+  function berekenDeurPrijs(breedte, hoogte, glasType) {
+    const oppervlakteM2 = (breedte / 1000) * (hoogte / 1000);
+    let basisPrijs = oppervlakteM2 * 120; // Basis prijs voor deur
+    
+    // Glas type meerprijs
+    if (glasType === 'hr++') {
+      basisPrijs += oppervlakteM2 * 15;
+    } else if (glasType === 'hr+++') {
+      basisPrijs += oppervlakteM2 * 25;
+    }
+    
+    return basisPrijs;
+  }
+
+  // Voeg glas toe aan winkelwagen
+  if (btnVoegGlasToe) {
+    btnVoegGlasToe.addEventListener('click', () => {
+      const breedte = parseInt(document.getElementById('glasBreedte').value) || 1000;
+      const hoogte = parseInt(document.getElementById('glasHoogte').value) || 1000;
+      const glasType = document.getElementById('glasTypeLos').value;
+      const aantal = parseInt(document.getElementById('glasAantal').value) || 1;
+      
+      if (breedte < 100 || hoogte < 100) {
+        alert('⚠️ Minimale afmetingen zijn 100mm × 100mm');
+        return;
+      }
+      
+      const basisPrijs = berekenGlasPrijs(breedte, hoogte, glasType);
+      const totaalPrijs = basisPrijs * aantal;
+      
+      const winkelwagen = haalWinkelwagenOp();
+      const glasTypeLabel = glasType === 'hr+' ? 'HR+' : 
+                           glasType === 'hr++' ? 'HR++' : 
+                           glasType === 'hr+++' ? 'HR+++' : 'Enkel glas';
+      
+      const item = {
+        id: Date.now(),
+        type: 'glas',
+        titel: `Los glas ${breedte}mm × ${hoogte}mm`,
+        afmetingen: `${breedte}mm × ${hoogte}mm`,
+        glasType: glasType,
+        glasTypeLabel: glasTypeLabel,
+        aantal: aantal,
+        prijs: totaalPrijs,
+        basisPrijs: basisPrijs,
+        datum: new Date().toISOString()
+      };
+      
+      winkelwagen.push(item);
+      slaWinkelwagenOp(winkelwagen);
+      alert(`✅ ${aantal}x glas toegevoegd aan winkelwagen!`);
+      updateWinkelwagenBadge();
+    });
+  }
+
+  // Voeg raam toe aan winkelwagen
+  if (btnVoegRaamToe) {
+    btnVoegRaamToe.addEventListener('click', () => {
+      const breedte = parseInt(document.getElementById('raamBreedte').value) || 1000;
+      const hoogte = parseInt(document.getElementById('raamHoogte').value) || 1000;
+      const raamType = document.getElementById('raamTypeLos').value;
+      const draairichting = document.getElementById('raamDraairichting').value;
+      const glasType = document.getElementById('raamGlasType').value;
+      const aantal = parseInt(document.getElementById('raamAantal').value) || 1;
+      
+      if (breedte < 300 || hoogte < 300) {
+        alert('⚠️ Minimale afmetingen voor ramen zijn 300mm × 300mm');
+        return;
+      }
+      
+      const basisPrijs = berekenRaamPrijs(breedte, hoogte, glasType);
+      const totaalPrijs = basisPrijs * aantal;
+      
+      const winkelwagen = haalWinkelwagenOp();
+      const raamTypeLabels = {
+        'draairaam_buiten': 'Draairaam naar buiten',
+        'draairaam_binnen': 'Draairaam naar binnen',
+        'stolpraam_buiten': 'Stolpraam buitendraaiend',
+        'stolpraam_binnen': 'Stolpraam binnendraaiend',
+        'draaikiep': 'Draaikiep raam',
+        'kiep': 'Kiep raam',
+        'vast': 'Vast raam'
+      };
+      const glasTypeLabel = glasType === 'hr+' ? 'HR+' : 
+                           glasType === 'hr++' ? 'HR++' : 
+                           glasType === 'hr+++' ? 'HR+++' : 'Enkel glas';
+      
+      const item = {
+        id: Date.now(),
+        type: 'raam',
+        titel: `Los raam ${breedte}mm × ${hoogte}mm`,
+        afmetingen: `${breedte}mm × ${hoogte}mm`,
+        raamType: raamType,
+        raamTypeLabel: raamTypeLabels[raamType] || raamType,
+        draairichting: draairichting,
+        glasType: glasType,
+        glasTypeLabel: glasTypeLabel,
+        aantal: aantal,
+        prijs: totaalPrijs,
+        basisPrijs: basisPrijs,
+        datum: new Date().toISOString()
+      };
+      
+      winkelwagen.push(item);
+      slaWinkelwagenOp(winkelwagen);
+      alert(`✅ ${aantal}x raam toegevoegd aan winkelwagen!`);
+      updateWinkelwagenBadge();
+    });
+  }
+
+  // Voeg deur toe aan winkelwagen
+  if (btnVoegDeurToe) {
+    btnVoegDeurToe.addEventListener('click', () => {
+      const breedte = parseInt(document.getElementById('deurBreedte').value) || 900;
+      const hoogte = parseInt(document.getElementById('deurHoogte').value) || 2100;
+      const deurType = document.getElementById('deurTypeLos').value;
+      const draairichting = document.getElementById('deurDraairichting').value;
+      const glasType = document.getElementById('deurGlasType').value;
+      const aantal = parseInt(document.getElementById('deurAantal').value) || 1;
+      
+      if (breedte < 600 || hoogte < 1800) {
+        alert('⚠️ Minimale afmetingen voor deuren zijn 600mm × 1800mm');
+        return;
+      }
+      
+      const basisPrijs = berekenDeurPrijs(breedte, hoogte, glasType);
+      const totaalPrijs = basisPrijs * aantal;
+      
+      const winkelwagen = haalWinkelwagenOp();
+      const deurTypeLabels = {
+        'dichte_deur': 'Dichte deur',
+        'deur_met_raam': 'Deur met raam',
+        'stolpdeur_buitendraaiend': 'Stolpdeur buitendraaiend',
+        'stolpdeur_binnendraaiend': 'Stolpdeur binnendraaiend'
+      };
+      const glasTypeLabel = glasType === 'hr+' ? 'HR+' : 
+                           glasType === 'hr++' ? 'HR++' : 
+                           glasType === 'hr+++' ? 'HR+++' : 'Enkel glas';
+      
+      const item = {
+        id: Date.now(),
+        type: 'deur',
+        titel: `Losse deur ${breedte}mm × ${hoogte}mm`,
+        afmetingen: `${breedte}mm × ${hoogte}mm`,
+        deurType: deurType,
+        deurTypeLabel: deurTypeLabels[deurType] || deurType,
+        draairichting: draairichting,
+        glasType: glasType,
+        glasTypeLabel: glasTypeLabel,
+        aantal: aantal,
+        prijs: totaalPrijs,
+        basisPrijs: basisPrijs,
+        datum: new Date().toISOString()
+      };
+      
+      winkelwagen.push(item);
+      slaWinkelwagenOp(winkelwagen);
+      alert(`✅ ${aantal}x deur toegevoegd aan winkelwagen!`);
+      updateWinkelwagenBadge();
+    });
   }
 
   // Laad SVG iconen bij page load
@@ -8062,6 +8533,731 @@ stroke-width="3"/>
     aantalGespiegeldInput.addEventListener('change', () => {
       updatePrijsOverzicht();
     });
+  }
+
+  // Foto upload functionaliteit
+  let huidigeFotoBuitenkant = null;
+  let huidigeFotoBinnenkant = null;
+  
+  // Buitenkant foto
+  if (btnUploadFotoBuitenkant) {
+    btnUploadFotoBuitenkant.addEventListener('click', () => {
+      fotoUploadBuitenkant.click();
+    });
+  }
+
+  if (fotoUploadBuitenkant) {
+    fotoUploadBuitenkant.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          huidigeFotoBuitenkant = event.target.result;
+          fotoPreviewImgBuitenkant.src = huidigeFotoBuitenkant;
+          fotoPreviewBuitenkant.style.display = 'block';
+          btnVerwijderFotoBuitenkant.style.display = 'block';
+          // Verberg de upload knop als er een foto is
+          if (btnUploadFotoBuitenkant) {
+            btnUploadFotoBuitenkant.style.display = 'none';
+          }
+          // Voeg click event toe om foto in modal te tonen
+          fotoPreviewImgBuitenkant.onclick = () => {
+            fotoModalImg.src = huidigeFotoBuitenkant;
+            fotoModal.classList.add('active');
+          };
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  if (btnVerwijderFotoBuitenkant) {
+    btnVerwijderFotoBuitenkant.addEventListener('click', () => {
+      huidigeFotoBuitenkant = null;
+      fotoPreviewImgBuitenkant.src = '';
+      fotoPreviewBuitenkant.style.display = 'none';
+      btnVerwijderFotoBuitenkant.style.display = 'none';
+      fotoUploadBuitenkant.value = '';
+      // Toon de upload knop weer als de foto is verwijderd
+      if (btnUploadFotoBuitenkant) {
+        btnUploadFotoBuitenkant.style.display = 'block';
+      }
+    });
+  }
+
+  // Binnenkant foto
+  if (btnUploadFotoBinnenkant) {
+    btnUploadFotoBinnenkant.addEventListener('click', () => {
+      fotoUploadBinnenkant.click();
+    });
+  }
+
+  if (fotoUploadBinnenkant) {
+    fotoUploadBinnenkant.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          huidigeFotoBinnenkant = event.target.result;
+          fotoPreviewImgBinnenkant.src = huidigeFotoBinnenkant;
+          fotoPreviewBinnenkant.style.display = 'block';
+          btnVerwijderFotoBinnenkant.style.display = 'block';
+          // Verberg de upload knop als er een foto is
+          if (btnUploadFotoBinnenkant) {
+            btnUploadFotoBinnenkant.style.display = 'none';
+          }
+          // Voeg click event toe om foto in modal te tonen
+          fotoPreviewImgBinnenkant.onclick = () => {
+            fotoModalImg.src = huidigeFotoBinnenkant;
+            fotoModal.classList.add('active');
+          };
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  // Sluit foto modal
+  if (fotoModalClose) {
+    fotoModalClose.addEventListener('click', () => {
+      fotoModal.classList.remove('active');
+    });
+  }
+
+  // Sluit modal bij klikken op achtergrond
+  if (fotoModal) {
+    fotoModal.addEventListener('click', (e) => {
+      if (e.target === fotoModal) {
+        fotoModal.classList.remove('active');
+      }
+    });
+  }
+
+  if (btnVerwijderFotoBinnenkant) {
+    btnVerwijderFotoBinnenkant.addEventListener('click', () => {
+      huidigeFotoBinnenkant = null;
+      fotoPreviewImgBinnenkant.src = '';
+      fotoPreviewBinnenkant.style.display = 'none';
+      btnVerwijderFotoBinnenkant.style.display = 'none';
+      fotoUploadBinnenkant.value = '';
+      // Toon de upload knop weer als de foto is verwijderd
+      if (btnUploadFotoBinnenkant) {
+        btnUploadFotoBinnenkant.style.display = 'block';
+      }
+    });
+  }
+
+  // Functie om lijnen te detecteren uit een foto
+  function detecteerLijnenUitFoto(fotoSrc) {
+    const img = new Image();
+    img.onload = () => {
+      // Pas canvas aan op foto grootte
+      const maxSize = 800; // Max breedte/hoogte voor processing
+      let width = img.width;
+      let height = img.height;
+      
+      if (width > maxSize || height > maxSize) {
+        const scale = maxSize / Math.max(width, height);
+        width = Math.floor(width * scale);
+        height = Math.floor(height * scale);
+      }
+      
+      processingCanvas.width = width;
+      processingCanvas.height = height;
+      
+      // Teken foto op canvas
+      processingCtx.drawImage(img, 0, 0, width, height);
+      
+      // Bewaar originele image data voor kleur detectie
+      const imageData = processingCtx.getImageData(0, 0, width, height);
+      
+      // Converteer naar grijswaarden
+      let grayData = converteerNaarGrijs(imageData);
+      
+      // Verhoog contrast voor betere edge detection
+      grayData = verhoogContrast(grayData, width, height, 1.3);
+      
+      // Gaussian blur voor ruis reductie (minder blur voor scherpere lijnen)
+      const blurredData = gaussianBlur(grayData, width, height, 2);
+      
+      // Edge detection (Sobel filter) met hogere threshold
+      const edges = sobelEdgeDetection(blurredData, width, height);
+      
+      // Detecteer verticale en horizontale lijnen met breedte en kleur filtering
+      // Schat de pixel/mm ratio op basis van foto grootte en kozijn afmetingen
+      const geschattePixelPerMm = Math.max(width / state.Wmm, height / state.Hmm);
+      const minBreedtePixels = 20 * geschattePixelPerMm; // 20mm minimum breedte voor kozijn stijlen/dorpels
+      const maxVoegBreedtePixels = 10 * geschattePixelPerMm; // 10mm maximum voor voegen
+      
+      const verticaleLijnen = detecteerVerticaleLijnenMetBreedte(edges, imageData, width, height, minBreedtePixels, maxVoegBreedtePixels);
+      const horizontaleLijnen = detecteerHorizontaleLijnenMetBreedte(edges, imageData, width, height, minBreedtePixels, maxVoegBreedtePixels);
+      
+      // Converteer naar kozijn coördinaten (mm)
+      const kozijnBreedte = state.Wmm;
+      const kozijnHoogte = state.Hmm;
+      const frame = state.frameDikte;
+      const tussen = state.tussenDikte;
+      const halfTussen = tussen / 2;
+      const bovendorpelY = frame;
+      const onderdorpelDikte = state.ekosietOnderdorpel ? 52 : frame;
+      const halfOnderdorpel = onderdorpelDikte / 2;
+      const onderdorpelY = kozijnHoogte - halfOnderdorpel;
+      const bovendorpelRand = bovendorpelY + frame / 2;
+      const onderdorpelRand = onderdorpelY - halfOnderdorpel;
+      const linkerStijlRand = frame;
+      const rechterStijlRand = kozijnBreedte - frame;
+      
+      // Reset bestaande lijnen
+      state.tussenStijlen = [];
+      state.tussenDorpels = [];
+      
+      // Filter baksteen voegen en andere ruis
+      // Baksteen voegen zijn meestal veel dichter bij elkaar dan kozijn lijnen
+      const gefilterdeVerticaleLijnen = filterBaksteenVoegen(verticaleLijnen, width, height);
+      const gefilterdeHorizontaleLijnen = filterBaksteenVoegen(horizontaleLijnen, height, width);
+      
+      // Filter en converteer verticale lijnen naar tussenStijlen
+      // Behoud alleen de belangrijkste lijnen (max 10, verdeeld over de breedte)
+      const finaleVerticaleLijnen = filterBelangrijksteLijnen(gefilterdeVerticaleLijnen, width, 10);
+      
+      finaleVerticaleLijnen.forEach(x => {
+        // Converteer x van pixel naar mm
+        const xMm = (x / width) * kozijnBreedte;
+        
+        // Filter lijnen die te dicht bij de randen zijn
+        if (xMm > linkerStijlRand + 50 && xMm < rechterStijlRand - 50) {
+          state.tussenStijlen.push({
+            x1: xMm,
+            y1: bovendorpelRand,
+            x2: xMm,
+            y2: onderdorpelRand
+          });
+        }
+      });
+      
+      // Filter en converteer horizontale lijnen naar tussenDorpels
+      // Behoud alleen de belangrijkste lijnen (max 8, verdeeld over de hoogte)
+      const finaleHorizontaleLijnen = filterBelangrijksteLijnen(gefilterdeHorizontaleLijnen, height, 8);
+      
+      finaleHorizontaleLijnen.forEach(y => {
+        // Converteer y van pixel naar mm
+        const yMm = (y / height) * kozijnHoogte;
+        
+        // Filter lijnen die te dicht bij de randen zijn
+        if (yMm > bovendorpelRand + 50 && yMm < onderdorpelRand - 50) {
+          state.tussenDorpels.push({
+            x1: linkerStijlRand,
+            y1: yMm,
+            x2: rechterStijlRand,
+            y2: yMm
+          });
+        }
+      });
+      
+      // Split automatisch alle dorpels en stijlen bij kruispunten
+      splitAlleDorpelsEnStijlen();
+      
+      // Teken opnieuw
+      draw();
+      
+      // Detecteer vakken
+      detecteerVakken();
+      toonVakken();
+      
+      alert(`Gedetecteerd: ${state.tussenStijlen.length} tussenstijlen en ${state.tussenDorpels.length} tussendorpels`);
+    };
+    img.src = fotoSrc;
+  }
+
+  // Converteer RGB naar grijswaarden
+  function converteerNaarGrijs(imageData) {
+    const data = imageData.data;
+    const grayData = new Uint8ClampedArray(imageData.width * imageData.height);
+    
+    for (let i = 0; i < data.length; i += 4) {
+      const r = data[i];
+      const g = data[i + 1];
+      const b = data[i + 2];
+      // Gebruik luminance formule
+      grayData[i / 4] = Math.floor(0.299 * r + 0.587 * g + 0.114 * b);
+    }
+    
+    return grayData;
+  }
+
+  // Verhoog contrast van grijswaarden afbeelding
+  function verhoogContrast(grayData, width, height, factor) {
+    const result = new Uint8ClampedArray(width * height);
+    
+    // Bereken gemiddelde waarde
+    let som = 0;
+    for (let i = 0; i < grayData.length; i++) {
+      som += grayData[i];
+    }
+    const gemiddelde = som / grayData.length;
+    
+    // Pas contrast toe
+    for (let i = 0; i < grayData.length; i++) {
+      const waarde = grayData[i];
+      // Trek gemiddelde af, vermenigvuldig met factor, tel gemiddelde weer op
+      const nieuweWaarde = (waarde - gemiddelde) * factor + gemiddelde;
+      // Clamp tussen 0 en 255
+      result[i] = Math.max(0, Math.min(255, Math.round(nieuweWaarde)));
+    }
+    
+    return result;
+  }
+
+  // Gaussian blur voor ruis reductie
+  function gaussianBlur(grayData, width, height, radius) {
+    const result = new Uint8ClampedArray(width * height);
+    const sigma = radius / 3;
+    const kernelSize = radius * 2 + 1;
+    const kernel = [];
+    let sum = 0;
+    
+    // Maak Gaussian kernel
+    for (let i = -radius; i <= radius; i++) {
+      const value = Math.exp(-(i * i) / (2 * sigma * sigma));
+      kernel.push(value);
+      sum += value;
+    }
+    
+    // Normaliseer kernel
+    for (let i = 0; i < kernel.length; i++) {
+      kernel[i] /= sum;
+    }
+    
+    // Horizontale blur
+    const temp = new Uint8ClampedArray(width * height);
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        let value = 0;
+        for (let k = -radius; k <= radius; k++) {
+          const px = Math.max(0, Math.min(width - 1, x + k));
+          value += grayData[y * width + px] * kernel[k + radius];
+        }
+        temp[y * width + x] = Math.round(value);
+      }
+    }
+    
+    // Verticale blur
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        let value = 0;
+        for (let k = -radius; k <= radius; k++) {
+          const py = Math.max(0, Math.min(height - 1, y + k));
+          value += temp[py * width + x] * kernel[k + radius];
+        }
+        result[y * width + x] = Math.round(value);
+      }
+    }
+    
+    return result;
+  }
+
+  // Sobel edge detection met hogere threshold
+  function sobelEdgeDetection(grayData, width, height) {
+    const edges = new Uint8ClampedArray(width * height);
+    const sobelX = [-1, 0, 1, -2, 0, 2, -1, 0, 1];
+    const sobelY = [-1, -2, -1, 0, 0, 0, 1, 2, 1];
+    
+    // Bereken magnitude voor alle pixels eerst
+    const magnitudes = new Float32Array(width * height);
+    let maxMagnitude = 0;
+    
+    for (let y = 1; y < height - 1; y++) {
+      for (let x = 1; x < width - 1; x++) {
+        let gx = 0, gy = 0;
+        
+        for (let ky = -1; ky <= 1; ky++) {
+          for (let kx = -1; kx <= 1; kx++) {
+            const idx = (y + ky) * width + (x + kx);
+            const kernelIdx = (ky + 1) * 3 + (kx + 1);
+            gx += grayData[idx] * sobelX[kernelIdx];
+            gy += grayData[idx] * sobelY[kernelIdx];
+          }
+        }
+        
+        const magnitude = Math.sqrt(gx * gx + gy * gy);
+        magnitudes[y * width + x] = magnitude;
+        maxMagnitude = Math.max(maxMagnitude, magnitude);
+      }
+    }
+    
+    // Gebruik adaptieve threshold (top 10% van magnitudes voor betere detectie van meer lijnen)
+    const threshold = maxMagnitude * 0.10;
+    
+    for (let i = 0; i < magnitudes.length; i++) {
+      edges[i] = magnitudes[i] > threshold ? 255 : 0;
+    }
+    
+    return edges;
+  }
+
+  // Helper: Check of een kleur lijkt op een kozijn kleur
+  function isKozijnKleur(r, g, b) {
+    // Wit: hoge waarden voor alle kanalen
+    if (r > 200 && g > 200 && b > 200) return true;
+    
+    // Antraciet: donkergrijs (rond 40-80)
+    if (r > 20 && r < 100 && g > 20 && g < 100 && b > 20 && b < 100 && 
+        Math.abs(r - g) < 30 && Math.abs(g - b) < 30) return true;
+    
+    // Zwart: zeer lage waarden
+    if (r < 50 && g < 50 && b < 50) return true;
+    
+    // Groen: hoge groen waarde, lagere rood en blauw
+    if (g > r + 30 && g > b + 30 && g > 80) return true;
+    
+    return false;
+  }
+
+
+  // Detecteer verticale lijnen met breedte en kleur filtering
+  function detecteerVerticaleLijnenMetBreedte(edges, imageData, width, height, minBreedtePixels, maxVoegBreedtePixels) {
+    const lijnen = [];
+    const data = imageData.data;
+    const minLengte = height * 0.4; // Minimum lengte van lijn (40% van hoogte)
+    const minAfstand = width * 0.05; // Minimum afstand tussen lijnen (5% van breedte)
+    
+    // Scan voor verticale lijnen door te kijken naar edge clusters
+    for (let x = 0; x < width; x++) {
+      // Vind de breedte van de lijn op deze x-positie
+      let linksX = x;
+      let rechtsX = x;
+      
+      // Zoek naar de linker en rechter rand van de lijn
+      while (linksX > 0) {
+        let heeftEdge = false;
+        for (let y = 0; y < height; y++) {
+          const idx = y * width + linksX;
+          if (edges[idx] > 0) {
+            heeftEdge = true;
+            break;
+          }
+        }
+        if (!heeftEdge) break;
+        linksX--;
+      }
+      
+      while (rechtsX < width - 1) {
+        let heeftEdge = false;
+        for (let y = 0; y < height; y++) {
+          const idx = y * width + rechtsX;
+          if (edges[idx] > 0) {
+            heeftEdge = true;
+            break;
+          }
+        }
+        if (!heeftEdge) break;
+        rechtsX++;
+      }
+      
+      const lijnBreedte = rechtsX - linksX;
+      
+      // Filter: alleen lijnen die minimaal 20mm breed zijn (niet voegen van 10mm)
+      if (lijnBreedte < minBreedtePixels || lijnBreedte <= maxVoegBreedtePixels) {
+        continue; // Skip voegen en te smalle lijnen
+      }
+      
+      // Vind de verticale lengte van de lijn
+      let startY = -1;
+      let endY = -1;
+      let edgeCount = 0;
+      let kozijnKleurCount = 0;
+      
+      for (let y = 0; y < height; y++) {
+        let heeftEdgeInLijn = false;
+        for (let lx = linksX; lx <= rechtsX; lx++) {
+          const idx = y * width + lx;
+          if (edges[idx] > 0) {
+            heeftEdgeInLijn = true;
+            edgeCount++;
+            
+            // Check kleur rond deze edge
+            const pixelIdx = (y * width + lx) * 4;
+            const r = data[pixelIdx];
+            const g = data[pixelIdx + 1];
+            const b = data[pixelIdx + 2];
+            if (isKozijnKleur(r, g, b)) {
+              kozijnKleurCount++;
+            }
+            break;
+          }
+        }
+        
+        if (heeftEdgeInLijn) {
+          if (startY === -1) startY = y;
+          endY = y;
+        }
+      }
+      
+      const lengte = endY - startY;
+      const kozijnKleurRatio = edgeCount > 0 ? kozijnKleurCount / edgeCount : 0;
+      
+      // Filter criteria:
+      // - Lijn moet lang genoeg zijn
+      // - Lijn moet breed genoeg zijn (al gecheckt)
+      // - Lijn moet kozijn kleuren bevatten (minimaal 20% van de pixels voor betere detectie)
+      if (lengte > minLengte && kozijnKleurRatio > 0.2) {
+        const centerX = (linksX + rechtsX) / 2;
+        lijnen.push({ 
+          x: centerX, 
+          breedte: lijnBreedte,
+          strength: edgeCount,
+          lengte: lengte,
+          kozijnKleurRatio: kozijnKleurRatio
+        });
+      }
+    }
+    
+    // Sorteer op sterkte (sterkste eerst)
+    lijnen.sort((a, b) => b.strength - a.strength);
+    
+    // Groepeer lijnen die dicht bij elkaar liggen
+    const gegroepeerdeLijnen = [];
+    
+    for (const lijn of lijnen) {
+      const bestaandeGroep = gegroepeerdeLijnen.find(g => Math.abs(g.x - lijn.x) < minAfstand * 1.5);
+      
+      if (bestaandeGroep) {
+        if (lijn.strength > bestaandeGroep.strength * 0.8) {
+          const totaalStrength = bestaandeGroep.strength + lijn.strength;
+          bestaandeGroep.x = (bestaandeGroep.x * bestaandeGroep.strength + lijn.x * lijn.strength) / totaalStrength;
+          bestaandeGroep.strength = totaalStrength;
+        }
+      } else {
+        gegroepeerdeLijnen.push({ x: lijn.x, strength: lijn.strength });
+      }
+    }
+    
+    gegroepeerdeLijnen.sort((a, b) => a.x - b.x);
+    return gegroepeerdeLijnen.map(g => g.x);
+  }
+
+  // Detecteer horizontale lijnen met breedte en kleur filtering
+  function detecteerHorizontaleLijnenMetBreedte(edges, imageData, width, height, minBreedtePixels, maxVoegBreedtePixels) {
+    const lijnen = [];
+    const data = imageData.data;
+    const minLengte = width * 0.4; // Minimum lengte van lijn (40% van breedte)
+    const minAfstand = height * 0.05; // Minimum afstand tussen lijnen (5% van hoogte)
+    
+    // Scan voor horizontale lijnen door te kijken naar edge clusters
+    for (let y = 0; y < height; y++) {
+      // Vind de breedte (hoogte) van de lijn op deze y-positie
+      let bovenY = y;
+      let onderY = y;
+      
+      // Zoek naar de boven en onder rand van de lijn
+      while (bovenY > 0) {
+        let heeftEdge = false;
+        for (let x = 0; x < width; x++) {
+          const idx = bovenY * width + x;
+          if (edges[idx] > 0) {
+            heeftEdge = true;
+            break;
+          }
+        }
+        if (!heeftEdge) break;
+        bovenY--;
+      }
+      
+      while (onderY < height - 1) {
+        let heeftEdge = false;
+        for (let x = 0; x < width; x++) {
+          const idx = onderY * width + x;
+          if (edges[idx] > 0) {
+            heeftEdge = true;
+            break;
+          }
+        }
+        if (!heeftEdge) break;
+        onderY++;
+      }
+      
+      const lijnBreedte = onderY - bovenY;
+      
+      // Filter: alleen lijnen die minimaal 20mm breed zijn (niet voegen van 10mm)
+      if (lijnBreedte < minBreedtePixels || lijnBreedte <= maxVoegBreedtePixels) {
+        continue; // Skip voegen en te smalle lijnen
+      }
+      
+      // Vind de horizontale lengte van de lijn
+      let startX = -1;
+      let endX = -1;
+      let edgeCount = 0;
+      let kozijnKleurCount = 0;
+      
+      for (let x = 0; x < width; x++) {
+        let heeftEdgeInLijn = false;
+        for (let ly = bovenY; ly <= onderY; ly++) {
+          const idx = ly * width + x;
+          if (edges[idx] > 0) {
+            heeftEdgeInLijn = true;
+            edgeCount++;
+            
+            // Check kleur rond deze edge
+            const pixelIdx = (ly * width + x) * 4;
+            const r = data[pixelIdx];
+            const g = data[pixelIdx + 1];
+            const b = data[pixelIdx + 2];
+            if (isKozijnKleur(r, g, b)) {
+              kozijnKleurCount++;
+            }
+            break;
+          }
+        }
+        
+        if (heeftEdgeInLijn) {
+          if (startX === -1) startX = x;
+          endX = x;
+        }
+      }
+      
+      const lengte = endX - startX;
+      const kozijnKleurRatio = edgeCount > 0 ? kozijnKleurCount / edgeCount : 0;
+      
+      // Filter criteria:
+      // - Lijn moet lang genoeg zijn
+      // - Lijn moet breed genoeg zijn (al gecheckt)
+      // - Lijn moet kozijn kleuren bevatten (minimaal 20% van de pixels voor betere detectie)
+      if (lengte > minLengte && kozijnKleurRatio > 0.2) {
+        const centerY = (bovenY + onderY) / 2;
+        lijnen.push({ 
+          y: centerY, 
+          breedte: lijnBreedte,
+          strength: edgeCount,
+          lengte: lengte,
+          kozijnKleurRatio: kozijnKleurRatio
+        });
+      }
+    }
+    
+    // Sorteer op sterkte (sterkste eerst)
+    lijnen.sort((a, b) => b.strength - a.strength);
+    
+    // Groepeer lijnen die dicht bij elkaar liggen
+    const gegroepeerdeLijnen = [];
+    
+    for (const lijn of lijnen) {
+      const bestaandeGroep = gegroepeerdeLijnen.find(g => Math.abs(g.y - lijn.y) < minAfstand * 1.5);
+      
+      if (bestaandeGroep) {
+        if (lijn.strength > bestaandeGroep.strength * 0.8) {
+          const totaalStrength = bestaandeGroep.strength + lijn.strength;
+          bestaandeGroep.y = (bestaandeGroep.y * bestaandeGroep.strength + lijn.y * lijn.strength) / totaalStrength;
+          bestaandeGroep.strength = totaalStrength;
+        }
+      } else {
+        gegroepeerdeLijnen.push({ y: lijn.y, strength: lijn.strength });
+      }
+    }
+    
+    gegroepeerdeLijnen.sort((a, b) => a.y - b.y);
+    return gegroepeerdeLijnen.map(g => g.y);
+  }
+
+  // Filter baksteen voegen en andere ruis
+  // Baksteen voegen zijn meestal veel dichter bij elkaar dan kozijn lijnen
+  function filterBaksteenVoegen(lijnen, primaireDimensie, secundaireDimensie) {
+    if (lijnen.length === 0) {
+      return [];
+    }
+    
+    // Sorteer lijnen op positie
+    const gesorteerdeLijnen = [...lijnen].sort((a, b) => a - b);
+    
+    // Baksteen voegen zijn meestal:
+    // - Veel dichter bij elkaar (minder dan 3% van de primaire dimensie)
+    // - Regelmatig verdeeld (bijna gelijke afstanden)
+    // - Kozijn lijnen zijn meestal verder uit elkaar (meer dan 6% van de primaire dimensie)
+    
+    const gefilterdeLijnen = [];
+    const minAfstandKozijn = primaireDimensie * 0.06; // Minimum afstand voor kozijn lijnen
+    const maxAfstandBaksteen = primaireDimensie * 0.03; // Maximum afstand voor baksteen voegen
+    
+    // Focus op het centrale gebied waar het kozijn waarschijnlijk is (80% van de foto)
+    const centraleStart = primaireDimensie * 0.1;
+    const centraleEnd = primaireDimensie * 0.9;
+    
+    for (let i = 0; i < gesorteerdeLijnen.length; i++) {
+      const huidigeLijn = gesorteerdeLijnen[i];
+      
+      // Check of de lijn in het centrale gebied ligt
+      const isInCentraalGebied = huidigeLijn >= centraleStart && huidigeLijn <= centraleEnd;
+      
+      if (!isInCentraalGebied) {
+        // Skip lijnen buiten het centrale gebied (waarschijnlijk muur/randen)
+        continue;
+      }
+      
+      // Tel hoeveel lijnen dichtbij zijn (kenmerk van baksteen voegen)
+      let aantalDichtbij = 0;
+      let minAfstandTotAndere = primaireDimensie;
+      
+      for (let j = 0; j < gesorteerdeLijnen.length; j++) {
+        if (i === j) continue;
+        
+        const andereLijn = gesorteerdeLijnen[j];
+        const afstand = Math.abs(huidigeLijn - andereLijn);
+        minAfstandTotAndere = Math.min(minAfstandTotAndere, afstand);
+        
+        // Als er veel lijnen zijn met kleine afstanden, is het waarschijnlijk baksteen voegen
+        if (afstand < maxAfstandBaksteen) {
+          aantalDichtbij++;
+        }
+      }
+      
+      // Filter criteria:
+      // - Als er meer dan 2 lijnen dichtbij zijn (binnen 3% afstand), is het waarschijnlijk baksteen voegen
+      // - Als de minimum afstand tot andere lijnen groter is dan 6%, is het waarschijnlijk een kozijn lijn
+      const isWaarschijnlijkBaksteenVoeg = aantalDichtbij > 2;
+      const isWaarschijnlijkKozijnLijn = minAfstandTotAndere >= minAfstandKozijn;
+      
+      // Behoud alleen lijnen die waarschijnlijk kozijn lijnen zijn
+      if (!isWaarschijnlijkBaksteenVoeg || isWaarschijnlijkKozijnLijn) {
+        gefilterdeLijnen.push(huidigeLijn);
+      }
+    }
+    
+    return gefilterdeLijnen;
+  }
+
+  // Filter de belangrijkste lijnen door ze gelijkmatig te verdelen
+  function filterBelangrijksteLijnen(lijnen, dimensie, maxAantal) {
+    if (lijnen.length === 0) {
+      return [];
+    }
+    
+    // Als we minder of evenveel lijnen hebben als maxAantal, retourneer allemaal
+    if (lijnen.length <= maxAantal) {
+      return lijnen.sort((a, b) => a - b);
+    }
+    
+    // Sorteer lijnen op positie
+    const gesorteerdeLijnen = [...lijnen].sort((a, b) => a - b);
+    
+    // Gebruik een slimmere aanpak: behoud alle lijnen die ver genoeg uit elkaar liggen
+    const geselecteerdeLijnen = [];
+    const minAfstand = dimensie / (maxAantal * 2); // Kleinere minimum afstand om meer lijnen toe te staan
+    
+    for (const lijn of gesorteerdeLijnen) {
+      // Check of deze lijn ver genoeg van alle geselecteerde lijnen ligt
+      const teDichtbij = geselecteerdeLijnen.some(geselecteerd => Math.abs(lijn - geselecteerd) < minAfstand);
+      
+      if (!teDichtbij) {
+        geselecteerdeLijnen.push(lijn);
+        // Stop niet bij maxAantal, maar laat alle lijnen die ver genoeg uit elkaar liggen toe
+      }
+    }
+    
+    // Als we te veel lijnen hebben, behoud alleen de eerste maxAantal
+    if (geselecteerdeLijnen.length > maxAantal) {
+      return geselecteerdeLijnen.slice(0, maxAantal);
+    }
+    
+    return geselecteerdeLijnen.sort((a, b) => a - b);
   }
 })();
 </script>
