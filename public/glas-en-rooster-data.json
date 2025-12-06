@@ -1,0 +1,92 @@
+{
+  "glasopbouw": {
+    "enkel": {
+      "opties": [
+        {
+          "value": "4mm",
+          "label": "4mm",
+          "prijs": 0
+        },
+        {
+          "value": "5mm",
+          "label": "5mm",
+          "prijs": 5
+        },
+        {
+          "value": "33.1_gelaagd",
+          "label": "33.1 gelaagd",
+          "prijs": 15
+        },
+        {
+          "value": "44.2_gelaagd",
+          "label": "44.2 gelaagd",
+          "prijs": 20
+        },
+        {
+          "value": "33.1_matte_witte_folie",
+          "label": "33.1 matte witte folie",
+          "prijs": 25
+        }
+      ]
+    },
+    "Dubbel glas": {
+      "opties": [
+        {
+          "value": "4-..-*4",
+          "label": "4-..-*4",
+          "prijs": 10
+        },
+        {
+          "value": "5-..-*4",
+          "label": "5-..-*4",
+          "prijs": 15
+        },
+        {
+          "value": "33.1-..-*4",
+          "label": "33.1-..-*4",
+          "prijs": 25
+        },
+        {
+          "value": "33.1_mf-..-*4",
+          "label": "33.1(MF)-..-*4 (matte witte folie)",
+          "prijs": 0
+        },
+        {
+          "value": "33.1-..-*33.1",
+          "label": "33.1-..-*33.1",
+          "prijs": 0
+        },
+        {
+          "value": "33.1_mf-..-*33.1",
+          "label": "33.1(MF)-..-*33.1 (matte witte folie)",
+          "prijs": 0
+        }
+      ]
+    }
+  },
+  "roosters": {
+    "opties": [
+      {
+        "value": "ducoton_10",
+        "label": "Ducoton 10",
+        "prijs": 0
+      },
+      {
+        "value": "ducoton_10_zr",
+        "label": "Ducoton 10 ZR",
+        "prijs": 0
+      },
+      {
+        "value": "ducoton_flat",
+        "label": "Ducoton flat",
+        "prijs": 0
+      },
+      {
+        "value": "ductonline_15",
+        "label": "Ductonline 15",
+        "prijs": 0
+      }
+    ]
+  }
+}
+

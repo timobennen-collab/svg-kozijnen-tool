@@ -171,14 +171,54 @@
     /* Winkelwagen styling */
     .winkelwagenPagina{display:none;max-width:1200px;margin:0 auto;padding:16px}
     .winkelwagenPagina.active{display:block}
-    .losseProductenPagina{display:none;max-width:1200px;margin:0 auto;padding:16px}
-    .losseProductenPagina.active{display:block}
+    .losseProductenPagina{display:none;max-width:1600px;margin:0 auto;padding:16px}
+    .losseProductenPagina.active{display:block;min-height:calc(100vh - 100px)}
+    .losseProductenOverzicht{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 200px);padding:40px 20px}
+    .losseProductenOverzicht h1{margin:0 0 12px;font-size:32px;color:var(--fg);text-align:center}
+    .losseProductenOverzicht p{margin:0 0 40px;color:var(--muted);font-size:16px;text-align:center;max-width:600px}
+    .productKeuzeGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:1000px;width:100%}
+    .productKeuzeCard{display:flex;flex-direction:column;align-items:center;padding:40px 30px;border:2px solid #2b2f36;border-radius:16px;cursor:pointer;transition:all 0.3s;background:#1a1f2a;text-decoration:none}
+    .productKeuzeCard:hover{border-color:var(--accent);background:#1a2f3a;transform:translateY(-4px);box-shadow:0 8px 24px rgba(74,163,255,0.2)}
+    .productKeuzeCard img{width:150px;height:150px;object-fit:contain;margin-bottom:20px;background:#0b0d10;border-radius:12px;padding:20px}
+    .productKeuzeCard h2{margin:0 0 12px;color:var(--fg);font-size:24px;font-weight:600;text-align:center}
+    .productKeuzeCard p{margin:0;color:var(--muted);font-size:14px;text-align:center}
+    .productPagina{display:none;max-width:1400px;margin:0 auto;padding:16px}
+    .productPagina.active{display:block}
+    .productPaginaHeader{margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid #2b2f36}
+    .productPaginaHeader h1{margin:0 0 8px;color:var(--fg);font-size:28px;font-weight:600}
+    .productPaginaHeader p{margin:0;color:var(--muted);font-size:14px}
+    .productPaginaContent{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    .productConfigSectie{background:#1a1f2a;border:1px solid #2b2f36;border-radius:12px;padding:24px}
+    .productTekeningSectie{background:#1a1f2a;border:1px solid #2b2f36;border-radius:12px;padding:24px}
     .tekenPagina{display:block}
     .tekenPagina.hidden{display:none}
-    .productForm{background:#1a1f2a;border:1px solid #2b2f36;border-radius:12px;padding:20px;margin-bottom:20px}
-    .productForm h3{margin:0 0 16px;color:var(--fg);font-size:18px;font-weight:600}
-    .productFormGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:16px}
-    .productFormActions{display:flex;justify-content:flex-end;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid #2b2f36}
+    .productPreview{flex:1;background:#1a1f2a;border:1px solid #2b2f36;border-radius:12px;padding:24px;overflow-y:auto;display:flex;flex-direction:column}
+    .productPreviewHeader{margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid #2b2f36}
+    .productPreviewHeader h2{margin:0 0 8px;color:var(--fg);font-size:24px;font-weight:600}
+    .productPreviewHeader p{margin:0;color:var(--muted);font-size:14px}
+    .productConfigForm{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:24px}
+    .productConfigItem{display:flex;flex-direction:column}
+    .productConfigItem label{color:var(--muted);font-size:13px;font-weight:500;margin-bottom:8px}
+    .productConfigItem input,.productConfigItem select{width:100%;padding:12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);font-size:14px}
+    .productConfigItem input:focus,.productConfigItem select:focus{outline:none;border-color:var(--accent)}
+    .productConfigItem.small{flex:0 0 calc(50% - 12px);max-width:calc(50% - 12px)}
+    .productConfigItem.small.third{flex:0 0 calc(33.333% - 16px);max-width:calc(33.333% - 16px)}
+    .productConfigRow{display:flex;gap:24px;margin-bottom:20px;grid-column:1/-1}
+    .productConfigItem.full-width{grid-column:1/-1}
+    .productPreviewActions{display:flex;justify-content:flex-end;gap:12px;margin-top:24px;padding-top:24px;border-top:1px solid #2b2f36}
+    .productPreviewInfo{background:#12161b;border:1px solid #2b2f36;border-radius:10px;padding:16px;margin-top:20px}
+    .productPreviewInfo h3{margin:0 0 12px;color:var(--fg);font-size:16px;font-weight:600}
+    .productPreviewInfoItem{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #2b2f36;font-size:13px}
+    .productPreviewInfoItem:last-child{border-bottom:none}
+    .productPreviewInfoLabel{color:var(--muted)}
+    .productPreviewInfoWaarde{color:var(--fg);font-weight:600}
+    .productPreviewPrijs{font-size:20px;font-weight:700;color:var(--accent);text-align:right;margin-top:12px}
+    .productPreviewTekening{background:#0f1318;border:1px solid #2b2f36;border-radius:10px;padding:20px;margin-top:20px;display:flex;flex-direction:column;align-items:center}
+    .productPreviewTekening h3{margin:0 0 16px;color:var(--fg);font-size:16px;font-weight:600;width:100%}
+    .productPreviewTekening svg{width:100%;max-width:500px;height:400px;border:1px solid #2b2f36;border-radius:8px;background:#0b0d10}
+    .glasTekening{stroke:#4aa3ff;stroke-width:2;fill:none}
+    .glasTekeningRooster{stroke:#4aa3ff;stroke-width:1;fill:none;opacity:0.6}
+    .glasTekeningMaat{fill:#ffb347;font-size:12px;font-weight:600;text-anchor:middle}
     .winkelwagenHeader{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #2b2f36}
     .winkelwagenHeader h1{margin:0;font-size:28px;color:var(--fg)}
     .winkelwagenItem{background:#1a1f2a;border:1px solid #2b2f36;border-radius:12px;padding:16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
@@ -354,138 +394,257 @@
   </div>
   </div>
 
-  <!-- Losse Producten pagina -->
+  <!-- Losse Producten Overzicht pagina -->
   <div class="losseProductenPagina" id="losseProductenPagina">
-    <h1>📦 Losse Producten Bestellen</h1>
-    <p style="color:var(--muted);margin-bottom:24px">Bestel los glas, ramen of deuren zonder kozijn te tekenen.</p>
-    
-    <!-- Glas Formulier -->
-    <div class="productForm">
-      <h3>🪟 Los Glas</h3>
-      <div class="productFormGrid">
-        <div>
-          <label>Breedte (mm)</label>
-          <input type="number" id="glasBreedte" min="100" max="5000" step="10" value="1000" />
+    <div class="losseProductenOverzicht">
+      <h1>📦 Losse Producten</h1>
+      <p>Kies een product om te configureren en toe te voegen aan uw winkelwagen</p>
+      <div class="productKeuzeGrid">
+        <div class="productKeuzeCard" data-product="glas" id="keuzeGlas">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='10' y='10' width='80' height='80' fill='none' stroke='%234aa3ff' stroke-width='3'/%3E%3Cline x1='20' y1='20' x2='80' y2='20' stroke='%234aa3ff' stroke-width='2'/%3E%3Cline x1='20' y1='50' x2='80' y2='50' stroke='%234aa3ff' stroke-width='2'/%3E%3Cline x1='20' y1='80' x2='80' y2='80' stroke='%234aa3ff' stroke-width='2'/%3E%3C/svg%3E" alt="Glas" />
+          <h2>🪟 Los Glas</h2>
+          <p>Bestel los glas in verschillende afmetingen en types</p>
         </div>
-        <div>
-          <label>Hoogte (mm)</label>
-          <input type="number" id="glasHoogte" min="100" max="5000" step="10" value="1000" />
+        <div class="productKeuzeCard" data-product="raam" id="keuzeRaam">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='10' y='10' width='80' height='80' fill='none' stroke='%234aa3ff' stroke-width='3'/%3E%3Cline x1='10' y1='50' x2='90' y2='50' stroke='%234aa3ff' stroke-width='2'/%3E%3Cline x1='50' y1='10' x2='50' y2='90' stroke='%234aa3ff' stroke-width='2'/%3E%3Ccircle cx='50' cy='50' r='8' fill='%234aa3ff'/%3E%3C/svg%3E" alt="Raam" />
+          <h2>🪟 Los Raam</h2>
+          <p>Bestel losse ramen in verschillende types en afmetingen</p>
         </div>
-        <div>
-          <label>Glas Type</label>
-          <select id="glasTypeLos" style="width:100%;padding:10px 12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);font-size:14px">
-            <option value="enkel">Enkel glas</option>
-            <option value="hr+">HR+</option>
-            <option value="hr++">HR++</option>
-            <option value="hr+++">HR+++</option>
-          </select>
+        <div class="productKeuzeCard" data-product="deur" id="keuzeDeur">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='10' y='10' width='80' height='80' fill='none' stroke='%234aa3ff' stroke-width='3'/%3E%3Cline x1='10' y1='50' x2='90' y2='50' stroke='%234aa3ff' stroke-width='2'/%3E%3Ccircle cx='85' cy='50' r='4' fill='%234aa3ff'/%3E%3C/svg%3E" alt="Deur" />
+          <h2>🚪 Losse Deur</h2>
+          <p>Bestel losse deuren in verschillende types en afmetingen</p>
         </div>
-        <div>
-          <label>Aantal</label>
-          <input type="number" id="glasAantal" min="1" value="1" />
-        </div>
-      </div>
-      <div class="productFormActions">
-        <button class="btn primary" id="btnVoegGlasToe">➕ Voeg glas toe aan winkelwagen</button>
       </div>
     </div>
+  </div>
 
-    <!-- Raam Formulier -->
-    <div class="productForm">
-      <h3>🪟 Los Raam</h3>
-      <div class="productFormGrid">
-        <div>
-          <label>Breedte (mm)</label>
-          <input type="number" id="raamBreedte" min="300" max="5000" step="10" value="1000" />
+  <!-- Oude preview content (verborgen) -->
+  <div style="display:none">
+    <!-- Product Preview Rechts -->
+    <div class="productPreview">
+      <!-- Glas Preview -->
+      <div class="productPreviewContent" id="previewGlas" style="display:block">
+        <div class="productPreviewHeader">
+          <h2>🪟 Los Glas Configureren</h2>
+          <p>Configureer uw glas met afmetingen en type</p>
         </div>
-        <div>
-          <label>Hoogte (mm)</label>
-          <input type="number" id="raamHoogte" min="300" max="5000" step="10" value="1000" />
+        <div class="productConfigForm">
+          <div class="productConfigItem">
+            <label>Breedte (mm)</label>
+            <input type="number" id="glasBreedte" min="100" max="5000" step="10" value="1000" />
+          </div>
+          <div class="productConfigItem">
+            <label>Hoogte (mm)</label>
+            <input type="number" id="glasHoogte" min="100" max="5000" step="10" value="1000" />
+          </div>
+          <div class="productConfigItem">
+            <label>Glas Type</label>
+            <select id="glasTypeLos">
+              <option value="enkel">Enkel glas</option>
+              <option value="dubbel">Dubbel glas</option>
+              <option value="trippel">Trippel glas</option>
+            </select>
+          </div>
+          <div class="productConfigItem">
+            <label>Rooster</label>
+            <select id="glasRooster">
+              <!-- Opties worden geladen vanuit glas-en-rooster-data.json -->
+            </select>
+          </div>
+          <div class="productConfigItem">
+            <label>Aantal</label>
+            <input type="number" id="glasAantal" min="1" value="1" />
+          </div>
         </div>
-        <div>
-          <label>Raam Type</label>
-          <select id="raamTypeLos" style="width:100%;padding:10px 12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);font-size:14px">
-            <option value="draairaam_buiten">Draairaam naar buiten</option>
-            <option value="draairaam_binnen">Draairaam naar binnen</option>
-            <option value="stolpraam_buiten">Stolpraam buitendraaiend</option>
-            <option value="stolpraam_binnen">Stolpraam binnendraaiend</option>
-            <option value="draaikiep">Draaikiep raam</option>
-            <option value="kiep">Kiep raam</option>
-            <option value="vast">Vast raam</option>
-          </select>
+        <div class="productPreviewTekening">
+          <h3>📐 Overzicht Tekening</h3>
+          <svg id="glasTekeningSVG" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg"></svg>
         </div>
-        <div>
-          <label>Draairichting</label>
-          <select id="raamDraairichting" style="width:100%;padding:10px 12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);font-size:14px">
-            <option value="links">Links draaiend</option>
-            <option value="rechts">Rechts draaiend</option>
-            <option value="actief">Actief</option>
-          </select>
+        <div class="productPreviewInfo">
+          <h3>Product Informatie</h3>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Afmetingen:</span>
+            <span class="productPreviewInfoWaarde" id="glasAfmetingen">1000 x 1000 mm</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Oppervlakte:</span>
+            <span class="productPreviewInfoWaarde" id="glasOppervlakte">1,00 m²</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Glas Type:</span>
+            <span class="productPreviewInfoWaarde" id="glasTypeDisplay">Enkel glas</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Aantal:</span>
+            <span class="productPreviewInfoWaarde" id="glasAantalDisplay">1</span>
+          </div>
+          <div class="productPreviewPrijs" id="glasPrijs">€0,00</div>
         </div>
-        <div>
-          <label>Glas Type</label>
-          <select id="raamGlasType" style="width:100%;padding:10px 12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);font-size:14px">
-            <option value="enkel">Enkel glas</option>
-            <option value="hr+">HR+</option>
-            <option value="hr++">HR++</option>
-            <option value="hr+++">HR+++</option>
-          </select>
-        </div>
-        <div>
-          <label>Aantal</label>
-          <input type="number" id="raamAantal" min="1" value="1" />
+        <div class="productPreviewActions">
+          <button class="btn primary" id="btnVoegGlasToe">🛒 Toevoegen aan winkelwagen</button>
         </div>
       </div>
-      <div class="productFormActions">
-        <button class="btn primary" id="btnVoegRaamToe">➕ Voeg raam toe aan winkelwagen</button>
-      </div>
-    </div>
 
-    <!-- Deur Formulier -->
-    <div class="productForm">
-      <h3>🚪 Losse Deur</h3>
-      <div class="productFormGrid">
-        <div>
-          <label>Breedte (mm)</label>
-          <input type="number" id="deurBreedte" min="600" max="5000" step="10" value="900" />
+      <!-- Raam Preview -->
+      <div class="productPreviewContent" id="previewRaam" style="display:none">
+        <div class="productPreviewHeader">
+          <h2>🪟 Los Raam Configureren</h2>
+          <p>Configureer uw raam met afmetingen, type en opties</p>
         </div>
-        <div>
-          <label>Hoogte (mm)</label>
-          <input type="number" id="deurHoogte" min="1800" max="5000" step="10" value="2100" />
+        <div class="productConfigForm">
+          <div class="productConfigItem">
+            <label>Breedte (mm)</label>
+            <input type="number" id="raamBreedte" min="300" max="5000" step="10" value="1000" />
+          </div>
+          <div class="productConfigItem">
+            <label>Hoogte (mm)</label>
+            <input type="number" id="raamHoogte" min="300" max="5000" step="10" value="1000" />
+          </div>
+          <div class="productConfigItem">
+            <label>Raam Type</label>
+            <select id="raamTypeLos">
+              <option value="draairaam_buiten">Draairaam naar buiten</option>
+              <option value="draairaam_binnen">Draairaam naar binnen</option>
+              <option value="stolpraam_buiten">Stolpraam buitendraaiend</option>
+              <option value="stolpraam_binnen">Stolpraam binnendraaiend</option>
+              <option value="draaikiep">Draaikiep raam</option>
+              <option value="kiep">Kiep raam</option>
+              <option value="vast">Vast raam</option>
+            </select>
+          </div>
+          <div class="productConfigItem">
+            <label>Draairichting</label>
+            <select id="raamDraairichting">
+              <option value="links">Links draaiend</option>
+              <option value="rechts">Rechts draaiend</option>
+              <option value="actief">Actief</option>
+            </select>
+          </div>
+          <div class="productConfigItem">
+            <label>Glas Type</label>
+            <select id="raamGlasType">
+              <option value="enkel">Enkel glas</option>
+              <option value="hr+">HR+</option>
+              <option value="hr++">HR++</option>
+              <option value="hr+++">HR+++</option>
+            </select>
+          </div>
+          <div class="productConfigItem">
+            <label>Aantal</label>
+            <input type="number" id="raamAantal" min="1" value="1" />
+          </div>
         </div>
-        <div>
-          <label>Deur Type</label>
-          <select id="deurTypeLos" style="width:100%;padding:10px 12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);font-size:14px">
-            <option value="dichte_deur">Dichte deur</option>
-            <option value="deur_met_raam">Deur met raam</option>
-            <option value="stolpdeur_buitendraaiend">Stolpdeur buitendraaiend</option>
-            <option value="stolpdeur_binnendraaiend">Stolpdeur binnendraaiend</option>
-          </select>
+        <div class="productPreviewInfo">
+          <h3>Product Informatie</h3>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Afmetingen:</span>
+            <span class="productPreviewInfoWaarde" id="raamAfmetingen">1000 x 1000 mm</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Oppervlakte:</span>
+            <span class="productPreviewInfoWaarde" id="raamOppervlakte">1,00 m²</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Raam Type:</span>
+            <span class="productPreviewInfoWaarde" id="raamTypeDisplay">Draairaam naar buiten</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Draairichting:</span>
+            <span class="productPreviewInfoWaarde" id="raamDraairichtingDisplay">Links draaiend</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Glas Type:</span>
+            <span class="productPreviewInfoWaarde" id="raamGlasTypeDisplay">Enkel glas</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Aantal:</span>
+            <span class="productPreviewInfoWaarde" id="raamAantalDisplay">1</span>
+          </div>
+          <div class="productPreviewPrijs" id="raamPrijs">€0,00</div>
         </div>
-        <div>
-          <label>Draairichting</label>
-          <select id="deurDraairichting" style="width:100%;padding:10px 12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);font-size:14px">
-            <option value="links">Links draaiend</option>
-            <option value="rechts">Rechts draaiend</option>
-            <option value="actief">Actief</option>
-          </select>
-        </div>
-        <div>
-          <label>Glas Type</label>
-          <select id="deurGlasType" style="width:100%;padding:10px 12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);font-size:14px">
-            <option value="enkel">Enkel glas</option>
-            <option value="hr+">HR+</option>
-            <option value="hr++">HR++</option>
-            <option value="hr+++">HR+++</option>
-          </select>
-        </div>
-        <div>
-          <label>Aantal</label>
-          <input type="number" id="deurAantal" min="1" value="1" />
+        <div class="productPreviewActions">
+          <button class="btn primary" id="btnVoegRaamToe">🛒 Toevoegen aan winkelwagen</button>
         </div>
       </div>
-      <div class="productFormActions">
-        <button class="btn primary" id="btnVoegDeurToe">➕ Voeg deur toe aan winkelwagen</button>
+
+      <!-- Deur Preview -->
+      <div class="productPreviewContent" id="previewDeur" style="display:none">
+        <div class="productPreviewHeader">
+          <h2>🚪 Losse Deur Configureren</h2>
+          <p>Configureer uw deur met afmetingen, type en opties</p>
+        </div>
+        <div class="productConfigForm">
+          <div class="productConfigItem">
+            <label>Breedte (mm)</label>
+            <input type="number" id="deurBreedte" min="600" max="5000" step="10" value="900" />
+          </div>
+          <div class="productConfigItem">
+            <label>Hoogte (mm)</label>
+            <input type="number" id="deurHoogte" min="1800" max="5000" step="10" value="2100" />
+          </div>
+          <div class="productConfigItem">
+            <label>Deur Type</label>
+            <select id="deurTypeLos">
+              <option value="dichte_deur">Dichte deur</option>
+              <option value="deur_met_raam">Deur met raam</option>
+              <option value="stolpdeur_buitendraaiend">Stolpdeur buitendraaiend</option>
+              <option value="stolpdeur_binnendraaiend">Stolpdeur binnendraaiend</option>
+            </select>
+          </div>
+          <div class="productConfigItem">
+            <label>Draairichting</label>
+            <select id="deurDraairichting">
+              <option value="links">Links draaiend</option>
+              <option value="rechts">Rechts draaiend</option>
+              <option value="actief">Actief</option>
+            </select>
+          </div>
+          <div class="productConfigItem">
+            <label>Glas Type</label>
+            <select id="deurGlasType">
+              <option value="enkel">Enkel glas</option>
+              <option value="hr+">HR+</option>
+              <option value="hr++">HR++</option>
+              <option value="hr+++">HR+++</option>
+            </select>
+          </div>
+          <div class="productConfigItem">
+            <label>Aantal</label>
+            <input type="number" id="deurAantal" min="1" value="1" />
+          </div>
+        </div>
+        <div class="productPreviewInfo">
+          <h3>Product Informatie</h3>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Afmetingen:</span>
+            <span class="productPreviewInfoWaarde" id="deurAfmetingen">900 x 2100 mm</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Oppervlakte:</span>
+            <span class="productPreviewInfoWaarde" id="deurOppervlakte">1,89 m²</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Deur Type:</span>
+            <span class="productPreviewInfoWaarde" id="deurTypeDisplay">Dichte deur</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Draairichting:</span>
+            <span class="productPreviewInfoWaarde" id="deurDraairichtingDisplay">Links draaiend</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Glas Type:</span>
+            <span class="productPreviewInfoWaarde" id="deurGlasTypeDisplay">Enkel glas</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Aantal:</span>
+            <span class="productPreviewInfoWaarde" id="deurAantalDisplay">1</span>
+          </div>
+          <div class="productPreviewPrijs" id="deurPrijs">€0,00</div>
+        </div>
+        <div class="productPreviewActions">
+          <button class="btn primary" id="btnVoegDeurToe">🛒 Toevoegen aan winkelwagen</button>
+        </div>
       </div>
     </div>
   </div>
@@ -506,6 +665,293 @@
     <div class="winkelwagenTotaal" id="winkelwagenTotaal" style="display:none">
       <span class="winkelwagenTotaalLabel">Totaal:</span>
       <span class="winkelwagenTotaalWaarde" id="winkelwagenTotaalWaarde">€0,00</span>
+    </div>
+  </div>
+
+  <!-- Glas Product Pagina -->
+  <div class="productPagina" id="productPaginaGlas">
+    <div class="productPaginaHeader">
+      <button class="btn" id="btnTerugNaarOverzicht" style="margin-bottom:16px">← Terug naar overzicht</button>
+      <h1>🪟 Los Glas Configureren</h1>
+      <p>Configureer uw glas met afmetingen, type en rooster</p>
+    </div>
+    <div class="productPaginaContent">
+      <div class="productConfigSectie">
+        <h2 style="margin:0 0 20px;color:var(--fg);font-size:20px;font-weight:600">Configuratie</h2>
+        <div class="productConfigForm">
+          <div class="productConfigItem full-width">
+            <label>Aantal</label>
+            <input type="number" id="glasAantal" min="1" value="1" />
+          </div>
+          <div class="productConfigRow">
+            <div class="productConfigItem small">
+              <label>Breedte (mm)</label>
+              <input type="number" id="glasBreedte" min="100" max="5000" step="10" value="1000" />
+            </div>
+            <div class="productConfigItem small">
+              <label>Hoogte (mm)</label>
+              <input type="number" id="glasHoogte" min="100" max="5000" step="10" value="1000" />
+            </div>
+          </div>
+          <div class="productConfigItem">
+            <label>Glas Type</label>
+            <select id="glasTypeLos">
+              <option value="enkel">Enkel glas</option>
+              <option value="dubbel">Dubbel glas</option>
+              <option value="trippel">Trippel glas</option>
+            </select>
+          </div>
+          <div class="productConfigRow">
+            <div class="productConfigItem small" id="glasOpbouwItem" style="display:none">
+              <label>Glasopbouw</label>
+              <select id="glasOpbouw">
+                <option value="4mm">4mm</option>
+                <option value="5mm">5mm</option>
+                <option value="33.1_gelaagd">33.1 gelaagd</option>
+                <option value="44.2_gelaagd">44.2 gelaagd</option>
+                <option value="33.1_matte_witte_folie">33.1 matte witte folie</option>
+              </select>
+            </div>
+            <div class="productConfigItem small">
+              <label>Spouw</label>
+              <select id="glasSpouw">
+                <option value="6mm">6mm (HR+)</option>
+                <option value="8mm">8mm (HR+)</option>
+                <option value="10mm">10mm (HR+)</option>
+                <option value="12mm">12mm (HR+)</option>
+                <option value="13mm">13mm (HR++)</option>
+                <option value="14mm">14mm (HR++)</option>
+                <option value="15mm">15mm (HR++)</option>
+                <option value="16mm">16mm (HR++)</option>
+              </select>
+            </div>
+          </div>
+          <div class="productConfigItem">
+            <label>Rooster</label>
+            <select id="glasRooster">
+              <!-- Opties worden geladen vanuit glas-en-rooster-data.json -->
+            </select>
+          </div>
+        </div>
+        <div class="productPreviewInfo" style="margin-top:24px">
+          <h3>Product Informatie</h3>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Afmetingen:</span>
+            <span class="productPreviewInfoWaarde" id="glasAfmetingen">1000 x 1000 mm</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Oppervlakte:</span>
+            <span class="productPreviewInfoWaarde" id="glasOppervlakte">1,00 m²</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Glas Type:</span>
+            <span class="productPreviewInfoWaarde" id="glasTypeDisplay">Enkel glas</span>
+          </div>
+          <div class="productPreviewInfoItem" id="glasOpbouwDisplayItem" style="display:none">
+            <span class="productPreviewInfoLabel">Glasopbouw:</span>
+            <span class="productPreviewInfoWaarde" id="glasOpbouwDisplay">-</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Aantal:</span>
+            <span class="productPreviewInfoWaarde" id="glasAantalDisplay">1</span>
+          </div>
+          <div class="productPreviewPrijs" id="glasPrijs">€0,00</div>
+        </div>
+        <div class="productPreviewActions" style="margin-top:24px;border-top:none;padding-top:0">
+          <button class="btn primary" id="btnVoegGlasToe" style="width:100%">🛒 Toevoegen aan winkelwagen</button>
+        </div>
+      </div>
+      <div class="productTekeningSectie">
+        <h2 style="margin:0 0 20px;color:var(--fg);font-size:20px;font-weight:600">📐 Overzicht Tekening</h2>
+        <div class="productPreviewTekening" style="margin-top:0">
+          <svg id="glasTekeningSVG" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Raam Product Pagina -->
+  <div class="productPagina" id="productPaginaRaam">
+    <div class="productPaginaHeader">
+      <button class="btn" id="btnTerugNaarOverzichtRaam" style="margin-bottom:16px">← Terug naar overzicht</button>
+      <h1>🪟 Los Raam Configureren</h1>
+      <p>Configureer uw raam met afmetingen, type en opties</p>
+    </div>
+    <div class="productPaginaContent">
+      <div class="productConfigSectie">
+        <h2 style="margin:0 0 20px;color:var(--fg);font-size:20px;font-weight:600">Configuratie</h2>
+        <div class="productConfigForm">
+          <div class="productConfigItem">
+            <label>Breedte (mm)</label>
+            <input type="number" id="raamBreedte" min="300" max="5000" step="10" value="1000" />
+          </div>
+          <div class="productConfigItem">
+            <label>Hoogte (mm)</label>
+            <input type="number" id="raamHoogte" min="300" max="5000" step="10" value="1000" />
+          </div>
+          <div class="productConfigItem">
+            <label>Raam Type</label>
+            <select id="raamTypeLos">
+              <option value="draairaam_buiten">Draairaam naar buiten</option>
+              <option value="draairaam_binnen">Draairaam naar binnen</option>
+              <option value="stolpraam_buiten">Stolpraam buitendraaiend</option>
+              <option value="stolpraam_binnen">Stolpraam binnendraaiend</option>
+              <option value="draaikiep">Draaikiep raam</option>
+              <option value="kiep">Kiep raam</option>
+              <option value="vast">Vast raam</option>
+            </select>
+          </div>
+          <div class="productConfigItem">
+            <label>Draairichting</label>
+            <select id="raamDraairichting">
+              <option value="links">Links draaiend</option>
+              <option value="rechts">Rechts draaiend</option>
+              <option value="actief">Actief</option>
+            </select>
+          </div>
+          <div class="productConfigItem">
+            <label>Glas Type</label>
+            <select id="raamGlasType">
+              <option value="enkel">Enkel glas</option>
+              <option value="hr+">HR+</option>
+              <option value="hr++">HR++</option>
+              <option value="hr+++">HR+++</option>
+            </select>
+          </div>
+          <div class="productConfigItem">
+            <label>Aantal</label>
+            <input type="number" id="raamAantal" min="1" value="1" />
+          </div>
+        </div>
+        <div class="productPreviewInfo" style="margin-top:24px">
+          <h3>Product Informatie</h3>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Afmetingen:</span>
+            <span class="productPreviewInfoWaarde" id="raamAfmetingen">1000 x 1000 mm</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Oppervlakte:</span>
+            <span class="productPreviewInfoWaarde" id="raamOppervlakte">1,00 m²</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Raam Type:</span>
+            <span class="productPreviewInfoWaarde" id="raamTypeDisplay">Draairaam naar buiten</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Draairichting:</span>
+            <span class="productPreviewInfoWaarde" id="raamDraairichtingDisplay">Links draaiend</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Glas Type:</span>
+            <span class="productPreviewInfoWaarde" id="raamGlasTypeDisplay">Enkel glas</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Aantal:</span>
+            <span class="productPreviewInfoWaarde" id="raamAantalDisplay">1</span>
+          </div>
+          <div class="productPreviewPrijs" id="raamPrijs">€0,00</div>
+        </div>
+        <div class="productPreviewActions" style="margin-top:24px;border-top:none;padding-top:0">
+          <button class="btn primary" id="btnVoegRaamToe" style="width:100%">🛒 Toevoegen aan winkelwagen</button>
+        </div>
+      </div>
+      <div class="productTekeningSectie">
+        <h2 style="margin:0 0 20px;color:var(--fg);font-size:20px;font-weight:600">📐 Overzicht Tekening</h2>
+        <div class="productPreviewTekening" style="margin-top:0">
+          <svg id="raamTekeningSVG" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Deur Product Pagina -->
+  <div class="productPagina" id="productPaginaDeur">
+    <div class="productPaginaHeader">
+      <button class="btn" id="btnTerugNaarOverzichtDeur" style="margin-bottom:16px">← Terug naar overzicht</button>
+      <h1>🚪 Losse Deur Configureren</h1>
+      <p>Configureer uw deur met afmetingen, type en opties</p>
+    </div>
+    <div class="productPaginaContent">
+      <div class="productConfigSectie">
+        <h2 style="margin:0 0 20px;color:var(--fg);font-size:20px;font-weight:600">Configuratie</h2>
+        <div class="productConfigForm">
+          <div class="productConfigItem">
+            <label>Breedte (mm)</label>
+            <input type="number" id="deurBreedte" min="600" max="5000" step="10" value="900" />
+          </div>
+          <div class="productConfigItem">
+            <label>Hoogte (mm)</label>
+            <input type="number" id="deurHoogte" min="1800" max="5000" step="10" value="2100" />
+          </div>
+          <div class="productConfigItem">
+            <label>Deur Type</label>
+            <select id="deurTypeLos">
+              <option value="dichte_deur">Dichte deur</option>
+              <option value="deur_met_raam">Deur met raam</option>
+              <option value="stolpdeur_buitendraaiend">Stolpdeur buitendraaiend</option>
+              <option value="stolpdeur_binnendraaiend">Stolpdeur binnendraaiend</option>
+            </select>
+          </div>
+          <div class="productConfigItem">
+            <label>Draairichting</label>
+            <select id="deurDraairichting">
+              <option value="links">Links draaiend</option>
+              <option value="rechts">Rechts draaiend</option>
+              <option value="actief">Actief</option>
+            </select>
+          </div>
+          <div class="productConfigItem">
+            <label>Glas Type</label>
+            <select id="deurGlasType">
+              <option value="enkel">Enkel glas</option>
+              <option value="hr+">HR+</option>
+              <option value="hr++">HR++</option>
+              <option value="hr+++">HR+++</option>
+            </select>
+          </div>
+          <div class="productConfigItem">
+            <label>Aantal</label>
+            <input type="number" id="deurAantal" min="1" value="1" />
+          </div>
+        </div>
+        <div class="productPreviewInfo" style="margin-top:24px">
+          <h3>Product Informatie</h3>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Afmetingen:</span>
+            <span class="productPreviewInfoWaarde" id="deurAfmetingen">900 x 2100 mm</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Oppervlakte:</span>
+            <span class="productPreviewInfoWaarde" id="deurOppervlakte">1,89 m²</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Deur Type:</span>
+            <span class="productPreviewInfoWaarde" id="deurTypeDisplay">Dichte deur</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Draairichting:</span>
+            <span class="productPreviewInfoWaarde" id="deurDraairichtingDisplay">Links draaiend</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Glas Type:</span>
+            <span class="productPreviewInfoWaarde" id="deurGlasTypeDisplay">Enkel glas</span>
+          </div>
+          <div class="productPreviewInfoItem">
+            <span class="productPreviewInfoLabel">Aantal:</span>
+            <span class="productPreviewInfoWaarde" id="deurAantalDisplay">1</span>
+          </div>
+          <div class="productPreviewPrijs" id="deurPrijs">€0,00</div>
+        </div>
+        <div class="productPreviewActions" style="margin-top:24px;border-top:none;padding-top:0">
+          <button class="btn primary" id="btnVoegDeurToe" style="width:100%">🛒 Toevoegen aan winkelwagen</button>
+        </div>
+      </div>
+      <div class="productTekeningSectie">
+        <h2 style="margin:0 0 20px;color:var(--fg);font-size:20px;font-weight:600">📐 Overzicht Tekening</h2>
+        <div class="productPreviewTekening" style="margin-top:0">
+          <svg id="deurTekeningSVG" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -3891,20 +4337,39 @@ stroke-width="3"/>
     const tekenPagina = document.getElementById('tekenPagina');
     const winkelwagenPagina = document.getElementById('winkelwagenPagina');
     const losseProductenPagina = document.getElementById('losseProductenPagina');
+    const productPaginaGlas = document.getElementById('productPaginaGlas');
+    const productPaginaRaam = document.getElementById('productPaginaRaam');
+    const productPaginaDeur = document.getElementById('productPaginaDeur');
+    
+    // Verberg alle pagina's eerst
+    if (tekenPagina) tekenPagina.classList.add('hidden');
+    if (winkelwagenPagina) winkelwagenPagina.classList.remove('active');
+    if (losseProductenPagina) losseProductenPagina.classList.remove('active');
+    if (productPaginaGlas) productPaginaGlas.classList.remove('active');
+    if (productPaginaRaam) productPaginaRaam.classList.remove('active');
+    if (productPaginaDeur) productPaginaDeur.classList.remove('active');
     
     if (pagina === 'tekenen') {
       if (tekenPagina) tekenPagina.classList.remove('hidden');
-      if (winkelwagenPagina) winkelwagenPagina.classList.remove('active');
-      if (losseProductenPagina) losseProductenPagina.classList.remove('active');
     } else if (pagina === 'winkelwagen') {
-      if (tekenPagina) tekenPagina.classList.add('hidden');
       if (winkelwagenPagina) winkelwagenPagina.classList.add('active');
-      if (losseProductenPagina) losseProductenPagina.classList.remove('active');
       toonWinkelwagen();
     } else if (pagina === 'losseProducten') {
-      if (tekenPagina) tekenPagina.classList.add('hidden');
-      if (winkelwagenPagina) winkelwagenPagina.classList.remove('active');
       if (losseProductenPagina) losseProductenPagina.classList.add('active');
+    } else if (pagina === 'glas') {
+      if (productPaginaGlas) productPaginaGlas.classList.add('active');
+      // Wacht even zodat DOM elementen beschikbaar zijn
+      setTimeout(() => {
+        updateGlasOpbouwMenu();
+        updateRoosterOpties();
+        updateGlasPreview();
+      }, 100);
+    } else if (pagina === 'raam') {
+      if (productPaginaRaam) productPaginaRaam.classList.add('active');
+      updateRaamPreview();
+    } else if (pagina === 'deur') {
+      if (productPaginaDeur) productPaginaDeur.classList.add('active');
+      updateDeurPreview();
     }
   }
 
@@ -8294,6 +8759,36 @@ stroke-width="3"/>
     btnNaarWinkelwagen.addEventListener('click', () => gaNaarPagina('winkelwagen'));
   }
 
+  // Product keuze cards event listeners
+  const keuzeGlas = document.getElementById('keuzeGlas');
+  const keuzeRaam = document.getElementById('keuzeRaam');
+  const keuzeDeur = document.getElementById('keuzeDeur');
+  
+  if (keuzeGlas) {
+    keuzeGlas.addEventListener('click', () => gaNaarPagina('glas'));
+  }
+  if (keuzeRaam) {
+    keuzeRaam.addEventListener('click', () => gaNaarPagina('raam'));
+  }
+  if (keuzeDeur) {
+    keuzeDeur.addEventListener('click', () => gaNaarPagina('deur'));
+  }
+
+  // Terug naar overzicht knoppen
+  const btnTerugNaarOverzicht = document.getElementById('btnTerugNaarOverzicht');
+  const btnTerugNaarOverzichtRaam = document.getElementById('btnTerugNaarOverzichtRaam');
+  const btnTerugNaarOverzichtDeur = document.getElementById('btnTerugNaarOverzichtDeur');
+  
+  if (btnTerugNaarOverzicht) {
+    btnTerugNaarOverzicht.addEventListener('click', () => gaNaarPagina('losseProducten'));
+  }
+  if (btnTerugNaarOverzichtRaam) {
+    btnTerugNaarOverzichtRaam.addEventListener('click', () => gaNaarPagina('losseProducten'));
+  }
+  if (btnTerugNaarOverzichtDeur) {
+    btnTerugNaarOverzichtDeur.addEventListener('click', () => gaNaarPagina('losseProducten'));
+  }
+
   if (btnToevoegenAanWinkelwagen) {
     btnToevoegenAanWinkelwagen.addEventListener('click', voegToeAanWinkelwagen);
   }
@@ -8308,16 +8803,20 @@ stroke-width="3"/>
   const btnVoegDeurToe = document.getElementById('btnVoegDeurToe');
 
   // Functie om prijs te berekenen voor los glas
-  function berekenGlasPrijs(breedte, hoogte, glasType) {
+  function berekenGlasPrijs(breedte, hoogte, glasType, glasOpbouw = '') {
     const oppervlakteM2 = (breedte / 1000) * (hoogte / 1000);
     let prijsPerM2 = 60; // Basis prijs voor enkel glas
     
-    if (glasType === 'hr+') {
+    if (glasType === 'dubbel') {
       prijsPerM2 = 70;
-    } else if (glasType === 'hr++') {
+    } else if (glasType === 'trippel') {
       prijsPerM2 = 85;
-    } else if (glasType === 'hr+++') {
-      prijsPerM2 = 100;
+    }
+    
+    // Voeg glasopbouw meerprijs toe als opgegeven
+    if (glasOpbouw) {
+      const opbouwMeerprijs = haalGlasOpbouwPrijs(glasType, glasOpbouw);
+      prijsPerM2 += opbouwMeerprijs;
     }
     
     return oppervlakteM2 * prijsPerM2;
@@ -8359,6 +8858,8 @@ stroke-width="3"/>
       const breedte = parseInt(document.getElementById('glasBreedte').value) || 1000;
       const hoogte = parseInt(document.getElementById('glasHoogte').value) || 1000;
       const glasType = document.getElementById('glasTypeLos').value;
+      const glasOpbouw = document.getElementById('glasOpbouw')?.value || '';
+      const rooster = document.getElementById('glasRooster').value || '';
       const aantal = parseInt(document.getElementById('glasAantal').value) || 1;
       
       if (breedte < 100 || hoogte < 100) {
@@ -8366,13 +8867,34 @@ stroke-width="3"/>
         return;
       }
       
-      const basisPrijs = berekenGlasPrijs(breedte, hoogte, glasType);
+      const basisPrijs = berekenGlasPrijs(breedte, hoogte, glasType, glasOpbouw);
       const totaalPrijs = basisPrijs * aantal;
       
       const winkelwagen = haalWinkelwagenOp();
       const glasTypeLabel = glasType === 'hr+' ? 'HR+' : 
                            glasType === 'hr++' ? 'HR++' : 
                            glasType === 'hr+++' ? 'HR+++' : 'Enkel glas';
+      
+      // Haal rooster label op vanuit JSON data
+      let roosterLabel = rooster;
+      if (roosterData && roosterData.opties) {
+        const roosterOptie = roosterData.opties.find(opt => opt.value === rooster);
+        if (roosterOptie) {
+          roosterLabel = roosterOptie.label;
+        }
+      }
+      
+      // Haal label op vanuit JSON data
+      let glasOpbouwLabel = glasOpbouw;
+      if (glasOpbouwData && glasOpbouw) {
+        const typeData = glasOpbouwData[glasType];
+        if (typeData && typeData.opties) {
+          const optie = typeData.opties.find(opt => opt.value === glasOpbouw);
+          if (optie) {
+            glasOpbouwLabel = optie.label;
+          }
+        }
+      }
       
       const item = {
         id: Date.now(),
@@ -8381,6 +8903,10 @@ stroke-width="3"/>
         afmetingen: `${breedte}mm × ${hoogte}mm`,
         glasType: glasType,
         glasTypeLabel: glasTypeLabel,
+        glasOpbouw: glasOpbouw,
+        glasOpbouwLabel: glasOpbouwLabel,
+        rooster: rooster,
+        roosterLabel: roosterLabel,
         aantal: aantal,
         prijs: totaalPrijs,
         basisPrijs: basisPrijs,
@@ -8500,6 +9026,697 @@ stroke-width="3"/>
       updateWinkelwagenBadge();
     });
   }
+
+  // Menu items voor losse producten
+  const menuItemGlas = document.getElementById('menuItemGlas');
+  const menuItemRaam = document.getElementById('menuItemRaam');
+  const menuItemDeur = document.getElementById('menuItemDeur');
+  const previewGlas = document.getElementById('previewGlas');
+  const previewRaam = document.getElementById('previewRaam');
+  const previewDeur = document.getElementById('previewDeur');
+
+  // Functie om product preview te wisselen
+  function wisselProductPreview(product) {
+    // Verberg alle previews
+    if (previewGlas) previewGlas.style.display = 'none';
+    if (previewRaam) previewRaam.style.display = 'none';
+    if (previewDeur) previewDeur.style.display = 'none';
+    
+    // Verwijder active class van alle menu items
+    if (menuItemGlas) menuItemGlas.classList.remove('active');
+    if (menuItemRaam) menuItemRaam.classList.remove('active');
+    if (menuItemDeur) menuItemDeur.classList.remove('active');
+    
+    // Toon juiste preview en active menu item
+    if (product === 'glas') {
+      if (previewGlas) previewGlas.style.display = 'block';
+      if (menuItemGlas) menuItemGlas.classList.add('active');
+      updateGlasPreview();
+    } else if (product === 'raam') {
+      if (previewRaam) previewRaam.style.display = 'block';
+      if (menuItemRaam) menuItemRaam.classList.add('active');
+      updateRaamPreview();
+    } else if (product === 'deur') {
+      if (previewDeur) previewDeur.style.display = 'block';
+      if (menuItemDeur) menuItemDeur.classList.add('active');
+      updateDeurPreview();
+    }
+  }
+
+  // Event listeners voor menu items
+  if (menuItemGlas) {
+    menuItemGlas.addEventListener('click', () => wisselProductPreview('glas'));
+  }
+  if (menuItemRaam) {
+    menuItemRaam.addEventListener('click', () => wisselProductPreview('raam'));
+  }
+  if (menuItemDeur) {
+    menuItemDeur.addEventListener('click', () => wisselProductPreview('deur'));
+  }
+
+  // Functie om glas tekening te tekenen
+  function tekenGlasTekening(breedte, hoogte, rooster) {
+    const svg = document.getElementById('glasTekeningSVG');
+    if (!svg) return;
+    
+    // Leeg de SVG
+    svg.innerHTML = '';
+    
+    // Bereken schaal om het glas goed te laten passen in de viewBox (500x400)
+    const padding = 60;
+    const maxBreedte = 500 - (padding * 2);
+    const maxHoogte = 400 - (padding * 2);
+    
+    const schaalBreedte = maxBreedte / breedte;
+    const schaalHoogte = maxHoogte / hoogte;
+    const schaal = Math.min(schaalBreedte, schaalHoogte, 1); // Max 1:1 schaal
+    
+    const getekendeBreedte = breedte * schaal;
+    const getekendeHoogte = hoogte * schaal;
+    
+    // Centreer het glas
+    const startX = (500 - getekendeBreedte) / 2;
+    const startY = (400 - getekendeHoogte) / 2;
+    
+    // Teken glas rechthoek
+    const glasRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    glasRect.setAttribute('x', startX);
+    glasRect.setAttribute('y', startY);
+    glasRect.setAttribute('width', getekendeBreedte);
+    glasRect.setAttribute('height', getekendeHoogte);
+    glasRect.setAttribute('class', 'glasTekening');
+    svg.appendChild(glasRect);
+    
+    // Teken rooster als gekozen (alleen voor grid patterns zoals 2x2, 3x3, etc)
+    if (rooster && rooster.includes('x') && !rooster.includes('_')) {
+      const roosterParts = rooster.split('x');
+      const kolommen = parseInt(roosterParts[0]) || 2;
+      const rijen = parseInt(roosterParts[1]) || 2;
+      
+      // Verticale lijnen
+      for (let i = 1; i < kolommen; i++) {
+        const x = startX + (getekendeBreedte / kolommen) * i;
+        const lijn = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        lijn.setAttribute('x1', x);
+        lijn.setAttribute('y1', startY);
+        lijn.setAttribute('x2', x);
+        lijn.setAttribute('y2', startY + getekendeHoogte);
+        lijn.setAttribute('class', 'glasTekeningRooster');
+        svg.appendChild(lijn);
+      }
+      
+      // Horizontale lijnen
+      for (let i = 1; i < rijen; i++) {
+        const y = startY + (getekendeHoogte / rijen) * i;
+        const lijn = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        lijn.setAttribute('x1', startX);
+        lijn.setAttribute('y1', y);
+        lijn.setAttribute('x2', startX + getekendeBreedte);
+        lijn.setAttribute('y2', y);
+        lijn.setAttribute('class', 'glasTekeningRooster');
+        svg.appendChild(lijn);
+      }
+    }
+    
+    // Teken afmetingen labels
+    // Breedte label onder
+    const breedteLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    breedteLabel.setAttribute('x', startX + getekendeBreedte / 2);
+    breedteLabel.setAttribute('y', startY + getekendeHoogte + 25);
+    breedteLabel.setAttribute('class', 'glasTekeningMaat');
+    breedteLabel.textContent = `${breedte} mm`;
+    svg.appendChild(breedteLabel);
+    
+    // Hoogte label links
+    const hoogteLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    hoogteLabel.setAttribute('x', startX - 15);
+    hoogteLabel.setAttribute('y', startY + getekendeHoogte / 2);
+    hoogteLabel.setAttribute('class', 'glasTekeningMaat');
+    hoogteLabel.setAttribute('text-anchor', 'end');
+    hoogteLabel.setAttribute('dominant-baseline', 'middle');
+    hoogteLabel.textContent = `${hoogte} mm`;
+    svg.appendChild(hoogteLabel);
+    
+    // Teken maatlijnen voor breedte
+    const breedteMaatLijnY = startY + getekendeHoogte + 10;
+    const maatlijnBreedte1 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    maatlijnBreedte1.setAttribute('x1', startX);
+    maatlijnBreedte1.setAttribute('y1', breedteMaatLijnY);
+    maatlijnBreedte1.setAttribute('x2', startX);
+    maatlijnBreedte1.setAttribute('y2', breedteMaatLijnY + 5);
+    maatlijnBreedte1.setAttribute('stroke', '#ffb347');
+    maatlijnBreedte1.setAttribute('stroke-width', '1.5');
+    svg.appendChild(maatlijnBreedte1);
+    
+    const maatlijnBreedte2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    maatlijnBreedte2.setAttribute('x1', startX + getekendeBreedte);
+    maatlijnBreedte2.setAttribute('y1', breedteMaatLijnY);
+    maatlijnBreedte2.setAttribute('x2', startX + getekendeBreedte);
+    maatlijnBreedte2.setAttribute('y2', breedteMaatLijnY + 5);
+    maatlijnBreedte2.setAttribute('stroke', '#ffb347');
+    maatlijnBreedte2.setAttribute('stroke-width', '1.5');
+    svg.appendChild(maatlijnBreedte2);
+    
+    const maatlijnBreedteHor = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    maatlijnBreedteHor.setAttribute('x1', startX);
+    maatlijnBreedteHor.setAttribute('y1', breedteMaatLijnY + 2.5);
+    maatlijnBreedteHor.setAttribute('x2', startX + getekendeBreedte);
+    maatlijnBreedteHor.setAttribute('y2', breedteMaatLijnY + 2.5);
+    maatlijnBreedteHor.setAttribute('stroke', '#ffb347');
+    maatlijnBreedteHor.setAttribute('stroke-width', '1');
+    maatlijnBreedteHor.setAttribute('stroke-dasharray', '3,3');
+    svg.appendChild(maatlijnBreedteHor);
+    
+    // Teken maatlijnen voor hoogte
+    const hoogteMaatLijnX = startX - 10;
+    const maatlijnHoogte1 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    maatlijnHoogte1.setAttribute('x1', hoogteMaatLijnX);
+    maatlijnHoogte1.setAttribute('y1', startY);
+    maatlijnHoogte1.setAttribute('x2', hoogteMaatLijnX + 5);
+    maatlijnHoogte1.setAttribute('y2', startY);
+    maatlijnHoogte1.setAttribute('stroke', '#ffb347');
+    maatlijnHoogte1.setAttribute('stroke-width', '1.5');
+    svg.appendChild(maatlijnHoogte1);
+    
+    const maatlijnHoogte2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    maatlijnHoogte2.setAttribute('x1', hoogteMaatLijnX);
+    maatlijnHoogte2.setAttribute('y1', startY + getekendeHoogte);
+    maatlijnHoogte2.setAttribute('x2', hoogteMaatLijnX + 5);
+    maatlijnHoogte2.setAttribute('y2', startY + getekendeHoogte);
+    maatlijnHoogte2.setAttribute('stroke', '#ffb347');
+    maatlijnHoogte2.setAttribute('stroke-width', '1.5');
+    svg.appendChild(maatlijnHoogte2);
+    
+    const maatlijnHoogteVert = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    maatlijnHoogteVert.setAttribute('x1', hoogteMaatLijnX + 2.5);
+    maatlijnHoogteVert.setAttribute('y1', startY);
+    maatlijnHoogteVert.setAttribute('x2', hoogteMaatLijnX + 2.5);
+    maatlijnHoogteVert.setAttribute('y2', startY + getekendeHoogte);
+    maatlijnHoogteVert.setAttribute('stroke', '#ffb347');
+    maatlijnHoogteVert.setAttribute('stroke-width', '1');
+    maatlijnHoogteVert.setAttribute('stroke-dasharray', '3,3');
+    svg.appendChild(maatlijnHoogteVert);
+  }
+
+  // Glas en rooster data (wordt geladen vanuit JSON bestand)
+  let glasEnRoosterData = null;
+  let glasOpbouwData = null;
+  let roosterData = null;
+  
+  // Functie om glas en rooster data te laden vanuit JSON bestand
+  async function laadGlasEnRoosterData() {
+    try {
+      const response = await fetch('glas-en-rooster-data.json');
+      if (!response.ok) {
+        throw new Error('Kon glas en rooster data niet laden');
+      }
+      glasEnRoosterData = await response.json();
+      glasOpbouwData = glasEnRoosterData.glasopbouw || null;
+      roosterData = glasEnRoosterData.roosters || null;
+      console.log('Glas en rooster data geladen:', glasEnRoosterData);
+    } catch (error) {
+      console.error('Fout bij laden van glas en rooster data:', error);
+      // Fallback data als JSON niet geladen kan worden
+      glasEnRoosterData = {
+        "glasopbouw": {
+          "enkel": {
+            "opties": [
+              { "value": "4mm", "label": "4mm", "prijs": 0 },
+              { "value": "5mm", "label": "5mm", "prijs": 5 },
+              { "value": "33.1_gelaagd", "label": "33.1 gelaagd", "prijs": 15 },
+              { "value": "44.2_gelaagd", "label": "44.2 gelaagd", "prijs": 20 },
+              { "value": "33.1_matte_witte_folie", "label": "33.1 matte witte folie", "prijs": 25 }
+            ]
+          },
+          "Dubbel glas": {
+            "opties": [
+              { "value": "4-..-*4", "label": "4-..-*4", "prijs": 10 },
+              { "value": "5-..-*4", "label": "5-..-*4", "prijs": 15 },
+              { "value": "33.1-..-*4", "label": "33.1-..-*4", "prijs": 25 },
+              { "value": "33.1_mf-..-*4", "label": "33.1(MF)-..-*4 (matte witte folie)", "prijs": 0 },
+              { "value": "33.1-..-*33.1", "label": "33.1-..-*33.1", "prijs": 0 },
+              { "value": "33.1_mf-..-*33.1", "label": "33.1(MF)-..-*33.1 (matte witte folie)", "prijs": 0 }
+            ]
+          },
+          // Oude keys als fallback voor backward compatibility
+          "hr+": {
+            "opties": [
+              { "value": "4-6-*4", "label": "4-6-*4", "prijs": 10 },
+              { "value": "5-6-*4", "label": "5-6-*4", "prijs": 15 },
+              { "value": "4-8-*4", "label": "4-8-*4", "prijs": 12 },
+              { "value": "5-8-*4", "label": "5-8-*4", "prijs": 17 },
+              { "value": "4-10-*4", "label": "4-10-*4", "prijs": 14 },
+              { "value": "5-10-*4", "label": "5-10-*4", "prijs": 19 },
+              { "value": "4-12-*4", "label": "4-12-*4", "prijs": 16 },
+              { "value": "5-12-*4", "label": "5-12-*4", "prijs": 21 },
+              { "value": "33.1-6-*4", "label": "33.1-6-*4", "prijs": 25 },
+              { "value": "33.1-8-*4", "label": "33.1-8-*4", "prijs": 27 },
+              { "value": "33.1-10-*4", "label": "33.1-10-*4", "prijs": 29 },
+              { "value": "33.1-12-*4", "label": "33.1-12-*4", "prijs": 31 }
+            ]
+          },
+          "hr++": {
+            "opties": [
+              { "value": "4-13-*4", "label": "4-13-*4", "prijs": 0 },
+              { "value": "5-13-*4", "label": "5-13-*4", "prijs": 0 },
+              { "value": "33.1-13-*4", "label": "33.1-13-*4", "prijs": 0 },
+              { "value": "33.1_mf-13-*4", "label": "33.1(MF)-13-*4", "prijs": 0 },
+              { "value": "33.1-13-*33.1", "label": "33.1-13-*33.1", "prijs": 0 },
+              { "value": "4-15-*4", "label": "4-15-*4", "prijs": 0 },
+              { "value": "5-15-*4", "label": "5-15-*4", "prijs": 0 },
+              { "value": "33.1-15-*4", "label": "33.1-15-*4", "prijs": 0 },
+              { "value": "33.1-15-*33.1", "label": "33.1-15-*33.1", "prijs": 0 },
+              { "value": "33.1_mf-15-*4", "label": "33.1(MF)-15-*4", "prijs": 0 }
+            ]
+          }
+        },
+      "roosters": {
+          "opties": [
+            { "value": "ducoton_10", "label": "Ducoton 10", "prijs": 0 },
+            { "value": "ducoton_10_zr", "label": "Ducoton 10 ZR", "prijs": 0 },
+            { "value": "ducoton_flat", "label": "Ducoton flat", "prijs": 0 },
+            { "value": "ductonline_15", "label": "Ductonline 15", "prijs": 0 }
+          ]
+        }
+      };
+      glasOpbouwData = glasEnRoosterData.glasopbouw;
+      roosterData = glasEnRoosterData.roosters;
+    }
+  }
+  
+  // Alias voor backward compatibility
+  async function laadGlasOpbouwData() {
+    return laadGlasEnRoosterData();
+  }
+  
+  // Functie om prijs op te halen voor een glasopbouw optie
+  function haalGlasOpbouwPrijs(glasType, glasOpbouw) {
+    if (!glasOpbouwData || !glasOpbouw) return 0;
+    
+    // Mapping van nieuwe glas type waarden naar JSON keys
+    // Controleer eerst of de nieuwe keys bestaan, anders gebruik oude keys als fallback
+    let jsonKey = glasType;
+    if (glasType === 'dubbel') {
+      if (glasOpbouwData && glasOpbouwData['Dubbel glas']) {
+        jsonKey = 'Dubbel glas';
+      } else if (glasOpbouwData && glasOpbouwData['hr+']) {
+        jsonKey = 'hr+';
+      }
+    } else if (glasType === 'trippel') {
+      if (glasOpbouwData && glasOpbouwData['Trippel glas']) {
+        jsonKey = 'Trippel glas';
+      } else if (glasOpbouwData && glasOpbouwData['hr++']) {
+        jsonKey = 'hr++';
+      }
+    }
+    
+    const typeData = glasOpbouwData[jsonKey];
+    if (!typeData) return 0;
+    
+    const optie = typeData.opties.find(opt => opt.value === glasOpbouw);
+    return optie ? optie.prijs : 0;
+  }
+  
+  // Functie om rooster opties te laden in dropdown menu
+  function updateRoosterOpties() {
+    const productPaginaGlas = document.getElementById('productPaginaGlas');
+    let glasRoosterSelect = null;
+    
+    // Zoek het rooster select element
+    if (productPaginaGlas && productPaginaGlas.classList.contains('active')) {
+      glasRoosterSelect = productPaginaGlas.querySelector('#glasRooster');
+    } else {
+      glasRoosterSelect = document.getElementById('glasRooster');
+    }
+    
+    if (!glasRoosterSelect || !roosterData) return;
+    
+    // Leeg het select menu
+    glasRoosterSelect.innerHTML = '';
+    
+    // Voeg rooster opties toe vanuit JSON data
+    if (roosterData.opties) {
+      roosterData.opties.forEach(optie => {
+        const option = document.createElement('option');
+        option.value = optie.value;
+        option.textContent = optie.label;
+        glasRoosterSelect.appendChild(option);
+      });
+    }
+  }
+
+  // Functie om glasopbouw opties te updaten op basis van glas type
+  function updateGlasOpbouwOpties() {
+    // Zoek het actieve glasTypeLos element (op de zichtbare pagina)
+    const productPaginaGlas = document.getElementById('productPaginaGlas');
+    let glasTypeSelect = null;
+    let glasOpbouwSelect = null;
+    let glasOpbouwItem = null;
+    
+    // Als we op de glas product pagina zijn, gebruik die elementen
+    if (productPaginaGlas && productPaginaGlas.classList.contains('active')) {
+      glasTypeSelect = productPaginaGlas.querySelector('#glasTypeLos');
+      glasOpbouwSelect = productPaginaGlas.querySelector('#glasOpbouw');
+      glasOpbouwItem = productPaginaGlas.querySelector('#glasOpbouwItem');
+    } else {
+      // Anders probeer de algemene elementen
+      glasTypeSelect = document.getElementById('glasTypeLos');
+      glasOpbouwSelect = document.getElementById('glasOpbouw');
+      glasOpbouwItem = document.getElementById('glasOpbouwItem');
+    }
+    
+    if (!glasTypeSelect || !glasOpbouwSelect || !glasOpbouwItem) {
+      return;
+    }
+    
+    const glasType = glasTypeSelect.value || 'enkel';
+    
+    // Mapping van nieuwe glas type waarden naar JSON keys
+    // Controleer eerst of de nieuwe keys bestaan, anders gebruik oude keys als fallback
+    let jsonKey = glasType;
+    if (glasType === 'dubbel') {
+      // Probeer eerst "Dubbel glas", anders fallback naar "hr+"
+      if (glasOpbouwData && glasOpbouwData['Dubbel glas']) {
+        jsonKey = 'Dubbel glas';
+      } else if (glasOpbouwData && glasOpbouwData['hr+']) {
+        jsonKey = 'hr+';
+      }
+    } else if (glasType === 'trippel') {
+      // Probeer eerst "Trippel glas", anders fallback naar "hr++"
+      if (glasOpbouwData && glasOpbouwData['Trippel glas']) {
+        jsonKey = 'Trippel glas';
+      } else if (glasOpbouwData && glasOpbouwData['hr++']) {
+        jsonKey = 'hr++';
+      }
+    }
+    
+    // Leeg het select menu
+    glasOpbouwSelect.innerHTML = '';
+    
+    // Wacht tot data geladen is, of gebruik fallback
+    if (!glasOpbouwData) {
+      // Probeer data opnieuw te laden als het nog niet geladen is
+      laadGlasOpbouwData().then(() => {
+        updateGlasOpbouwOpties();
+      });
+      return;
+    }
+    
+    // Debug: log de beschikbare keys
+    console.log('Glas type:', glasType, 'JSON key:', jsonKey);
+    console.log('GlasOpbouwData beschikbaar:', !!glasOpbouwData);
+    if (glasOpbouwData) {
+      console.log('Beschikbare keys in glasOpbouwData:', Object.keys(glasOpbouwData));
+    }
+    
+    const typeData = glasOpbouwData ? glasOpbouwData[jsonKey] : null;
+    
+    console.log('Type data gevonden voor key "' + jsonKey + '":', typeData);
+    
+    if (typeData && typeData.opties && typeData.opties.length > 0) {
+      // Voeg opties toe vanuit JSON data
+      typeData.opties.forEach(optie => {
+        const option = document.createElement('option');
+        option.value = optie.value;
+        option.textContent = optie.label;
+        glasOpbouwSelect.appendChild(option);
+      });
+      
+      glasOpbouwItem.style.display = 'flex';
+      console.log('Glasopbouw menu getoond met', typeData.opties.length, 'opties');
+    } else {
+      // Geen glasopbouw opties beschikbaar voor dit glas type
+      glasOpbouwItem.style.display = 'none';
+      console.log('Geen glasopbouw opties gevonden voor', jsonKey);
+    }
+  }
+
+  // Functie om glasopbouw menu te tonen/verbergen (oude functie, nu gebruikt updateGlasOpbouwOpties)
+  function updateGlasOpbouwMenu() {
+    updateGlasOpbouwOpties();
+  }
+
+  // Functie om glas preview te updaten
+  function updateGlasPreview() {
+    const breedte = parseInt(document.getElementById('glasBreedte')?.value) || 1000;
+    const hoogte = parseInt(document.getElementById('glasHoogte')?.value) || 1000;
+    const glasType = document.getElementById('glasTypeLos')?.value || 'enkel';
+    const rooster = document.getElementById('glasRooster')?.value || '';
+    const aantal = parseInt(document.getElementById('glasAantal')?.value) || 1;
+    
+    // Update glasopbouw menu zichtbaarheid
+    updateGlasOpbouwMenu();
+    
+    const oppervlakteM2 = (breedte / 1000) * (hoogte / 1000);
+    const glasOpbouw = document.getElementById('glasOpbouw')?.value || '';
+    const basisPrijs = berekenGlasPrijs(breedte, hoogte, glasType, glasOpbouw);
+    const totaalPrijs = basisPrijs * aantal;
+    
+    const glasTypeLabels = {
+      'enkel': 'Enkel glas',
+      'hr+': 'HR+',
+      'hr++': 'HR++',
+      'hr+++': 'HR+++'
+    };
+    
+    // Update preview info
+    const afmetingenEl = document.getElementById('glasAfmetingen');
+    const oppervlakteEl = document.getElementById('glasOppervlakte');
+    const glasTypeDisplayEl = document.getElementById('glasTypeDisplay');
+    const glasOpbouwDisplayEl = document.getElementById('glasOpbouwDisplay');
+    const glasOpbouwDisplayItem = document.getElementById('glasOpbouwDisplayItem');
+    const glasAantalDisplayEl = document.getElementById('glasAantalDisplay');
+    const glasPrijsEl = document.getElementById('glasPrijs');
+    
+    if (afmetingenEl) afmetingenEl.textContent = `${breedte} × ${hoogte} mm`;
+    if (oppervlakteEl) oppervlakteEl.textContent = `${oppervlakteM2.toFixed(2)} m²`;
+    if (glasTypeDisplayEl) glasTypeDisplayEl.textContent = glasTypeLabels[glasType] || glasType;
+    
+    // Mapping van nieuwe glas type waarden naar JSON keys
+    // Controleer eerst of de nieuwe keys bestaan, anders gebruik oude keys als fallback
+    let jsonKey = glasType;
+    if (glasType === 'dubbel') {
+      if (glasOpbouwData && glasOpbouwData['Dubbel glas']) {
+        jsonKey = 'Dubbel glas';
+      } else if (glasOpbouwData && glasOpbouwData['hr+']) {
+        jsonKey = 'hr+';
+      }
+    } else if (glasType === 'trippel') {
+      if (glasOpbouwData && glasOpbouwData['Trippel glas']) {
+        jsonKey = 'Trippel glas';
+      } else if (glasOpbouwData && glasOpbouwData['hr++']) {
+        jsonKey = 'hr++';
+      }
+    }
+    
+    // Toon glasopbouw alleen als er een waarde is en het menu zichtbaar is
+    if (glasOpbouw && (glasType === 'enkel' || glasType === 'dubbel' || glasType === 'trippel')) {
+      // Haal label op vanuit JSON data
+      let glasOpbouwLabel = glasOpbouw;
+      if (glasOpbouwData) {
+        const typeData = glasOpbouwData[jsonKey];
+        if (typeData && typeData.opties) {
+          const optie = typeData.opties.find(opt => opt.value === glasOpbouw);
+          if (optie) {
+            glasOpbouwLabel = optie.label;
+          }
+        }
+      }
+      if (glasOpbouwDisplayEl) glasOpbouwDisplayEl.textContent = glasOpbouwLabel;
+      if (glasOpbouwDisplayItem) glasOpbouwDisplayItem.style.display = 'flex';
+    } else {
+      if (glasOpbouwDisplayItem) glasOpbouwDisplayItem.style.display = 'none';
+    }
+    
+    if (glasAantalDisplayEl) glasAantalDisplayEl.textContent = aantal;
+    if (glasPrijsEl) glasPrijsEl.textContent = `€${totaalPrijs.toFixed(2)}`;
+    
+    // Update tekening
+    tekenGlasTekening(breedte, hoogte, rooster);
+  }
+
+  // Functie om raam preview te updaten
+  function updateRaamPreview() {
+    const breedte = parseInt(document.getElementById('raamBreedte')?.value) || 1000;
+    const hoogte = parseInt(document.getElementById('raamHoogte')?.value) || 1000;
+    const raamType = document.getElementById('raamTypeLos')?.value || 'draairaam_buiten';
+    const draairichting = document.getElementById('raamDraairichting')?.value || 'links';
+    const glasType = document.getElementById('raamGlasType')?.value || 'enkel';
+    const aantal = parseInt(document.getElementById('raamAantal')?.value) || 1;
+    
+    const oppervlakteM2 = (breedte / 1000) * (hoogte / 1000);
+    const basisPrijs = berekenRaamPrijs(breedte, hoogte, glasType);
+    const totaalPrijs = basisPrijs * aantal;
+    
+    const raamTypeLabels = {
+      'draairaam_buiten': 'Draairaam naar buiten',
+      'draairaam_binnen': 'Draairaam naar binnen',
+      'stolpraam_buiten': 'Stolpraam buitendraaiend',
+      'stolpraam_binnen': 'Stolpraam binnendraaiend',
+      'draaikiep': 'Draaikiep raam',
+      'kiep': 'Kiep raam',
+      'vast': 'Vast raam'
+    };
+    const glasTypeLabels = {
+      'enkel': 'Enkel glas',
+      'hr+': 'HR+',
+      'hr++': 'HR++',
+      'hr+++': 'HR+++'
+    };
+    const draairichtingLabels = {
+      'links': 'Links draaiend',
+      'rechts': 'Rechts draaiend',
+      'actief': 'Actief'
+    };
+    
+    // Update preview info
+    const afmetingenEl = document.getElementById('raamAfmetingen');
+    const oppervlakteEl = document.getElementById('raamOppervlakte');
+    const raamTypeDisplayEl = document.getElementById('raamTypeDisplay');
+    const raamDraairichtingDisplayEl = document.getElementById('raamDraairichtingDisplay');
+    const raamGlasTypeDisplayEl = document.getElementById('raamGlasTypeDisplay');
+    const raamAantalDisplayEl = document.getElementById('raamAantalDisplay');
+    const raamPrijsEl = document.getElementById('raamPrijs');
+    
+    if (afmetingenEl) afmetingenEl.textContent = `${breedte} × ${hoogte} mm`;
+    if (oppervlakteEl) oppervlakteEl.textContent = `${oppervlakteM2.toFixed(2)} m²`;
+    if (raamTypeDisplayEl) raamTypeDisplayEl.textContent = raamTypeLabels[raamType] || raamType;
+    if (raamDraairichtingDisplayEl) raamDraairichtingDisplayEl.textContent = draairichtingLabels[draairichting] || draairichting;
+    if (raamGlasTypeDisplayEl) raamGlasTypeDisplayEl.textContent = glasTypeLabels[glasType] || glasType;
+    if (raamAantalDisplayEl) raamAantalDisplayEl.textContent = aantal;
+    if (raamPrijsEl) raamPrijsEl.textContent = `€${totaalPrijs.toFixed(2)}`;
+  }
+
+  // Functie om deur preview te updaten
+  function updateDeurPreview() {
+    const breedte = parseInt(document.getElementById('deurBreedte')?.value) || 900;
+    const hoogte = parseInt(document.getElementById('deurHoogte')?.value) || 2100;
+    const deurType = document.getElementById('deurTypeLos')?.value || 'dichte_deur';
+    const draairichting = document.getElementById('deurDraairichting')?.value || 'links';
+    const glasType = document.getElementById('deurGlasType')?.value || 'enkel';
+    const aantal = parseInt(document.getElementById('deurAantal')?.value) || 1;
+    
+    const oppervlakteM2 = (breedte / 1000) * (hoogte / 1000);
+    const basisPrijs = berekenDeurPrijs(breedte, hoogte, glasType);
+    const totaalPrijs = basisPrijs * aantal;
+    
+    const deurTypeLabels = {
+      'dichte_deur': 'Dichte deur',
+      'deur_met_raam': 'Deur met raam',
+      'stolpdeur_buitendraaiend': 'Stolpdeur buitendraaiend',
+      'stolpdeur_binnendraaiend': 'Stolpdeur binnendraaiend'
+    };
+    const glasTypeLabels = {
+      'enkel': 'Enkel glas',
+      'hr+': 'HR+',
+      'hr++': 'HR++',
+      'hr+++': 'HR+++'
+    };
+    const draairichtingLabels = {
+      'links': 'Links draaiend',
+      'rechts': 'Rechts draaiend',
+      'actief': 'Actief'
+    };
+    
+    // Update preview info
+    const afmetingenEl = document.getElementById('deurAfmetingen');
+    const oppervlakteEl = document.getElementById('deurOppervlakte');
+    const deurTypeDisplayEl = document.getElementById('deurTypeDisplay');
+    const deurDraairichtingDisplayEl = document.getElementById('deurDraairichtingDisplay');
+    const deurGlasTypeDisplayEl = document.getElementById('deurGlasTypeDisplay');
+    const deurAantalDisplayEl = document.getElementById('deurAantalDisplay');
+    const deurPrijsEl = document.getElementById('deurPrijs');
+    
+    if (afmetingenEl) afmetingenEl.textContent = `${breedte} × ${hoogte} mm`;
+    if (oppervlakteEl) oppervlakteEl.textContent = `${oppervlakteM2.toFixed(2)} m²`;
+    if (deurTypeDisplayEl) deurTypeDisplayEl.textContent = deurTypeLabels[deurType] || deurType;
+    if (deurDraairichtingDisplayEl) deurDraairichtingDisplayEl.textContent = draairichtingLabels[draairichting] || draairichting;
+    if (deurGlasTypeDisplayEl) deurGlasTypeDisplayEl.textContent = glasTypeLabels[glasType] || glasType;
+    if (deurAantalDisplayEl) deurAantalDisplayEl.textContent = aantal;
+    if (deurPrijsEl) deurPrijsEl.textContent = `€${totaalPrijs.toFixed(2)}`;
+  }
+
+  // Event listeners voor glas inputs - gebruik event delegation voor betere compatibiliteit
+  document.addEventListener('change', (e) => {
+    if (e.target.id === 'glasTypeLos') {
+      updateGlasOpbouwMenu();
+      updateGlasPreview();
+    } else if (e.target.id === 'glasOpbouw' || e.target.id === 'glasRooster') {
+      updateGlasPreview();
+    }
+  });
+  
+  document.addEventListener('input', (e) => {
+    if (e.target.id === 'glasBreedte' || e.target.id === 'glasHoogte' || e.target.id === 'glasAantal') {
+      updateGlasPreview();
+    }
+  });
+  
+  // Ook direct event listeners toevoegen voor backward compatibility
+  const glasBreedteInput = document.getElementById('glasBreedte');
+  const glasHoogteInput = document.getElementById('glasHoogte');
+  const glasSpouwSelect = document.getElementById('glasSpouw');
+  const glasTypeSelect = document.getElementById('glasTypeLos');
+  const glasOpbouwSelect = document.getElementById('glasOpbouw');
+  const glasRoosterSelect = document.getElementById('glasRooster');
+  const glasAantalInput = document.getElementById('glasAantal');
+  
+  if (glasBreedteInput) glasBreedteInput.addEventListener('input', updateGlasPreview);
+  if (glasHoogteInput) glasHoogteInput.addEventListener('input', updateGlasPreview);
+  if (glasSpouwSelect) glasSpouwSelect.addEventListener('change', updateGlasPreview);
+  if (glasTypeSelect) {
+    glasTypeSelect.addEventListener('change', () => {
+      updateGlasOpbouwMenu();
+      updateGlasPreview();
+    });
+  }
+  if (glasOpbouwSelect) glasOpbouwSelect.addEventListener('change', updateGlasPreview);
+  if (glasRoosterSelect) glasRoosterSelect.addEventListener('change', updateGlasPreview);
+  if (glasAantalInput) glasAantalInput.addEventListener('input', updateGlasPreview);
+
+  // Event listeners voor raam inputs
+  const raamBreedteInput = document.getElementById('raamBreedte');
+  const raamHoogteInput = document.getElementById('raamHoogte');
+  const raamTypeSelect = document.getElementById('raamTypeLos');
+  const raamDraairichtingSelect = document.getElementById('raamDraairichting');
+  const raamGlasTypeSelect = document.getElementById('raamGlasType');
+  const raamAantalInput = document.getElementById('raamAantal');
+  
+  if (raamBreedteInput) raamBreedteInput.addEventListener('input', updateRaamPreview);
+  if (raamHoogteInput) raamHoogteInput.addEventListener('input', updateRaamPreview);
+  if (raamTypeSelect) raamTypeSelect.addEventListener('change', updateRaamPreview);
+  if (raamDraairichtingSelect) raamDraairichtingSelect.addEventListener('change', updateRaamPreview);
+  if (raamGlasTypeSelect) raamGlasTypeSelect.addEventListener('change', updateRaamPreview);
+  if (raamAantalInput) raamAantalInput.addEventListener('input', updateRaamPreview);
+
+  // Event listeners voor deur inputs
+  const deurBreedteInput = document.getElementById('deurBreedte');
+  const deurHoogteInput = document.getElementById('deurHoogte');
+  const deurTypeSelect = document.getElementById('deurTypeLos');
+  const deurDraairichtingSelect = document.getElementById('deurDraairichting');
+  const deurGlasTypeSelect = document.getElementById('deurGlasType');
+  const deurAantalInput = document.getElementById('deurAantal');
+  
+  if (deurBreedteInput) deurBreedteInput.addEventListener('input', updateDeurPreview);
+  if (deurHoogteInput) deurHoogteInput.addEventListener('input', updateDeurPreview);
+  if (deurTypeSelect) deurTypeSelect.addEventListener('change', updateDeurPreview);
+  if (deurDraairichtingSelect) deurDraairichtingSelect.addEventListener('change', updateDeurPreview);
+  if (deurGlasTypeSelect) deurGlasTypeSelect.addEventListener('change', updateDeurPreview);
+  if (deurAantalInput) deurAantalInput.addEventListener('input', updateDeurPreview);
+
+  // Laad glas en rooster data bij page load
+  laadGlasEnRoosterData().then(() => {
+    // Initialiseer preview bij page load
+    if (previewGlas && previewGlas.style.display !== 'none') {
+      updateGlasPreview();
+    }
+    
+    // Initialiseer glasopbouw menu bij page load
+    updateGlasOpbouwMenu();
+    
+    // Initialiseer rooster opties bij page load
+    updateRoosterOpties();
+  });
 
   // Laad SVG iconen bij page load
   loadSvgIcons();
