@@ -201,6 +201,8 @@
     .productConfigItem label{color:var(--muted);font-size:13px;font-weight:500;margin-bottom:8px}
     .productConfigItem input,.productConfigItem select{width:100%;padding:12px;border:1px solid #2b2f36;border-radius:10px;background:#12161b;color:var(--fg);font-size:14px}
     .productConfigItem input:focus,.productConfigItem select:focus{outline:none;border-color:var(--accent)}
+    .productConfigItem input[type="radio"]{width:auto;padding:0;margin:0;cursor:pointer;accent-color:var(--accent)}
+    .productConfigItem label label{color:var(--fg);font-weight:normal;margin-bottom:0}
     .productConfigItem.small{flex:0 0 calc(50% - 12px);max-width:calc(50% - 12px)}
     .productConfigItem.small.third{flex:0 0 calc(33.333% - 16px);max-width:calc(33.333% - 16px)}
     .productConfigRow{display:flex;gap:24px;margin-bottom:20px;grid-column:1/-1}
@@ -712,7 +714,7 @@
                 <option value="33.1_matte_witte_folie">33.1 matte witte folie</option>
               </select>
             </div>
-            <div class="productConfigItem small">
+            <div class="productConfigItem small" id="glasSpouwItem">
               <label>Spouw</label>
               <select id="glasSpouw">
                 <option value="6mm">6mm (HR+)</option>
@@ -732,6 +734,19 @@
               <!-- Opties worden geladen vanuit glas-en-rooster-data.json -->
             </select>
           </div>
+          <div class="productConfigItem" id="glasSpacerItem" style="display:flex">
+            <label>Spacer</label>
+            <div style="display:flex;gap:24px;align-items:center;margin-top:8px">
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:normal">
+                <input type="radio" name="glasSpacer" id="glasSpacerAlu" value="aluspacer" checked style="width:18px;height:18px;cursor:pointer" />
+                <span>Aluspacer</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:normal">
+                <input type="radio" name="glasSpacer" id="glasSpacerTGI" value="tgi_zwart" style="width:18px;height:18px;cursor:pointer" />
+                <span>TGI zwart spacer</span>
+              </label>
+            </div>
+          </div>
         </div>
         <div class="productPreviewInfo" style="margin-top:24px">
           <h3>Product Informatie</h3>
@@ -747,9 +762,21 @@
             <span class="productPreviewInfoLabel">Glas Type:</span>
             <span class="productPreviewInfoWaarde" id="glasTypeDisplay">Enkel glas</span>
           </div>
+          <div class="productPreviewInfoItem" id="glasUWaardeDisplayItem" style="display:none">
+            <span class="productPreviewInfoLabel">U-waarde:</span>
+            <span class="productPreviewInfoWaarde" id="glasUWaardeDisplay">-</span>
+          </div>
           <div class="productPreviewInfoItem" id="glasOpbouwDisplayItem" style="display:none">
             <span class="productPreviewInfoLabel">Glasopbouw:</span>
             <span class="productPreviewInfoWaarde" id="glasOpbouwDisplay">-</span>
+          </div>
+          <div class="productPreviewInfoItem" id="glasSpouwDisplayItem" style="display:none">
+            <span class="productPreviewInfoLabel">Spouw:</span>
+            <span class="productPreviewInfoWaarde" id="glasSpouwDisplay">-</span>
+          </div>
+          <div class="productPreviewInfoItem" id="glasDikteDisplayItem" style="display:none">
+            <span class="productPreviewInfoLabel">Totale dikte:</span>
+            <span class="productPreviewInfoWaarde" id="glasDikteDisplay">-</span>
           </div>
           <div class="productPreviewInfoItem">
             <span class="productPreviewInfoLabel">Aantal:</span>
@@ -9226,7 +9253,9 @@ stroke-width="3"/>
   // Functie om glas en rooster data te laden vanuit JSON bestand
   async function laadGlasEnRoosterData() {
     try {
-      const response = await fetch('glas-en-rooster-data.json');
+      // Cache-busting: voeg timestamp toe om te voorkomen dat browser oude versie cached
+      const cacheBuster = '?v=' + new Date().getTime();
+      const response = await fetch('glas-en-rooster-data.json' + cacheBuster);
       if (!response.ok) {
         throw new Error('Kon glas en rooster data niet laden');
       }
@@ -9250,12 +9279,12 @@ stroke-width="3"/>
           },
           "Dubbel glas": {
             "opties": [
-              { "value": "4-..-*4", "label": "4-..-*4", "prijs": 10 },
-              { "value": "5-..-*4", "label": "5-..-*4", "prijs": 15 },
-              { "value": "33.1-..-*4", "label": "33.1-..-*4", "prijs": 25 },
-              { "value": "33.1_mf-..-*4", "label": "33.1(MF)-..-*4 (matte witte folie)", "prijs": 0 },
-              { "value": "33.1-..-*33.1", "label": "33.1-..-*33.1", "prijs": 0 },
-              { "value": "33.1_mf-..-*33.1", "label": "33.1(MF)-..-*33.1 (matte witte folie)", "prijs": 0 }
+              { "value": "4-spouw-*4", "label": "4-spouw-*4", "prijs": 10 },
+              { "value": "5-spouw-*4", "label": "5-spouw-*4", "prijs": 15 },
+              { "value": "33.1-spouw-*4", "label": "33.1-spouw-*4", "prijs": 25 },
+              { "value": "33.1_mf-spouw-*4", "label": "33.1(MF)-spouw-*4 (matte witte folie)", "prijs": 0 },
+              { "value": "33.1-spouw-*33.1", "label": "33.1-spouw-*33.1", "prijs": 0 },
+              { "value": "33.1_mf-spouw-*33.1", "label": "33.1(MF)-spouw-*33.1 (matte witte folie)", "prijs": 0 }
             ]
           },
           // Oude keys als fallback voor backward compatibility
@@ -9287,6 +9316,16 @@ stroke-width="3"/>
               { "value": "33.1-15-*4", "label": "33.1-15-*4", "prijs": 0 },
               { "value": "33.1-15-*33.1", "label": "33.1-15-*33.1", "prijs": 0 },
               { "value": "33.1_mf-15-*4", "label": "33.1(MF)-15-*4", "prijs": 0 }
+            ]
+          },
+          "Trippel glas": {
+            "opties": [
+              { "value": "4*-spouw-4-spouw-*4", "label": "4*-spouw-4-spouw-*4", "prijs": 0 },
+              { "value": "5*-spouw-4-spouw-*4", "label": "5*-spouw-4-spouw-*4", "prijs": 0 },
+              { "value": "33.1*-spouw-4-spouw-*4", "label": "33.1*-spouw-4-spouw-*4", "prijs": 0 },
+              { "value": "33.1*-spouw-4-spouw-*33.1", "label": "33.1*-spouw-4-spouw-*33.1", "prijs": 0 },
+              { "value": "33.1_mf-spouw-4-spouw-*4", "label": "33.1(mf)-spouw-4-spouw-*4", "prijs": 0 },
+              { "value": "33.1_mf-spouw-4-spouw-33.1", "label": "33.1(mf)-spouw-4-spouw-33.1", "prijs": 0 }
             ]
           }
         },
@@ -9444,6 +9483,16 @@ stroke-width="3"/>
       
       glasOpbouwItem.style.display = 'flex';
       console.log('Glasopbouw menu getoond met', typeData.opties.length, 'opties');
+      
+      // Voeg event listener toe aan het select element
+      glasOpbouwSelect.removeEventListener('change', updateGlasPreview);
+      glasOpbouwSelect.addEventListener('change', () => {
+        console.log('Glasopbouw dropdown gewijzigd naar:', glasOpbouwSelect.value);
+        updateGlasPreview();
+      });
+      
+      // Update preview direct na het vullen
+      setTimeout(() => updateGlasPreview(), 50);
     } else {
       // Geen glasopbouw opties beschikbaar voor dit glas type
       glasOpbouwItem.style.display = 'none';
@@ -9451,24 +9500,293 @@ stroke-width="3"/>
     }
   }
 
+  // Functie om spouw menu te tonen/verbergen en opties te updaten op basis van glas type
+  function updateSpouwMenu() {
+    const productPaginaGlas = document.getElementById('productPaginaGlas');
+    let glasTypeSelect = null;
+    let glasSpouwItem = null;
+    let glasSpouwSelect = null;
+    
+    // Als we op de glas product pagina zijn, gebruik die elementen
+    if (productPaginaGlas && productPaginaGlas.classList.contains('active')) {
+      glasTypeSelect = productPaginaGlas.querySelector('#glasTypeLos');
+      glasSpouwItem = productPaginaGlas.querySelector('#glasSpouwItem');
+      glasSpouwSelect = productPaginaGlas.querySelector('#glasSpouw');
+    } else {
+      // Anders probeer de algemene elementen
+      glasTypeSelect = document.getElementById('glasTypeLos');
+      glasSpouwItem = document.getElementById('glasSpouwItem');
+      glasSpouwSelect = document.getElementById('glasSpouw');
+    }
+    
+    if (!glasTypeSelect || !glasSpouwItem || !glasSpouwSelect) {
+      return;
+    }
+    
+    const glasType = glasTypeSelect.value || 'enkel';
+    
+    // Verberg spouw menu bij enkel glas, toon bij dubbel of trippel glas
+    if (glasType === 'enkel') {
+      glasSpouwItem.style.display = 'none';
+    } else {
+      glasSpouwItem.style.display = 'flex';
+      
+      // Leeg het select menu
+      glasSpouwSelect.innerHTML = '';
+      
+      // Vul opties op basis van glas type
+      if (glasType === 'dubbel') {
+        // Opties voor Dubbel glas (HR+ en HR++)
+        const dubbelOpties = [
+          { value: '6mm', label: '6mm (HR+)' },
+          { value: '8mm', label: '8mm (HR+)' },
+          { value: '10mm', label: '10mm (HR+)' },
+          { value: '12mm', label: '12mm (HR+)' },
+          { value: '13mm', label: '13mm (HR++)' },
+          { value: '14mm', label: '14mm (HR++)' },
+          { value: '15mm', label: '15mm (HR++)' },
+          { value: '16mm', label: '16mm (HR++)' }
+        ];
+        dubbelOpties.forEach(optie => {
+          const option = document.createElement('option');
+          option.value = optie.value;
+          option.textContent = optie.label;
+          glasSpouwSelect.appendChild(option);
+        });
+      } else if (glasType === 'trippel') {
+        // Opties voor Trippel glas (HR++ en HR+++)
+        const trippelOpties = [
+          { value: '8mm', label: '8mm (HR++)' },
+          { value: '10mm', label: '10mm (HR++)' },
+          { value: '12mm', label: '12mm (HR+++)' },
+          { value: '13mm', label: '13mm (HR+++)' },
+          { value: '14mm', label: '14mm (HR+++)' },
+          { value: '15mm', label: '15mm (HR+++)' }
+        ];
+        trippelOpties.forEach(optie => {
+          const option = document.createElement('option');
+          option.value = optie.value;
+          option.textContent = optie.label;
+          glasSpouwSelect.appendChild(option);
+        });
+      }
+      
+      // Voeg event listener toe aan het select element
+      glasSpouwSelect.removeEventListener('change', updateGlasPreview);
+      glasSpouwSelect.addEventListener('change', () => {
+        console.log('Spouw dropdown gewijzigd naar:', glasSpouwSelect.value);
+        updateGlasPreview();
+      });
+      
+      // Update preview direct na het vullen
+      setTimeout(() => updateGlasPreview(), 50);
+    }
+  }
+
+  // Functie om spacer menu te tonen/verbergen op basis van glas type
+  function updateSpacerMenu() {
+    const productPaginaGlas = document.getElementById('productPaginaGlas');
+    let glasTypeSelect = null;
+    let glasSpacerItem = null;
+    
+    // Als we op de glas product pagina zijn, gebruik die elementen
+    if (productPaginaGlas && productPaginaGlas.classList.contains('active')) {
+      glasTypeSelect = productPaginaGlas.querySelector('#glasTypeLos');
+      glasSpacerItem = productPaginaGlas.querySelector('#glasSpacerItem');
+    } else {
+      // Anders probeer de algemene elementen
+      glasTypeSelect = document.getElementById('glasTypeLos');
+      glasSpacerItem = document.getElementById('glasSpacerItem');
+    }
+    
+    if (!glasTypeSelect || !glasSpacerItem) {
+      return;
+    }
+    
+    const glasType = glasTypeSelect.value || 'enkel';
+    
+    // Verberg spacer menu bij enkel glas, toon bij dubbel of trippel glas
+    if (glasType === 'enkel') {
+      glasSpacerItem.style.display = 'none';
+    } else {
+      glasSpacerItem.style.display = 'flex';
+    }
+  }
+
   // Functie om glasopbouw menu te tonen/verbergen (oude functie, nu gebruikt updateGlasOpbouwOpties)
   function updateGlasOpbouwMenu() {
     updateGlasOpbouwOpties();
+    updateSpouwMenu();
+    updateSpacerMenu();
+  }
+
+  // Functie om glas dikte te berekenen op basis van opbouw en spouw
+  function berekenGlasDikte(glasOpbouw, spouwWaarde, glasType) {
+    if (!glasOpbouw) return null;
+    
+    // Voor enkel glas is er geen spouw
+    if (glasType === 'enkel') {
+      // Functie om glas dikte te converteren (33.1 = 6.2mm)
+      function getGlasDikte(waarde) {
+        if (waarde === '33.1' || waarde === '33.1_gelaagd' || waarde.startsWith('33.1')) {
+          return 6.2;
+        }
+        // Verwijder "mm" en andere tekst, alleen nummer behouden
+        const nummer = parseFloat(waarde.replace(/[^0-9.]/g, '')) || 0;
+        return nummer;
+      }
+      return getGlasDikte(glasOpbouw);
+    }
+    
+    // Voor dubbel en trippel glas is spouw vereist
+    if (!spouwWaarde) return null;
+    
+    // Converteer spouw waarde naar nummer (bijv. "6mm" -> 6)
+    const spouwDikte = parseFloat(spouwWaarde.replace('mm', '')) || 0;
+    
+    // Functie om glas dikte te converteren (33.1 = 6.2mm)
+    function getGlasDikte(waarde) {
+      if (waarde === '33.1' || waarde === '33.1_gelaagd' || waarde.startsWith('33.1')) {
+        return 6.2;
+      }
+      // Verwijder "mm" en andere tekst, alleen nummer behouden
+      const nummer = parseFloat(waarde.replace(/[^0-9.]/g, '')) || 0;
+      return nummer;
+    }
+    
+    let totaleDikte = 0;
+    
+    // Parse glasopbouw string
+    // Voorbeelden: "4-spouw-*4", "33.1-spouw-*4", "4*-spouw-4-spouw-*4"
+    
+    if (glasOpbouw.includes('*-spouw-') && glasOpbouw.includes('-spouw-*')) {
+      // Trippel glas: "4*-spouw-4-spouw-*4"
+      const delen = glasOpbouw.split('-spouw-');
+      if (delen.length >= 3) {
+        // Eerste ruit (bijv. "4*")
+        const eersteRuit = delen[0].replace('*', '');
+        totaleDikte += getGlasDikte(eersteRuit);
+        // Eerste spouw
+        totaleDikte += spouwDikte;
+        // Middelste ruit (bijv. "4")
+        totaleDikte += getGlasDikte(delen[1]);
+        // Tweede spouw
+        totaleDikte += spouwDikte;
+        // Laatste ruit (bijv. "*4")
+        const laatsteRuit = delen[2].replace('*', '');
+        totaleDikte += getGlasDikte(laatsteRuit);
+      }
+    } else if (glasOpbouw.includes('-spouw-')) {
+      // Dubbel glas: "4-spouw-*4" of "33.1-spouw-*4"
+      const delen = glasOpbouw.split('-spouw-');
+      if (delen.length >= 2) {
+        // Eerste ruit
+        const eersteRuit = delen[0];
+        totaleDikte += getGlasDikte(eersteRuit);
+        // Spouw
+        totaleDikte += spouwDikte;
+        // Tweede ruit (bijv. "*4" of "*33.1")
+        const tweedeRuit = delen[1].replace('*', '');
+        totaleDikte += getGlasDikte(tweedeRuit);
+      }
+    } else if (glasOpbouw.endsWith('mm')) {
+      // Enkel glas: "4mm", "5mm", etc.
+      totaleDikte = getGlasDikte(glasOpbouw);
+    } else {
+      // Andere formaten (bijv. "33.1_gelaagd")
+      totaleDikte = getGlasDikte(glasOpbouw);
+    }
+    
+    return totaleDikte > 0 ? totaleDikte : null;
+  }
+
+  // Functie om U-waarde te berekenen op basis van glas type en spouw
+  function berekenUWaarde(glasType, spouwWaarde) {
+    if (!glasType) return null;
+    
+    // Converteer spouw waarde naar nummer (bijv. "6mm" -> 6)
+    const spouwDikte = spouwWaarde ? parseFloat(spouwWaarde.replace('mm', '')) : 0;
+    
+    // U-waarden op basis van glas type en spouw dikte
+    if (glasType === 'enkel') {
+      return 5.8; // Enkel glas: ~5.8 W/m²K
+    } else if (glasType === 'dubbel') {
+      // Dubbel glas (HR+): U-waarde afhankelijk van spouw dikte
+      if (spouwDikte >= 13) {
+        return 1.2; // HR++ met spouw 13mm+: ~1.2 W/m²K
+      } else if (spouwDikte >= 12) {
+        return 1.3; // HR++ met spouw 12mm: ~1.3 W/m²K
+      } else if (spouwDikte >= 10) {
+        return 1.4; // HR+ met spouw 10mm: ~1.4 W/m²K
+      } else if (spouwDikte >= 8) {
+        return 1.5; // HR+ met spouw 8mm: ~1.5 W/m²K
+      } else {
+        return 1.6; // HR+ met spouw 6mm: ~1.6 W/m²K
+      }
+    } else if (glasType === 'trippel') {
+      // Trippel glas (HR+++): U-waarde afhankelijk van spouw dikte
+      if (spouwDikte >= 15) {
+        return 0.6; // HR+++ met spouw 15mm+: ~0.6 W/m²K
+      } else if (spouwDikte >= 14) {
+        return 0.65; // HR+++ met spouw 14mm: ~0.65 W/m²K
+      } else if (spouwDikte >= 13) {
+        return 0.7; // HR+++ met spouw 13mm: ~0.7 W/m²K
+      } else if (spouwDikte >= 12) {
+        return 0.75; // HR+++ met spouw 12mm: ~0.75 W/m²K
+      } else if (spouwDikte >= 10) {
+        return 0.8; // HR+++ met spouw 10mm: ~0.8 W/m²K
+      } else {
+        return 0.85; // HR+++ met spouw 8mm: ~0.85 W/m²K
+      }
+    }
+    
+    return null;
   }
 
   // Functie om glas preview te updaten
   function updateGlasPreview() {
-    const breedte = parseInt(document.getElementById('glasBreedte')?.value) || 1000;
-    const hoogte = parseInt(document.getElementById('glasHoogte')?.value) || 1000;
-    const glasType = document.getElementById('glasTypeLos')?.value || 'enkel';
-    const rooster = document.getElementById('glasRooster')?.value || '';
-    const aantal = parseInt(document.getElementById('glasAantal')?.value) || 1;
+    // Zoek elementen op de juiste pagina (productPaginaGlas of algemeen)
+    const productPaginaGlas = document.getElementById('productPaginaGlas');
+    let glasBreedteInput = null;
+    let glasHoogteInput = null;
+    let glasTypeSelect = null;
+    let glasRoosterSelect = null;
+    let glasAantalInput = null;
+    let glasOpbouwSelect = null;
+    let glasSpouwSelect = null;
+    
+    // Als we op de glas product pagina zijn, gebruik die elementen
+    if (productPaginaGlas && productPaginaGlas.classList.contains('active')) {
+      glasBreedteInput = productPaginaGlas.querySelector('#glasBreedte');
+      glasHoogteInput = productPaginaGlas.querySelector('#glasHoogte');
+      glasTypeSelect = productPaginaGlas.querySelector('#glasTypeLos');
+      glasRoosterSelect = productPaginaGlas.querySelector('#glasRooster');
+      glasAantalInput = productPaginaGlas.querySelector('#glasAantal');
+      glasOpbouwSelect = productPaginaGlas.querySelector('#glasOpbouw');
+      glasSpouwSelect = productPaginaGlas.querySelector('#glasSpouw');
+    } else {
+      // Anders probeer de algemene elementen
+      glasBreedteInput = document.getElementById('glasBreedte');
+      glasHoogteInput = document.getElementById('glasHoogte');
+      glasTypeSelect = document.getElementById('glasTypeLos');
+      glasRoosterSelect = document.getElementById('glasRooster');
+      glasAantalInput = document.getElementById('glasAantal');
+      glasOpbouwSelect = document.getElementById('glasOpbouw');
+      glasSpouwSelect = document.getElementById('glasSpouw');
+    }
+    
+    const breedte = parseInt(glasBreedteInput?.value) || 1000;
+    const hoogte = parseInt(glasHoogteInput?.value) || 1000;
+    const glasType = glasTypeSelect?.value || 'enkel';
+    const rooster = glasRoosterSelect?.value || '';
+    const aantal = parseInt(glasAantalInput?.value) || 1;
     
     // Update glasopbouw menu zichtbaarheid
     updateGlasOpbouwMenu();
     
     const oppervlakteM2 = (breedte / 1000) * (hoogte / 1000);
-    const glasOpbouw = document.getElementById('glasOpbouw')?.value || '';
+    const glasOpbouw = glasOpbouwSelect?.value || '';
+    const spouwWaarde = glasSpouwSelect?.value || '';
     const basisPrijs = berekenGlasPrijs(breedte, hoogte, glasType, glasOpbouw);
     const totaalPrijs = basisPrijs * aantal;
     
@@ -9485,12 +9803,36 @@ stroke-width="3"/>
     const glasTypeDisplayEl = document.getElementById('glasTypeDisplay');
     const glasOpbouwDisplayEl = document.getElementById('glasOpbouwDisplay');
     const glasOpbouwDisplayItem = document.getElementById('glasOpbouwDisplayItem');
+    const glasSpouwDisplayEl = document.getElementById('glasSpouwDisplay');
+    const glasSpouwDisplayItem = document.getElementById('glasSpouwDisplayItem');
+    const glasDikteDisplayEl = document.getElementById('glasDikteDisplay');
+    const glasDikteDisplayItem = document.getElementById('glasDikteDisplayItem');
+    const glasUWaardeDisplayEl = document.getElementById('glasUWaardeDisplay');
+    const glasUWaardeDisplayItem = document.getElementById('glasUWaardeDisplayItem');
     const glasAantalDisplayEl = document.getElementById('glasAantalDisplay');
     const glasPrijsEl = document.getElementById('glasPrijs');
     
     if (afmetingenEl) afmetingenEl.textContent = `${breedte} × ${hoogte} mm`;
     if (oppervlakteEl) oppervlakteEl.textContent = `${oppervlakteM2.toFixed(2)} m²`;
     if (glasTypeDisplayEl) glasTypeDisplayEl.textContent = glasTypeLabels[glasType] || glasType;
+    
+    // Bereken en toon totale dikte
+    const totaleDikte = berekenGlasDikte(glasOpbouw, spouwWaarde, glasType);
+    if (totaleDikte) {
+      if (glasDikteDisplayEl) glasDikteDisplayEl.textContent = `${totaleDikte.toFixed(1)} mm`;
+      if (glasDikteDisplayItem) glasDikteDisplayItem.style.display = 'flex';
+    } else {
+      if (glasDikteDisplayItem) glasDikteDisplayItem.style.display = 'none';
+    }
+    
+    // Bereken en toon U-waarde
+    const uWaarde = berekenUWaarde(glasType, spouwWaarde);
+    if (uWaarde) {
+      if (glasUWaardeDisplayEl) glasUWaardeDisplayEl.textContent = `${uWaarde.toFixed(2)} W/m²K`;
+      if (glasUWaardeDisplayItem) glasUWaardeDisplayItem.style.display = 'flex';
+    } else {
+      if (glasUWaardeDisplayItem) glasUWaardeDisplayItem.style.display = 'none';
+    }
     
     // Mapping van nieuwe glas type waarden naar JSON keys
     // Controleer eerst of de nieuwe keys bestaan, anders gebruik oude keys als fallback
@@ -9522,10 +9864,34 @@ stroke-width="3"/>
           }
         }
       }
-      if (glasOpbouwDisplayEl) glasOpbouwDisplayEl.textContent = glasOpbouwLabel;
-      if (glasOpbouwDisplayItem) glasOpbouwDisplayItem.style.display = 'flex';
+      if (glasOpbouwDisplayEl) {
+        glasOpbouwDisplayEl.textContent = glasOpbouwLabel;
+      }
+      if (glasOpbouwDisplayItem) {
+        glasOpbouwDisplayItem.style.display = 'flex';
+      }
     } else {
       if (glasOpbouwDisplayItem) glasOpbouwDisplayItem.style.display = 'none';
+    }
+    
+    // Toon spouw waarde als deze is geselecteerd
+    if (spouwWaarde && (glasType === 'dubbel' || glasType === 'trippel')) {
+      // Haal label op van de geselecteerde spouw optie
+      let spouwLabel = spouwWaarde;
+      if (glasSpouwSelect) {
+        const selectedOption = glasSpouwSelect.options[glasSpouwSelect.selectedIndex];
+        if (selectedOption) {
+          spouwLabel = selectedOption.textContent;
+        }
+      }
+      if (glasSpouwDisplayEl) {
+        glasSpouwDisplayEl.textContent = spouwLabel;
+      }
+      if (glasSpouwDisplayItem) {
+        glasSpouwDisplayItem.style.display = 'flex';
+      }
+    } else {
+      if (glasSpouwDisplayItem) glasSpouwDisplayItem.style.display = 'none';
     }
     
     if (glasAantalDisplayEl) glasAantalDisplayEl.textContent = aantal;
@@ -9641,7 +10007,7 @@ stroke-width="3"/>
     if (e.target.id === 'glasTypeLos') {
       updateGlasOpbouwMenu();
       updateGlasPreview();
-    } else if (e.target.id === 'glasOpbouw' || e.target.id === 'glasRooster') {
+    } else if (e.target.id === 'glasOpbouw' || e.target.id === 'glasRooster' || e.target.id === 'glasSpouw') {
       updateGlasPreview();
     }
   });
@@ -9668,6 +10034,29 @@ stroke-width="3"/>
     glasTypeSelect.addEventListener('change', () => {
       updateGlasOpbouwMenu();
       updateGlasPreview();
+      // Zet event listeners opnieuw na het updaten van menu's
+      setTimeout(() => {
+        const productPaginaGlas = document.getElementById('productPaginaGlas');
+        let glasOpbouwSelectNew = null;
+        let glasSpouwSelectNew = null;
+        
+        if (productPaginaGlas && productPaginaGlas.classList.contains('active')) {
+          glasOpbouwSelectNew = productPaginaGlas.querySelector('#glasOpbouw');
+          glasSpouwSelectNew = productPaginaGlas.querySelector('#glasSpouw');
+        } else {
+          glasOpbouwSelectNew = document.getElementById('glasOpbouw');
+          glasSpouwSelectNew = document.getElementById('glasSpouw');
+        }
+        
+        if (glasOpbouwSelectNew) {
+          glasOpbouwSelectNew.removeEventListener('change', updateGlasPreview);
+          glasOpbouwSelectNew.addEventListener('change', updateGlasPreview);
+        }
+        if (glasSpouwSelectNew) {
+          glasSpouwSelectNew.removeEventListener('change', updateGlasPreview);
+          glasSpouwSelectNew.addEventListener('change', updateGlasPreview);
+        }
+      }, 100);
     });
   }
   if (glasOpbouwSelect) glasOpbouwSelect.addEventListener('change', updateGlasPreview);
@@ -9714,8 +10103,44 @@ stroke-width="3"/>
     // Initialiseer glasopbouw menu bij page load
     updateGlasOpbouwMenu();
     
+    // Initialiseer spouw menu bij page load
+    updateSpouwMenu();
+    
+    // Initialiseer spacer menu bij page load
+    updateSpacerMenu();
+    
     // Initialiseer rooster opties bij page load
     updateRoosterOpties();
+    
+    // Zet event listeners opnieuw na het laden van menu's
+    setTimeout(() => {
+      const productPaginaGlas = document.getElementById('productPaginaGlas');
+      let glasOpbouwSelectNew = null;
+      let glasSpouwSelectNew = null;
+      
+      if (productPaginaGlas && productPaginaGlas.classList.contains('active')) {
+        glasOpbouwSelectNew = productPaginaGlas.querySelector('#glasOpbouw');
+        glasSpouwSelectNew = productPaginaGlas.querySelector('#glasSpouw');
+      } else {
+        glasOpbouwSelectNew = document.getElementById('glasOpbouw');
+        glasSpouwSelectNew = document.getElementById('glasSpouw');
+      }
+      
+      if (glasOpbouwSelectNew) {
+        glasOpbouwSelectNew.removeEventListener('change', updateGlasPreview);
+        glasOpbouwSelectNew.addEventListener('change', () => {
+          console.log('Glasopbouw gewijzigd:', glasOpbouwSelectNew.value);
+          updateGlasPreview();
+        });
+      }
+      if (glasSpouwSelectNew) {
+        glasSpouwSelectNew.removeEventListener('change', updateGlasPreview);
+        glasSpouwSelectNew.addEventListener('change', () => {
+          console.log('Spouw gewijzigd:', glasSpouwSelectNew.value);
+          updateGlasPreview();
+        });
+      }
+    }, 200);
   });
 
   // Laad SVG iconen bij page load

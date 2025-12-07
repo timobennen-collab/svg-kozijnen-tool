@@ -32,33 +32,67 @@
     "Dubbel glas": {
       "opties": [
         {
-          "value": "4-..-*4",
-          "label": "4-..-*4",
+          "value": "4-spouw-*4",
+          "label": "4-spouw-*4",
           "prijs": 10
         },
         {
-          "value": "5-..-*4",
-          "label": "5-..-*4",
+          "value": "5-spouw-*4",
+          "label": "5-spouw-*4",
           "prijs": 15
         },
         {
-          "value": "33.1-..-*4",
-          "label": "33.1-..-*4",
+          "value": "33.1-spouw-*4",
+          "label": "33.1-spouw-*4",
           "prijs": 25
         },
         {
-          "value": "33.1_mf-..-*4",
-          "label": "33.1(MF)-..-*4 (matte witte folie)",
+          "value": "33.1_mf-spouw-*4",
+          "label": "33.1(MF)-spouw-*4 (matte witte folie)",
           "prijs": 0
         },
         {
-          "value": "33.1-..-*33.1",
-          "label": "33.1-..-*33.1",
+          "value": "33.1-spouw-*33.1",
+          "label": "33.1-spouw-*33.1",
           "prijs": 0
         },
         {
-          "value": "33.1_mf-..-*33.1",
-          "label": "33.1(MF)-..-*33.1 (matte witte folie)",
+          "value": "33.1_mf-spouw-*33.1",
+          "label": "33.1(MF)-spouw-*33.1 (matte witte folie)",
+          "prijs": 0
+        }
+      ]
+    },
+    "Trippel glas": {
+      "opties": [
+        {
+          "value": "4*-spouw-4-spouw-*4",
+          "label": "4*-spouw-4-spouw-*4",
+          "prijs": 0
+        },
+        {
+          "value": "5*-spouw-4-spouw-*4",
+          "label": "5*-spouw-4-spouw-*4",
+          "prijs": 0
+        },
+        {
+          "value": "33.1*-spouw-4-spouw-*4",
+          "label": "33.1*-spouw-4-spouw-*4",
+          "prijs": 0
+        },
+        {
+          "value": "33.1*-spouw-4-spouw-*33.1",
+          "label": "33.1*-spouw-4-spouw-*33.1",
+          "prijs": 0
+        },
+        {
+          "value": "33.1_mf-spouw-4-spouw-*4",
+          "label": "33.1(mf)-spouw-4-spouw-*4",
+          "prijs": 0
+        },
+        {
+          "value": "33.1_mf-spouw-4-spouw-33.1",
+          "label": "33.1(mf)-spouw-4-spouw-33.1",
           "prijs": 0
         }
       ]
