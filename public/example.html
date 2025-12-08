@@ -215,6 +215,14 @@
     .productPreviewInfoLabel{color:var(--muted)}
     .productPreviewInfoWaarde{color:var(--fg);font-weight:600}
     .productPreviewPrijs{font-size:20px;font-weight:700;color:var(--accent);text-align:right;margin-top:12px}
+    .biCollerPopup{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:10000;align-items:center;justify-content:center}
+    .biCollerPopup.active{display:flex}
+    .biCollerPopupContent{background:#1a1f2a;border:1px solid #2b2f36;border-radius:12px;padding:24px;min-width:400px;max-width:500px;box-shadow:0 8px 32px rgba(0,0,0,0.5)}
+    .biCollerPopupHeader{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+    .biCollerPopupHeader h3{margin:0;color:var(--fg);font-size:18px;font-weight:600}
+    .biCollerPopupClose{background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;padding:0;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:6px;transition:all 0.2s}
+    .biCollerPopupClose:hover{background:#2b2f36;color:var(--fg)}
+    .biCollerPopupContent .productConfigItem{margin-bottom:16px}
     .productPreviewTekening{background:#0f1318;border:1px solid #2b2f36;border-radius:10px;padding:20px;margin-top:20px;display:flex;flex-direction:column;align-items:center}
     .productPreviewTekening h3{margin:0 0 16px;color:var(--fg);font-size:16px;font-weight:600;width:100%}
     .productPreviewTekening svg{width:100%;max-width:500px;height:400px;border:1px solid #2b2f36;border-radius:8px;background:#0b0d10}
@@ -469,13 +477,17 @@
             <span class="productPreviewInfoLabel">Afmetingen:</span>
             <span class="productPreviewInfoWaarde" id="glasAfmetingen">1000 x 1000 mm</span>
           </div>
-          <div class="productPreviewInfoItem">
+          <div class="productPreviewInfoItem" id="glasOppervlakteItem" style="display:none">
             <span class="productPreviewInfoLabel">Oppervlakte:</span>
             <span class="productPreviewInfoWaarde" id="glasOppervlakte">1,00 m²</span>
           </div>
-          <div class="productPreviewInfoItem">
+          <div class="productPreviewInfoItem" id="glasTypeDisplayItem" style="display:none">
             <span class="productPreviewInfoLabel">Glas Type:</span>
             <span class="productPreviewInfoWaarde" id="glasTypeDisplay">Enkel glas</span>
+          </div>
+          <div class="productPreviewInfoItem" id="glasSpacerDisplayItem" style="display:none">
+            <span class="productPreviewInfoLabel">Spacer:</span>
+            <span class="productPreviewInfoWaarde" id="glasSpacerDisplay">-</span>
           </div>
           <div class="productPreviewInfoItem">
             <span class="productPreviewInfoLabel">Aantal:</span>
@@ -695,13 +707,28 @@
               <input type="number" id="glasHoogte" min="100" max="5000" step="10" value="1000" />
             </div>
           </div>
-          <div class="productConfigItem">
-            <label>Glas Type</label>
-            <select id="glasTypeLos">
-              <option value="enkel">Enkel glas</option>
-              <option value="dubbel">Dubbel glas</option>
-              <option value="trippel">Trippel glas</option>
-            </select>
+          <div class="productConfigRow">
+            <div class="productConfigItem small">
+              <label>Glas Type</label>
+              <select id="glasTypeLos">
+                <option value="enkel">Enkel glas</option>
+                <option value="dubbel">Dubbel glas</option>
+                <option value="trippel">Trippel glas</option>
+              </select>
+            </div>
+            <div class="productConfigItem small" id="glasSpacerItem" style="display:flex">
+              <label>Spacer</label>
+              <div style="display:flex;gap:24px;align-items:center;margin-top:8px">
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:normal">
+                  <input type="radio" name="glasSpacer" id="glasSpacerAlu" value="aluspacer" style="width:18px;height:18px;cursor:pointer" />
+                  <span>Aluspacer</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:normal">
+                  <input type="radio" name="glasSpacer" id="glasSpacerTGI" value="tgi_zwart" style="width:18px;height:18px;cursor:pointer" />
+                  <span>TGI zwart spacer</span>
+                </label>
+              </div>
+            </div>
           </div>
           <div class="productConfigRow">
             <div class="productConfigItem small" id="glasOpbouwItem" style="display:none">
@@ -728,43 +755,83 @@
               </select>
             </div>
           </div>
-          <div class="productConfigItem">
-            <label>Rooster</label>
-            <select id="glasRooster">
-              <!-- Opties worden geladen vanuit glas-en-rooster-data.json -->
-            </select>
-          </div>
-          <div class="productConfigItem" id="glasSpacerItem" style="display:flex">
-            <label>Spacer</label>
-            <div style="display:flex;gap:24px;align-items:center;margin-top:8px">
-              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:normal">
-                <input type="radio" name="glasSpacer" id="glasSpacerAlu" value="aluspacer" checked style="width:18px;height:18px;cursor:pointer" />
-                <span>Aluspacer</span>
-              </label>
-              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:normal">
-                <input type="radio" name="glasSpacer" id="glasSpacerTGI" value="tgi_zwart" style="width:18px;height:18px;cursor:pointer" />
-                <span>TGI zwart spacer</span>
-              </label>
+          <div class="productConfigRow">
+            <div class="productConfigItem small">
+              <label>Rooster</label>
+              <select id="glasRooster">
+                <!-- Opties worden geladen vanuit glas-en-rooster-data.json -->
+              </select>
+            </div>
+            <div class="productConfigItem small" id="glasRoosterKleurItem" style="display:none">
+              <label>Rooster Kleur</label>
+              <select id="glasRoosterKleur">
+                <option value="">Selecteer kleur</option>
+                <option value="anodic_f1">Anodic(f1)</option>
+                <option value="9010">9010</option>
+                <option value="9001">9001</option>
+                <option value="9005_zwart">9005(zwart)</option>
+                <option value="7016_antraciet">7016(antraciet)</option>
+                <option value="7040_grijs">7040(grijs)</option>
+                <option value="6005_groen">6005(groen)</option>
+                <option value="bi_coller">bi coller</option>
+              </select>
             </div>
           </div>
         </div>
+        
+        <!-- Bi Coller Popup -->
+        <div class="biCollerPopup" id="biCollerPopup">
+          <div class="biCollerPopupContent">
+            <div class="biCollerPopupHeader">
+              <h3>Bi Coller Rooster Kleuren</h3>
+              <button class="biCollerPopupClose" id="biCollerPopupClose">&times;</button>
+            </div>
+            <div class="productConfigItem">
+              <label>Binnenkant Rooster</label>
+              <select id="glasRoosterKleurBinnen">
+                <option value="">Selecteer kleur</option>
+                <option value="anodic_f1">Anodic(f1)</option>
+                <option value="9010">9010</option>
+                <option value="9001">9001</option>
+                <option value="9005_zwart">9005(zwart)</option>
+                <option value="7016_antraciet">7016(antraciet)</option>
+                <option value="7040_grijs">7040(grijs)</option>
+                <option value="6005_groen">6005(groen)</option>
+              </select>
+            </div>
+            <div class="productConfigItem">
+              <label>Buitenkant Rooster</label>
+              <select id="glasRoosterKleurBuiten">
+                <option value="">Selecteer kleur</option>
+                <option value="anodic_f1">Anodic(f1)</option>
+                <option value="9010">9010</option>
+                <option value="9001">9001</option>
+                <option value="9005_zwart">9005(zwart)</option>
+                <option value="7016_antraciet">7016(antraciet)</option>
+                <option value="7040_grijs">7040(grijs)</option>
+                <option value="6005_groen">6005(groen)</option>
+              </select>
+            </div>
+            <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:20px">
+              <button class="btn" id="biCollerPopupAnnuleer">Annuleren</button>
+              <button class="btn primary" id="biCollerPopupBevestig">Bevestigen</button>
+            </div>
+          </div>
+        </div>
+        
         <div class="productPreviewInfo" style="margin-top:24px">
           <h3>Product Informatie</h3>
           <div class="productPreviewInfoItem">
             <span class="productPreviewInfoLabel">Afmetingen:</span>
             <span class="productPreviewInfoWaarde" id="glasAfmetingen">1000 x 1000 mm</span>
           </div>
-          <div class="productPreviewInfoItem">
+          <div class="productPreviewInfoItem" id="glasOppervlakteItem" style="display:none">
             <span class="productPreviewInfoLabel">Oppervlakte:</span>
             <span class="productPreviewInfoWaarde" id="glasOppervlakte">1,00 m²</span>
           </div>
-          <div class="productPreviewInfoItem">
+          <div class="productPreviewInfoItem" id="glasTypeDisplayItem" style="display:none">
             <span class="productPreviewInfoLabel">Glas Type:</span>
             <span class="productPreviewInfoWaarde" id="glasTypeDisplay">Enkel glas</span>
-          </div>
-          <div class="productPreviewInfoItem" id="glasUWaardeDisplayItem" style="display:none">
-            <span class="productPreviewInfoLabel">U-waarde:</span>
-            <span class="productPreviewInfoWaarde" id="glasUWaardeDisplay">-</span>
           </div>
           <div class="productPreviewInfoItem" id="glasOpbouwDisplayItem" style="display:none">
             <span class="productPreviewInfoLabel">Glasopbouw:</span>
@@ -774,9 +841,21 @@
             <span class="productPreviewInfoLabel">Spouw:</span>
             <span class="productPreviewInfoWaarde" id="glasSpouwDisplay">-</span>
           </div>
+          <div class="productPreviewInfoItem" id="glasSpacerDisplayItem" style="display:none">
+            <span class="productPreviewInfoLabel">Spacer:</span>
+            <span class="productPreviewInfoWaarde" id="glasSpacerDisplay">-</span>
+          </div>
           <div class="productPreviewInfoItem" id="glasDikteDisplayItem" style="display:none">
             <span class="productPreviewInfoLabel">Totale dikte:</span>
             <span class="productPreviewInfoWaarde" id="glasDikteDisplay">-</span>
+          </div>
+          <div class="productPreviewInfoItem" id="glasUWaardeDisplayItem" style="display:none">
+            <span class="productPreviewInfoLabel">U-waarde:</span>
+            <span class="productPreviewInfoWaarde" id="glasUWaardeDisplay">-</span>
+          </div>
+          <div class="productPreviewInfoItem" id="glasRoosterDisplayItem" style="display:none">
+            <span class="productPreviewInfoLabel">Rooster:</span>
+            <span class="productPreviewInfoWaarde" id="glasRoosterDisplay">-</span>
           </div>
           <div class="productPreviewInfoItem">
             <span class="productPreviewInfoLabel">Aantal:</span>
@@ -9103,7 +9182,16 @@ stroke-width="3"/>
 
   // Functie om glas tekening te tekenen
   function tekenGlasTekening(breedte, hoogte, rooster) {
-    const svg = document.getElementById('glasTekeningSVG');
+    // Zoek het SVG element op de actieve pagina
+    const productPaginaGlas = document.getElementById('productPaginaGlas');
+    let svg = null;
+    
+    if (productPaginaGlas && productPaginaGlas.classList.contains('active')) {
+      svg = productPaginaGlas.querySelector('#glasTekeningSVG');
+    } else {
+      svg = document.getElementById('glasTekeningSVG');
+    }
+    
     if (!svg) return;
     
     // Leeg de SVG
@@ -9134,35 +9222,58 @@ stroke-width="3"/>
     glasRect.setAttribute('class', 'glasTekening');
     svg.appendChild(glasRect);
     
-    // Teken rooster als gekozen (alleen voor grid patterns zoals 2x2, 3x3, etc)
-    if (rooster && rooster.includes('x') && !rooster.includes('_')) {
-      const roosterParts = rooster.split('x');
-      const kolommen = parseInt(roosterParts[0]) || 2;
-      const rijen = parseInt(roosterParts[1]) || 2;
+    // Teken rooster als gekozen - horizontale balk van 80mm dik bovenin
+    if (rooster && rooster.trim() !== '') {
+      // Rooster dikte in mm
+      const roosterDikteMM = 80;
       
-      // Verticale lijnen
-      for (let i = 1; i < kolommen; i++) {
-        const x = startX + (getekendeBreedte / kolommen) * i;
-        const lijn = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        lijn.setAttribute('x1', x);
-        lijn.setAttribute('y1', startY);
-        lijn.setAttribute('x2', x);
-        lijn.setAttribute('y2', startY + getekendeHoogte);
-        lijn.setAttribute('class', 'glasTekeningRooster');
-        svg.appendChild(lijn);
-      }
+      // Schaal de rooster dikte naar de tekening schaal
+      const getekendeRoosterDikte = roosterDikteMM * schaal;
       
-      // Horizontale lijnen
-      for (let i = 1; i < rijen; i++) {
-        const y = startY + (getekendeHoogte / rijen) * i;
-        const lijn = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        lijn.setAttribute('x1', startX);
-        lijn.setAttribute('y1', y);
-        lijn.setAttribute('x2', startX + getekendeBreedte);
-        lijn.setAttribute('y2', y);
-        lijn.setAttribute('class', 'glasTekeningRooster');
-        svg.appendChild(lijn);
-      }
+      // Maak een hatch patroon voor het rooster (dichte diagonale lijnen)
+      const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+      const pattern = document.createElementNS('http://www.w3.org/2000/svg', 'pattern');
+      pattern.setAttribute('id', 'roosterHatch');
+      pattern.setAttribute('patternUnits', 'userSpaceOnUse');
+      pattern.setAttribute('width', '3');
+      pattern.setAttribute('height', '3');
+      
+      // Eerste diagonale lijn (van linksboven naar rechtsonder)
+      const hatchLine1 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      hatchLine1.setAttribute('x1', '0');
+      hatchLine1.setAttribute('y1', '0');
+      hatchLine1.setAttribute('x2', '3');
+      hatchLine1.setAttribute('y2', '3');
+      hatchLine1.setAttribute('stroke', '#4aa3ff');
+      hatchLine1.setAttribute('stroke-width', '0.5');
+      hatchLine1.setAttribute('opacity', '0.7');
+      
+      // Tweede diagonale lijn (van rechtsboven naar linksonder) voor kruis hatch
+      const hatchLine2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      hatchLine2.setAttribute('x1', '3');
+      hatchLine2.setAttribute('y1', '0');
+      hatchLine2.setAttribute('x2', '0');
+      hatchLine2.setAttribute('y2', '3');
+      hatchLine2.setAttribute('stroke', '#4aa3ff');
+      hatchLine2.setAttribute('stroke-width', '0.5');
+      hatchLine2.setAttribute('opacity', '0.7');
+      
+      pattern.appendChild(hatchLine1);
+      pattern.appendChild(hatchLine2);
+      defs.appendChild(pattern);
+      svg.appendChild(defs);
+      
+      // Teken horizontale balk bovenin het glasvak met hatch patroon
+      const roosterRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      roosterRect.setAttribute('x', startX);
+      roosterRect.setAttribute('y', startY);
+      roosterRect.setAttribute('width', getekendeBreedte);
+      roosterRect.setAttribute('height', getekendeRoosterDikte);
+      roosterRect.setAttribute('class', 'glasTekeningRooster');
+      roosterRect.setAttribute('fill', 'url(#roosterHatch)');
+      roosterRect.setAttribute('stroke', '#4aa3ff');
+      roosterRect.setAttribute('stroke-width', '1');
+      svg.appendChild(roosterRect);
     }
     
     // Teken afmetingen labels
@@ -9388,19 +9499,84 @@ stroke-width="3"/>
       glasRoosterSelect = document.getElementById('glasRooster');
     }
     
-    if (!glasRoosterSelect || !roosterData) return;
+    if (!glasRoosterSelect) return;
     
     // Leeg het select menu
     glasRoosterSelect.innerHTML = '';
     
+    // Voeg eerst "Geen rooster" optie toe als standaard
+    const geenRoosterOption = document.createElement('option');
+    geenRoosterOption.value = '';
+    geenRoosterOption.textContent = 'Geen rooster';
+    geenRoosterOption.selected = true;
+    glasRoosterSelect.appendChild(geenRoosterOption);
+    
     // Voeg rooster opties toe vanuit JSON data
-    if (roosterData.opties) {
+    if (roosterData && roosterData.opties) {
       roosterData.opties.forEach(optie => {
         const option = document.createElement('option');
         option.value = optie.value;
         option.textContent = optie.label;
         glasRoosterSelect.appendChild(option);
       });
+    }
+    
+    // Update rooster kleur menu zichtbaarheid
+    updateRoosterKleurMenu();
+  }
+  
+  // Functie om rooster kleur menu te tonen/verbergen op basis van rooster selectie
+  function updateRoosterKleurMenu() {
+    const productPaginaGlas = document.getElementById('productPaginaGlas');
+    let glasRoosterSelect = null;
+    let glasRoosterKleurItem = null;
+    let glasRoosterKleurSelect = null;
+    
+    // Zoek de elementen
+    if (productPaginaGlas && productPaginaGlas.classList.contains('active')) {
+      glasRoosterSelect = productPaginaGlas.querySelector('#glasRooster');
+      glasRoosterKleurItem = productPaginaGlas.querySelector('#glasRoosterKleurItem');
+      glasRoosterKleurSelect = productPaginaGlas.querySelector('#glasRoosterKleur');
+    } else {
+      glasRoosterSelect = document.getElementById('glasRooster');
+      glasRoosterKleurItem = document.getElementById('glasRoosterKleurItem');
+      glasRoosterKleurSelect = document.getElementById('glasRoosterKleur');
+    }
+    
+    if (!glasRoosterSelect || !glasRoosterKleurItem) return;
+    
+    const roosterWaarde = glasRoosterSelect.value || '';
+    const roosterKleurWaarde = glasRoosterKleurSelect?.value || '';
+    
+    // Toon rooster kleur menu alleen als er een rooster is geselecteerd (niet "Geen rooster")
+    if (roosterWaarde && roosterWaarde.trim() !== '') {
+      glasRoosterKleurItem.style.display = 'flex';
+      
+      // Als "bi coller" wordt geselecteerd, toon de popup
+      if (roosterKleurWaarde === 'bi_coller') {
+        toonBiCollerPopup();
+      } else {
+        verbergBiCollerPopup();
+      }
+    } else {
+      glasRoosterKleurItem.style.display = 'none';
+      verbergBiCollerPopup();
+    }
+  }
+  
+  // Functie om bi coller popup te tonen
+  function toonBiCollerPopup() {
+    const biCollerPopup = document.getElementById('biCollerPopup');
+    if (biCollerPopup) {
+      biCollerPopup.classList.add('active');
+    }
+  }
+  
+  // Functie om bi coller popup te verbergen
+  function verbergBiCollerPopup() {
+    const biCollerPopup = document.getElementById('biCollerPopup');
+    if (biCollerPopup) {
+      biCollerPopup.classList.remove('active');
     }
   }
 
@@ -9461,16 +9637,7 @@ stroke-width="3"/>
       return;
     }
     
-    // Debug: log de beschikbare keys
-    console.log('Glas type:', glasType, 'JSON key:', jsonKey);
-    console.log('GlasOpbouwData beschikbaar:', !!glasOpbouwData);
-    if (glasOpbouwData) {
-      console.log('Beschikbare keys in glasOpbouwData:', Object.keys(glasOpbouwData));
-    }
-    
     const typeData = glasOpbouwData ? glasOpbouwData[jsonKey] : null;
-    
-    console.log('Type data gevonden voor key "' + jsonKey + '":', typeData);
     
     if (typeData && typeData.opties && typeData.opties.length > 0) {
       // Voeg opties toe vanuit JSON data
@@ -9482,21 +9649,11 @@ stroke-width="3"/>
       });
       
       glasOpbouwItem.style.display = 'flex';
-      console.log('Glasopbouw menu getoond met', typeData.opties.length, 'opties');
       
-      // Voeg event listener toe aan het select element
-      glasOpbouwSelect.removeEventListener('change', updateGlasPreview);
-      glasOpbouwSelect.addEventListener('change', () => {
-        console.log('Glasopbouw dropdown gewijzigd naar:', glasOpbouwSelect.value);
-        updateGlasPreview();
-      });
-      
-      // Update preview direct na het vullen
-      setTimeout(() => updateGlasPreview(), 50);
+      // Event listener wordt al via event delegation afgehandeld
     } else {
       // Geen glasopbouw opties beschikbaar voor dit glas type
       glasOpbouwItem.style.display = 'none';
-      console.log('Geen glasopbouw opties gevonden voor', jsonKey);
     }
   }
 
@@ -9571,15 +9728,7 @@ stroke-width="3"/>
         });
       }
       
-      // Voeg event listener toe aan het select element
-      glasSpouwSelect.removeEventListener('change', updateGlasPreview);
-      glasSpouwSelect.addEventListener('change', () => {
-        console.log('Spouw dropdown gewijzigd naar:', glasSpouwSelect.value);
-        updateGlasPreview();
-      });
-      
-      // Update preview direct na het vullen
-      setTimeout(() => updateGlasPreview(), 50);
+      // Event listener wordt al via event delegation afgehandeld
     }
   }
 
@@ -9777,12 +9926,26 @@ stroke-width="3"/>
     
     const breedte = parseInt(glasBreedteInput?.value) || 1000;
     const hoogte = parseInt(glasHoogteInput?.value) || 1000;
-    const glasType = glasTypeSelect?.value || 'enkel';
+    // Haal glasType op - zorg dat het een geldige waarde is
+    const glasType = (glasTypeSelect?.value && glasTypeSelect.value.trim() !== '') ? glasTypeSelect.value : 'enkel';
     const rooster = glasRoosterSelect?.value || '';
-    const aantal = parseInt(glasAantalInput?.value) || 1;
+    // Haal aantal op - zorg dat het een geldig getal is
+    const aantalInputWaarde = glasAantalInput?.value;
+    const aantal = (aantalInputWaarde && !isNaN(parseInt(aantalInputWaarde)) && parseInt(aantalInputWaarde) > 0) ? parseInt(aantalInputWaarde) : 1;
     
-    // Update glasopbouw menu zichtbaarheid
-    updateGlasOpbouwMenu();
+    // Haal spacer waarde op uit radio buttons
+    let glasSpacerWaarde = '';
+    if (productPaginaGlas && productPaginaGlas.classList.contains('active')) {
+      const glasSpacerRadio = productPaginaGlas.querySelector('input[name="glasSpacer"]:checked');
+      if (glasSpacerRadio) {
+        glasSpacerWaarde = glasSpacerRadio.value;
+      }
+    } else {
+      const glasSpacerRadio = document.querySelector('input[name="glasSpacer"]:checked');
+      if (glasSpacerRadio) {
+        glasSpacerWaarde = glasSpacerRadio.value;
+      }
+    }
     
     const oppervlakteM2 = (breedte / 1000) * (hoogte / 1000);
     const glasOpbouw = glasOpbouwSelect?.value || '';
@@ -9792,29 +9955,77 @@ stroke-width="3"/>
     
     const glasTypeLabels = {
       'enkel': 'Enkel glas',
+      'dubbel': 'Dubbel glas',
+      'trippel': 'Trippel glas',
       'hr+': 'HR+',
       'hr++': 'HR++',
       'hr+++': 'HR+++'
     };
     
-    // Update preview info
-    const afmetingenEl = document.getElementById('glasAfmetingen');
-    const oppervlakteEl = document.getElementById('glasOppervlakte');
-    const glasTypeDisplayEl = document.getElementById('glasTypeDisplay');
-    const glasOpbouwDisplayEl = document.getElementById('glasOpbouwDisplay');
-    const glasOpbouwDisplayItem = document.getElementById('glasOpbouwDisplayItem');
-    const glasSpouwDisplayEl = document.getElementById('glasSpouwDisplay');
-    const glasSpouwDisplayItem = document.getElementById('glasSpouwDisplayItem');
-    const glasDikteDisplayEl = document.getElementById('glasDikteDisplay');
-    const glasDikteDisplayItem = document.getElementById('glasDikteDisplayItem');
-    const glasUWaardeDisplayEl = document.getElementById('glasUWaardeDisplay');
-    const glasUWaardeDisplayItem = document.getElementById('glasUWaardeDisplayItem');
-    const glasAantalDisplayEl = document.getElementById('glasAantalDisplay');
-    const glasPrijsEl = document.getElementById('glasPrijs');
+    // Update preview info - zoek elementen binnen de actieve pagina
+    let afmetingenEl = null;
+    let oppervlakteEl = null;
+    let glasTypeDisplayEl = null;
+    let glasOpbouwDisplayEl = null;
+    let glasOpbouwDisplayItem = null;
+    let glasSpouwDisplayEl = null;
+    let glasSpouwDisplayItem = null;
+    let glasDikteDisplayEl = null;
+    let glasDikteDisplayItem = null;
+    let glasUWaardeDisplayEl = null;
+    let glasUWaardeDisplayItem = null;
+    let glasRoosterDisplayEl = null;
+    let glasRoosterDisplayItem = null;
+    let glasSpacerDisplayEl = null;
+    let glasSpacerDisplayItem = null;
+    let glasAantalDisplayEl = null;
+    let glasPrijsEl = null;
     
-    if (afmetingenEl) afmetingenEl.textContent = `${breedte} × ${hoogte} mm`;
-    if (oppervlakteEl) oppervlakteEl.textContent = `${oppervlakteM2.toFixed(2)} m²`;
-    if (glasTypeDisplayEl) glasTypeDisplayEl.textContent = glasTypeLabels[glasType] || glasType;
+    // Als we op de glas product pagina zijn, gebruik die elementen
+    if (productPaginaGlas && productPaginaGlas.classList.contains('active')) {
+      afmetingenEl = productPaginaGlas.querySelector('#glasAfmetingen');
+      oppervlakteEl = productPaginaGlas.querySelector('#glasOppervlakte');
+      glasTypeDisplayEl = productPaginaGlas.querySelector('#glasTypeDisplay');
+      glasOpbouwDisplayEl = productPaginaGlas.querySelector('#glasOpbouwDisplay');
+      glasOpbouwDisplayItem = productPaginaGlas.querySelector('#glasOpbouwDisplayItem');
+      glasSpouwDisplayEl = productPaginaGlas.querySelector('#glasSpouwDisplay');
+      glasSpouwDisplayItem = productPaginaGlas.querySelector('#glasSpouwDisplayItem');
+      glasDikteDisplayEl = productPaginaGlas.querySelector('#glasDikteDisplay');
+      glasDikteDisplayItem = productPaginaGlas.querySelector('#glasDikteDisplayItem');
+      glasUWaardeDisplayEl = productPaginaGlas.querySelector('#glasUWaardeDisplay');
+      glasUWaardeDisplayItem = productPaginaGlas.querySelector('#glasUWaardeDisplayItem');
+      glasRoosterDisplayEl = productPaginaGlas.querySelector('#glasRoosterDisplay');
+      glasRoosterDisplayItem = productPaginaGlas.querySelector('#glasRoosterDisplayItem');
+      glasSpacerDisplayEl = productPaginaGlas.querySelector('#glasSpacerDisplay');
+      glasSpacerDisplayItem = productPaginaGlas.querySelector('#glasSpacerDisplayItem');
+      glasAantalDisplayEl = productPaginaGlas.querySelector('#glasAantalDisplay');
+      glasPrijsEl = productPaginaGlas.querySelector('#glasPrijs');
+    } else {
+      // Anders probeer de algemene elementen
+      afmetingenEl = document.getElementById('glasAfmetingen');
+      oppervlakteEl = document.getElementById('glasOppervlakte');
+      glasTypeDisplayEl = document.getElementById('glasTypeDisplay');
+      glasOpbouwDisplayEl = document.getElementById('glasOpbouwDisplay');
+      glasOpbouwDisplayItem = document.getElementById('glasOpbouwDisplayItem');
+      glasSpouwDisplayEl = document.getElementById('glasSpouwDisplay');
+      glasSpouwDisplayItem = document.getElementById('glasSpouwDisplayItem');
+      glasDikteDisplayEl = document.getElementById('glasDikteDisplay');
+      glasDikteDisplayItem = document.getElementById('glasDikteDisplayItem');
+      glasUWaardeDisplayEl = document.getElementById('glasUWaardeDisplay');
+      glasUWaardeDisplayItem = document.getElementById('glasUWaardeDisplayItem');
+      glasRoosterDisplayEl = document.getElementById('glasRoosterDisplay');
+      glasRoosterDisplayItem = document.getElementById('glasRoosterDisplayItem');
+      glasSpacerDisplayEl = document.getElementById('glasSpacerDisplay');
+      glasSpacerDisplayItem = document.getElementById('glasSpacerDisplayItem');
+      glasAantalDisplayEl = document.getElementById('glasAantalDisplay');
+      glasPrijsEl = document.getElementById('glasPrijs');
+    }
+    
+    // Update afmetingen met m² tussen haakjes
+    if (afmetingenEl) {
+      const m2Waarde = oppervlakteM2.toFixed(2);
+      afmetingenEl.textContent = `${breedte} × ${hoogte} mm (${m2Waarde} m²)`;
+    }
     
     // Bereken en toon totale dikte
     const totaleDikte = berekenGlasDikte(glasOpbouw, spouwWaarde, glasType);
@@ -9894,7 +10105,95 @@ stroke-width="3"/>
       if (glasSpouwDisplayItem) glasSpouwDisplayItem.style.display = 'none';
     }
     
-    if (glasAantalDisplayEl) glasAantalDisplayEl.textContent = aantal;
+    // Toon spacer waarde als deze is geselecteerd (voor rooster)
+    if (glasSpacerWaarde && glasSpacerWaarde.trim() !== '') {
+      // Map spacer waarde naar leesbare label
+      const spacerLabels = {
+        'aluspacer': 'Aluspacer',
+        'tgi_zwart': 'TGI zwart spacer'
+      };
+      const spacerLabel = spacerLabels[glasSpacerWaarde] || glasSpacerWaarde;
+      
+      if (glasSpacerDisplayEl) {
+        glasSpacerDisplayEl.textContent = spacerLabel;
+      }
+      if (glasSpacerDisplayItem) {
+        glasSpacerDisplayItem.style.display = 'flex';
+      }
+    } else {
+      if (glasSpacerDisplayItem) glasSpacerDisplayItem.style.display = 'none';
+    }
+    
+    // Toon rooster waarde als deze is geselecteerd (na spacer)
+    if (rooster && rooster.trim() !== '') {
+      // Haal label op van de geselecteerde rooster optie
+      let roosterLabel = rooster;
+      if (glasRoosterSelect) {
+        const selectedOption = glasRoosterSelect.options[glasRoosterSelect.selectedIndex];
+        if (selectedOption) {
+          roosterLabel = selectedOption.textContent;
+        }
+      }
+      
+      // Haal rooster kleur op
+      let roosterKleurLabel = '';
+      const productPaginaGlas = document.getElementById('productPaginaGlas');
+      let glasRoosterKleurSelect = null;
+      
+      if (productPaginaGlas && productPaginaGlas.classList.contains('active')) {
+        glasRoosterKleurSelect = productPaginaGlas.querySelector('#glasRoosterKleur');
+      } else {
+        glasRoosterKleurSelect = document.getElementById('glasRoosterKleur');
+      }
+      
+      if (glasRoosterKleurSelect) {
+        const roosterKleurWaarde = glasRoosterKleurSelect.value || '';
+        
+        if (roosterKleurWaarde === 'bi_coller') {
+          // Voor bi coller, toon binnenkant en buitenkant kleuren
+          const binnenKleur = document.getElementById('glasRoosterKleurBinnen')?.value || '';
+          const buitenKleur = document.getElementById('glasRoosterKleurBuiten')?.value || '';
+          
+          if (binnenKleur && buitenKleur) {
+            // Map kleur waarden naar labels
+            const kleurLabels = {
+              'anodic_f1': 'Anodic(f1)',
+              '9010': '9010',
+              '9001': '9001',
+              '9005_zwart': '9005(zwart)',
+              '7016_antraciet': '7016(antraciet)',
+              '7040_grijs': '7040(grijs)',
+              '6005_groen': '6005(groen)'
+            };
+            
+            const binnenLabel = kleurLabels[binnenKleur] || binnenKleur;
+            const buitenLabel = kleurLabels[buitenKleur] || buitenKleur;
+            roosterKleurLabel = ` - ${binnenLabel} / ${buitenLabel}`;
+          }
+        } else if (roosterKleurWaarde && roosterKleurWaarde.trim() !== '') {
+          // Voor normale kleur, haal label op van de geselecteerde optie
+          const selectedKleurOption = glasRoosterKleurSelect.options[glasRoosterKleurSelect.selectedIndex];
+          if (selectedKleurOption) {
+            roosterKleurLabel = ' - ' + selectedKleurOption.textContent;
+          }
+        }
+      }
+      
+      if (glasRoosterDisplayEl) {
+        glasRoosterDisplayEl.textContent = roosterLabel + roosterKleurLabel;
+      }
+      if (glasRoosterDisplayItem) {
+        glasRoosterDisplayItem.style.display = 'flex';
+      }
+    } else {
+      if (glasRoosterDisplayItem) glasRoosterDisplayItem.style.display = 'none';
+    }
+    
+    // Update aantal display - zorg dat het een geldig getal is
+    if (glasAantalDisplayEl) {
+      const aantalWaarde = (aantal && aantal > 0) ? aantal : 1;
+      glasAantalDisplayEl.textContent = aantalWaarde;
+    }
     if (glasPrijsEl) glasPrijsEl.textContent = `€${totaalPrijs.toFixed(2)}`;
     
     // Update tekening
@@ -10007,7 +10306,16 @@ stroke-width="3"/>
     if (e.target.id === 'glasTypeLos') {
       updateGlasOpbouwMenu();
       updateGlasPreview();
-    } else if (e.target.id === 'glasOpbouw' || e.target.id === 'glasRooster' || e.target.id === 'glasSpouw') {
+    } else if (e.target.id === 'glasOpbouw' || e.target.id === 'glasSpouw') {
+      updateGlasPreview();
+    } else if (e.target.id === 'glasRooster') {
+      updateRoosterKleurMenu();
+      updateGlasPreview();
+    } else if (e.target.id === 'glasRoosterKleur') {
+      updateRoosterKleurMenu();
+      updateGlasPreview();
+    } else if (e.target.name === 'glasSpacer') {
+      // Update preview wanneer spacer wordt gewijzigd
       updateGlasPreview();
     }
   });
@@ -10060,7 +10368,12 @@ stroke-width="3"/>
     });
   }
   if (glasOpbouwSelect) glasOpbouwSelect.addEventListener('change', updateGlasPreview);
-  if (glasRoosterSelect) glasRoosterSelect.addEventListener('change', updateGlasPreview);
+  if (glasRoosterSelect) {
+    glasRoosterSelect.addEventListener('change', () => {
+      updateRoosterKleurMenu();
+      updateGlasPreview();
+    });
+  }
   if (glasAantalInput) glasAantalInput.addEventListener('input', updateGlasPreview);
 
   // Event listeners voor raam inputs
@@ -10111,6 +10424,62 @@ stroke-width="3"/>
     
     // Initialiseer rooster opties bij page load
     updateRoosterOpties();
+    
+    // Event listeners voor bi coller popup
+    const biCollerPopup = document.getElementById('biCollerPopup');
+    const biCollerPopupClose = document.getElementById('biCollerPopupClose');
+    const biCollerPopupAnnuleer = document.getElementById('biCollerPopupAnnuleer');
+    const biCollerPopupBevestig = document.getElementById('biCollerPopupBevestig');
+    
+    if (biCollerPopupClose) {
+      biCollerPopupClose.addEventListener('click', verbergBiCollerPopup);
+    }
+    
+    if (biCollerPopupAnnuleer) {
+      biCollerPopupAnnuleer.addEventListener('click', () => {
+        // Reset rooster kleur naar leeg
+        const productPaginaGlas = document.getElementById('productPaginaGlas');
+        let glasRoosterKleurSelect = null;
+        
+        if (productPaginaGlas && productPaginaGlas.classList.contains('active')) {
+          glasRoosterKleurSelect = productPaginaGlas.querySelector('#glasRoosterKleur');
+        } else {
+          glasRoosterKleurSelect = document.getElementById('glasRoosterKleur');
+        }
+        
+        if (glasRoosterKleurSelect) {
+          glasRoosterKleurSelect.value = '';
+        }
+        
+        verbergBiCollerPopup();
+        updateGlasPreview();
+      });
+    }
+    
+    if (biCollerPopupBevestig) {
+      biCollerPopupBevestig.addEventListener('click', () => {
+        const binnenKleur = document.getElementById('glasRoosterKleurBinnen')?.value || '';
+        const buitenKleur = document.getElementById('glasRoosterKleurBuiten')?.value || '';
+        
+        // Valideer dat beide kleuren zijn geselecteerd
+        if (!binnenKleur || !buitenKleur) {
+          alert('Selecteer zowel een binnenkant als buitenkant rooster kleur.');
+          return;
+        }
+        
+        verbergBiCollerPopup();
+        updateGlasPreview();
+      });
+    }
+    
+    // Sluit popup bij klik buiten de popup
+    if (biCollerPopup) {
+      biCollerPopup.addEventListener('click', (e) => {
+        if (e.target === biCollerPopup) {
+          verbergBiCollerPopup();
+        }
+      });
+    }
     
     // Zet event listeners opnieuw na het laden van menu's
     setTimeout(() => {
