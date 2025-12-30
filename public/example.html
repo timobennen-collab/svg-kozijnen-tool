@@ -290,6 +290,36 @@
     .raamBeslagKrukKaart h4{margin:0 0 8px;color:var(--fg);font-size:16px;font-weight:600}
     .raamBeslagKrukKaart p{margin:0;color:var(--muted);font-size:13px}
     .raamBeslagKrukModalActions{display:flex;justify-content:flex-end;gap:12px;margin-top:20px;padding-top:20px;border-top:1px solid #2b2f36}
+    .raamRoosterSelectie{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-bottom:24px}
+    .raamRoosterKaart{display:flex;flex-direction:column;align-items:center;padding:24px;border:2px solid #2b2f36;border-radius:12px;cursor:pointer;transition:all 0.3s;background:#12161b;text-align:center}
+    .raamRoosterKaart:hover{border-color:var(--accent);background:#1a2f3a;transform:translateY(-4px);box-shadow:0 8px 24px rgba(74,163,255,0.2)}
+    .raamRoosterKaart.selected{border-color:var(--accent);background:#1a2f3a;box-shadow:0 0 0 3px rgba(74,163,255,0.3)}
+    .raamRoosterKaart h3{margin:0 0 8px;color:var(--fg);font-size:18px;font-weight:600}
+    .raamRoosterKaart p{margin:0;color:var(--muted);font-size:13px}
+    .raamRoosterOptiesSelectie{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-bottom:24px}
+    .raamRoosterOptieKaart{display:flex;flex-direction:column;align-items:center;padding:20px;border:2px solid #2b2f36;border-radius:12px;cursor:pointer;transition:all 0.3s;background:#12161b;text-align:center}
+    .raamRoosterOptieKaart:hover{border-color:var(--accent);background:#1a2f3a;transform:translateY(-4px);box-shadow:0 8px 24px rgba(74,163,255,0.2)}
+    .raamRoosterOptieKaart.selected{border-color:var(--accent);background:#1a2f3a;box-shadow:0 0 0 3px rgba(74,163,255,0.3)}
+    .raamRoosterOptieKaart h4{margin:0 0 8px;color:var(--fg);font-size:16px;font-weight:600}
+    .raamRoosterOptieKaart p{margin:0;color:var(--muted);font-size:12px}
+    .raamRoosterKleurSelectie{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+    .raamRoosterKleurKaart{display:flex;align-items:center;justify-content:center;padding:12px 16px;border:2px solid #2b2f36;border-radius:8px;cursor:pointer;transition:all 0.3s;background:#12161b;min-width:100px;font-size:12px;font-weight:600;transition:all 0.2s;text-align:center}
+    .raamRoosterKleurKaart:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,0.3)}
+    .raamRoosterKleurKaart.selected{border:2px solid var(--accent)!important;box-shadow:0 0 0 2px rgba(74,163,255,0.25)}
+    .raamRoosterKleurOptiesSelectie{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+    .raamRoosterKleurOptieKaart{display:flex;align-items:center;justify-content:center;padding:12px 16px;border:2px solid #2b2f36;border-radius:8px;cursor:pointer;transition:all 0.3s;background:#12161b;min-width:100px;font-size:12px;font-weight:600;transition:all 0.2s;text-align:center}
+    .raamRoosterKleurOptieKaart:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,0.3)}
+    .raamRoosterKleurOptieKaart.selected{border:2px solid var(--accent)!important;box-shadow:0 0 0 2px rgba(74,163,255,0.25)}
+    .raamKleurAfwerkingSelectie{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-bottom:24px}
+    .raamKleurAfwerkingKaart{display:flex;flex-direction:column;align-items:center;padding:24px;border:2px solid #2b2f36;border-radius:12px;cursor:pointer;transition:all 0.3s;background:#12161b;text-align:center}
+    .raamKleurAfwerkingKaart:hover{border-color:var(--accent);background:#1a2f3a;transform:translateY(-4px);box-shadow:0 8px 24px rgba(74,163,255,0.2)}
+    .raamKleurAfwerkingKaart.selected{border-color:var(--accent);background:#1a2f3a;box-shadow:0 0 0 3px rgba(74,163,255,0.3)}
+    .raamKleurAfwerkingKaart h3{margin:0 0 8px;color:var(--fg);font-size:18px;font-weight:600}
+    .raamKleurAfwerkingKaart p{margin:0;color:var(--muted);font-size:13px}
+    .raamKleurOptiesSelectie{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+    .raamKleurOptieKaart{display:flex;align-items:center;justify-content:center;padding:12px 16px;border:2px solid #2b2f36;border-radius:8px;cursor:pointer;transition:all 0.3s;background:#12161b;min-width:100px;font-size:12px;font-weight:600;transition:all 0.2s;text-align:center}
+    .raamKleurOptieKaart:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,0.3)}
+    .raamKleurOptieKaart.selected{border:2px solid var(--accent)!important;box-shadow:0 0 0 2px rgba(74,163,255,0.25)}
     .raamGlasTypeSelectie{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-bottom:24px}
     .raamGlasTypeKaart{display:flex;flex-direction:column;align-items:center;padding:24px;border:2px solid #2b2f36;border-radius:12px;cursor:pointer;transition:all 0.3s;background:#12161b;text-align:center}
     .raamGlasTypeKaart:hover{border-color:var(--accent);background:#1a2f3a;transform:translateY(-4px);box-shadow:0 8px 24px rgba(74,163,255,0.2)}
@@ -997,11 +1027,11 @@
           <div class="raamWizardSteps">
             <div class="raamWizardStep active" data-step="1">
               <div class="raamWizardStepNumber">1</div>
-              <div class="raamWizardStepTitle">Afmetingen & Dikte</div>
+              <div class="raamWizardStepTitle">Type & Richting</div>
             </div>
             <div class="raamWizardStep" data-step="2">
               <div class="raamWizardStepNumber">2</div>
-              <div class="raamWizardStepTitle">Type & Richting</div>
+              <div class="raamWizardStepTitle">Afmetingen & Dikte</div>
             </div>
             <div class="raamWizardStep" data-step="3">
               <div class="raamWizardStepNumber">3</div>
@@ -1011,11 +1041,53 @@
               <div class="raamWizardStepNumber">4</div>
               <div class="raamWizardStepTitle">Hang & Sluitwerk</div>
             </div>
+            <div class="raamWizardStep" data-step="5">
+              <div class="raamWizardStepNumber">5</div>
+              <div class="raamWizardStepTitle">Kleur</div>
+            </div>
           </div>
           
           <div class="raamWizardContent">
-            <!-- Stap 1: Afmetingen & Dikte -->
+            <!-- Stap 1: Type & Richting -->
             <div class="raamWizardStepPanel active" data-panel="1">
+              <div class="productConfigForm">
+                <div class="productConfigItem full-width">
+                  <label style="margin-bottom:16px">Raam Type</label>
+                  <div class="raamTypeSelectie">
+                    <div class="raamTypeKaart" data-raam-type="enkel">
+                      <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjMGYxMzE4Ii8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIHN0cm9rZT0iIzRhYTNmZiIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSJub25lIi8+CjxyZWN0IHg9IjIwIiB5PSIyMCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjNGJhM2ZmIiBmaWxsLW9wYWNpdHk9IjAuMyIvPgo8bGluZSB4MT0iMjAiIHkxPSI2MCIgeDI9IjEwMCIgeTI9IjYwIiBzdHJva2U9IiM0YWEzZmYiIHN0cm9rZS13aWR0aD0iMiIvPgo8L3N2Zz4=" alt="Enkel raam" />
+                      <h3>Enkel raam</h3>
+                      <p>Standaard raam met één raam</p>
+                    </div>
+                    <div class="raamTypeKaart" data-raam-type="stolp">
+                      <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjMGYxMzE4Ii8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIHN0cm9rZT0iIzRhYTNmZiIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSJub25lIi8+CjxyZWN0IHg9IjIwIiB5PSIyMCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjNGJhM2ZmIiBmaWxsLW9wYWNpdHk9IjAuMyIvPgo8cmVjdCB4PSI2MCIgeT0iMjAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI4MCIgZmlsbD0iIzRiYTNmZiIgZmlsbC1vcGFjaXR5PSIwLjMiLz4KPGxpbmUgeDE9IjYwIiB5MT0iMjAiIHgyPSI2MCIgeTI9IjEwMCIgc3Ryb2tlPSIjNGJhM2ZmIiBzdHJva2Utd2lkdGg9IjIiLz4KPC9zdmc+" alt="Stolpramen" />
+                      <h3>Stolpramen</h3>
+                      <p>Raam met meerdere panelen</p>
+                    </div>
+                  </div>
+                  <select id="raamTypeLos" style="display:none">
+                    <option value="">-- Selecteer raam type --</option>
+                    <option value="enkel">Enkel raam</option>
+                    <option value="stolp">Stolpramen</option>
+                  </select>
+                </div>
+                <select id="raamTypeActual" style="display:none">
+                  <option value=""></option>
+                </select>
+                <div class="productConfigItem full-width" id="raamDraairichtingItem">
+                  <label style="margin-bottom:16px">Draairichting</label>
+                  <div class="raamDraairichtingSelectie" id="raamDraairichtingSelectie">
+                    <div style="text-align:center;color:var(--muted);padding:20px">Selecteer eerst een raam type</div>
+                  </div>
+                  <select id="raamDraairichting" style="display:none">
+                    <option value=""></option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Stap 2: Afmetingen & Dikte -->
+            <div class="raamWizardStepPanel" data-panel="2">
               <div class="productConfigForm">
                 <div class="productConfigRow">
                   <div class="productConfigItem narrow">
@@ -1093,44 +1165,6 @@
                     <option value="verjongt_40mm">Verjongt 40mm</option>
                     <option value="56mm_vlak">56mm vlak</option>
                     <option value="56mm_kader">56mm met kader</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Stap 2: Type & Richting -->
-            <div class="raamWizardStepPanel" data-panel="2">
-              <div class="productConfigForm">
-                <div class="productConfigItem full-width">
-                  <label style="margin-bottom:16px">Raam Type</label>
-                  <div class="raamTypeSelectie">
-                    <div class="raamTypeKaart" data-raam-type="enkel">
-                      <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjMGYxMzE4Ii8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIHN0cm9rZT0iIzRhYTNmZiIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSJub25lIi8+CjxyZWN0IHg9IjIwIiB5PSIyMCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjNGJhM2ZmIiBmaWxsLW9wYWNpdHk9IjAuMyIvPgo8bGluZSB4MT0iMjAiIHkxPSI2MCIgeDI9IjEwMCIgeTI9IjYwIiBzdHJva2U9IiM0YWEzZmYiIHN0cm9rZS13aWR0aD0iMiIvPgo8L3N2Zz4=" alt="Enkel raam" />
-                      <h3>Enkel raam</h3>
-                      <p>Standaard raam met één raam</p>
-                    </div>
-                    <div class="raamTypeKaart" data-raam-type="stolp">
-                      <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjMGYxMzE4Ii8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIHN0cm9rZT0iIzRhYTNmZiIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSJub25lIi8+CjxyZWN0IHg9IjIwIiB5PSIyMCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjNGJhM2ZmIiBmaWxsLW9wYWNpdHk9IjAuMyIvPgo8cmVjdCB4PSI2MCIgeT0iMjAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI4MCIgZmlsbD0iIzRiYTNmZiIgZmlsbC1vcGFjaXR5PSIwLjMiLz4KPGxpbmUgeDE9IjYwIiB5MT0iMjAiIHgyPSI2MCIgeTI9IjEwMCIgc3Ryb2tlPSIjNGJhM2ZmIiBzdHJva2Utd2lkdGg9IjIiLz4KPC9zdmc+" alt="Stolpramen" />
-                      <h3>Stolpramen</h3>
-                      <p>Raam met meerdere panelen</p>
-                    </div>
-                  </div>
-                  <select id="raamTypeLos" style="display:none">
-                    <option value="">-- Selecteer raam type --</option>
-                    <option value="enkel">Enkel raam</option>
-                    <option value="stolp">Stolpramen</option>
-                  </select>
-                </div>
-                <select id="raamTypeActual" style="display:none">
-                  <option value=""></option>
-                </select>
-                <div class="productConfigItem full-width" id="raamDraairichtingItem">
-                  <label style="margin-bottom:16px">Draairichting</label>
-                  <div class="raamDraairichtingSelectie" id="raamDraairichtingSelectie">
-                    <div style="text-align:center;color:var(--muted);padding:20px">Selecteer eerst een raam type</div>
-                  </div>
-                  <select id="raamDraairichting" style="display:none">
-                    <option value=""></option>
                   </select>
                 </div>
               </div>
@@ -1320,6 +1354,107 @@
                     <option value="">-- Selecteer beslag --</option>
                     <option value="standard_f1">Standard F1 beslag</option>
                     <option value="keuzes_andere_beslag">Keuzes andere beslag</option>
+                  </select>
+                </div>
+                <div class="productConfigItem full-width" style="margin-top:24px">
+                  <label style="margin-bottom:16px">Rooster</label>
+                  <div class="raamRoosterSelectie">
+                    <div class="raamRoosterKaart" data-rooster="geen">
+                      <h3>Geen rooster</h3>
+                      <p>Zonder rooster</p>
+                    </div>
+                    <div class="raamRoosterKaart" data-rooster="ja">
+                      <h3>Rooster</h3>
+                      <p>Met rooster</p>
+                    </div>
+                  </div>
+                  <select id="raamRooster" style="display:none">
+                    <option value="">-- Selecteer rooster --</option>
+                    <option value="geen">Geen rooster</option>
+                    <option value="ja">Rooster</option>
+                  </select>
+                </div>
+                <div class="productConfigItem full-width" id="raamRoosterOptiesItem" style="display:none;margin-top:24px">
+                  <label style="margin-bottom:16px">Rooster Type</label>
+                  <div class="raamRoosterOptiesSelectie" id="raamRoosterOptiesSelectie">
+                    <!-- Rooster opties worden hier dynamisch geladen -->
+                  </div>
+                  <select id="raamRoosterType" style="display:none">
+                    <option value="">-- Selecteer rooster type --</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Bi Coller Popup voor Raam Wizard -->
+            <div class="biCollerPopup" id="raamBiCollerPopup">
+              <div class="biCollerPopupContent">
+                <div class="biCollerPopupHeader">
+                  <h3>Bi Coller Rooster Kleuren</h3>
+                  <button class="biCollerPopupClose" id="raamBiCollerPopupClose">&times;</button>
+                </div>
+                <div class="productConfigItem">
+                  <label>Binnenkant Rooster</label>
+                  <div class="raamRoosterKleurOptiesSelectie" id="raamRoosterKleurBinnenSelectie">
+                    <!-- Binnenkant kleuren worden hier dynamisch geladen -->
+                  </div>
+                  <select id="raamRoosterKleurBinnen" style="display:none">
+                    <option value="">-- Selecteer kleur --</option>
+                  </select>
+                </div>
+                <div class="productConfigItem">
+                  <label>Buitenkant Rooster</label>
+                  <div class="raamRoosterKleurOptiesSelectie" id="raamRoosterKleurBuitenSelectie">
+                    <!-- Buitenkant kleuren worden hier dynamisch geladen -->
+                  </div>
+                  <select id="raamRoosterKleurBuiten" style="display:none">
+                    <option value="">-- Selecteer kleur --</option>
+                  </select>
+                </div>
+                <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:20px">
+                  <button class="btn" id="raamBiCollerPopupAnnuleer">Annuleren</button>
+                  <button class="btn primary" id="raamBiCollerPopupBevestig">Bevestigen</button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Stap 5: Kleur -->
+            <div class="raamWizardStepPanel" data-panel="5">
+              <div class="productConfigForm">
+                <div class="productConfigItem full-width">
+                  <label style="margin-bottom:16px">Afwerking</label>
+                  <div class="raamKleurAfwerkingSelectie">
+                    <div class="raamKleurAfwerkingKaart" data-afwerking="aflak">
+                      <h3>Aflak</h3>
+                      <p>Afgelakt</p>
+                    </div>
+                    <div class="raamKleurAfwerkingKaart" data-afwerking="gronden">
+                      <h3>Gronden</h3>
+                      <p>Gegrond</p>
+                    </div>
+                  </div>
+                  <select id="raamKleurAfwerking" style="display:none">
+                    <option value="">-- Selecteer afwerking --</option>
+                    <option value="aflak">Aflak</option>
+                    <option value="gronden">Gronden</option>
+                  </select>
+                </div>
+                <div class="productConfigItem full-width" id="raamKleurOptiesItem" style="display:none;margin-top:24px">
+                  <label style="margin-bottom:16px">Kleur</label>
+                  <div class="raamKleurOptiesSelectie" id="raamKleurOptiesSelectie">
+                    <!-- Kleur opties worden hier dynamisch geladen -->
+                  </div>
+                  <select id="raamKleur" style="display:none">
+                    <option value="">-- Selecteer kleur --</option>
+                  </select>
+                </div>
+                <div class="productConfigItem full-width" id="raamRoosterKleurItem" style="margin-top:24px">
+                  <label style="margin-bottom:16px">Rooster Kleur</label>
+                  <div class="raamRoosterKleurSelectie" id="raamRoosterKleurSelectie">
+                    <!-- Rooster kleur opties worden hier dynamisch geladen -->
+                  </div>
+                  <select id="raamRoosterKleur" style="display:none">
+                    <option value="">-- Selecteer kleur --</option>
                   </select>
                 </div>
               </div>
@@ -10819,7 +10954,7 @@ stroke-width="3"/>
 
   // Raam Wizard functionaliteit
   let huidigeRaamWizardStap = 1;
-  const totaalRaamWizardStappen = 4;
+  const totaalRaamWizardStappen = 5;
   
   function updateRaamWizardStap(stap) {
     // Verberg alle panels
@@ -10853,6 +10988,16 @@ stroke-width="3"/>
       huidigeStep.classList.remove('completed');
     }
     
+    // Als stap 5 wordt getoond, laad rooster kleur opties (als er een rooster is gekozen)
+    if (stap === 5) {
+      // Laad rooster kleur opties als er een rooster is gekozen
+      const geselecteerdeRoosterKaart = document.querySelector('.raamRoosterKaart.selected');
+      const roosterWaarde = geselecteerdeRoosterKaart?.getAttribute('data-rooster') || document.getElementById('raamRooster')?.value || '';
+      if (roosterWaarde === 'ja') {
+        laadRaamRoosterKleurOpties();
+      }
+    }
+    
     // Update navigatie knoppen
     const prevBtn = document.getElementById('raamWizardPrev');
     const nextBtn = document.getElementById('raamWizardNext');
@@ -10863,7 +11008,7 @@ stroke-width="3"/>
     
     if (nextBtn) {
       if (stap === totaalRaamWizardStappen) {
-        nextBtn.textContent = 'Voltooien';
+        nextBtn.textContent = 'Toevoegen aan winkelmand';
       } else {
         nextBtn.textContent = 'Volgende →';
       }
@@ -10875,66 +11020,332 @@ stroke-width="3"/>
   function valideerRaamWizardStap(stap) {
     switch(stap) {
       case 1:
-        const breedte = document.getElementById('raamBreedte')?.value;
-        const hoogte = document.getElementById('raamHoogte')?.value;
-        if (!breedte || !hoogte || parseInt(breedte) < 300 || parseInt(hoogte) < 300) return false;
+        // Controleer raam type - gebruik kaart als primaire bron (kaarten zijn de UI)
+        const geselecteerdeRaamTypeKaart = document.querySelector('.raamTypeKaart.selected');
+        if (!geselecteerdeRaamTypeKaart) {
+          alert('⚠️ Selecteer een raam type voordat u doorgaat.');
+          return false;
+        }
         
-        // Controleer dikte
-        const geselecteerdeDikteKaart = document.querySelector('.raamDikteKaart.selected');
-        const dikte = document.getElementById('raamDikte')?.value;
-        if (!geselecteerdeDikteKaart || !dikte || dikte === '') return false;
+        const raamType = geselecteerdeRaamTypeKaart.getAttribute('data-raam-type');
+        if (!raamType) {
+          alert('⚠️ Selecteer een raam type voordat u doorgaat.');
+          return false;
+        }
         
-        // Als 56mm is geselecteerd, controleer omfrezing
-        if (dikte === '56mm') {
-          const geselecteerdeOmfrezingKaart = document.querySelector('.raamOmfrezingKaart.selected');
-          const omfrezing = document.getElementById('raamOmfrezing')?.value;
-          if (!geselecteerdeOmfrezingKaart || !omfrezing || omfrezing === '') return false;
+        // Zet de waarden in de select elementen voor data opslag
+        const raamTypeSelect = document.getElementById('raamTypeLos');
+        const raamTypeActualSelect = document.getElementById('raamTypeActual');
+        if (raamTypeSelect) raamTypeSelect.value = raamType;
+        
+        const raamTypeDefaultWaarden = {
+          'enkel': 'draairaam_buiten',
+          'stolp': 'stolpraam_buiten'
+        };
+        if (raamTypeActualSelect && raamTypeDefaultWaarden[raamType]) {
+          raamTypeActualSelect.value = raamTypeDefaultWaarden[raamType];
+        }
+        
+        // Controleer draairichting - gebruik kaart als primaire bron (kaarten zijn de UI)
+        const geselecteerdeDraairichtingKaart = document.querySelector('.raamDraairichtingKaart.selected');
+        if (!geselecteerdeDraairichtingKaart) {
+          alert('⚠️ Selecteer een draairichting voordat u doorgaat.');
+          return false;
+        }
+        
+        const richtingWaarde = geselecteerdeDraairichtingKaart.getAttribute('data-draairichting');
+        if (!richtingWaarde) {
+          alert('⚠️ Selecteer een draairichting voordat u doorgaat.');
+          return false;
+        }
+        
+        // Zet de waarde in de select voor data opslag
+        const richtingSelect = document.getElementById('raamDraairichting');
+        if (richtingSelect) {
+          // Controleer of de optie al bestaat
+          let optieExists = false;
+          for (let i = 0; i < richtingSelect.options.length; i++) {
+            if (richtingSelect.options[i].value === richtingWaarde) {
+              optieExists = true;
+              break;
+            }
+          }
+          
+          // Als de optie niet bestaat, voeg hem toe
+          if (!optieExists) {
+            const optie = document.createElement('option');
+            optie.value = richtingWaarde;
+            optie.textContent = geselecteerdeDraairichtingKaart.textContent.trim() || richtingWaarde;
+            richtingSelect.appendChild(optie);
+          }
+          
+          richtingSelect.value = richtingWaarde;
+          richtingSelect.setAttribute('data-value', richtingWaarde);
         }
         
         return true;
       case 2:
-        const geselecteerdeKaart = document.querySelector('.raamTypeKaart.selected');
-        const geselecteerdeDraairichtingKaart = document.querySelector('.raamDraairichtingKaart.selected');
+        // Controleer afmetingen
+        const breedte = parseInt(document.getElementById('raamBreedte')?.value) || 0;
+        const hoogte = parseInt(document.getElementById('raamHoogte')?.value) || 0;
         
-        // Controleer alleen of beide kaarten zijn geselecteerd
-        if (!geselecteerdeKaart) return false;
-        if (!geselecteerdeDraairichtingKaart) return false;
-        
-        // Zet automatisch de waarden als ze nog niet zijn gezet
-        const type = document.getElementById('raamTypeLos');
-        const typeActualEl = document.getElementById('raamTypeActual');
-        const richtingSelect = document.getElementById('raamDraairichting');
-        
-        if (type && !type.value) {
-          const raamType = geselecteerdeKaart.getAttribute('data-raam-type');
-          if (raamType) type.value = raamType;
+        if (!breedte || !hoogte) {
+          alert('⚠️ Vul de breedte en hoogte in voordat u doorgaat.');
+          return false;
         }
         
-        if (typeActualEl && !typeActualEl.value) {
-          const raamType = geselecteerdeKaart.getAttribute('data-raam-type');
-          const raamTypeDefaultWaarden = {
-            'enkel': 'draairaam_buiten',
-            'stolp': 'stolpraam_buiten'
-          };
-          if (raamType && raamTypeDefaultWaarden[raamType]) {
-            typeActualEl.value = raamTypeDefaultWaarden[raamType];
+        if (breedte < 300 || hoogte < 300) {
+          alert('⚠️ Minimale afmetingen zijn 300mm × 300mm');
+          return false;
+        }
+        
+        // Controleer dikte - gebruik select als primaire bron
+        const dikteSelect = document.getElementById('raamDikte');
+        let dikteValue = dikteSelect?.value || '';
+        
+        // Als er geen waarde in select staat, probeer van kaart te halen
+        if (!dikteValue) {
+          const geselecteerdeDikteKaart = document.querySelector('.raamDikteKaart.selected');
+          if (geselecteerdeDikteKaart) {
+            const dikte = geselecteerdeDikteKaart.getAttribute('data-dikte');
+            if (dikte && dikteSelect) {
+              dikteSelect.value = dikte;
+              dikteValue = dikte;
+            }
           }
         }
         
-        if (richtingSelect && !richtingSelect.value) {
-          const richtingWaarde = geselecteerdeDraairichtingKaart.getAttribute('data-draairichting');
-          if (richtingWaarde) {
-            richtingSelect.value = richtingWaarde;
+        if (!dikteValue) {
+          alert('⚠️ Selecteer een dikte voordat u doorgaat.');
+          return false;
+        }
+        
+        // Als 56mm is geselecteerd, controleer omfrezing
+        if (dikteValue === '56mm') {
+          const omfrezingSelect = document.getElementById('raamOmfrezing');
+          let omfrezingValue = omfrezingSelect?.value || '';
+          
+          // Als er geen waarde in select staat, probeer van kaart te halen
+          if (!omfrezingValue) {
+            const geselecteerdeOmfrezingKaart = document.querySelector('.raamOmfrezingKaart.selected');
+            if (geselecteerdeOmfrezingKaart) {
+              const omfrezing = geselecteerdeOmfrezingKaart.getAttribute('data-omfrezing');
+              if (omfrezing && omfrezingSelect) {
+                omfrezingSelect.value = omfrezing;
+                omfrezingValue = omfrezing;
+              }
+            }
+          }
+          
+          if (!omfrezingValue) {
+            alert('⚠️ Selecteer een omfrezing voordat u doorgaat (verplicht bij 56mm dikte).');
+            return false;
           }
         }
         
         return true;
       case 3:
-        const glasType = document.getElementById('raamGlasType')?.value;
-        return glasType && glasType !== '';
+        // Controleer glas type - gebruik select als primaire bron
+        const glasTypeSelect = document.getElementById('raamGlasType');
+        let glasTypeValue = glasTypeSelect?.value || '';
+        
+        // Als er geen waarde in select staat, probeer van kaart te halen
+        if (!glasTypeValue) {
+          const geselecteerdeGlasTypeKaart = document.querySelector('.raamGlasTypeKaart.selected');
+          if (geselecteerdeGlasTypeKaart) {
+            const glasType = geselecteerdeGlasTypeKaart.getAttribute('data-glas-type');
+            if (glasType && glasTypeSelect) {
+              glasTypeSelect.value = glasType;
+              glasTypeValue = glasType;
+            }
+          }
+        }
+        
+        if (!glasTypeValue) {
+          alert('⚠️ Selecteer een glas type voordat u doorgaat.');
+          return false;
+        }
+        
+        // Als enkel glas is geselecteerd, controleer of er een optie is gekozen
+        if (glasTypeValue === 'enkel') {
+          const glasEnkelSelect = document.getElementById('raamGlasEnkel');
+          let glasEnkelValue = glasEnkelSelect?.value || '';
+          
+          if (!glasEnkelValue) {
+            const geselecteerdeGlasEnkelKaart = document.querySelector('.raamGlasEnkelKaart.selected');
+            if (geselecteerdeGlasEnkelKaart) {
+              const glasEnkel = geselecteerdeGlasEnkelKaart.getAttribute('data-glas-enkel');
+              if (glasEnkel && glasEnkelSelect) {
+                glasEnkelSelect.value = glasEnkel;
+                glasEnkelValue = glasEnkel;
+              }
+            }
+          }
+          
+          if (!glasEnkelValue) {
+            alert('⚠️ Selecteer een enkel glas optie voordat u doorgaat.');
+            return false;
+          }
+        }
+        
+        // Als HR++ is geselecteerd, controleer of er een optie is gekozen
+        if (glasTypeValue === 'hr++') {
+          const glasHrSelect = document.getElementById('raamGlasHr');
+          let glasHrValue = glasHrSelect?.value || '';
+          
+          if (!glasHrValue) {
+            const geselecteerdeGlasHrKaart = document.querySelector('.raamGlasHrKaart.selected');
+            if (geselecteerdeGlasHrKaart) {
+              const glasHr = geselecteerdeGlasHrKaart.getAttribute('data-glas-hr');
+              if (glasHr && glasHrSelect) {
+                glasHrSelect.value = glasHr;
+                glasHrValue = glasHr;
+              }
+            }
+          }
+          
+          if (!glasHrValue) {
+            alert('⚠️ Selecteer een HR++ optie voordat u doorgaat.');
+            return false;
+          }
+        }
+        
+        return true;
       case 4:
-        const hangSluitwerk = document.getElementById('raamHangSluitwerk')?.value;
-        return hangSluitwerk && hangSluitwerk !== '';
+        // Controleer hang & sluitwerk - gebruik kaart als primaire bron (kaarten zijn de UI)
+        const geselecteerdeHangSluitwerkKaart = document.querySelector('.raamHangSluitwerkKaart.selected');
+        if (!geselecteerdeHangSluitwerkKaart) {
+          alert('⚠️ Selecteer hang en sluitwerk voordat u doorgaat.');
+          return false;
+        }
+        
+        const hangSluitwerk = geselecteerdeHangSluitwerkKaart.getAttribute('data-hang-sluitwerk');
+        if (!hangSluitwerk) {
+          alert('⚠️ Selecteer hang en sluitwerk voordat u doorgaat.');
+          return false;
+        }
+        
+        // Zet de waarde in de select voor data opslag
+        const hangSluitwerkSelect = document.getElementById('raamHangSluitwerk');
+        if (hangSluitwerkSelect) {
+          hangSluitwerkSelect.value = hangSluitwerk;
+        }
+        
+        const hangSluitwerkValue = hangSluitwerk;
+        
+        // Als hang & sluitwerk is geselecteerd (niet "geen"), controleer beslag
+        if (hangSluitwerkValue && hangSluitwerkValue !== 'geen') {
+          const beslagItem = document.getElementById('raamBeslagItem');
+          if (beslagItem && beslagItem.style.display !== 'none') {
+            // Controleer beslag - gebruik kaart als primaire bron
+            const geselecteerdeBeslagKaart = document.querySelector('.raamBeslagKaart.selected');
+            if (!geselecteerdeBeslagKaart) {
+              alert('⚠️ Selecteer beslag voordat u doorgaat.');
+              return false;
+            }
+            
+            const beslag = geselecteerdeBeslagKaart.getAttribute('data-beslag');
+            if (!beslag) {
+              alert('⚠️ Selecteer beslag voordat u doorgaat.');
+              return false;
+            }
+            
+            // Zet de waarde in de select voor data opslag
+            const beslagSelect = document.getElementById('raamBeslag');
+            if (beslagSelect) {
+              beslagSelect.value = beslag;
+            }
+            
+            // Als "keuzes andere beslag" is gekozen, controleer kruk
+            if (beslag === 'keuzes_andere_beslag') {
+              const beslagKrukSelect = document.getElementById('raamBeslagKruk');
+              const beslagKrukValue = beslagKrukSelect?.value || '';
+              
+              if (!beslagKrukValue) {
+                alert('⚠️ Selecteer een kruk voordat u doorgaat.');
+                return false;
+              }
+            }
+          }
+        }
+        
+        return true;
+      case 5:
+        // Controleer kleur afwerking - gebruik kaart als primaire bron
+        const geselecteerdeKleurAfwerkingKaart = document.querySelector('.raamKleurAfwerkingKaart.selected');
+        if (!geselecteerdeKleurAfwerkingKaart) {
+          alert('⚠️ Selecteer een afwerking (Aflak of Gronden) voordat u doorgaat.');
+          return false;
+        }
+        
+        const afwerking = geselecteerdeKleurAfwerkingKaart.getAttribute('data-afwerking');
+        if (!afwerking) {
+          alert('⚠️ Selecteer een afwerking (Aflak of Gronden) voordat u doorgaat.');
+          return false;
+        }
+        
+        // Zet de waarde in de select voor data opslag
+        const kleurAfwerkingSelect = document.getElementById('raamKleurAfwerking');
+        if (kleurAfwerkingSelect) {
+          kleurAfwerkingSelect.value = afwerking;
+        }
+        
+        // Controleer kleur - gebruik kaart als primaire bron
+        const geselecteerdeKleurOptieKaart = document.querySelector('.raamKleurOptieKaart.selected');
+        if (!geselecteerdeKleurOptieKaart) {
+          alert('⚠️ Selecteer een kleur voordat u doorgaat.');
+          return false;
+        }
+        
+        const kleur = geselecteerdeKleurOptieKaart.getAttribute('data-kleur');
+        if (!kleur) {
+          alert('⚠️ Selecteer een kleur voordat u doorgaat.');
+          return false;
+        }
+        
+        // Zet de waarde in de select voor data opslag
+        const kleurSelect = document.getElementById('raamKleur');
+        if (kleurSelect) {
+          kleurSelect.value = kleur;
+        }
+        
+        // Controleer of er een rooster is gekozen in stap 4
+        const geselecteerdeRoosterKaart = document.querySelector('.raamRoosterKaart.selected');
+        const roosterWaarde = geselecteerdeRoosterKaart?.getAttribute('data-rooster') || document.getElementById('raamRooster')?.value || '';
+        
+        // Als er een rooster is gekozen, controleer rooster kleur
+        if (roosterWaarde === 'ja') {
+          const geselecteerdeRoosterKleurKaart = document.querySelector('.raamRoosterKleurKaart.selected');
+          if (!geselecteerdeRoosterKleurKaart) {
+            alert('⚠️ Selecteer een rooster kleur voordat u doorgaat.');
+            return false;
+          }
+          
+          const roosterKleur = geselecteerdeRoosterKleurKaart.getAttribute('data-rooster-kleur');
+          if (!roosterKleur) {
+            alert('⚠️ Selecteer een rooster kleur voordat u doorgaat.');
+            return false;
+          }
+          
+          // Zet de waarde in de select voor data opslag
+          const roosterKleurSelect = document.getElementById('raamRoosterKleur');
+          if (roosterKleurSelect) {
+            roosterKleurSelect.value = roosterKleur;
+          }
+          
+          // Als "bi coller" is gekozen, controleer of beide kleuren zijn geselecteerd
+          if (roosterKleur === 'bi_coller') {
+            const binnenKleur = document.getElementById('raamRoosterKleurBinnen')?.value || '';
+            const buitenKleur = document.getElementById('raamRoosterKleurBuiten')?.value || '';
+            
+            if (!binnenKleur || !buitenKleur) {
+              alert('⚠️ Selecteer zowel een binnenkant als buitenkant rooster kleur voordat u doorgaat.');
+              return false;
+            }
+          }
+        }
+        
+        return true;
       default:
         return true;
     }
@@ -10952,17 +11363,276 @@ stroke-width="3"/>
     });
   }
   
+  // Functie om raam uit wizard toe te voegen aan winkelwagen
+  function voegRaamUitWizardToeAanWinkelwagen() {
+    // Verzamel alle data uit de wizard
+    const breedte = parseInt(document.getElementById('raamBreedte')?.value) || 1000;
+    const hoogte = parseInt(document.getElementById('raamHoogte')?.value) || 1000;
+    const aantal = parseInt(document.getElementById('raamAantal')?.value) || 1;
+    
+    // Stap 1: Type & Richting - haal op van kaart of select
+    const geselecteerdeRaamTypeKaart = document.querySelector('.raamTypeKaart.selected');
+    let raamType = '';
+    if (geselecteerdeRaamTypeKaart) {
+      const raamTypeValue = geselecteerdeRaamTypeKaart.getAttribute('data-raam-type');
+      if (raamTypeValue) {
+        const raamTypeDefaultWaarden = {
+          'enkel': 'draairaam_buiten',
+          'stolp': 'stolpraam_buiten'
+        };
+        raamType = raamTypeDefaultWaarden[raamTypeValue] || raamTypeValue;
+      }
+    }
+    if (!raamType) {
+      const raamTypeActual = document.getElementById('raamTypeActual')?.value;
+      raamType = raamTypeActual || document.getElementById('raamTypeLos')?.value || '';
+    }
+    
+    const geselecteerdeDraairichtingKaart = document.querySelector('.raamDraairichtingKaart.selected');
+    let draairichting = '';
+    if (geselecteerdeDraairichtingKaart) {
+      draairichting = geselecteerdeDraairichtingKaart.getAttribute('data-draairichting') || '';
+    }
+    if (!draairichting) {
+      draairichting = document.getElementById('raamDraairichting')?.value || '';
+    }
+    
+    // Stap 2: Afmetingen & Dikte - haal op van kaart of select
+    const geselecteerdeDikteKaart = document.querySelector('.raamDikteKaart.selected');
+    let dikte = '';
+    if (geselecteerdeDikteKaart) {
+      dikte = geselecteerdeDikteKaart.getAttribute('data-dikte') || '';
+    }
+    if (!dikte) {
+      dikte = document.getElementById('raamDikte')?.value || '';
+    }
+    const omfrezing = document.getElementById('raamOmfrezing')?.value || '';
+    
+    // Stap 3: Glas - haal op van kaart of select
+    const geselecteerdeGlasTypeKaart = document.querySelector('.raamGlasTypeKaart.selected');
+    let glasType = '';
+    if (geselecteerdeGlasTypeKaart) {
+      glasType = geselecteerdeGlasTypeKaart.getAttribute('data-glas-type') || '';
+    }
+    if (!glasType) {
+      glasType = document.getElementById('raamGlasType')?.value || '';
+    }
+    const glasEnkel = document.getElementById('raamGlasEnkel')?.value || '';
+    const glasHr = document.getElementById('raamGlasHr')?.value || '';
+    const glasSpouw = document.getElementById('raamGlasSpouw')?.value || '';
+    const glaslatten = document.getElementById('raamGlaslatten')?.value || '';
+    const glasaanslag = document.getElementById('raamGlasaanslag')?.value || '';
+    
+    // Stap 4: Hang & Sluitwerk - haal op van kaart of select
+    const geselecteerdeHangSluitwerkKaart = document.querySelector('.raamHangSluitwerkKaart.selected');
+    let hangSluitwerk = '';
+    if (geselecteerdeHangSluitwerkKaart) {
+      hangSluitwerk = geselecteerdeHangSluitwerkKaart.getAttribute('data-hang-sluitwerk') || '';
+    }
+    if (!hangSluitwerk) {
+      hangSluitwerk = document.getElementById('raamHangSluitwerk')?.value || '';
+    }
+    
+    const beslag = document.getElementById('raamBeslag')?.value || '';
+    const beslagKruk = document.getElementById('raamBeslagKruk')?.value || '';
+    const beslagKleur = document.getElementById('raamBeslagKleur')?.value || '';
+    
+    // Stap 5: Kleur - haal op van kaart of select
+    const geselecteerdeKleurAfwerkingKaart = document.querySelector('.raamKleurAfwerkingKaart.selected');
+    let kleurAfwerking = '';
+    if (geselecteerdeKleurAfwerkingKaart) {
+      kleurAfwerking = geselecteerdeKleurAfwerkingKaart.getAttribute('data-afwerking') || '';
+    }
+    if (!kleurAfwerking) {
+      kleurAfwerking = document.getElementById('raamKleurAfwerking')?.value || '';
+    }
+    
+    const geselecteerdeKleurOptieKaart = document.querySelector('.raamKleurOptieKaart.selected');
+    let kleur = '';
+    let kleurHex = '';
+    if (geselecteerdeKleurOptieKaart) {
+      kleur = geselecteerdeKleurOptieKaart.getAttribute('data-kleur') || '';
+      kleurHex = geselecteerdeKleurOptieKaart.getAttribute('data-kleur-hex') || '';
+    }
+    if (!kleur) {
+      kleur = document.getElementById('raamKleur')?.value || '';
+      // Zoek hex waarde voor deze kleur
+      const kleurOptie = ralKleuren.find(k => k.value === kleur);
+      if (kleurOptie) {
+        kleurHex = kleurOptie.kleur;
+      }
+    }
+    
+    // Rooster - haal op van kaart of select (gewoon "ja" of "geen", geen type meer)
+    const geselecteerdeRoosterKaart = document.querySelector('.raamRoosterKaart.selected');
+    let rooster = '';
+    if (geselecteerdeRoosterKaart) {
+      const roosterWaarde = geselecteerdeRoosterKaart.getAttribute('data-rooster');
+      rooster = roosterWaarde || 'geen';
+    }
+    if (!rooster) {
+      rooster = document.getElementById('raamRooster')?.value || 'geen';
+    }
+    
+    // Rooster kleur - haal op van select
+    let roosterKleur = '';
+    let roosterKleurBinnen = '';
+    let roosterKleurBuiten = '';
+    const roosterKleurSelect = document.getElementById('raamRoosterKleur');
+    if (roosterKleurSelect && roosterKleurSelect.value && rooster === 'ja') {
+      roosterKleur = roosterKleurSelect.value;
+      
+      // Als "bi coller" is gekozen, haal binnenkant en buitenkant kleuren op
+      if (roosterKleur === 'bi_coller') {
+        roosterKleurBinnen = document.getElementById('raamRoosterKleurBinnen')?.value || '';
+        roosterKleurBuiten = document.getElementById('raamRoosterKleurBuiten')?.value || '';
+      }
+    }
+    
+    // Validatie - controleer alle verplichte velden
+    if (breedte < 300 || hoogte < 300) {
+      alert('⚠️ Minimale afmetingen voor ramen zijn 300mm × 300mm');
+      return;
+    }
+    
+    // Valideer alle stappen voordat je toevoegt
+    for (let i = 1; i <= totaalRaamWizardStappen; i++) {
+      if (!valideerRaamWizardStap(i)) {
+        // Ga terug naar de stap die niet valide is
+        updateRaamWizardStap(i);
+        return;
+      }
+    }
+    
+    // Extra controle op verplichte velden - debug informatie
+    const ontbrekendeVelden = [];
+    if (!raamType) ontbrekendeVelden.push('raam type');
+    if (!draairichting) ontbrekendeVelden.push('draairichting');
+    if (!glasType) ontbrekendeVelden.push('glas type');
+    if (!hangSluitwerk) ontbrekendeVelden.push('hang & sluitwerk');
+    if (!dikte) ontbrekendeVelden.push('dikte');
+    
+    if (ontbrekendeVelden.length > 0) {
+      console.log('Ontbrekende velden:', ontbrekendeVelden);
+      console.log('Waarden:', {
+        raamType,
+        draairichting,
+        glasType,
+        hangSluitwerk,
+        dikte
+      });
+      alert('⚠️ Vul alle verplichte velden in voordat u het raam toevoegt.\nOntbrekend: ' + ontbrekendeVelden.join(', '));
+      return;
+    }
+    
+    // Bereken prijs
+    const basisPrijs = berekenRaamPrijs(breedte, hoogte, glasType);
+    const totaalPrijs = basisPrijs * aantal;
+    
+    // Labels voor weergave
+    const raamTypeLabels = {
+      'draairaam_buiten': 'Draairaam naar buiten',
+      'draairaam_binnen': 'Draairaam naar binnen',
+      'stolpraam_buiten': 'Stolpraam buitendraaiend',
+      'stolpraam_binnen': 'Stolpraam binnendraaiend',
+      'draaikiep': 'Draaikiep raam',
+      'kiep': 'Kiep raam',
+      'vast': 'Vast raam'
+    };
+    
+    const glasTypeLabels = {
+      'enkel': 'Enkel glas',
+      'hr+': 'HR+',
+      'hr++': 'HR++',
+      'hr+++': 'HR+++'
+    };
+    
+    const draairichtingLabels = {
+      'links': 'Links draaiend',
+      'rechts': 'Rechts draaiend',
+      'vast': 'Vast',
+      'links_actief': 'Links actief',
+      'rechts_actief': 'Rechts actief'
+    };
+    
+    // Maak item object
+    const winkelwagen = haalWinkelwagenOp();
+    const item = {
+      id: Date.now(),
+      type: 'raam',
+      titel: `Los raam ${breedte}mm × ${hoogte}mm`,
+      afmetingen: `${breedte}mm × ${hoogte}mm`,
+      aantal: aantal,
+      raamType: raamType,
+      raamTypeLabel: raamTypeLabels[raamType] || raamType,
+      draairichting: draairichting,
+      draairichtingLabel: draairichtingLabels[draairichting] || draairichting,
+      dikte: dikte,
+      omfrezing: omfrezing,
+      glasType: glasType,
+      glasTypeLabel: glasTypeLabels[glasType] || glasType,
+      glasEnkel: glasEnkel,
+      glasHr: glasHr,
+      glasSpouw: glasSpouw,
+      glaslatten: glaslatten,
+      glasaanslag: glasaanslag,
+      hangSluitwerk: hangSluitwerk,
+      beslag: beslag,
+      beslagKruk: beslagKruk,
+      beslagKleur: beslagKleur,
+      rooster: rooster,
+      roosterLabel: rooster === 'ja' ? 'Rooster' : (rooster === 'geen' ? 'Geen rooster' : ''),
+      roosterKleur: roosterKleur,
+      roosterKleurLabel: roosterKleur ? (roosterKleur === 'bi_coller' ? 
+        (roosterKleurBinnen && roosterKleurBuiten ? 
+          `${getRoosterKleurLabel(roosterKleurBinnen)} / ${getRoosterKleurLabel(roosterKleurBuiten)}` : 
+          'bi coller') : 
+        getRoosterKleurLabel(roosterKleur)) : '',
+      roosterKleurBinnen: roosterKleurBinnen,
+      roosterKleurBuiten: roosterKleurBuiten,
+      kleurAfwerking: kleurAfwerking,
+      kleurAfwerkingLabel: kleurAfwerking === 'aflak' ? 'Aflak' : kleurAfwerking === 'gronden' ? 'Gronden' : '',
+      kleur: kleur,
+      kleurLabel: kleur ? (ralKleuren.find(k => k.value === kleur)?.label || kleur) : '',
+      kleurHex: kleurHex,
+      prijs: totaalPrijs,
+      basisPrijs: basisPrijs,
+      datum: new Date().toISOString()
+    };
+    
+    winkelwagen.push(item);
+    slaWinkelwagenOp(winkelwagen);
+    alert(`✅ ${aantal}x raam toegevoegd aan winkelwagen!`);
+    updateWinkelwagenBadge();
+  }
+
   if (raamWizardNextBtn) {
     raamWizardNextBtn.addEventListener('click', () => {
-      if (valideerRaamWizardStap(huidigeRaamWizardStap)) {
-        if (huidigeRaamWizardStap < totaalRaamWizardStappen) {
-          updateRaamWizardStap(huidigeRaamWizardStap + 1);
-        } else {
-          // Wizard voltooid - update preview
-          updateRaamPreview();
-        }
+      // Valideer altijd de huidige stap voordat je verder gaat
+      if (!valideerRaamWizardStap(huidigeRaamWizardStap)) {
+        // De validatiefunctie geeft zelf al een specifieke foutmelding
+        return;
+      }
+      
+      // Als validatie geslaagd is, ga naar volgende stap of voeg toe aan winkelwagen
+      if (huidigeRaamWizardStap < totaalRaamWizardStappen) {
+        updateRaamWizardStap(huidigeRaamWizardStap + 1);
       } else {
-        alert('Vul alle verplichte velden in voordat u doorgaat.');
+        // Laatste stap: valideer alle stappen nogmaals voordat je toevoegt
+        let alleStappenValide = true;
+        for (let i = 1; i <= totaalRaamWizardStappen; i++) {
+          if (!valideerRaamWizardStap(i)) {
+            alleStappenValide = false;
+            // Ga terug naar de stap die niet valide is
+            updateRaamWizardStap(i);
+            break;
+          }
+        }
+        
+        if (alleStappenValide) {
+          // Wizard voltooid - voeg toe aan winkelwagen
+          voegRaamUitWizardToeAanWinkelwagen();
+        }
       }
     });
   }
@@ -10971,10 +11641,28 @@ stroke-width="3"/>
   document.querySelectorAll('.raamWizardStep').forEach(step => {
     step.addEventListener('click', () => {
       const stapNummer = parseInt(step.getAttribute('data-step'));
-      // Alleen naar eerdere stappen of huidige stap gaan
-      if (stapNummer <= huidigeRaamWizardStap || valideerRaamWizardStap(huidigeRaamWizardStap)) {
-        updateRaamWizardStap(stapNummer);
+      
+      // Als je naar een latere stap wilt, valideer eerst de huidige stap
+      if (stapNummer > huidigeRaamWizardStap) {
+        if (!valideerRaamWizardStap(huidigeRaamWizardStap)) {
+          // Validatie faalt, blijf op huidige stap
+          return;
+        }
       }
+      
+      // Valideer alle stappen tussen huidige en doel stap
+      if (stapNummer > huidigeRaamWizardStap) {
+        for (let i = huidigeRaamWizardStap; i < stapNummer; i++) {
+          if (!valideerRaamWizardStap(i)) {
+            // Ga naar de eerste stap die niet valide is
+            updateRaamWizardStap(i);
+            return;
+          }
+        }
+      }
+      
+      // Alles is valide, ga naar de gekozen stap
+      updateRaamWizardStap(stapNummer);
     });
   });
 
@@ -11461,6 +12149,527 @@ stroke-width="3"/>
     raamBeslagKrukSelect.addEventListener('change', updateRaamPreview);
   }
   
+  // Rooster kaart selectie (alleen voor los raam configurator)
+  const raamRoosterKaarten = document.querySelectorAll('.raamRoosterKaart');
+  const raamRoosterSelect = document.getElementById('raamRooster');
+  const raamRoosterOptiesItem = document.getElementById('raamRoosterOptiesItem');
+  const raamRoosterOptiesSelectie = document.getElementById('raamRoosterOptiesSelectie');
+  const raamRoosterTypeSelect = document.getElementById('raamRoosterType');
+  
+  // Functie om rooster kleur label te krijgen
+  function getRoosterKleurLabel(kleurWaarde) {
+    const kleurLabels = {
+      'anodic_f1': 'Anodic(f1)',
+      '9010': '9010',
+      '9001': '9001',
+      '9005_zwart': '9005(zwart)',
+      '7016_antraciet': '7016(antraciet)',
+      '7040_grijs': '7040(grijs)',
+      '6005_groen': '6005(groen)',
+      'bi_coller': 'bi coller'
+    };
+    return kleurLabels[kleurWaarde] || kleurWaarde;
+  }
+  
+  // Functie om rooster opties menu te tonen/verbergen
+  function updateRoosterOptiesMenuVisibility(heeftRooster) {
+    // Verberg altijd het rooster type menu - we willen alleen het rooster kleur menu
+    if (raamRoosterOptiesItem) {
+      raamRoosterOptiesItem.style.display = 'none';
+    }
+    
+    // Toon direct het rooster kleur menu wanneer rooster is gekozen
+    const raamRoosterKleurItem = document.getElementById('raamRoosterKleurItem');
+    if (raamRoosterKleurItem) {
+      if (heeftRooster) {
+        raamRoosterKleurItem.style.display = 'block';
+      } else {
+        raamRoosterKleurItem.style.display = 'none';
+        // Reset rooster kleur selectie
+        const raamRoosterKleurSelect = document.getElementById('raamRoosterKleur');
+        if (raamRoosterKleurSelect) {
+          raamRoosterKleurSelect.value = '';
+        }
+        verbergRaamBiCollerPopup();
+      }
+    }
+  }
+  
+  // Functie om rooster kleur opties te laden als kaartjes
+  function laadRaamRoosterKleurOpties() {
+    const raamRoosterKleurSelectie = document.getElementById('raamRoosterKleurSelectie');
+    if (!raamRoosterKleurSelectie) return;
+    
+    // Leeg de container
+    raamRoosterKleurSelectie.innerHTML = '';
+    
+    // Rooster kleur opties
+    const roosterKleurOpties = [
+      { value: 'anodic_f1', label: 'Anodic(f1)' },
+      { value: '9010', label: '9010' },
+      { value: '9001', label: '9001' },
+      { value: '9005_zwart', label: '9005(zwart)' },
+      { value: '7016_antraciet', label: '7016(antraciet)' },
+      { value: '7040_grijs', label: '7040(grijs)' },
+      { value: '6005_groen', label: '6005(groen)' },
+      { value: 'bi_coller', label: 'bi coller' }
+    ];
+    
+    // Voeg rooster kleur opties toe als kaartjes
+    roosterKleurOpties.forEach(optie => {
+      const kaart = document.createElement('div');
+      kaart.className = 'raamRoosterKleurKaart';
+      kaart.setAttribute('data-rooster-kleur', optie.value);
+      kaart.textContent = optie.label;
+      
+      // Event listener voor kaart klik
+      kaart.addEventListener('click', () => {
+        // Verwijder selected class van alle kaarten
+        document.querySelectorAll('.raamRoosterKleurKaart').forEach(k => k.classList.remove('selected'));
+        // Voeg selected class toe aan geklikte kaart
+        kaart.classList.add('selected');
+        
+        // Update verborgen select
+        const raamRoosterKleurSelect = document.getElementById('raamRoosterKleur');
+        if (raamRoosterKleurSelect) {
+          raamRoosterKleurSelect.value = optie.value;
+        }
+        
+        // Als "bi coller" wordt gekozen, toon de popup
+        if (optie.value === 'bi_coller') {
+          toonRaamBiCollerPopup();
+          laadRaamRoosterKleurBinnenBuitenOpties();
+        } else {
+          verbergRaamBiCollerPopup();
+        }
+        
+        updateRaamPreview();
+      });
+      
+      raamRoosterKleurSelectie.appendChild(kaart);
+    });
+    
+    // Vul ook de select met opties
+    const raamRoosterKleurSelect = document.getElementById('raamRoosterKleur');
+    if (raamRoosterKleurSelect) {
+      raamRoosterKleurSelect.innerHTML = '<option value="">-- Selecteer kleur --</option>';
+      roosterKleurOpties.forEach(optie => {
+        const option = document.createElement('option');
+        option.value = optie.value;
+        option.textContent = optie.label;
+        raamRoosterKleurSelect.appendChild(option);
+      });
+    }
+  }
+  
+  // Functie om binnenkant en buitenkant kleuren te laden als kaartjes in de bi coller popup
+  function laadRaamRoosterKleurBinnenBuitenOpties() {
+    const binnenSelectie = document.getElementById('raamRoosterKleurBinnenSelectie');
+    const buitenSelectie = document.getElementById('raamRoosterKleurBuitenSelectie');
+    
+    const kleurOpties = [
+      { value: 'anodic_f1', label: 'Anodic(f1)' },
+      { value: '9010', label: '9010' },
+      { value: '9001', label: '9001' },
+      { value: '9005_zwart', label: '9005(zwart)' },
+      { value: '7016_antraciet', label: '7016(antraciet)' },
+      { value: '7040_grijs', label: '7040(grijs)' },
+      { value: '6005_groen', label: '6005(groen)' }
+    ];
+    
+    // Laad binnenkant kleuren
+    if (binnenSelectie) {
+      binnenSelectie.innerHTML = '';
+      kleurOpties.forEach(optie => {
+        const kaart = document.createElement('div');
+        kaart.className = 'raamRoosterKleurOptieKaart';
+        kaart.setAttribute('data-kleur-binnen', optie.value);
+        kaart.textContent = optie.label;
+        
+        kaart.addEventListener('click', () => {
+          document.querySelectorAll('#raamRoosterKleurBinnenSelectie .raamRoosterKleurOptieKaart').forEach(k => k.classList.remove('selected'));
+          kaart.classList.add('selected');
+          const select = document.getElementById('raamRoosterKleurBinnen');
+          if (select) select.value = optie.value;
+          updateRaamPreview();
+        });
+        
+        binnenSelectie.appendChild(kaart);
+      });
+    }
+    
+    // Laad buitenkant kleuren
+    if (buitenSelectie) {
+      buitenSelectie.innerHTML = '';
+      kleurOpties.forEach(optie => {
+        const kaart = document.createElement('div');
+        kaart.className = 'raamRoosterKleurOptieKaart';
+        kaart.setAttribute('data-kleur-buiten', optie.value);
+        kaart.textContent = optie.label;
+        
+        kaart.addEventListener('click', () => {
+          document.querySelectorAll('#raamRoosterKleurBuitenSelectie .raamRoosterKleurOptieKaart').forEach(k => k.classList.remove('selected'));
+          kaart.classList.add('selected');
+          const select = document.getElementById('raamRoosterKleurBuiten');
+          if (select) select.value = optie.value;
+          updateRaamPreview();
+        });
+        
+        buitenSelectie.appendChild(kaart);
+      });
+    }
+    
+    // Vul ook de selects
+    const binnenSelect = document.getElementById('raamRoosterKleurBinnen');
+    const buitenSelect = document.getElementById('raamRoosterKleurBuiten');
+    
+    if (binnenSelect) {
+      binnenSelect.innerHTML = '<option value="">-- Selecteer kleur --</option>';
+      kleurOpties.forEach(optie => {
+        const option = document.createElement('option');
+        option.value = optie.value;
+        option.textContent = optie.label;
+        binnenSelect.appendChild(option);
+      });
+    }
+    
+    if (buitenSelect) {
+      buitenSelect.innerHTML = '<option value="">-- Selecteer kleur --</option>';
+      kleurOpties.forEach(optie => {
+        const option = document.createElement('option');
+        option.value = optie.value;
+        option.textContent = optie.label;
+        buitenSelect.appendChild(option);
+      });
+    }
+  }
+  
+  // Functie om rooster opties te laden
+  function laadRaamRoosterOpties() {
+    if (!raamRoosterOptiesSelectie) return;
+    
+    // Wacht tot roosterData geladen is
+    if (!roosterData) {
+      // Probeer data te laden als die nog niet geladen is
+      laadGlasEnRoosterData().then(() => {
+        laadRaamRoosterOpties();
+      });
+      return;
+    }
+    
+    // Leeg de container
+    raamRoosterOptiesSelectie.innerHTML = '';
+    
+    // Voeg rooster opties toe vanuit roosterData
+    if (roosterData && roosterData.opties) {
+      roosterData.opties.forEach(optie => {
+        const kaart = document.createElement('div');
+        kaart.className = 'raamRoosterOptieKaart';
+        kaart.setAttribute('data-rooster-type', optie.value);
+        kaart.innerHTML = `
+          <h4>${optie.label}</h4>
+        `;
+        
+        // Event listener voor kaart klik
+        kaart.addEventListener('click', () => {
+          // Verwijder selected class van alle kaarten
+          document.querySelectorAll('.raamRoosterOptieKaart').forEach(k => k.classList.remove('selected'));
+          // Voeg selected class toe aan geklikte kaart
+          kaart.classList.add('selected');
+          
+          // Update verborgen select
+          if (raamRoosterTypeSelect) {
+            raamRoosterTypeSelect.value = optie.value;
+          }
+          
+          // Update preview
+          updateRaamPreview();
+        });
+        
+        raamRoosterOptiesSelectie.appendChild(kaart);
+      });
+    }
+    
+    // Vul ook de select met opties
+    if (raamRoosterTypeSelect) {
+      raamRoosterTypeSelect.innerHTML = '<option value="">-- Selecteer rooster type --</option>';
+      if (roosterData && roosterData.opties) {
+        roosterData.opties.forEach(optie => {
+          const option = document.createElement('option');
+          option.value = optie.value;
+          option.textContent = optie.label;
+          raamRoosterTypeSelect.appendChild(option);
+        });
+      }
+    }
+  }
+  
+  if (raamRoosterKaarten.length > 0) {
+    raamRoosterKaarten.forEach(kaart => {
+      kaart.addEventListener('click', () => {
+        // Verwijder selected class van alle kaarten
+        raamRoosterKaarten.forEach(k => k.classList.remove('selected'));
+        // Voeg selected class toe aan geklikte kaart
+        kaart.classList.add('selected');
+        
+        const rooster = kaart.getAttribute('data-rooster');
+        
+        // Update verborgen select
+        if (raamRoosterSelect && rooster) {
+          raamRoosterSelect.value = rooster;
+        }
+        
+        // Update rooster opties menu zichtbaarheid
+        updateRoosterOptiesMenuVisibility(rooster === 'ja');
+        
+        // Update preview
+        updateRaamPreview();
+      });
+    });
+  }
+  
+  // Event listener voor rooster select (voor backward compatibility)
+  if (raamRoosterSelect) {
+    raamRoosterSelect.addEventListener('change', (e) => {
+      const rooster = e.target.value;
+      updateRoosterOptiesMenuVisibility(rooster === 'ja');
+      
+      // Update kaart selectie
+      raamRoosterKaarten.forEach(k => {
+        if (k.getAttribute('data-rooster') === rooster) {
+          k.classList.add('selected');
+        } else {
+          k.classList.remove('selected');
+        }
+      });
+      
+      updateRaamPreview();
+    });
+  }
+  
+  // Event listener voor rooster type select
+  if (raamRoosterTypeSelect) {
+    raamRoosterTypeSelect.addEventListener('change', updateRaamPreview);
+  }
+  
+  // Functie om bi coller popup te tonen voor raam wizard
+  function toonRaamBiCollerPopup() {
+    const raamBiCollerPopup = document.getElementById('raamBiCollerPopup');
+    if (raamBiCollerPopup) {
+      raamBiCollerPopup.classList.add('active');
+    }
+  }
+  
+  // Functie om bi coller popup te verbergen voor raam wizard
+  function verbergRaamBiCollerPopup() {
+    const raamBiCollerPopup = document.getElementById('raamBiCollerPopup');
+    if (raamBiCollerPopup) {
+      raamBiCollerPopup.classList.remove('active');
+    }
+  }
+  
+  // Event listeners voor rooster kleur select (voor backward compatibility, maar wordt nu via kaartjes gedaan)
+  const raamRoosterKleurSelect = document.getElementById('raamRoosterKleur');
+  if (raamRoosterKleurSelect) {
+    raamRoosterKleurSelect.addEventListener('change', (e) => {
+      const roosterKleur = e.target.value;
+      
+      // Update kaart selectie
+      document.querySelectorAll('.raamRoosterKleurKaart').forEach(k => {
+        if (k.getAttribute('data-rooster-kleur') === roosterKleur) {
+          k.classList.add('selected');
+        } else {
+          k.classList.remove('selected');
+        }
+      });
+      
+      // Als "bi coller" wordt gekozen, toon de popup
+      if (roosterKleur === 'bi_coller') {
+        toonRaamBiCollerPopup();
+        laadRaamRoosterKleurBinnenBuitenOpties();
+      } else {
+        verbergRaamBiCollerPopup();
+      }
+      
+      updateRaamPreview();
+    });
+  }
+  
+  // Event listeners voor bi coller popup voor raam wizard
+  const raamBiCollerPopup = document.getElementById('raamBiCollerPopup');
+  const raamBiCollerPopupClose = document.getElementById('raamBiCollerPopupClose');
+  const raamBiCollerPopupAnnuleer = document.getElementById('raamBiCollerPopupAnnuleer');
+  const raamBiCollerPopupBevestig = document.getElementById('raamBiCollerPopupBevestig');
+  
+  if (raamBiCollerPopupClose) {
+    raamBiCollerPopupClose.addEventListener('click', () => {
+      verbergRaamBiCollerPopup();
+    });
+  }
+  
+  if (raamBiCollerPopupAnnuleer) {
+    raamBiCollerPopupAnnuleer.addEventListener('click', () => {
+      verbergRaamBiCollerPopup();
+    });
+  }
+  
+  if (raamBiCollerPopupBevestig) {
+    raamBiCollerPopupBevestig.addEventListener('click', () => {
+      const binnenKleur = document.getElementById('raamRoosterKleurBinnen')?.value || '';
+      const buitenKleur = document.getElementById('raamRoosterKleurBuiten')?.value || '';
+      
+      // Valideer dat beide kleuren zijn geselecteerd
+      if (!binnenKleur || !buitenKleur) {
+        alert('Selecteer zowel een binnenkant als buitenkant rooster kleur.');
+        return;
+      }
+      
+      verbergRaamBiCollerPopup();
+      updateRaamPreview();
+    });
+  }
+  
+  // Sluit popup bij klik buiten de popup
+  if (raamBiCollerPopup) {
+    raamBiCollerPopup.addEventListener('click', (e) => {
+      if (e.target === raamBiCollerPopup) {
+        verbergRaamBiCollerPopup();
+      }
+    });
+  }
+  
+  // Kleur afwerking kaart selectie (alleen voor los raam configurator)
+  const raamKleurAfwerkingKaarten = document.querySelectorAll('.raamKleurAfwerkingKaart');
+  const raamKleurAfwerkingSelect = document.getElementById('raamKleurAfwerking');
+  const raamKleurOptiesItem = document.getElementById('raamKleurOptiesItem');
+  const raamKleurOptiesSelectie = document.getElementById('raamKleurOptiesSelectie');
+  const raamKleurSelect = document.getElementById('raamKleur');
+  
+  // RAL kleuren data
+  const ralKleuren = [
+    { value: '9010', label: 'RAL 9010', kleur: '#F7F9EF' },
+    { value: '9001', label: 'RAL 9001', kleur: '#F7F9EF' },
+    { value: '9005', label: 'RAL 9005', kleur: '#0E0E10' },
+    { value: '7040', label: 'RAL 7040', kleur: '#9D9D9D' },
+    { value: '7016', label: 'RAL 7016', kleur: '#383E42' },
+    { value: '6005', label: 'RAL 6005', kleur: '#0F5132' }
+  ];
+  
+  // Functie om kleur opties menu te tonen/verbergen
+  function updateKleurOptiesMenuVisibility(heeftAfwerking) {
+    if (raamKleurOptiesItem) {
+      if (heeftAfwerking) {
+        raamKleurOptiesItem.style.display = 'block';
+        // Laad kleur opties
+        laadRaamKleurOpties();
+      } else {
+        raamKleurOptiesItem.style.display = 'none';
+        // Reset kleur selectie
+        if (raamKleurSelect) {
+          raamKleurSelect.value = '';
+        }
+        // Verwijder selected class van alle kleur optie kaarten
+        document.querySelectorAll('.raamKleurOptieKaart').forEach(k => k.classList.remove('selected'));
+      }
+    }
+  }
+  
+  // Functie om kleur opties te laden
+  function laadRaamKleurOpties() {
+    if (!raamKleurOptiesSelectie) return;
+    
+    // Leeg de container
+    raamKleurOptiesSelectie.innerHTML = '';
+    
+    // Voeg RAL kleur opties toe
+    ralKleuren.forEach(optie => {
+      const kaart = document.createElement('div');
+      kaart.className = 'raamKleurOptieKaart';
+      kaart.setAttribute('data-kleur', optie.value);
+      kaart.setAttribute('data-kleur-hex', optie.kleur);
+      kaart.style.background = optie.kleur;
+      kaart.style.color = optie.value === '9005' || optie.value === '7016' || optie.value === '6005' ? '#fff' : '#0b0d10';
+      kaart.textContent = optie.label;
+      
+      // Event listener voor kaart klik
+      kaart.addEventListener('click', () => {
+        // Verwijder selected class van alle kaarten
+        document.querySelectorAll('.raamKleurOptieKaart').forEach(k => k.classList.remove('selected'));
+        // Voeg selected class toe aan geklikte kaart
+        kaart.classList.add('selected');
+        
+        // Update verborgen select
+        if (raamKleurSelect) {
+          raamKleurSelect.value = optie.value;
+        }
+        
+        // Update preview
+        updateRaamPreview();
+      });
+      
+      raamKleurOptiesSelectie.appendChild(kaart);
+    });
+    
+    // Vul ook de select met opties
+    if (raamKleurSelect) {
+      raamKleurSelect.innerHTML = '<option value="">-- Selecteer kleur --</option>';
+      ralKleuren.forEach(optie => {
+        const option = document.createElement('option');
+        option.value = optie.value;
+        option.textContent = optie.label;
+        raamKleurSelect.appendChild(option);
+      });
+    }
+  }
+  
+  if (raamKleurAfwerkingKaarten.length > 0) {
+    raamKleurAfwerkingKaarten.forEach(kaart => {
+      kaart.addEventListener('click', () => {
+        // Verwijder selected class van alle kaarten
+        raamKleurAfwerkingKaarten.forEach(k => k.classList.remove('selected'));
+        // Voeg selected class toe aan geklikte kaart
+        kaart.classList.add('selected');
+        
+        const afwerking = kaart.getAttribute('data-afwerking');
+        
+        // Update verborgen select
+        if (raamKleurAfwerkingSelect && afwerking) {
+          raamKleurAfwerkingSelect.value = afwerking;
+        }
+        
+        // Update kleur opties menu zichtbaarheid
+        updateKleurOptiesMenuVisibility(true);
+        
+        // Update preview
+        updateRaamPreview();
+      });
+    });
+  }
+  
+  // Event listener voor kleur afwerking select (voor backward compatibility)
+  if (raamKleurAfwerkingSelect) {
+    raamKleurAfwerkingSelect.addEventListener('change', (e) => {
+      const afwerking = e.target.value;
+      updateKleurOptiesMenuVisibility(!!afwerking);
+      
+      // Update kaart selectie
+      raamKleurAfwerkingKaarten.forEach(k => {
+        if (k.getAttribute('data-afwerking') === afwerking) {
+          k.classList.add('selected');
+        } else {
+          k.classList.remove('selected');
+        }
+      });
+      
+      updateRaamPreview();
+    });
+  }
+  
+  // Event listener voor kleur select
+  if (raamKleurSelect) {
+    raamKleurSelect.addEventListener('change', updateRaamPreview);
+  }
+  
   if (raamBreedteInput) raamBreedteInput.addEventListener('input', updateRaamPreview);
   if (raamHoogteInput) raamHoogteInput.addEventListener('input', updateRaamPreview);
   // Raam type kaart selectie functionaliteit
@@ -11491,8 +12700,38 @@ stroke-width="3"/>
     };
     
     if (raamType && opties[raamType]) {
-      // Bewaar huidige waarde voordat we de container legen
-      const huidigeWaarde = draairichtingSelect?.value || draairichtingSelect?.getAttribute('data-value') || '';
+      // Controleer of er al een geselecteerde draairichting kaart is (alleen behouden als deze nog geldig is)
+      const geselecteerdeDraairichtingKaart = document.querySelector('.raamDraairichtingKaart.selected');
+      let huidigeWaarde = '';
+      
+      // Alleen behouden als er een geselecteerde kaart is EN deze waarde nog geldig is voor dit raam type
+      if (geselecteerdeDraairichtingKaart) {
+        const kaartWaarde = geselecteerdeDraairichtingKaart.getAttribute('data-draairichting');
+        // Controleer of deze waarde geldig is voor het huidige raam type
+        const geldigeWaarden = opties[raamType].map(o => o.value);
+        if (kaartWaarde && geldigeWaarden.includes(kaartWaarde)) {
+          huidigeWaarde = kaartWaarde;
+        }
+      }
+      
+      // Vul de select met opties (geen automatische selectie)
+      draairichtingSelect.innerHTML = '<option value="">-- Selecteer draairichting --</option>';
+      opties[raamType].forEach(optie => {
+        const option = document.createElement('option');
+        option.value = optie.value;
+        option.textContent = optie.label;
+        // Alleen selecteren als er een geldige huidige waarde is
+        if (huidigeWaarde && huidigeWaarde === optie.value) {
+          option.selected = true;
+        }
+        draairichtingSelect.appendChild(option);
+      });
+      
+      // Reset select waarde als er geen geldige huidige waarde is
+      if (!huidigeWaarde && draairichtingSelect) {
+        draairichtingSelect.value = '';
+        draairichtingSelect.removeAttribute('data-value');
+      }
       
       // Leeg de container
       draairichtingSelectie.innerHTML = '';
@@ -11504,8 +12743,8 @@ stroke-width="3"/>
         kaart.setAttribute('data-draairichting', optie.value);
         kaart.innerHTML = `<h3>${optie.label}</h3>`;
         
-        // Als dit de geselecteerde waarde is, markeer als selected
-        if (huidigeWaarde === optie.value) {
+        // Alleen markeren als selected als er een geldige huidige waarde is
+        if (huidigeWaarde && huidigeWaarde === optie.value) {
           kaart.classList.add('selected');
           if (draairichtingSelect) {
             draairichtingSelect.value = optie.value;
@@ -11519,8 +12758,26 @@ stroke-width="3"/>
           // Voeg selected class toe aan geklikte kaart
           kaart.classList.add('selected');
           
-          // Update verborgen select
+          // Update verborgen select - zorg dat de optie bestaat
           if (draairichtingSelect) {
+            // Controleer of de optie al bestaat
+            let optieExists = false;
+            for (let i = 0; i < draairichtingSelect.options.length; i++) {
+              if (draairichtingSelect.options[i].value === optie.value) {
+                optieExists = true;
+                break;
+              }
+            }
+            
+            // Als de optie niet bestaat, voeg hem toe
+            if (!optieExists) {
+              const option = document.createElement('option');
+              option.value = optie.value;
+              option.textContent = optie.label;
+              draairichtingSelect.appendChild(option);
+            }
+            
+            // Zet de waarde
             draairichtingSelect.value = optie.value;
             // Zorg dat de waarde behouden blijft
             draairichtingSelect.setAttribute('data-value', optie.value);
@@ -11535,6 +12792,7 @@ stroke-width="3"/>
     } else {
       draairichtingSelectie.innerHTML = '<div style="text-align:center;color:var(--muted);padding:20px">Selecteer eerst een raam type</div>';
       if (draairichtingSelect) {
+        draairichtingSelect.innerHTML = '<option value=""></option>';
         draairichtingSelect.value = '';
       }
     }
